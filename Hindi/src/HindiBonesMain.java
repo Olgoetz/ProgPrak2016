@@ -1,4 +1,4 @@
-import gui.GameWindow;
+import pp2016.team19.client.gui.GameWindow;
 
 public class HindiBonesMain {
 

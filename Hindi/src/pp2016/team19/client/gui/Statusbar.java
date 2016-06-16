@@ -1,4 +1,4 @@
-package gui;
+package pp2016.team19.client.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,10 +9,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import datastructure.Door;
-import datastructure.GameObject;
-import datastructure.Key;
-import datastructure.Potion;
+import pp2016.team19.shared.Door;
+import pp2016.team19.shared.GameObject;
+import pp2016.team19.shared.Key;
+import pp2016.team19.shared.Potion;
 
 public class Statusbar extends JPanel {
 

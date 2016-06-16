@@ -1,4 +1,4 @@
-package gui;
+package pp2016.team19.client.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,13 +10,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import datastructure.Door;
-import datastructure.Floor;
-import datastructure.Key;
-import datastructure.Monster;
-import datastructure.Player;
-import datastructure.Potion;
-import datastructure.Wall;
+import pp2016.team19.shared.Door;
+import pp2016.team19.shared.Floor;
+import pp2016.team19.shared.Key;
+import pp2016.team19.shared.Monster;
+import pp2016.team19.shared.Player;
+import pp2016.team19.shared.Potion;
+import pp2016.team19.shared.Wall;
 
 public class GameField extends JPanel {
 

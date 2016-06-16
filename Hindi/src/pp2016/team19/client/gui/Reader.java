@@ -1,15 +1,15 @@
-package gui;
+package pp2016.team19.client.gui;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import datastructure.Door;
-import datastructure.Floor;
-import datastructure.GameObject;
-import datastructure.Key;
-import datastructure.Monster;
-import datastructure.Wall;
+import pp2016.team19.shared.Door;
+import pp2016.team19.shared.Floor;
+import pp2016.team19.shared.GameObject;
+import pp2016.team19.shared.Key;
+import pp2016.team19.shared.Monster;
+import pp2016.team19.shared.Wall;
 
 public class Reader {
 

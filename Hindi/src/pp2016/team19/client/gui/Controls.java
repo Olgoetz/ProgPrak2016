@@ -1,4 +1,4 @@
-package gui;
+package pp2016.team19.client.gui;
 
 import java.awt.Graphics;
 import java.awt.Image;

@@ -1,4 +1,4 @@
-package gui;
+package pp2016.team19.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -8,14 +8,14 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import datastructure.Door;
-import datastructure.Floor;
-import datastructure.GameObject;
-import datastructure.Key;
-import datastructure.Monster;
-import datastructure.Player;
-import datastructure.Potion;
-import datastructure.Wall;
+import pp2016.team19.shared.Door;
+import pp2016.team19.shared.Floor;
+import pp2016.team19.shared.GameObject;
+import pp2016.team19.shared.Key;
+import pp2016.team19.shared.Monster;
+import pp2016.team19.shared.Player;
+import pp2016.team19.shared.Potion;
+import pp2016.team19.shared.Wall;
 
 public class GameWindow extends JFrame implements KeyListener {
 

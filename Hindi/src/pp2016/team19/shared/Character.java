@@ -1,4 +1,4 @@
-package datastructure;
+package pp2016.team19.shared;
 
 import java.awt.Image;
 

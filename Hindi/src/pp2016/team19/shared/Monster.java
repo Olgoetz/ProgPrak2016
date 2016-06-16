@@ -1,12 +1,12 @@
-package datastructure;
-
-import gui.GameWindow;
+package pp2016.team19.shared;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+
+import pp2016.team19.client.gui.GameWindow;
 
 public class Monster extends Character {
 
