@@ -1,6 +1,7 @@
 package pp2016.team19.shared;
 
 public class Node {
+	private Node parent;
 	private int xPos, yPos;
 	private int costFromStart, costToGoal, calculatedCosts;
 	
@@ -35,5 +36,11 @@ public class Node {
 	}
 	public int getYPos() {
 		return yPos;
+	}
+	public Node getParent() {
+		return this.parent;
+	}
+	public void setParent(Node _parent) {
+		this.parent = _parent;
 	}
 }

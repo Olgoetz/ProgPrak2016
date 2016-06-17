@@ -83,7 +83,7 @@ public class Monster extends Character {
 	public void move(){
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
 		if(valid()){
-			if(nextWalk && AStarSearch()){	
+			if(nextWalk && AStarSearch(this.player.getXPos(), this.player.getYPos())){	
 				switch(dir){
 					case 0 : moveUp(); break;
 					case 1 : moveRight(); break;
@@ -104,17 +104,18 @@ public class Monster extends Character {
 	}
 	
 	// A-Star-Algorithm to search for the player
-	public boolean AStarSearch (){
+	public boolean AStarSearch (int xGoal, int yGoal){
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
-		Node monster = new Node(getXPos(),getYPos());
-		monster.calculateCosts();
+		Node start = new Node(getXPos(),getYPos());
+		start.calculateCosts();
 		
-		openList.add(monster);
-		boolean playerFound = false;
-		while (!openList.isEmpty() && !playerFound){
+		openList.add(start);
+		Node cheapest = null;
+		boolean goalFound = false;
+		while (!openList.isEmpty() && !goalFound){
 			// Find the cheapest node in the openList
-			Node cheapest = openList.get(0);
+			cheapest = openList.get(0);
 			for(Node node : openList){
 				if (node.getCalculatedCosts() < cheapest.getCalculatedCosts()){
 					cheapest = node;
@@ -158,20 +159,25 @@ public class Monster extends Character {
 				neighbors[3] = new Node(actX-1, actY); // left
 			else
 				neighbors[3] = null;
-			
+
 			// Check all Neighbors
 			for (int k=0; k<4; k++){
+				
 				if (neighbors[k] == null)
 					continue;
-				if (neighbors[k].getXPos() == player.getXPos() && neighbors[k].getYPos() == player.getYPos()){
+				
+				// Set neighbors' parents to cheapest
+				neighbors[k].setParent(cheapest);
+				
+				if (neighbors[k].getXPos() == xGoal && neighbors[k].getYPos() == yGoal){
 					// Current Neighbor is the goal / player
-					playerFound = true;
+					goalFound = true;
 				}
 				else {
 					// Calculate costs of neighbor
 					neighbors[k].setCostFromStart(cheapest.getCostFromStart() + 1);
-					int xDiff = player.getXPos() - neighbors[k].getXPos();
-					int yDiff = player.getYPos() - neighbors[k].getYPos();
+					int xDiff = xGoal - neighbors[k].getXPos();
+					int yDiff = yGoal - neighbors[k].getYPos();
 					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff*xDiff + yDiff*yDiff));
 					neighbors[k].calculateCosts();
 					
@@ -197,15 +203,19 @@ public class Monster extends Character {
 			closedList.add(cheapest);
 		}// while
 		
+		// Go back path to node which parent is the start node (=monster)
+		while (cheapest.getParent() != start && cheapest != null) {
+			cheapest = cheapest.getParent();
+		}
+		
 		// Change this.dir
-		Node nextStep = closedList.get(1);
-		if (nextStep.getXPos() == this.getXPos() && nextStep.getYPos() == this.getYPos()-1)
+		if (cheapest.getXPos() == this.getXPos() && cheapest.getYPos() == this.getYPos()-1)
 			this.dir = 0; // go up
-		else if (nextStep.getXPos() == this.getXPos()+1 && nextStep.getYPos() == this.getYPos())
+		else if (cheapest.getXPos() == this.getXPos()+1 && cheapest.getYPos() == this.getYPos())
 			this.dir = 1; // go right
-		else if (nextStep.getXPos() == this.getXPos() && nextStep.getYPos() == this.getYPos()+1)
+		else if (cheapest.getXPos() == this.getXPos() && cheapest.getYPos() == this.getYPos()+1)
 			this.dir = 2; // go down
-		else if (nextStep.getXPos() == this.getXPos()-1 && nextStep.getYPos() == this.getYPos())
+		else if (cheapest.getXPos() == this.getXPos()-1 && cheapest.getYPos() == this.getYPos())
 			this.dir = 3; // go left
 		else
 			return false;
