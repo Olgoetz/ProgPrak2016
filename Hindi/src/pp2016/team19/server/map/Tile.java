@@ -127,7 +127,7 @@ public class Tile extends Content{
 		}
 		
 		
-		// Walkable Methoden
+		// Walkable Methoden lol
 
 		public boolean isWalkable(){
 			if(Type == Floor || Type == Entry || Type == Exit ){

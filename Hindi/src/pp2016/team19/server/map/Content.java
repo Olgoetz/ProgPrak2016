@@ -28,7 +28,7 @@ public class Content {
 		}
 		return false;
 	}
-	
+	// lol
 	public boolean isMonster(){
 		if(Type == Monster){
 			return true;

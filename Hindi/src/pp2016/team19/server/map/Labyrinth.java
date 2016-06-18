@@ -17,7 +17,7 @@ public class Labyrinth {
 
 
 		
-		// 2 Dim. Array  vom DatenTyp Tile namens gameMap
+		// 2 Dim. Array  vom DatenTyp Tile namens gameMap lol
 		private static Tile[][] gameMap;
 		
 		// Get-Methode:
