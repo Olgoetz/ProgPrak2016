@@ -43,6 +43,7 @@ public abstract class Message{
 	 * @ author Oliver Götz, 5961343
 	 * 
 	 * This method overwrites the inherited String-Method
+	 * 
 	 */
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
