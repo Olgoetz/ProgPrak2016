@@ -22,6 +22,7 @@ public class NetworkHandlerC {
 	private LinkedBlockingQueue<Message> messagesToServer;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private TestMessage test;
 //	private int clientID;
 //	private Timer pingTimer;
 	
@@ -34,7 +35,7 @@ public class NetworkHandlerC {
 //		this.messagesToServer = pMessagesToServer;
 //		this.clientID = -1;
 //		this.pingTimer = new Timer();
-		TestMessage test = new TestMessage(1,1,1,"TESTMESSAGE HERE");
+		test = new TestMessage(1,2,3, "Ich bin ein Test!");
 		while (this.server == null) {
 			try {
 
@@ -65,6 +66,8 @@ public class NetworkHandlerC {
 //		this.getThreadPool().execute(new NetworkReceiverC(this));
 //		this.getPingTimer().scheduleAtFixedRate(new NetworkPingCheckC(this), 3000, 3000);
 //	}
+
+
 
 //	public void close(String message, String title) {
 //
