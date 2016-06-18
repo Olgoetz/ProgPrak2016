@@ -1,9 +1,9 @@
 package pp2016.team19.server.map;
-
+import pp2016.team19.server.map.*;
 
 import java.util.Vector;
 
-import pp2016.team19.server.map.*;
+
 import java.util.*;
 
 public class Tile extends Content{
@@ -77,11 +77,11 @@ public class Tile extends Content{
 		
 		
 		// Schlüssel Methoden:
-		public void placeKeyT(boolean input){
+		public void placeKeyT(){
 			ContainsKey = true;
 		}
 		
-		public void droppedKeyT(boolean input){
+		public void droppedKeyT(){
 			ContainsKey = false;
 		}
 		
@@ -105,7 +105,7 @@ public class Tile extends Content{
 			ContainsPotion = false;
 		}
 		
-		public void setContainsPotion(){
+		public void placePotionT(){
 			ContainsPotion = true;
 		}
 		

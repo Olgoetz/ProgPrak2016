@@ -175,7 +175,7 @@ public class Labyrinth {
 			for (int i = (gameSize-2); i > ((gameSize-2)/2 + 1); i--){
 				if (gameMap[i][gameSize-2].isFloor()){
 					
-						gameMap[i][(gameSize-2)].setType(Potion);
+						gameMap[i][(gameSize-2)].placePotionT();
 						br = true;
 						System.out.print("\nPotion placed...");
 						gameMap[i][(gameSize-2)].isWalkable();
@@ -200,7 +200,7 @@ public class Labyrinth {
 			for (int i = 1; i < (gameSize/2 + 1); i++){
 				if (gameMap[i][j].isFloor()){
 					if(countNeighbours(i, j)< 2){
-						gameMap[i][j].placeKeyT(true);
+						gameMap[i][j].placeKeyT();
 						br = true;
 						System.out.print("\nKey placed...");
 						gameMap[i][j].isWalkable();
@@ -338,7 +338,7 @@ public class Labyrinth {
 					} else if (gameMap[i][j].containsKey())	{
 						System.out.print("K ");
 						
-					} else if (gameMap[i][j].isPotion()) {
+					} else if (gameMap[i][j].containsPotion()) {
 						System.out.print("P ");
 						
 					} else if (gameMap[i][j].isRock()) {
