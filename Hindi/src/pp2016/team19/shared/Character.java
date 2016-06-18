@@ -6,6 +6,8 @@ public abstract class Character {
 
 	private int xPos, yPos;
 	private Image image;
+	private boolean confirmMove;
+	private int direction;
 	
 	private int health;
 	private int damage;

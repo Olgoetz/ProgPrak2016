@@ -3,6 +3,7 @@ package pp2016.team19.shared;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -15,13 +16,17 @@ public class Monster extends Character {
 	private long lastStep;
 	private int cooldownAttack;
 	private int cooldownWalk;
+	private int[] lastPlayerPos;
+	private LinkedList<Node> AStarPath;
 	
 	private int dir; // Running direction: 0 North, 1 East, 2 South, 3 West
 	private int type; // Present from beginning: 0, Appears later: 1
 	
 	private GameWindow window;
+	// private Labyrinth labyrinth;
 	private Player player;
 	
+	// // PERSOENLICHE NOTIZ: Spaeter statt GameWindow Laybrinth als Input
 	public Monster(int x, int y, GameWindow window, int type){
 		this.window = window;
 		this.player = window.player;
@@ -33,12 +38,13 @@ public class Monster extends Character {
 		lastStep = System.currentTimeMillis();
 		cooldownAttack = 500 - 10 * window.currentLevel; // ms
 		cooldownWalk = 1000;
-		
-		
+		lastPlayerPos = new int[2];
+		lastPlayerPos[0] = -1;
+		lastPlayerPos[1] = -1;
+		AStarPath = new LinkedList<Node>();
 		
 		setDamage(5 + window.currentLevel * 2);
 		Random r = new Random();
-		changeDir();
 		
 		// Load image for monster
 		int i = r.nextInt(3) + 1;
@@ -48,6 +54,11 @@ public class Monster extends Character {
 		} catch (IOException e) {
 			System.err.print("Error while loading the image dragon" + i + ".png.");
 		}
+	}
+	
+	public void updatePlayerPos() {
+		this.lastPlayerPos[0] = this.player.getXPos();
+		this.lastPlayerPos[1] = this.player.getYPos();
 	}
 	
 	public boolean attackPlayer(boolean hasKey){
@@ -80,35 +91,57 @@ public class Monster extends Character {
 	}
 	
 	// Move the monster
-	public void move(){
+	public boolean move(){
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
-		if(valid()){
-			if(nextWalk && AStarSearch(this.player.getXPos(), this.player.getYPos())){	
-				switch(dir){
-					case 0 : moveUp(); break;
-					case 1 : moveRight(); break;
-					case 2 : moveDown(); break;
-					case 3 : moveLeft(); break;
-				}
-				lastStep = System.currentTimeMillis();
+		if(nextWalk){
+			// Did the player move since the last route calculation?
+			if(player.getXPos() != this.lastPlayerPos[0] || player.getYPos() != this.lastPlayerPos[1]) {
+				AStarPath.clear();
+				AStarPath = AStarSearch(player.getXPos(), player.getYPos());
+				updatePlayerPos();
 			}
+			if(!changeDir()){
+				return false;
+			}
+			if(valid()){	
+					switch(dir){
+						case 0 : moveUp(); break;
+						case 1 : moveRight(); break;
+						case 2 : moveDown(); break;
+						case 3 : moveLeft(); break;
+					}
+					lastStep = System.currentTimeMillis();
+				}
 		}else{
-			changeDir();			
+			return false;			
 		}
+		return true;
 	}
 	
 	// Change the running direction of the monster
-	public void changeDir(){
-		Random random = new Random();		
-		dir = random.nextInt(4);
+	public boolean changeDir(){
+		Node nextNode = AStarPath.removeFirst();
+		if(nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos()-1){
+			dir = 0;
+		} else if(nextNode.getXPos() == this.getXPos()+1 && nextNode.getYPos() == this.getYPos()){
+			dir = 1;
+		} else if(nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos()+1){
+			dir = 2;
+		} else if(nextNode.getXPos() == this.getXPos()-1 && nextNode.getYPos() == this.getYPos()){
+			dir = 3;
+		} else {
+			return false;
+		}
+		return true;
 	}
-	
+	// updated
 	// A-Star-Algorithm to search for the player
-	public boolean AStarSearch (int xGoal, int yGoal){
+	public LinkedList<Node> AStarSearch (int xGoal, int yGoal){
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
 		Node start = new Node(getXPos(),getYPos());
 		start.calculateCosts();
+		Node goal = null;
 		
 		openList.add(start);
 		Node cheapest = null;
@@ -129,33 +162,25 @@ public class Monster extends Character {
 			int actY = cheapest.getYPos();
 			
 			// Up-Neighbor valid?
-			if (!(window.level[actX][actY-1] instanceof Wall) && 
-					!(window.level[actX][actY-1] instanceof Door) && 
-					!(window.level[actX][actY-1] instanceof Key))
+			if (!(window.level[actX][actY-1] instanceof Wall))
 				neighbors[0] = new Node(actX, actY-1); // up
 			else
 				neighbors[0] = null;
 			
 			// Right-Neighbor valid?
-			if (!(window.level[actX+1][actY] instanceof Wall) && 
-					!(window.level[actX+1][actY] instanceof Door) && 
-					!(window.level[actX+1][actY] instanceof Key))
+			if (!(window.level[actX+1][actY] instanceof Wall))
 				neighbors[1] = new Node(actX+1, actY); // right
 			else
 				neighbors[1] = null;
 			
 			// Down-Neighbor valid?
-			if (!(window.level[actX][actY+1] instanceof Wall) && 
-					!(window.level[actX][actY+1] instanceof Door) && 
-					!(window.level[actX][actY+1] instanceof Key))
+			if (!(window.level[actX][actY+1] instanceof Wall))
 				neighbors[2] = new Node(actX, actY+1); // down
 			else
 				neighbors[2] = null;
 			
 			// Left-Neighbor valid?
-			if (!(window.level[actX-1][actY] instanceof Wall) && 
-					!(window.level[actX-1][actY] instanceof Door) && 
-					!(window.level[actX-1][actY] instanceof Key))
+			if (!(window.level[actX-1][actY] instanceof Wall))
 				neighbors[3] = new Node(actX-1, actY); // left
 			else
 				neighbors[3] = null;
@@ -172,6 +197,7 @@ public class Monster extends Character {
 				if (neighbors[k].getXPos() == xGoal && neighbors[k].getYPos() == yGoal){
 					// Current Neighbor is the goal / player
 					goalFound = true;
+					goal = neighbors[k];
 				}
 				else {
 					// Calculate costs of neighbor
@@ -199,28 +225,19 @@ public class Monster extends Character {
 					if (!skipNode)
 						openList.add(neighbors[k]);
 				}
-			}// for-neighbors
+			}// end: for-neighbors
 			closedList.add(cheapest);
-		}// while
+		}// end: while
 		
 		// Go back path to node which parent is the start node (=monster)
-		while (cheapest.getParent() != start && cheapest != null) {
-			cheapest = cheapest.getParent();
+		LinkedList<Node> path = new LinkedList<Node>();
+		Node current = goal;
+		while (current != start && current != null) {
+			path.addFirst(current);
+			current = current.getParent();
 		}
 		
-		// Change this.dir
-		if (cheapest.getXPos() == this.getXPos() && cheapest.getYPos() == this.getYPos()-1)
-			this.dir = 0; // go up
-		else if (cheapest.getXPos() == this.getXPos()+1 && cheapest.getYPos() == this.getYPos())
-			this.dir = 1; // go right
-		else if (cheapest.getXPos() == this.getXPos() && cheapest.getYPos() == this.getYPos()+1)
-			this.dir = 2; // go down
-		else if (cheapest.getXPos() == this.getXPos()-1 && cheapest.getYPos() == this.getYPos())
-			this.dir = 3; // go left
-		else
-			return false;
-		
-		return true;
+		return path;
 	}
 	
 	public int getType(){
