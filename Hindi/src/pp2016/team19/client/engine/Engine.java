@@ -1,4 +1,4 @@
-package client;
+package pp2016.team19.client.engine;
 
 import java.awt.Color;
 import java.util.concurrent.ExecutorService;
@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 
 import pp2016.team19.client.*;
+import pp2016.team19.client.gui.GameWindow;
 import pp2016.team19.shared.*;
 import pp2016.team19.shared.Character;
 
@@ -28,34 +29,32 @@ public class Engine implements Runnable {
 	private ExecutorService threadPool;
 
 //	private NetworkHandlerC networkHandler;
-//	private GUI GUI;
+	private GameWindow GUI;
 
 	private int clientID;
 	private int playerID;
 	private Player myPlayer;
-	private Character myCharacter;
+	
 
-//	public Engine(ExecutorService pThreadPool) {
-//
-//		this.setMessagesFromServer(new LinkedBlockingQueue<Message>());
-//		this.setMessagesToServer(new LinkedBlockingQueue<Message>());
-//		this.setThreadPool(pThreadPool);
-//
-//		this.setNetworkHandler(
-//				new NetworkHandlerC(this.getThreadPool(), this.getMessagesFromServer(), this.getMessagesToServer()));
-//		this.setGUI(new GUI(this));
-//
-//		for (int i = 0; i < 100000000; i++) {
-//
-//		}
-//
-//		this.setClientID(this.getNetworkHandler().getClientID());
-//		this.setPlayerID(-1);
-//		this.setMyPlayer(null);
-//
-//		this.getGUI().activateSignInUpFrame();
-//		this.getGUI().getLoginFrame().newStatus("connected to server", Color.BLACK);
-//	}
+	public Engine(ExecutorService pThreadPool) {
+
+		this.setMessagesFromServer(new LinkedBlockingQueue<Message>());
+		this.setMessagesToServer(new LinkedBlockingQueue<Message>());
+		this.setThreadPool(pThreadPool);
+
+		this.setNetworkHandler(
+				new NetworkHandlerC(this.getThreadPool(), this.getMessagesFromServer(), this.getMessagesToServer()));
+		this.setGUI(new GameWindow(this, 16,16, "Hindi Bones"));
+
+		
+
+		this.setClientID(this.getNetworkHandler().getClientID());
+		this.setPlayerID(-1);
+		this.setMyPlayer(null);
+
+		this.getGUI().activateSignInUpFrame();
+		this.getGUI().getLoginFrame().newStatus("connected to server", Color.BLACK);
+	}
 
 	
 	/***
@@ -74,7 +73,7 @@ public class Engine implements Runnable {
 					this.messageReader(message);
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 		}
@@ -89,7 +88,7 @@ public class Engine implements Runnable {
 	
 	
 	private void messageReader(Message pMessage) {
-		System.out.println("METHOD Engine.distributor() " + pMessage.toString());
+		System.out.println("METHOD Engine.messageReader() " + pMessage.toString());
 
 		switch (pMessage.getType()) {
 
@@ -119,30 +118,65 @@ public class Engine implements Runnable {
 
 			break;
 
-		// ********** TYPE = 1 : TIME TRIGGERED ACTIONS AND METHODS **********
-		case 1:
-
-			switch (pMessage.getSubType()) {
-			case 0:
-				this.serverPlayerAnswer(pMessage);
-				break;
-
-			default:
-				break;
-			}
-
-			break;
-
-		// ********** TYPE = 2 : USER TRIGGERED ACTIONS AND METHODS **********
+	
+		// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
 		case 2:
 
 			switch (pMessage.getSubType()) {
-			case 0:
-				this.characterMoveUp(pMessage);
+			case 1:
+				this.characterMoveUpAnswer(pMessage);
 				break;
 
-			case 1:
+			case 3:
+				this.characterMoveDownAnswer(pMessage);
+				break;
+			
+			case 5:
+				this.characterMoveRightAnswer(pMessage);
+				break;
+			
+			case 7:
+				this.characterMoveLeftAnswer(pMessage);
+				break;
+				
+			case 9:
+				this.characterMoveLeftAnswer(pMessage);
+				break;
+				
+			case 11:
+				this.attackAnswer(pMessage);
+				break;
+				
+			case 13:
+				this.collectItemAnswer(pMessage);
+				break;
+				
+			case 15:
+				this.usePotionAnswer(pMessage);
+				break;
+				
+			case 17:
+				this.openDoorAnswer(pMessage);
+				break;
 
+
+			default:
+				break;
+			}
+
+			break;	
+			
+			
+		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
+		case 2:
+
+			switch (pMessage.getSubType()) {
+			case 1:
+				this.levelAnswer(pMessage);
+				break;
+				
+			case 3:
+				this.updateMonsterAnswer(pMessage);
 				break;
 
 			default:
@@ -150,24 +184,25 @@ public class Engine implements Runnable {
 			}
 
 			break;
-			
+
 			
 		// ********** TYPE = xx : USER TRIGGERED ACTIONS AND METHODS **********
 
 		// ********** TYPE = 100 : TECHNICAL ACTIONS AND METHODS **********
-		case 100:
-			switch (pMessage.getSubType()) {
-			case 10:
-				this.serverGetClientID(pMessage);
-				break;
-
-			default:
-				break;
-			}
-		default:
-			break;
+//		case 100:
+//			switch (pMessage.getSubType()) {
+//			case 10:
+//				this.serverGetClientID(pMessage);
+//				break;
+//
+//			default:
+//				break;
+//			}
+//		default:
+//			break;
 		}
-	}
+		
+	} // end of great switch
 
 	
 	/***
@@ -264,50 +299,99 @@ public class Engine implements Runnable {
 //		// still to do
 //
 //	}
-
-	// ********** TYPE = 1 : TIME TRIGGERED ACTIONS AND METHODS **********
-	public void serverPlayerRequest() {
-		System.out.println("METHOD Engine.serverPlayerRequest()");
-		this.sendToServer(new MessPlayerReq(this.getPlayerID(), this.getClientID()));
-	}
-
-	private void serverPlayerAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.serverPlayerAnswer() " + pMessage.toString());
-
-		MessPlayerAns message = (MessPlayerAns) pMessage;
-
-		if (message.getClientID() == this.getClientID() && this.getPlayerID() == message.getPlayerID()) {
-
-			this.setMyPlayer(message.getPlayer());
-			this.getGUI().activateGameFrame();
-			this.getGUI().getGameFrame().refresh();
-		}
-	}
 	
 	
-	private void characterMovement(Message pMessage) {
+	
+	
+
+//	// ********** TYPE = 1 : TIME TRIGGERED ACTIONS AND METHODS **********
+//	public void serverPlayerRequest() {
+//		System.out.println("METHOD Engine.serverPlayerRequest()");
+//		this.sendToServer(new MessPlayerReq(this.getPlayerID(), this.getClientID()));
+//	}
+//
+//	private void serverPlayerAnswer(Message pMessage) {
+//		System.out.println("METHOD Engine.serverPlayerAnswer() " + pMessage.toString());
+//
+//		MessPlayerAns message = (MessPlayerAns) pMessage;
+//
+//		if (message.getClientID() == this.getClientID() && this.getPlayerID() == message.getPlayerID()) {
+//
+//			this.setMyPlayer(message.getPlayer());
+//			this.getGUI().activateGameFrame();
+//			this.getGUI().getGameFrame().refresh();
+//		}
+//	}
+	
+	
+
+
+	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
+	public void characterMovement(Message pMessage) {
 		
-	//	this.sendToServer(new characterMovementReq(this.getPlayer(), this.getx);
+		this.sendToServer(new messCharacterMovementRequest(this.getMyPlayer().getXPos(), this.getMyPlayer().getYPos(), 1, 1, this.getClientID()));
 		
 		
 	} // end of caracterMoveUp-method
 	
 	private void characterMovementAnswer(Message pMessage) {
 		
-		this.myCharacter.getXPos();
-		this.myCharacter.getYPos();
+		this.myPlayer.setPos(-1, -1);
+		
 	}
 	
-
-	// ********** TYPE = 2 : USER TRIGGERED ACTIONS AND METHODS **********
-	public void serverDoSomethingRequest() {
-		System.out.println("METHOD Engine.serverDoSomethingRequest()");
+	
+	public void attackRequest(Message pMessage) {
+		System.out.println("METHOD Engine.attackRequest:" + pMessage.toString());
 	}
-
-	private void serverDoSomethingAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.serverDoSomethingAnswer() " + pMessage.toString());
+	
+	public void attackAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.attackAnswer:" + pMessage.toString());
 	}
-
+	
+	public void collectItemRequest(Message pMessage) {
+		System.out.println("METHOD Engine.collectItemRequest:" + pMessage.toString());
+	}
+	
+	public void collectItemAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.collectItemAnswer:" + pMessage.toString());
+	}
+	
+	public void usePotionRequest(Message pMessage) {
+		System.out.println("METHOD Engine.usePotionRequest:" + pMessage.toString());
+	}
+	
+	public void usePotionAnswer(Message pMessage) {
+		System.out.println("METHOD Egnine.usePotionAnswer:" + pMessage.toString());
+	}
+	
+	public void openDoorRequest(Message pMessage) {
+		System.out.println("METHOD Egnine.openDoorRequest:" + pMessage.toString());
+	}
+	
+	public void openDoorAnswer(Message pMessage){
+		System.out.println("METHOD Egnine.openDoorAnswer:" + pMessage.toString());
+	}
+	
+	
+	// ********** TYPE = 1 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
+	
+	public void levelRequest(Message pMessage){
+		System.out.println("METHOD Egnine.levelRequest:" + pMessage.toString());
+		this.sendToServer(pMessage);
+	}
+	
+	public void levelAnswer(Message pMessage) {
+		System.out.println("METHOD Egnine.levelAnswerr:" + pMessage.toString());
+	}
+	
+	public void updateMonsterRequest(Message pMessage) {
+		System.out.println("METHOD Egnine.updateMonserRequest:" + pMessage.toString());
+	}
+	
+	public void updateMonsterAnswer(Message pMessage) {
+		System.out.println("METHOD Egnine.updateMonserAnswer:" + pMessage.toString());
+	}
 	
 	
 	
@@ -387,13 +471,21 @@ public class Engine implements Runnable {
 //		this.networkHandler = networkHandler;
 //	}
 //
-//	private GUI getGUI() {
-//		return GUI;
-//	}
-//
-//	private void setGUI(GUI gUI) {
-//		GUI = gUI;
-//	}
+	private GameWindow getGUI() {
+		return GUI;
+	}
+
+	private void setGUI(GameWindow gUI) {
+		GUI = gUI;
+	}
+	
+	public Player myPlayer() {
+		return myPlayer;
+	}
+	
+	private void setCharacter(Character myCharacter) {
+		this.myCharacter = myCharacter;
+	}
 	
 	
 } // end of engine-class
