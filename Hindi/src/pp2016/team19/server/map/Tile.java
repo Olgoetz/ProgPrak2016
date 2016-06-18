@@ -6,7 +6,12 @@ import java.util.Vector;
 
 import java.util.*;
 
-public class Tile extends Content{
+import java.util.Vector;
+
+
+import java.util.*;
+
+public class Tile{
 		
 		public int Type;
 		public boolean ContainsKey = false;
@@ -77,57 +82,40 @@ public class Tile extends Content{
 		
 		
 		// Schlüssel Methoden:
-		public void placeKeyT(){
-			ContainsKey = true;
-		}
-		
-		public void droppedKeyT(){
-			ContainsKey = false;
+		public void setContainsKey(boolean input){
+			ContainsKey = input;
 		}
 		
 		public boolean containsKey(){
-			if(ContainsKey == true){
-				return true;
-			}
-			return false;
+			return ContainsKey;
 		}
 		
 		
 		// Potion Methoden:
 		public boolean containsPotion(){
-			if(ContainsPotion == true){
-				return true;
-			}
-			return false;
+			return ContainsPotion;
 		}
 		
-		public void containsNoPotion(){
-			ContainsPotion = false;
+		public void setContainsPotion(boolean input){
+			ContainsPotion = input;
 		}
 		
-		public void placePotionT(){
-			ContainsPotion = true;
-		}
+		
 		
 		
 		// Monster Methoden:
 		public boolean containsMonster(){
-			if(ContainsMonster == true){
-				return true;
-			}
-			return false;
+			
+			return ContainsMonster;
 		}
 		
-		public void setContainsMonster(){
-			ContainsMonster = true;
-		}
-		
-		public void containsNoMonster(){
-			ContainsMonster = false;
+		public void setContainsMonster(boolean input){
+			ContainsMonster = input;
 		}
 		
 		
-		// Walkable Methoden lol
+		
+		// Walkable Methoden
 
 		public boolean isWalkable(){
 			if(Type == Floor || Type == Entry || Type == Exit ){
@@ -142,4 +130,5 @@ public class Tile extends Content{
 	
 	
 	
+
 

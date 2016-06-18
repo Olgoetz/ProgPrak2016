@@ -2,6 +2,8 @@ package pp2016.team19.server.map;
 
 
 
+
+
 public class Labyrinth {
 	
 	// Tiles mit ihrem Zahlenwerten
@@ -17,18 +19,22 @@ public class Labyrinth {
 
 
 		
-		// 2 Dim. Array  vom DatenTyp Tile namens gameMap lol
+		// 2 Dim. Array  vom DatenTyp Tile namens gameMap
 		private static Tile[][] gameMap;
+		
+		// Get-Methode:
+		
 		
 		
 
 		// Konstruktor.. 
 		public Labyrinth() {
+			
 
 		}
 
 		// Methode generateLabyrinth
-		public static Tile[][] generateLabyrinth(int gameSize) {
+		public static Tile[][] generateLabyrinth(int gameSize, int difficulty) {
 
 			
 			
@@ -63,7 +69,7 @@ public class Labyrinth {
 			
 			
 			
-				return gameMap;
+			return gameMap;
 		}
 		
 
@@ -115,6 +121,13 @@ public class Labyrinth {
 			}
 			return false;
 		}
+		
+		
+		
+		// Methode
+		
+		
+		
 
 		// Gibt anzahl Nachbarn eines Punktes aus, die vom Typ Floor sind. (Links, Rechts, Oben, Unten)
 		public static int countNeighbours(int x, int y) {
@@ -138,29 +151,34 @@ public class Labyrinth {
 		}
 
 		// Gibt Anzahl Nachbarn eines Punktes aus, die vom Typ Floor sind. (Obenlinks, Obenrechts, Untenlinks, Untenrechts)
-		public static int diagNeighbours(int x, int y) {
+		public static boolean diagNeighbours(int x, int y) {
 
-			int counter = 0;
+			
 
 			if (gameMap[x + 1][y + 1].isFloor()) {
-				counter = counter + 1;
+				if(!gameMap[x+1][y].isFloor() || !gameMap[x][y+1].isFloor()){
+					return false;
+				}
 			}
 			if (gameMap[x - 1][y + 1].isFloor()) {
-				counter = counter + 1;
+				if(!gameMap[x-1][y].isFloor() || !gameMap[x][y+1].isFloor()){
+					return false;
+				}
 			}
 			if (gameMap[x + 1][y - 1].isFloor()) {
-				counter = counter + 1;
+				if(!gameMap[x+1][y].isFloor() || !gameMap[x][y-1].isFloor()){
+					return false;
+				}
 			}
 			if (gameMap[x - 1][y + 1].isFloor()) {
-				counter = counter + 1;
+				if(!gameMap[x-1][y].isFloor() || !gameMap[x][y+1].isFloor()){
+					return false;
+				}
 			}
-			return counter;
+			return true;
 		}
 		
-		// gibt maximale Anzahl Tiles aus:
-		public static int wholeNeighbours(int x, int y){
-			return (diagNeighbours(x,y) + countNeighbours(x,y));
-		}
+	
 		
 		// Platziert einen Heiltrank im unteren rechten Viertel:
 		public static void placePotion(int gameSize){
@@ -168,7 +186,7 @@ public class Labyrinth {
 			for (int i = (gameSize-2); i > ((gameSize-2)/2 + 1); i--){
 				if (gameMap[i][gameSize-2].isFloor()){
 					
-						gameMap[i][(gameSize-2)].placePotionT();
+						gameMap[i][(gameSize-2)].setContainsPotion(true);
 						br = true;
 						System.out.print("\nPotion placed...");
 						gameMap[i][(gameSize-2)].isWalkable();
@@ -193,7 +211,7 @@ public class Labyrinth {
 			for (int i = 1; i < (gameSize/2 + 1); i++){
 				if (gameMap[i][j].isFloor()){
 					if(countNeighbours(i, j)< 2){
-						gameMap[i][j].placeKeyT();
+						gameMap[i][j].setContainsKey(true);
 						br = true;
 						System.out.print("\nKey placed...");
 						gameMap[i][j].isWalkable();
@@ -252,8 +270,8 @@ public class Labyrinth {
 				if (edgeCheckUp(x, y, gameSize)) {
 					if (gameMap[x - 1][y].isRock()) {
 						if (countNeighbours(x - 1, y) < 2) {
-							 //if(diagNeighbours(x-1,y) < 3){
-							floodFill(x - 1, y, gameSize);
+							 //if(diagNeighbours(x-1,y)){
+								 floodFill(x - 1, y, gameSize);
 							 //}
 
 						}
@@ -269,9 +287,9 @@ public class Labyrinth {
 				if (edgeCheckRight(x, y, gameSize)) {
 					if (gameMap[x][y + 1].isRock()) {
 						if (countNeighbours(x, y + 1) < 2) {
-							 //if(diagNeighbours(x,y+1) < 3){
-							floodFill(x, y + 1, gameSize);
-							 //}
+							 //if(diagNeighbours(x,y+1)){
+								 floodFill(x, y + 1, gameSize);
+							// }
 						}
 					}
 				} else if (counter < 4) {
@@ -285,9 +303,9 @@ public class Labyrinth {
 				if (edgeCheckDown(x, y, gameSize)) {
 					if (gameMap[x + 1][y].isRock()) {
 						if (countNeighbours(x + 1, y) < 2) {
-							 //if(diagNeighbours(x+1,y) < 3){
-							floodFill(x + 1, y, gameSize);
-							 // }
+							// if(diagNeighbours(x+1,y)){
+								 floodFill(x + 1, y, gameSize);
+							//  }
 						}
 					}
 				} else if (counter < 4) {
@@ -301,8 +319,8 @@ public class Labyrinth {
 				if (edgeCheckLeft(x, y, gameSize)) {
 					if (gameMap[x][y - 1].isRock()) {
 						if (countNeighbours(x, y - 1) < 2) {
-							 //if(diagNeighbours(x,y-1) < 3){
-							floodFill(x, y - 1, gameSize);
+							// if(diagNeighbours(x,y-1)){
+								 floodFill(x, y - 1, gameSize);
 							 //}
 						}
 					}
@@ -316,7 +334,7 @@ public class Labyrinth {
 			}
 		}
 
-		// Test, wie das Labyrinth aussehen würde:.
+		// Test, wie das Labyrinth aussehen würde:
 		public static void PaintTest(int gameSize) {
 			System.out.println("");
 			for (int i = 0; i < gameSize; i++) {
@@ -352,8 +370,8 @@ public class Labyrinth {
 
 			System.out.println("Test\n");
 
-			generateLabyrinth(31);
-			PaintTest(31);
+			generateLabyrinth(11,0);
+			PaintTest(11);
 
 			// Setze Manuell Start und Ziel
 
