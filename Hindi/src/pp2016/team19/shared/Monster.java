@@ -199,9 +199,9 @@ public class Monster extends Character {
 					if (!skipNode)
 						openList.add(neighbors[k]);
 				}
-			}// for-neighbors
+			}// end: for-neighbors
 			closedList.add(cheapest);
-		}// while
+		}// end: while
 		
 		// Go back path to node which parent is the start node (=monster)
 		while (cheapest.getParent() != start && cheapest != null) {
