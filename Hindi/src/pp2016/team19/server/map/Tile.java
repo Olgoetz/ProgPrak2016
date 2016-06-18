@@ -73,12 +73,7 @@ public class Tile extends Content{
 			return false;
 		}
 		
-		public boolean containsKey(){
-			if(ContainsKey == true){
-				return true;
-			}
-			return false;
-		}
+		
 		
 		
 		// Schlüssel Methoden:
@@ -90,11 +85,28 @@ public class Tile extends Content{
 			ContainsKey = false;
 		}
 		
+		public boolean containsKey(){
+			if(ContainsKey == true){
+				return true;
+			}
+			return false;
+		}
+		
+		
+		// Potion Methoden:
 		public boolean containsPotion(){
 			if(ContainsPotion == true){
 				return true;
 			}
 			return false;
+		}
+		
+		public void containsNoPotion(){
+			ContainsPotion = false;
+		}
+		
+		public void setContainsPotion(){
+			ContainsPotion = true;
 		}
 		
 		
@@ -105,9 +117,20 @@ public class Tile extends Content{
 			}
 			return false;
 		}
+		
+		public void setContainsMonster(){
+			ContainsMonster = true;
+		}
+		
+		public void containsNoMonster(){
+			ContainsMonster = false;
+		}
+		
+		
+		// Walkable Methoden
 
 		public boolean isWalkable(){
-			if(Type == Floor || Type == Entry || Type == Exit || Type == Key || Type == Potion || Type == Monster){
+			if(Type == Floor || Type == Entry || Type == Exit ){
 				System.out.println("and is walkable");
 				return true;
 			}
