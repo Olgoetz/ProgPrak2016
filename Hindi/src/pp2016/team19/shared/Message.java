@@ -10,13 +10,13 @@ public abstract class Message implements Serializable{
 	private final long timestamp;
 	private int type;
 	private int subType;
-	private int clientID;
 	
-	public Message(int type, int subType, int clientID){
+	
+	public Message(int type, int subType){
 		this.timestamp = System.currentTimeMillis();
 		this.type = type;
 		this.subType = subType;
-		this.clientID = clientID;
+
 	}
 	
 	// Getter and Setter
@@ -33,15 +33,10 @@ public abstract class Message implements Serializable{
 	public int getSubType(){
 		return subType;
 	}
-	public void setClientID(int clientID){
-		this.clientID = clientID;
-	}
-	public int getClientID(){
-		return clientID;
-	}
+
 	
 	/**
-	 * @ author Oliver G�tz, 5961343
+	 * @ author Oliver Goetz, 5961343
 	 * 
 	 * This method overwrites the inherited String-Method
 	 * 
@@ -49,8 +44,7 @@ public abstract class Message implements Serializable{
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"yyyy-MM-DD hh:mm:ss");
-		return (dateFormat.format(new Date(this.timestamp)) + ":: ClientID :"
-				+ this.getClientID() + " PlayerID: " 
+		return (dateFormat.format(new Date(this.timestamp))
 				+ " Type: " + this.getType() + " Subtype: " + this.getSubType());
 	}
 	

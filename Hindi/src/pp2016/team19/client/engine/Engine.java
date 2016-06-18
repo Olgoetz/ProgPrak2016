@@ -29,14 +29,16 @@ public class Engine implements Runnable {
 	private LinkedBlockingQueue<Message> messagesToServer;
 	private ExecutorService threadPool;
 
-private NetworkHandlerC networkHandler;
+	private NetworkHandlerC networkHandler;
 	private GameWindow GUI;
 
 	private int playerID;
 	private Player myPlayer;
+	private Monster myMonster;
+	private int direction;
 	
 	public Engine() {
-		this.setNetworkHandler(new NetworkHandlerC());
+	//	this.setNetworkHandler(new NetworkHandlerC());
 
 	}
 
@@ -74,7 +76,7 @@ private NetworkHandlerC networkHandler;
 			try {
 				Message message = this.messagesFromServer.poll(10, TimeUnit.MILLISECONDS);
 				if (message != null) {
-//					this.messageReader(message);
+				this.messageReader(message);
 				}
 			} catch (InterruptedException e) {
 			
@@ -86,21 +88,21 @@ private NetworkHandlerC networkHandler;
 
 	
 	/***
-	 * @author Oliver Goetz, 596343
+	 * @author Oliver Goetz, 5961343
 	 * This method analyzes the messages and calls for the appropriate processing method.
 	 */
 	
 	
-//	private void messageReader(Message pMessage) {
-//		System.out.println("METHOD Engine.messageReader() " + pMessage.toString());
-//
-//		switch (pMessage.getType()) {
-//
-//		// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS **********
-//		case 0:
-//
-//			switch (pMessage.getSubType()) {
-//			case 1:
+	private void messageReader(Message pMessage) {
+		System.out.println("METHOD Engine.messageReader() " + pMessage.toString());
+
+		switch (pMessage.getType()) {
+
+		// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS **********
+		case 0:
+
+			switch (pMessage.getSubType()) {
+			case 1:
 //				this.serverSignUpAnswer(pMessage);
 //				break;
 //
@@ -115,103 +117,43 @@ private NetworkHandlerC networkHandler;
 //			case 7:
 //				this.serverSignOffAnswer(pMessage);
 //				break;
-//
-//			default:
-//				break;
-//			}
-//
-//			break;
-//
-//	
-//		// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
-//		case 2:
-//
-//			switch (pMessage.getSubType()) {
-//			case 1:
-//				this.characterMoveUpAnswer(pMessage);
-//				break;
-//
-//			case 3:
-//				this.characterMoveDownAnswer(pMessage);
-//				break;
-//			
-//			case 5:
-//				this.characterMoveRightAnswer(pMessage);
-//				break;
-//			
-//			case 7:
-//				this.characterMoveLeftAnswer(pMessage);
-//				break;
-//				
-//			case 9:
-//				this.characterMoveLeftAnswer(pMessage);
-//				break;
-//				
-//			case 11:
-//				this.attackAnswer(pMessage);
-//				break;
-//				
-//			case 13:
-//				this.collectItemAnswer(pMessage);
-//				break;
-//				
-//			case 15:
-//				this.usePotionAnswer(pMessage);
-//				break;
-//				
-//			case 17:
-//				this.openDoorAnswer(pMessage);
-//				break;
-//
-//
-//			default:
-//				break;
-//			}
-//
-//			break;	
-//			
-//			
-//		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
-//		case 2:
-//
-//			switch (pMessage.getSubType()) {
-//			case 1:
-//				this.levelAnswer(pMessage);
-//				break;
-//				
-//			case 3:
-//				this.updateMonsterAnswer(pMessage);
-//				break;
-//
-//			default:
-//				break;
-//			}
-//
-//			break;
-//
-//			
-		// ********** TYPE = xx : USER TRIGGERED ACTIONS AND METHODS **********
 
-		// ********** TYPE = 100 : TECHNICAL ACTIONS AND METHODS **********
-//		case 100:
-//			switch (pMessage.getSubType()) {
-//			case 10:
-//				this.serverGetClientID(pMessage);
-//				break;
-//
-//			default:
-//				break;
-//			}
-//		default:
-////			break;
-//		}
-//		
-//	} // end of great switch
+			default:
+				break;
+			}
+
+			break;
+
+	
+		// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
+		case 1:
+
+			switch (pMessage.getSubType()) {
+			case 1:
+				this.moveCharacterAnswer(pMessage);
+				break;
+
+			case 3:
+				this.attackAnswer(pMessage);
+				break;
+
+			default:
+				break;
+			}
+
+			break;	
+			
+	} // end of great switch	
+		
+} // end of message-Reader	
+//		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
+
+
 //
 //	
 //	/***
 //	 * 
-//	 * @author Oliver Goetz, 596343
+//	 * @author Oliver Goetz, 5961343
 //	 * 
 //	 * @param userName
 //	 * @param password
@@ -331,17 +273,42 @@ private NetworkHandlerC networkHandler;
 
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
-	public void moveUpRequest(Message pMessage) {
+	public void moveCharacterRequest(int direction) {
 		
-//		this.sendToServer(new messMoveUpRequest(this.getMyPlayer().getXPos(), this.getMyPlayer().getYPos(), 0, 1));
+		boolean confirmed = false;
+		//this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
+	System.out.println("Test");
 	} 
 	
-	private void moveUpAnswer(Message pMessage) {	
+	private void moveCharacterAnswer(Message pMessage) {	
+			
+			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
+			if(message.isConfirmed()) {
+				getMyPlayer().getXPos();
+				getMyPlayer().getYPos();
+			}
+			
+		}
+	
+	public void attackRequest(boolean attack) {
+		this.sendToServer(new MessAttackRequest(attack,0,2));
 	}
 	
-	public void moveDownRequest(Message pMessage) {
+	public void attackAnswer(Message pMessage) {
+		MessAttackAnswer message = (MessAttackAnswer) pMessage;
 		
+		if (message.isConfirmed()) {
+			getMyMonster().getHealth();	
+		}
+		
+		if (message.isKilled()) {
+			// still to do
+		}
 	}
+	
+	
+	
+
 	
 	
 //	public void attackRequest(Message pMessage) {
@@ -441,23 +408,32 @@ private NetworkHandlerC networkHandler;
 	private void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
-//
-//	private LinkedBlockingQueue<Message> getMessagesFromServer() {
-//		return messagesFromServer;
-//	}
-//
-//	private void setMessagesFromServer(LinkedBlockingQueue<Message> messagesFromServer) {
-//		this.messagesFromServer = messagesFromServer;
-//	}
-//
-//	private LinkedBlockingQueue<Message> getMessagesToServer() {
-//		return messagesToServer;
-//	}
-//
-//	private void setMessagesToServer(LinkedBlockingQueue<Message> messagesToServer) {
-//		this.messagesToServer = messagesToServer;
-//	}
-//
+	
+	private Monster getMyMonster() {
+		return myMonster;
+	}
+	
+	private void setMyMonster(Monster myMonster) {
+		this.myMonster= myMonster;
+	}
+	
+
+	private LinkedBlockingQueue<Message> getMessagesFromServer() {
+		return messagesFromServer;
+	}
+
+	private void setMessagesFromServer(LinkedBlockingQueue<Message> messagesFromServer) {
+		this.messagesFromServer = messagesFromServer;
+	}
+
+	private LinkedBlockingQueue<Message> getMessagesToServer() {
+		return messagesToServer;
+	}
+
+	private void setMessagesToServer(LinkedBlockingQueue<Message> messagesToServer) {
+		this.messagesToServer = messagesToServer;
+	}
+
 //	private ExecutorService getThreadPool() {
 //		return threadPool;
 //	}

@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 public class MessMoveCharacterAnswer extends Message implements Serializable {
 
+	
+	
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * Move-Down Request from server.
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7005346683609579242L;
 	int posX;
 	int posY;
 	boolean confirmed;

@@ -8,8 +8,8 @@ public class TestMessage extends Message implements Serializable {
 	public int type, subType, clientID;
 	public String messageName;
 	
-	public TestMessage(int type, int subType, int clientID, String messageName) {
-		super(type, subType, clientID);
+	public TestMessage(int type, int subType, String messageName) {
+		super(type, subType);
 		// TODO Auto-generated constructor stub
 		this.type = type;
 		this.subType = subType;
