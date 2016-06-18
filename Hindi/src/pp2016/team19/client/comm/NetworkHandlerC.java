@@ -34,12 +34,12 @@ public class NetworkHandlerC {
 //		this.messagesToServer = pMessagesToServer;
 //		this.clientID = -1;
 //		this.pingTimer = new Timer();
-		TestMessage test = new TestMessage(1,1,1,"TestMessage here");
+		TestMessage test = new TestMessage(1,1,1,"TESTMESSAGE HERE");
 		while (this.server == null) {
 			try {
 
 				// this.server = new Socket("62.143.243.85", 33333);
-				this.server = new Socket("localhost", 55555);
+				this.server = new Socket("localhost", 44444);
 				in = new ObjectInputStream(server.getInputStream());
 				out = new ObjectOutputStream(server.getOutputStream());
 				out.writeObject(test);

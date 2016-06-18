@@ -32,10 +32,10 @@ public class NetworkHandlerS {
 	public NetworkHandlerS() {
 		
 		try {
-			server = new ServerSocket(55555);
+			server = new ServerSocket(44444);
 			while(true){
 				client = server.accept();
-				this.handleConnection(client);
+				this.receiveMessage(client);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -48,7 +48,7 @@ public class NetworkHandlerS {
 //		this.pingTimer = new Timer();
 	}
 	
-	public void handleConnection(Socket client){
+	public void receiveMessage(Socket client){
 		
 		TestMessage test;
 		LinkedBlockingQueue<Message> q = new LinkedBlockingQueue<Message>();

@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class Message{
+public abstract class Message implements Serializable{
 	
+	private static final long serialVersionUID = -4125004909828171573L;
 	private final long timestamp;
 	private int type;
 	private int subType;
@@ -40,7 +41,7 @@ public abstract class Message{
 	}
 	
 	/**
-	 * @ author Oliver Götz, 5961343
+	 * @ author Oliver Gï¿½tz, 5961343
 	 * 
 	 * This method overwrites the inherited String-Method
 	 * 
