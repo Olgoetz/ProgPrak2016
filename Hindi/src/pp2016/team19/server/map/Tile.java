@@ -9,6 +9,10 @@ import java.util.*;
 public class Tile extends Content{
 		
 		public int Type;
+		public boolean ContainsKey = false;
+		public boolean ContainsPotion = false;
+		public boolean ContainsMonster = false;
+		
 		public static final int Rock = 1;
 		public static final int Floor = 0;
 		public static final int Entry = 2;
@@ -21,6 +25,9 @@ public class Tile extends Content{
 		
 		
 		private Vector<Content> content = null;
+		
+	
+		
 		
 		
 		
@@ -66,22 +73,34 @@ public class Tile extends Content{
 			return false;
 		}
 		
-		public boolean isKey(){
-			if(Type == Key){
+		public boolean containsKey(){
+			if(ContainsKey == true){
 				return true;
 			}
 			return false;
 		}
 		
-		public boolean isPotion(){
-			if(Type == Potion){
+		
+		// Schlüssel Methoden:
+		public void placeKeyT(boolean input){
+			ContainsKey = true;
+		}
+		
+		public void droppedKeyT(boolean input){
+			ContainsKey = false;
+		}
+		
+		public boolean containsPotion(){
+			if(ContainsPotion == true){
 				return true;
 			}
 			return false;
 		}
 		
-		public boolean isMonster(){
-			if(Type == Monster){
+		
+		// Monster Methoden:
+		public boolean containsMonster(){
+			if(ContainsMonster == true){
 				return true;
 			}
 			return false;

@@ -20,6 +20,14 @@ public class Labyrinth {
 		// 2 Dim. Array  vom DatenTyp Tile namens gameMap
 		private static Tile[][] gameMap;
 		
+		// Get-Methode:
+		public Tile[][] getGameMap(){
+			
+			
+			return gameMap;
+		}
+		
+		
 
 		// Konstruktor.. 
 		public Labyrinth(int gameSize) {
@@ -192,7 +200,7 @@ public class Labyrinth {
 			for (int i = 1; i < (gameSize/2 + 1); i++){
 				if (gameMap[i][j].isFloor()){
 					if(countNeighbours(i, j)< 2){
-						gameMap[i][j].setType(Key);
+						gameMap[i][j].placeKeyT(true);
 						br = true;
 						System.out.print("\nKey placed...");
 						gameMap[i][j].isWalkable();
@@ -327,7 +335,7 @@ public class Labyrinth {
 					} else if (gameMap[i][j].isExit()) {
 						System.out.print("Z ");
 						
-					} else if (gameMap[i][j].isKey())	{
+					} else if (gameMap[i][j].containsKey())	{
 						System.out.print("K ");
 						
 					} else if (gameMap[i][j].isPotion()) {
