@@ -134,7 +134,7 @@ public class Monster extends Character {
 		}
 		return true;
 	}
-	
+	// updated
 	// A-Star-Algorithm to search for the player
 	public LinkedList<Node> AStarSearch (int xGoal, int yGoal){
 		ArrayList<Node> openList = new ArrayList<Node>();
