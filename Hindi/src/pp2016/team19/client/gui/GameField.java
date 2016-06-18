@@ -98,9 +98,11 @@ public class GameField extends JPanel {
 			// At this point every monster is called. So an
 			// attacking order is called, if the player is
 			// in range. Otherwise the monster shall run.
-			if(!m.attackPlayer(event)){
+			if(!m.attackPlayer(event) && m.getType() == 0){
 				m.move();
-			}else{
+			}else if(!m.attackPlayer(event) && event && m.getType() == 1){
+				m.move();
+			}else if(m.attackPlayer(event)){
 				int box = window.BOX;
 				Player s = window.player;
 				
