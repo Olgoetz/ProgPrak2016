@@ -8,6 +8,8 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+
+import pp2016.team19.client.engine.Engine;
 import pp2016.team19.shared.Door;
 import pp2016.team19.shared.Floor;
 import pp2016.team19.shared.GameObject;
@@ -26,6 +28,8 @@ public class GameWindow extends JFrame implements KeyListener {
 	private Highscore highscore;
 	private MenuBar menubar;
 	private Controls controls;
+	
+	Engine engine = new Engine();
 
 	public LinkedList<Monster> monsterList;
 	public Player player;
@@ -49,6 +53,7 @@ public class GameWindow extends JFrame implements KeyListener {
 	public GameWindow(int width, int height, String title) {
 		initializeJFrame(width, height, title);
 		startNewGame();
+
 	}
 
 	public void initializeJFrame(int width, int height, String title) {
@@ -142,7 +147,7 @@ public class GameWindow extends JFrame implements KeyListener {
 		if (!gameWon) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
-					player.moveUp();
+					this.engine.moveCharacterRequest();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();
