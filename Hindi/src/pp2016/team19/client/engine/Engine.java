@@ -275,7 +275,7 @@ public class Engine implements Runnable {
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
 	public void moveCharacterRequest(int direction) {
 		
-		boolean confirmed = false;
+		
 		//this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
 	System.out.println("Test");
 	} 
