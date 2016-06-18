@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class Message implements Serializable {
+public abstract class Message{
 	
 	private final long timestamp;
 	private int type;
