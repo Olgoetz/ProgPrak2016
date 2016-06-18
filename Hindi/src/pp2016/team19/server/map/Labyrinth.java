@@ -34,7 +34,7 @@ public class Labyrinth {
 		}
 
 		// Methode generateLabyrinth
-		public static Tile[][] generateLabyrinth(int gameSize, int difficulty) {
+		public static Tile[][] generateLabyrinth(int gameSize) {
 
 			
 			
@@ -370,7 +370,7 @@ public class Labyrinth {
 
 			System.out.println("Test\n");
 
-			generateLabyrinth(11,0);
+			generateLabyrinth(11);
 			PaintTest(11);
 
 			// Setze Manuell Start und Ziel
