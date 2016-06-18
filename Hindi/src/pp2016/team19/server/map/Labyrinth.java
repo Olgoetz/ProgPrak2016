@@ -323,7 +323,7 @@ public class Labyrinth {
 			}
 		}
 
-		// Test, wie das Labyrinth aussehen würde:
+		// Test, wie das Labyrinth aussehen würde:.
 		public static void PaintTest(int gameSize) {
 			System.out.println("");
 			for (int i = 0; i < gameSize; i++) {
