@@ -121,7 +121,6 @@ public class Monster extends Character {
 	// Change the running direction of the monster
 	public boolean changeDir(){
 		Node nextNode = AStarPath.removeFirst();
-		System.out.println("Next Step to: ("+nextNode.getXPos() + ", "+nextNode.getYPos() + ")");
 		if(nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos()-1){
 			dir = 0;
 		} else if(nextNode.getXPos() == this.getXPos()+1 && nextNode.getYPos() == this.getYPos()){
@@ -199,7 +198,6 @@ public class Monster extends Character {
 					// Current Neighbor is the goal / player
 					goalFound = true;
 					goal = neighbors[k];
-					System.out.println("Goal at: "+goal.getXPos() + ", " + goal.getYPos());
 				}
 				else {
 					// Calculate costs of neighbor
@@ -234,10 +232,8 @@ public class Monster extends Character {
 		// Go back path to node which parent is the start node (=monster)
 		LinkedList<Node> path = new LinkedList<Node>();
 		Node current = goal;
-		System.out.println("PATH:");
 		while (current != start && current != null) {
 			path.addFirst(current);
-			System.out.println("Node: (" + current.getXPos() + ", " + current.getYPos() + ")");
 			current = current.getParent();
 		}
 		
