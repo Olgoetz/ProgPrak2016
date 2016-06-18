@@ -16,6 +16,7 @@ public class Monster extends Character {
 	private long lastStep;
 	private int cooldownAttack;
 	private int cooldownWalk;
+	
 	private int[] lastPlayerPos;
 	private LinkedList<Node> AStarPath;
 	
@@ -90,14 +91,21 @@ public class Monster extends Character {
 		return 1.0*(System.currentTimeMillis() - lastAttack)/cooldownAttack;
 	}
 	
-	// Move the monster
-	public boolean move(){
+	public void regenerate(){
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
-		if(nextWalk){
+		if(nextWalk && this.getHealth() < this.getMaxHealth())
+			this.changeHealth(1);
+		
+	}
+	
+	// Move the monster
+	public boolean moveToPlayer(){
+		 boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
+		 if(nextWalk){
 			// Did the player move since the last route calculation?
-			if(player.getXPos() != this.lastPlayerPos[0] || player.getYPos() != this.lastPlayerPos[1]) {
+			if(AStarPath.isEmpty() || player.getXPos() != this.lastPlayerPos[0] || player.getYPos() != this.lastPlayerPos[1]) {
 				AStarPath.clear();
-				AStarPath = AStarSearch(player.getXPos(), player.getYPos());
+				AStarPath = AStarSearch(this.getXPos(), this.getYPos(), player.getXPos(), player.getYPos());
 				updatePlayerPos();
 			}
 			if(!changeDir()){
@@ -118,6 +126,59 @@ public class Monster extends Character {
 		return true;
 	}
 	
+	public void flee(){
+		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
+		if(nextWalk){
+			
+			if(player.getXPos() < this.getXPos()){
+				if(player.getYPos() < this.getYPos()){
+					// Player in north-west of the monster
+					// Try to go east
+					dir = 1;
+					if (!valid()){
+						// Else try to go south
+						dir++;
+					}
+				}else{
+					// Player in south-west of the monster
+					// Try to go north
+					dir = 0;
+					if (!valid()){
+						// Else Try to go east
+						dir++;
+					}
+				}
+			}else{ // Player in the east of the monster
+				if(player.getYPos() < this.getYPos()){
+					// Player in the north-east of the monster
+					// Try to go south
+					dir = 2;
+					if (!valid()){
+						// Else try to go west
+						dir++;
+					}
+				}else{
+					// Player in the south-east of the monster
+					// Try to go west
+					dir = 3;
+					if (!valid()){
+						// Else try north
+						dir = 0;
+					}
+				}
+			}
+			if(valid()){	
+				switch(dir){
+					case 0 : moveUp(); break;
+					case 1 : moveRight(); break;
+					case 2 : moveDown(); break;
+					case 3 : moveLeft(); break;
+				}
+				lastStep = System.currentTimeMillis();
+			}
+		}
+	}
+	
 	// Change the running direction of the monster
 	public boolean changeDir(){
 		Node nextNode = AStarPath.removeFirst();
@@ -134,12 +195,12 @@ public class Monster extends Character {
 		}
 		return true;
 	}
-	// updated
+	
 	// A-Star-Algorithm to search for the player
-	public LinkedList<Node> AStarSearch (int xGoal, int yGoal){
+	public LinkedList<Node> AStarSearch (int xStart, int yStart, int xGoal, int yGoal){
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
-		Node start = new Node(getXPos(),getYPos());
+		Node start = new Node(xStart,yStart);
 		start.calculateCosts();
 		Node goal = null;
 		
@@ -231,7 +292,7 @@ public class Monster extends Character {
 		
 		// Go back path to node which parent is the start node (=monster)
 		LinkedList<Node> path = new LinkedList<Node>();
-		Node current = goal;
+		Node current = goal.getParent();
 		while (current != start && current != null) {
 			path.addFirst(current);
 			current = current.getParent();
