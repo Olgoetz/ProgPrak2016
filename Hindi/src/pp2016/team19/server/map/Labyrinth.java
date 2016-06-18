@@ -20,22 +20,15 @@ public class Labyrinth {
 		// 2 Dim. Array  vom DatenTyp Tile namens gameMap lol
 		private static Tile[][] gameMap;
 		
-		// Get-Methode:
-		public Tile[][] getGameMap(){
-			
-			
-			return gameMap;
-		}
-		
 		
 
 		// Konstruktor.. 
-		public Labyrinth(int gameSize) {
+		public Labyrinth() {
 
 		}
 
 		// Methode generateLabyrinth
-		public static void generateLabyrinth(int gameSize) {
+		public static Tile[][] generateLabyrinth(int gameSize) {
 
 			
 			
@@ -70,7 +63,7 @@ public class Labyrinth {
 			
 			
 			
-
+				return gameMap;
 		}
 		
 
