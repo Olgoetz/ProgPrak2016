@@ -10,6 +10,9 @@ import javax.imageio.ImageIO;
 
 import pp2016.team19.client.gui.GameWindow;
 
+/**
+* Class Monster describes every logic of the monsters, how they fight, how they search a way to the player, how they flee, and so on.
+* @author Strohbuecker, Max, 5960738 */
 public class Monster extends Character {
 
 	private long lastAttack;
@@ -28,6 +31,13 @@ public class Monster extends Character {
 	private Player player;
 	
 	// // PERSOENLICHE NOTIZ: Spaeter statt GameWindow Laybrinth als Input
+	/**
+	* Contructor of the class Monster.
+	* @author Strohbuecker, Max, 5960738
+	* @param x Coordinate, where the monster should spawn
+	* @param y Coordinate, where the monster should spawn
+	* @param window contains the gamefield/map and the player data
+	* @param type Type of the monster (0 = spawns at the beginning, 1 = spawns after taking the key) */
 	public Monster(int x, int y, GameWindow window, int type){
 		this.window = window;
 		this.player = window.player;
@@ -56,12 +66,19 @@ public class Monster extends Character {
 			System.err.print("Error while loading the image dragon" + i + ".png.");
 		}
 	}
-	
+	/**
+	* saves the actual position of the player in an array
+	* * @author Strohbuecker, Max, 5960738 */
 	public void updatePlayerPos() {
 		this.lastPlayerPos[0] = this.player.getXPos();
 		this.lastPlayerPos[1] = this.player.getYPos();
 	}
 	
+	/**
+	* Attacks the player & gives damage
+	* @param hasKey does the player have the key?
+	* @return returns, whether a player is in attacking range of the monster.
+	* @author Strohbuecker, Max, 5960738 */
 	public boolean attackPlayer(boolean hasKey){
 		// Is the player in range of the monster?
 		boolean playerInRange = (Math.sqrt(Math.pow(player.getXPos() - getXPos(), 2)
@@ -79,6 +96,10 @@ public class Monster extends Character {
 		return playerInRange;
 	}
 	
+	/**
+	* Gives the monster healing/damage. If health <= 0, the monster is deleted.
+	* @param change The value of the changing
+	* @author Strohbuecker, Max, 5960738 */
 	public void changeHealth(int change){
 		super.changeHealth(change);
 		if(getHealth() <= 0){
