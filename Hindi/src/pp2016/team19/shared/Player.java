@@ -16,6 +16,7 @@ public class Player extends Character {
 	private int numberOfPotions;
 	private int potionEffect;
 	
+	
 	private GameWindow window;
 	
 	public Player(String imgFile, GameWindow window){

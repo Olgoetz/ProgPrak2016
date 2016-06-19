@@ -29,7 +29,7 @@ public class GameWindow extends JFrame implements KeyListener {
 	private MenuBar menubar;
 	private Controls controls;
 	
-	Engine engine = new Engine();
+	public Engine engine;
 
 	public LinkedList<Monster> monsterList;
 	public Player player;
@@ -50,12 +50,22 @@ public class GameWindow extends JFrame implements KeyListener {
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
-	public GameWindow(int width, int height, String title) {
+	public GameWindow(Engine engine,int width, int height, String title) {
+		this.engine = engine;
 		initializeJFrame(width, height, title);
 		startNewGame();
+		
+		
 
 	}
-
+	
+	public void startEngine() {
+		this.setEngine();
+	}
+	public void setEngine() {
+		this.engine = new Engine();
+	}
+	
 	public void initializeJFrame(int width, int height, String title) {
 		// Layout of the window
 		this.setLayout(new BorderLayout());
@@ -148,6 +158,7 @@ public class GameWindow extends JFrame implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
 					this.engine.moveCharacterRequest();
+//					this.engine.getMyPlayer().getXPos();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();

@@ -37,9 +37,13 @@ public class Engine implements Runnable {
 	private Monster myMonster;
 	private int direction;
 	
+	public static final int BOX = 32;
+	public static final int WIDTH = 16, HEIGHT = 16;
+	
+	
 	public Engine() {
 	//	this.setNetworkHandler(new NetworkHandlerC());
-
+		this.setGUI(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
 	}
 
 //	public Engine(ExecutorService pThreadPool) {
@@ -64,7 +68,7 @@ public class Engine implements Runnable {
 
 	
 	/***
-	 * @author Oliver Goetz, 596343
+	 * @author Oliver Goetz, 5961343
 	 * This method starts a thread.
 	 */
 
@@ -273,19 +277,19 @@ public class Engine implements Runnable {
 
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
-	public void moveCharacterRequest(int direction) {
+	public void moveCharacterRequest() {
 		
 		
 		//this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
-	System.out.println("Test");
+	System.out.println("Message sent");
 	} 
 	
 	private void moveCharacterAnswer(Message pMessage) {	
 			
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
 			if(message.isConfirmed()) {
-				getMyPlayer().getXPos();
-				getMyPlayer().getYPos();
+			myPlayer.xPos = message.getX();
+			myPlayer.yPos = message.getY();
 			}
 			
 		}
@@ -298,7 +302,7 @@ public class Engine implements Runnable {
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
 		
 		if (message.isConfirmed()) {
-			getMyMonster().getHealth();	
+			myMonster.health = message.getHealth();
 		}
 		
 		if (message.isKilled()) {
@@ -308,17 +312,6 @@ public class Engine implements Runnable {
 	
 	
 	
-
-	
-	
-//	public void attackRequest(Message pMessage) {
-//		System.out.println("METHOD Engine.attackRequest:" + pMessage.toString());
-//	}
-//	
-//	public void attackAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.attackAnswer:" + pMessage.toString());
-//	}
-//	
 //	public void collectItemRequest(Message pMessage) {
 //		System.out.println("METHOD Engine.collectItemRequest:" + pMessage.toString());
 //	}

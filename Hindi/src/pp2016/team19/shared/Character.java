@@ -4,12 +4,12 @@ import java.awt.Image;
 
 public abstract class Character {
 
-	private int xPos, yPos;
+	public int xPos, yPos;
 	private Image image;
 	private boolean confirmMove;
 	private int direction;
 	
-	private int health;
+	public int health;
 	private int damage;
 	
 	private int maxHealth;
