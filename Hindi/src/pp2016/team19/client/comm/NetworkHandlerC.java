@@ -35,7 +35,7 @@ public class NetworkHandlerC {
 //		this.messagesToServer = pMessagesToServer;
 //		this.clientID = -1;
 //		this.pingTimer = new Timer();
-		test = new TestMessage(1,2,3, "Ich bin ein Test!");
+		test = new TestMessage(1,2, "Ich bin ein Test!");
 		while (this.server == null) {
 			try {
 
