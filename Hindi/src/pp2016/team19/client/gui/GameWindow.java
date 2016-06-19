@@ -59,13 +59,6 @@ public class GameWindow extends JFrame implements KeyListener {
 
 	}
 	
-	public void startEngine() {
-		this.setEngine();
-	}
-	public void setEngine() {
-		this.engine = new Engine();
-	}
-	
 	public void initializeJFrame(int width, int height, String title) {
 		// Layout of the window
 		this.setLayout(new BorderLayout());
@@ -157,7 +150,8 @@ public class GameWindow extends JFrame implements KeyListener {
 		if (!gameWon) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
-					this.engine.moveCharacterRequest();
+					player.moveUp();
+					engine.moveCharacterRequest();
 //					this.engine.getMyPlayer().getXPos();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))

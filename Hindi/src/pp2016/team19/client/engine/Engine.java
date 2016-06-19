@@ -13,6 +13,7 @@ import pp2016.team19.shared.*;
 import pp2016.team19.shared.Character;
 
 
+
 /***
  * 
  * 
@@ -42,7 +43,7 @@ public class Engine implements Runnable {
 	
 	
 	public Engine() {
-	//	this.setNetworkHandler(new NetworkHandlerC());
+		//this.setNetworkHandler(new NetworkHandlerC());
 		this.setGUI(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
 	}
 
@@ -93,7 +94,8 @@ public class Engine implements Runnable {
 	
 	/***
 	 * @author Oliver Goetz, 5961343
-	 * This method analyzes the messages and calls for the appropriate processing method.
+	 * This method analyzes the messages coming from the server and 
+	 * calls for the appropriate processing method.
 	 */
 	
 	
@@ -106,14 +108,14 @@ public class Engine implements Runnable {
 		case 0:
 
 			switch (pMessage.getSubType()) {
-			case 1:
-//				this.serverSignUpAnswer(pMessage);
-//				break;
-//
-//			case 3:
-//				this.serverSignInAnswer(pMessage);
-//				break;
-//
+			case 3:
+				this.serverSignUpAnswer(pMessage);
+				break;
+
+			case 5:
+				this.serverSignInAnswer(pMessage);
+				break;
+
 //			case 5:
 //				this.serverSignOutAnswer(pMessage);
 //				break;
@@ -169,89 +171,59 @@ public class Engine implements Runnable {
 //	 */
 //
 //	
-//	// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS **********
-//
-//	public void serverSignUpRequest(String pUsername, String pPassword, String pPassword2) {
-//		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
-//
-//		if (pPassword.equals(pPassword2)) {
-//			this.sendToServer(new MessSignInUpReq(0, pUsername, pPassword));
-//			this.GUI.getLoginFrame().newStatus("sign up requested", Color.BLACK);
-//		} else {
-//			this.GUI.getLoginFrame().newStatus("passwords not equal", Color.RED);
-//		}
-//	}
-//
-//	private void serverSignUpAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.serverSignUpAnswer() " + pMessage.toString());
-//
-//		MessSignInUpAns message = (MessSignInUpAns) pMessage;
-//
-//		if (message.isConfirmed()) {
-//			this.setPlayerID(message.getPlayerID());
-//			this.getGUI().getLoginFrame().newStatus("sign up confirmed", Color.BLACK);
-//
-//			this.serverPlayerRequest();
-//			this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
-//		} else {
-//			this.GUI.getLoginFrame().newStatus("sign up denied", Color.RED);
-//		}
-//	}
-//
-//	public void serverSignInRequest(String pUsername, String pPassword) {
-//		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
-//
-//		this.sendToServer(new MessSignInUpReq(2, pUsername, pPassword));
-//		this.GUI.getLoginFrame().newStatus("sign in requested", Color.BLACK);
-//	}
-//
-//	private void serverSignInAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.serverSignInAnswer() " + pMessage.toString());
-//
-//		MessSignInUpAns message = (MessSignInUpAns) pMessage;
-//
-//		if (message.isConfirmed()) {
-//			this.setPlayerID(message.getPlayerID());
-//			this.GUI.getLoginFrame().newStatus("sign in confirmed", Color.BLACK);
-//
-//			this.serverPlayerRequest();
-//			this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
-//		} else {
-//			this.GUI.getLoginFrame().newStatus("sign in denied", Color.RED);
-//		}
-//	}
+	// ********** TYPE = 0 >> SIGN{UP,IN} ACTIONS AND METHODS **********
 
-//	public void serverSignOutRequest() {
-//		System.out.println("METHOD Engine.serverSignOutRequest()");
-//
-//		MessSignOutReq message = new MessSignOutReq(this.getPlayerID(), this.getClientID(), 0, 4);
-//		this.sendToServer(message);
-//
-//	}
-//
-//	private void serverSignOutAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.serverSignOutAnswer() " + pMessage.toString());
-//
-//		this.getGUI().activateSignInUpFrame();
-//		this.getGUI().getLoginFrame().newStatus("signed out", Color.BLACK);
-//
-//	}
-//
-//	public void serverSignOffRequest() {
-//		System.out.println("METHOD Engine.serverSignOffRequest()");
-//
-//		// still to do
-////	}
-//
-//	private void serverSignOffAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.serverSignOffAnswer() " + pMessage.toString());
-//
-//		// still to do
-//
-//	}
+	public void serverSignUpRequest(String pUsername, String pPassword, String pPassword2) {
+		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
+
+		if (pPassword.equals(pPassword2)) {
+			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
+		//	this.GUI.getLoginFrame().newStatus("sign up requested", Color.BLACK);
+		} else {
+		//	this.GUI.getLoginFrame().newStatus("passwords not equal", Color.RED);
+		}
+	}
+
+	private void serverSignUpAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.serverSignUpAnswer() " + pMessage.toString());
+
+		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
+
+		if (message.isConfirmed()) {
+			
+		//	this.getGUI().getLoginFrame().newStatus("sign up confirmed", Color.BLACK);
+
+		//	this.serverPlayerRequest();
+		//	this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
+		} else {
+		//	this.GUI.getLoginFrame().newStatus("sign up denied", Color.RED);
+		}
+	}
 	
-	
-	
+	public void serverSignInRequest(String pUsername, String pPassword) {
+		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
+
+		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,4));
+		//this.GUI.getLoginFrame().newStatus("sign in requested", Color.BLACK);
+	}
+
+
+	private void serverSignInAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.serverSignInAnswer() " + pMessage.toString());
+
+		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
+
+		if (message.isConfirmed()) {
+		//	this.setPlayerID(message.getPlayerID());
+		//	this.GUI.getLoginFrame().newStatus("sign in confirmed", Color.BLACK);
+
+		//	this.serverPlayerRequest();
+		//	this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
+		} else {
+		//	this.GUI.getLoginFrame().newStatus("sign in denied", Color.RED);
+		}
+	}
+
 	
 
 //	// ********** TYPE = 1 : TIME TRIGGERED ACTIONS AND METHODS **********
@@ -358,14 +330,14 @@ public class Engine implements Runnable {
 //	
 //	
 //	
-//	/***
-//	 * @author Oliver Goetz, 596313
-//	 * 
-//	 * @param pMessage
-//	 * 
-//	 * This block contains helper, getter and setter methods
-//	 */
-//
+	/***
+	 * @author Oliver Goetz, 596313
+	 * 
+	 * @param pMessage
+	 * 
+	 * This block contains helper, getter and setter methods
+	 */
+
 
 
 	// ********* HELPERS and GETTERS'n'SETTERS **********
@@ -378,22 +350,7 @@ public class Engine implements Runnable {
 		}
 	}
 
-//	private int getClientID() {
-//		return clientID;
-//	}
 
-//	private void setClientID(int clientID) {
-//		this.clientID = clientID;
-//	}
-
-//	private int getPlayerID() {
-//		return playerID;
-//	}
-//
-//	private void setPlayerID(int playerID) {
-//		this.playerID = playerID;
-//	}
-//
 	public Player getMyPlayer() {
 		return myPlayer;
 	}
