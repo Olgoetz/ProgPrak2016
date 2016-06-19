@@ -40,7 +40,7 @@ public class GameWindow extends JFrame implements KeyListener {
 	public boolean gameLost = false;
 	public long startTime;
 	public int neededTime;
-	public boolean mistOn = false;
+	public boolean mistOn = true;
 
 	private boolean playerInHighscore = false;
 	public boolean highscoreShown = false;
@@ -219,7 +219,7 @@ public class GameWindow extends JFrame implements KeyListener {
 		currentLevel = 0;
 		gameWon = false;
 		gameLost = false;
-		mistOn = false;
+		mistOn = true;
 		nextLevel();
 		playerInHighscore = false;
 		startTime = System.currentTimeMillis();

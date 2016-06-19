@@ -9,7 +9,7 @@ public class HindiBonesMain {
 	
 	public static void main(String[] args){
 		
-		//new GameWindow(BOX*WIDTH, BOX*HEIGHT, "Hindi Bones");
+		new GameWindow(new Engine(), BOX*WIDTH, BOX*HEIGHT, "Hindi Bones");
 	
 	}
 }
