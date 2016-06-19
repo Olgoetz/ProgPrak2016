@@ -1,5 +1,8 @@
 package pp2016.team19.shared;
 
+/**
+* Class Node is used in the AStar-algorithm. it has a parent-Node, coordinates and three arts of costs.
+* @author Strohbuecker, Max, 5960738 */
 public class Node {
 	private Node parent;
 	private int xPos, yPos;
