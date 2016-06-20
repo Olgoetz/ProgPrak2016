@@ -8,6 +8,8 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+
+import pp2016.team19.client.engine.Engine;
 import pp2016.team19.shared.Door;
 import pp2016.team19.shared.Floor;
 import pp2016.team19.shared.GameObject;
@@ -26,6 +28,8 @@ public class GameWindow extends JFrame implements KeyListener {
 	private Highscore highscore;
 	private MenuBar menubar;
 	private Controls controls;
+	
+	public Engine engine;
 
 	public LinkedList<Monster> monsterList;
 	public Player player;
@@ -36,7 +40,7 @@ public class GameWindow extends JFrame implements KeyListener {
 	public boolean gameLost = false;
 	public long startTime;
 	public int neededTime;
-	public boolean mistOn = false;
+	public boolean mistOn = true;
 
 	private boolean playerInHighscore = false;
 	public boolean highscoreShown = false;
@@ -46,11 +50,15 @@ public class GameWindow extends JFrame implements KeyListener {
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
-	public GameWindow(int width, int height, String title) {
+	public GameWindow(Engine engine,int width, int height, String title) {
+		this.engine = engine;
 		initializeJFrame(width, height, title);
 		startNewGame();
-	}
+		
+		
 
+	}
+	
 	public void initializeJFrame(int width, int height, String title) {
 		// Layout of the window
 		this.setLayout(new BorderLayout());
@@ -143,6 +151,8 @@ public class GameWindow extends JFrame implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
 					player.moveUp();
+					engine.moveCharacterRequest();
+//					this.engine.getMyPlayer().getXPos();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();
@@ -209,7 +219,7 @@ public class GameWindow extends JFrame implements KeyListener {
 		currentLevel = 0;
 		gameWon = false;
 		gameLost = false;
-		mistOn = false;
+		mistOn = true;
 		nextLevel();
 		playerInHighscore = false;
 		startTime = System.currentTimeMillis();

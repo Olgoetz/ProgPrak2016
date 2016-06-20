@@ -40,7 +40,12 @@ public class GameField extends JPanel {
 			System.err.println("Error while loading one of the images.");
 		}
 	}
-
+	
+	/**
+	* Paints the gamefield including the map, player, items and monsters. This method also includes the FSM,
+	* which decides what the monster should do next (regenerate health, flee or move to the player & attack).
+	* @author FEEEEEEEEEE
+	* @author Strohbuecker, Max, 5960738 */
 	public void paint(Graphics g) {
 		
 		// First, everything is going to be overpainted while repainting
@@ -89,19 +94,30 @@ public class GameField extends JPanel {
 				}
 			}
 		}
-
+		
 		// Draw the monsters at their specific position
 		for (int i = 0; i < window.monsterList.size(); i++) {
 			Monster m = window.monsterList.get(i);
 			boolean event = window.player.hasKey();
 			
-			// At this point every monster is called. So an
-			// attacking order is called, if the player is
-			// in range. Otherwise the monster shall run.
-			if(!m.attackPlayer(event) && m.getType() == 0){
-				m.move();
-			}else if(!m.attackPlayer(event) && event && m.getType() == 1){
-				m.move();
+			// At this point, an FSM is deciding, what the monster should do
+			if(event && !m.attackPlayer(event)){
+				// Player has the key - every monster walks to the player and attacks him
+				m.moveToPlayer();
+			}else if(event && m.attackPlayer(event)){
+				int box = window.BOX;
+				Player s = window.player;
+				
+				double p = m.cooldownRate();
+				g.setColor(Color.RED);
+				g.drawImage(fireball, (int)(((1-p) * m.getXPos() + (p) * s.getXPos())*box) + box/2, 
+						   (int)(((1-p) * m.getYPos() + (p) * s.getYPos())*box) + box/2, 8, 8, null);
+			}else if(!inRange(m.getXPos(),m.getYPos())){
+				// Monster is out of range and should regenerate health
+				m.regenerate();
+			}else if(m.getHealth() <= m.getMaxHealth()/4){
+				// Monster is in range but has low HP
+				m.flee();
 			}else if(m.attackPlayer(event)){
 				int box = window.BOX;
 				Player s = window.player;
@@ -110,7 +126,10 @@ public class GameField extends JPanel {
 				g.setColor(Color.RED);
 				g.drawImage(fireball, (int)(((1-p) * m.getXPos() + (p) * s.getXPos())*box) + box/2, 
 						   (int)(((1-p) * m.getYPos() + (p) * s.getYPos())*box) + box/2, 8, 8, null);
-			}	
+			}else if(m.getType() == 0){
+				// Monster spawned from beginning, is in range and should move to the player to attack him
+				m.moveToPlayer();
+			}
 
 			// Draw the monster, if it's present from the beginning on
 			if (m.getType() == 0) drawMonster(g,m);
@@ -152,7 +171,7 @@ public class GameField extends JPanel {
 	
 	private boolean inRange(int i, int j) {
 		return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
-				+ Math.pow(window.player.getYPos() - j, 2)) < 3 || !window.mistOn);
+				+ Math.pow(window.player.getYPos() - j, 2)) < 4 || !window.mistOn);
 	}
 
 }

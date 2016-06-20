@@ -38,5 +38,9 @@ public class MessAttackAnswer extends Message implements Serializable {
 		return killed;
 	}
 	
+	public int getHealth() {
+		return monsterHealth;
+	}
+	
 	
 }

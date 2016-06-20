@@ -11,8 +11,8 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	 * Move-Down Request from server.
 	 */
 	private static final long serialVersionUID = -7005346683609579242L;
-	int posX;
-	int posY;
+	private int posX;
+	private int posY;
 	boolean confirmed;
 	
 	public MessMoveCharacterAnswer(int posX, int posY, int type, int subType, boolean pConfirmed) {
@@ -30,5 +30,12 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 		return confirmed;
 	}
 	
+	public int getX() {
+		return posX;
+	}
+	
+	public int getY() {
+		return posY;
+	}
 	
 }
