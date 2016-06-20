@@ -314,21 +314,14 @@ public class Engine implements Runnable {
 	
 	
 	public void playerRequest() {
-		
+		System.out.println("METHOD Engine.playerRequest: Player requested!" );
 		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
 	}
 	
 	public void playerAnswer(Message pMessage) {
-		
+		System.out.println("METHoD Engine.plyerAnswer:" + pMessage.toString());
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
-		
-		myPlayer.xPos = message.getMyPlayer().xPos;
-		myPlayer.yPos = message.getMyPlayer().yPos;
-		myPlayer.setHealth(message.getMyPlayer().getHealth());
-		myPlayer.setImage(message.getMyPlayer().getImage());
-		myPlayer.setNumberOfPotions(message.getMyPlayer().getNumberOfPotions());
-	
-		
+		myPlayer = message.getMyPlayer();	
 		
 	}
 	

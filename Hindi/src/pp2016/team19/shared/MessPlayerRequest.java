@@ -28,9 +28,4 @@ public class MessPlayerRequest extends Message implements Serializable {
 	}
 	
 	
-	
-	
-	
-	
-	
 }
