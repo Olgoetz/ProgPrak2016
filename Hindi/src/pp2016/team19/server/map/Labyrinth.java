@@ -1,371 +1,477 @@
 package pp2016.team19.server.map;
 
-
+/**
+ * Generally:
+ * 		
+ * 		A Class, which contains a method called "generateLabyrinth()" which uses the 
+ * 		floodFill method to create a Labyrinth, and uses methods to place Potion the Entry 
+ * 		or the Exit in the map.
+ * 
+ * 		It uses a data structure (2d Array) "gameMap" of the data structure "Tile", which will be returned 
+ * 		at the end of the method.
+ * 
+ * 		For a short time, it contains a method "paintTest()", to check if the Labyrinth 
+ * 		will be generated correct, and puts the Labyrinth on the console.
+ * 
+ * Contains:
+ * 
+ * 		1 (2-dim) data structure:	gameMap[][] of type Tile
+ * 
+ * 		7 constants:				Which represent the types and contants.
+ * 
+ *		2 essential method:			Called "generateLabyrinth(gameSize)"
+ *									Called "floodFill(1, gameSize-2, gameSize)"
+ *
+ *		A few helpful methods:		"createRockMap(gameSize)" 		= "Creates an Object Array, sets every Tile to ROCK."
+ *									
+ *									"edgeCheckUp(x, y, gameSize)" 	= "Check if there is an edge."
+ *									"edgeCheckDown(..)"
+ *									"edgeCheckLeft(..)"
+ *									"edgeCheckRight(..)"
+ *									
+ *									"countNeighbors(x, y)"			= "returns amount of neighbors of a Tile (up,down,left,right)."
+ *									"diagNeighbors(x, y)"			= "returns amount of neighbors of a Tile (diagonal)."
+ *									
+ *									"placeKey(1, gameSize)"			= "places a key in a quadrant of the gameMap."
+ *									"placeExit(..)"		
+ *									"placeEntry(gameSize)"
+ *									"placePotion(..)"
+ *									"placeMonster(..)"
+ *
+ *									"paintTest(gameSize)"			= "returns the Labyrinth in the console.
+ *
+ * @author < Czernik, Christof Martin, 5830621 >
+ */
 
 public class Labyrinth {
+
+	/**
+	 * 7 Constants
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
 	
-	// Tiles mit ihrem Zahlenwerten
-		public static final int Rock = 1;
-		public static final int Floor = 0;
-		public static final int Entry = 2;
-		public static final int Exit = 3;
-		
-		public static final int Key = 11;
-		public static final int Potion = 12;
-		public static final int Monster = 13;
-		
+	public static final int ROCK = 1;
+	public static final int FLOOR = 0;
+	public static final int ENTRY = 2;
+	public static final int EXIT = 3;
 
+	public static final int KEY = 11;
+	public static final int POTION = 12;
+	public static final int MONSTER = 13;
 
+	/**
+	 * 2-Dim Tile-Array called "gameMap"
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	private static Tile[][] gameMap;
+
+	/**
+	 * "generateLabyrinth()" is an essential method, which gets the gameSize as Input and returns the gameMap.
+	 * It uses the method 		"createRockMap(gameSize)", 		to create an object-Array and set every object of Tile as type = ROCK. 
+	 * Then it starts the method 		"floodFill(1, gameSize-2, gameSize)", 		to create a Labyrinth in the Array with Tiles as Type = FLOOR.
+	 * Furthermore it places the entry on the startTile of "floodFill()" with the method 		"placeEntry(gameSize)".
+	 * In addition it places the exit with 		"placeExit(1, gameSize)"		in the lower-left quadrant of the gameMap, in a blind alley.
+	 * In the end, it places the key, potion, and monster with similar methods in different quadrants of the gameMap, also in blind alleys.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static Tile[][] generateLabyrinth(int gameSize) {
+
+		gameMap = new Tile[gameSize][gameSize];
+
+		// Creates a Map of ROCKS.
+		createRockMap(gameSize);
+
+		// Starts to switch Rock-Tiles to Floor-Tiles, to make a maze.
+		floodFill(1, gameSize - 2, gameSize);
+
+		// Places an Entry.
+		placeEntry(gameSize);
+
+		// Places an Exit.
+		placeExit(1, gameSize);
+
+		// Places a Key
+		placeKey(1, gameSize);
+
+		// Places a Potion.
+		placePotion(gameSize);
+
+		// Places a Monster.
+		// placeMonster();
+
+		return gameMap;
+	}
+	
+	/**
+	 * Creates an Object for every index, and sets the type to ROCK.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void createRockMap(int gameSize){
 		
-		// 2 Dim. Array  vom DatenTyp Tile namens gameMap lol
-		private static Tile[][] gameMap;
-		
-		// Get-Methode:
-		public Tile[][] getGameMap(){
-			
-			
-			return gameMap;
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				gameMap[i][j] = new Tile();
+				gameMap[i][j].setType(ROCK);
+
+			}
 		}
 		
-		
+	}
+	
+	/**
+	 * Checks if we are at the Upper-Edge, returns true when not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static boolean edgeCheckUp(int x, int y, int GameSize) {
 
-		// Konstruktor.. 
-		public Labyrinth(int gameSize) {
-
-		}
-
-		// Methode generateLabyrinth
-		public static void generateLabyrinth(int gameSize) {
-
-			
-			
-			gameMap = new Tile[gameSize][gameSize];
-
-			// Erstellt ein gameMap Objekt vom DatenTyp Tile; 	Setzt jedes auf Typ Rock
-			for (int i = 0; i < gameSize; i++) {
-				for (int j = 0; j < gameSize; j++) {
-					gameMap[i][j] = new Tile();
-					gameMap[i][j].setType(Rock);
-
-				}
-			}
-
-			// Wichtig! dritte Variable gameSize muss stimmen!
-			floodFill(1, gameSize-2, gameSize);
-			
-			// Eingang wird platziert.(gameSize) (wo floodfill startet)
-			placeEntry(gameSize);
-			
-			// Ausgang wird platziert (Startindex, gameSize)	(im unteren linken qudranten)
-			placeExit(1,gameSize);
-			
-			// 
-			placeKey(1,gameSize);
-			
-			//
-			placePotion(gameSize);
-			
-			//
-			//placeMonster();
-			
-			
-			
-
-		}
-		
-
-
-		// Prüft ob am oberen Rand:
-		public static boolean edgeCheckUp(int x, int y, int GameSize) {
-
-			if (x - 1 == 0) {
-				return false;
-			}
-			if (x - 1 > 1) {
-				return true;
-			}
+		if (x - 1 == 0) {
 			return false;
 		}
+		if (x - 1 > 1) {
+			return true;
+		}
+		return false;
+	}
 
-		// Prüft ob am rechten Rand:
-		public static boolean edgeCheckRight(int x, int y, int gameSize) {
+	/**
+	 * Checks if we are at the Right-Edge, returns true when not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static boolean edgeCheckRight(int x, int y, int gameSize) {
 
-			if (y + 1 == gameSize - 1) {
-				return false;
-			}
-			if (y + 1 < gameSize - 1) {
-				return true;
-			}
+		if (y + 1 == gameSize - 1) {
 			return false;
 		}
+		if (y + 1 < gameSize - 1) {
+			return true;
+		}
+		return false;
+	}
 
-		// Prüft ob am unteren Rand:
-		public static boolean edgeCheckDown(int x, int y, int gameSize) {
+	/**
+	 * Checks if we are at the Lower-Edge, returns true when not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static boolean edgeCheckDown(int x, int y, int gameSize) {
 
-			if (x + 1 == gameSize - 1) {
-				return false;
-			}
-			if (x + 1 < gameSize - 1) {
-				return true;
-			}
+		if (x + 1 == gameSize - 1) {
 			return false;
 		}
+		if (x + 1 < gameSize - 1) {
+			return true;
+		}
+		return false;
+	}
 
-		// Prüft ob am linken Rand:
-		public static boolean edgeCheckLeft(int x, int y, int gameSize) {
+	/**
+	 * Checks if we are at the Left-Edge, returns true when not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static boolean edgeCheckLeft(int x, int y, int gameSize) {
 
-			if (y - 1 == 0) {
-				return false;
-			}
-			if (y - 1 > 0) {
-				return true;
-			}
+		if (y - 1 == 0) {
 			return false;
 		}
+		if (y - 1 > 0) {
+			return true;
+		}
+		return false;
+	}
 
-		// Gibt anzahl Nachbarn eines Punktes aus, die vom Typ Floor sind. (Links, Rechts, Oben, Unten)
-		public static int countNeighbours(int x, int y) {
+	/**
+	 * Counts the Neighbors of a Tile in the directions: (left, right, up, down)
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static int countNeighbors(int x, int y) {
 
-			int counter = 0;
+		int counter = 0;
 
-			if (gameMap[x + 1][y].isFloor()) {
-				counter = counter + 1;
-			}
-			if (gameMap[x - 1][y].isFloor()) {
-				counter = counter + 1;
-			}
-			if (gameMap[x][y + 1].isFloor()) {
-				counter = counter + 1;
-			}
-			if (gameMap[x][y - 1].isFloor()) {
-				counter = counter + 1;
-			}
-
-			return counter;
+		if (gameMap[x + 1][y].isFloor()) {
+			counter = counter + 1;
+		}
+		if (gameMap[x - 1][y].isFloor()) {
+			counter = counter + 1;
+		}
+		if (gameMap[x][y + 1].isFloor()) {
+			counter = counter + 1;
+		}
+		if (gameMap[x][y - 1].isFloor()) {
+			counter = counter + 1;
 		}
 
-		// Gibt Anzahl Nachbarn eines Punktes aus, die vom Typ Floor sind. (Obenlinks, Obenrechts, Untenlinks, Untenrechts)
-		public static int diagNeighbours(int x, int y) {
+		return counter;
+	}
 
-			int counter = 0;
+	/**
+	 * Checks if the diagonal Tile is connected with our current tile.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static boolean diagNeighbors(int x, int y) {
 
-			if (gameMap[x + 1][y + 1].isFloor()) {
-				counter = counter + 1;
-			}
-			if (gameMap[x - 1][y + 1].isFloor()) {
-				counter = counter + 1;
-			}
-			if (gameMap[x + 1][y - 1].isFloor()) {
-				counter = counter + 1;
-			}
-			if (gameMap[x - 1][y + 1].isFloor()) {
-				counter = counter + 1;
-			}
-			return counter;
-		}
-		
-		// gibt maximale Anzahl Tiles aus:
-		public static int wholeNeighbours(int x, int y){
-			return (diagNeighbours(x,y) + countNeighbours(x,y));
-		}
-		
-		// Platziert einen Heiltrank im unteren rechten Viertel:
-		public static void placePotion(int gameSize){
-			boolean br = false;
-			for (int i = (gameSize-2); i > ((gameSize-2)/2 + 1); i--){
-				if (gameMap[i][gameSize-2].isFloor()){
-					
-						gameMap[i][(gameSize-2)].placePotionT();
-						br = true;
-						System.out.print("\nPotion placed...");
-						gameMap[i][(gameSize-2)].isWalkable();
-						break;
-						
-					
-				}//if isFloor
-			}//for Innen
-			if(gameSize < 2){
-				return;
-			}
-			else if (br == false){
-				placePotion((gameSize-1));
-			}
-			
-		}
-		
-		
-		// Platziert den Schlüssel im oberen linken Viertel
-		public static void placeKey(int j, int gameSize){
-			boolean br = false;
-			for (int i = 1; i < (gameSize/2 + 1); i++){
-				if (gameMap[i][j].isFloor()){
-					if(countNeighbours(i, j)< 2){
-						gameMap[i][j].placeKeyT();
-						br = true;
-						System.out.print("\nKey placed...");
-						gameMap[i][j].isWalkable();
-						break;
-						
-					}//if countN
-				}//if isFloor
-			}//for Innen
-			
-			if (br == false){
-				placeKey(j+1, gameSize);
+		if (gameMap[x + 1][y + 1].isFloor()) {
+			if (!gameMap[x + 1][y].isFloor() || !gameMap[x][y + 1].isFloor()) {
+				return false;
 			}
 		}
-		
-		// Platziere mögliche Tiles für Ausgang. (Unterer, linker Quadrant)
-		public static void placeExit(int j, int gameSize){
-			boolean br = false;
-				for (int i = (gameSize-2); i > (gameSize/2 + 1); --i){
-					if (gameMap[i][j].isFloor()){
-						if(countNeighbours(i, j)< 2){
-							gameMap[i][j].setType(Exit);
-							br = true;
-							System.out.println("\nExit placed in lower left Corner\n");
-							break;
-							
-						}//if countN
-					}//if isFloor
-				}//for Innen
-				
-				if (br == false){
-					placeExit(j+1, gameSize);
-				}
-		}// Methoden Ende
-		
-
-		// Methode zum platzieren der Türen:
-		public static void placeEntry(int gameSize) {
-			gameMap[1][gameSize - 2].setType(2);
-			System.out.println("Entry placed in upper right Corner");
+		if (gameMap[x - 1][y + 1].isFloor()) {
+			if (!gameMap[x - 1][y].isFloor() || !gameMap[x][y + 1].isFloor()) {
+				return false;
+			}
 		}
+		if (gameMap[x + 1][y - 1].isFloor()) {
+			if (!gameMap[x + 1][y].isFloor() || !gameMap[x][y - 1].isFloor()) {
+				return false;
+			}
+		}
+		if (gameMap[x - 1][y + 1].isFloor()) {
+			if (!gameMap[x - 1][y].isFloor() || !gameMap[x][y + 1].isFloor()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		// floodFill der Random ein Labyrinth erstellt.
-		public static void floodFill(int x, int y, int gameSize) {
+	/**
+	 * Searches for a Tile = Floor in a quadrant, to put a Potion at this Tile. (Recursiv)
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void placePotion(int gameSize) {
+		boolean br = false;
+		for (int i = (gameSize - 2); i > ((gameSize - 2) / 2 + 1); i--) {
+			if (gameMap[i][gameSize - 2].isFloor()) {
 
-			// Zufallszahl:
-
-			int zahl = (int) ((Math.random()) * 4 + 1);
-
-			int counter = 0;
-
-			gameMap[x][y].setType(Floor);
-
-			switch (zahl) {
-
-			case 1:
-				if (edgeCheckUp(x, y, gameSize)) {
-					if (gameMap[x - 1][y].isRock()) {
-						if (countNeighbours(x - 1, y) < 2) {
-							 //if(diagNeighbours(x-1,y) < 3){
-							floodFill(x - 1, y, gameSize);
-							 //}
-
-						}
-					}
-				} else if (counter < 4) {
-					counter = counter + 1;
-					zahl = 2;
-				} else if (counter == 4) {
-					break;
-				}
-
-			case 2:
-				if (edgeCheckRight(x, y, gameSize)) {
-					if (gameMap[x][y + 1].isRock()) {
-						if (countNeighbours(x, y + 1) < 2) {
-							 //if(diagNeighbours(x,y+1) < 3){
-							floodFill(x, y + 1, gameSize);
-							 //}
-						}
-					}
-				} else if (counter < 4) {
-					counter = counter + 1;
-					zahl = 3;
-				} else if (counter == 4) {
-					break;
-				}
-
-			case 3:
-				if (edgeCheckDown(x, y, gameSize)) {
-					if (gameMap[x + 1][y].isRock()) {
-						if (countNeighbours(x + 1, y) < 2) {
-							 //if(diagNeighbours(x+1,y) < 3){
-							floodFill(x + 1, y, gameSize);
-							 // }
-						}
-					}
-				} else if (counter < 4) {
-					counter = counter + 1;
-					zahl = 4;
-				} else if (counter == 4) {
-					break;
-				}
-
-			case 4:
-				if (edgeCheckLeft(x, y, gameSize)) {
-					if (gameMap[x][y - 1].isRock()) {
-						if (countNeighbours(x, y - 1) < 2) {
-							 //if(diagNeighbours(x,y-1) < 3){
-							floodFill(x, y - 1, gameSize);
-							 //}
-						}
-					}
-				} else if (counter < 4) {
-					counter = counter + 1;
-					zahl = 1;
-				} else if (counter == 4) {
-					break;
-				}
+				gameMap[i][(gameSize - 2)].setContainsPotion(true);
+				br = true;
+				System.out.print("\nPotion placed...");
+				gameMap[i][(gameSize - 2)].isWalkable();
+				break;
 
 			}
 		}
-
-		// Test, wie das Labyrinth aussehen würde:.
-		public static void PaintTest(int gameSize) {
-			System.out.println("");
-			for (int i = 0; i < gameSize; i++) {
-				for (int j = 0; j < gameSize; j++) {
-
-					if (gameMap[i][j].isEntry()) {
-						System.out.print("S ");
-						
-					} else if (gameMap[i][j].isExit()) {
-						System.out.print("Z ");
-						
-					} else if (gameMap[i][j].containsKey())	{
-						System.out.print("K ");
-						
-					} else if (gameMap[i][j].containsPotion()) {
-						System.out.print("P ");
-						
-					} else if (gameMap[i][j].isRock()) {
-						System.out.print("+ ");
-						
-					} else if (gameMap[i][j].isFloor()) {
-						System.out.print("o ");
-						
-					}
-
-				}
-				System.out.println("");
-			}
-
-		}
-
-		public static void main(String[] args) {
-
-			System.out.println("Test\n");
-
-			generateLabyrinth(31);
-			PaintTest(31);
-
-			// Setze Manuell Start und Ziel
-
+		if (gameSize < 2) {
+			return;
+		} else if (br == false) {
+			placePotion((gameSize - 1));
 		}
 
 	}
 
+	/**
+	 * Searches for a blind alley in a quadrant, to put a Key at this blind alley. (Recursiv)
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void placeKey(int j, int gameSize) {
+		boolean br = false;
+		for (int i = 1; i < (gameSize / 2 + 1); i++) {
+			if (gameMap[i][j].isFloor()) {
+				if (countNeighbors(i, j) < 2) {
+					gameMap[i][j].setContainsKey(true);
+					br = true;
+					System.out.print("\nKey placed...");
+					gameMap[i][j].isWalkable();
+					break;
 
+				}
+			}
+		}
+
+		if (br == false) {
+			placeKey(j + 1, gameSize);
+		}
+	}
+
+	/**
+	 * Searches for a blind alley in the lower-Left quadrant, to put an exit at this blind alley. (Recursiv)
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void placeExit(int j, int gameSize) {
+		boolean br = false;
+		for (int i = (gameSize - 2); i > (gameSize / 2 + 1); --i) {
+			if (gameMap[i][j].isFloor()) {
+				if (countNeighbors(i, j) < 2) {
+					gameMap[i][j].setType(EXIT);
+					br = true;
+					System.out.println("\nExit placed in lower left Corner\n");
+					break;
+
+				}
+			}
+		}
+
+		if (br == false) {
+			placeExit(j + 1, gameSize);
+		}
+	}
+
+	/**
+	 * Places an entry at the beginning Spot of floodFill.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void placeEntry(int gameSize) {
+		gameMap[1][gameSize - 2].setType(ENTRY);
+		System.out.println("Entry placed in upper right Corner");
+	}
+
+	/**
+	 * A Random FloodFill Algorithmus.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void floodFill(int x, int y, int gameSize) {
+
+		int zahl = (int) ((Math.random()) * 4 + 1);
+
+		int counter = 0;
+
+		gameMap[x][y].setType(FLOOR);
+
+		switch (zahl) {
+
+		case 1:
+			if (edgeCheckUp(x, y, gameSize)) {
+				if (gameMap[x - 1][y].isRock()) {
+					if (countNeighbors(x - 1, y) < 2) {
+						// if(diagNeighbours(x-1,y)){
+						floodFill(x - 1, y, gameSize);
+						// }
+
+					}
+				}
+			} else if (counter < 4) {
+				counter = counter + 1;
+				zahl = 2;
+			} else if (counter == 4) {
+				break;
+			}
+
+		case 2:
+			if (edgeCheckRight(x, y, gameSize)) {
+				if (gameMap[x][y + 1].isRock()) {
+					if (countNeighbors(x, y + 1) < 2) {
+						// if(diagNeighbours(x,y+1)){
+						floodFill(x, y + 1, gameSize);
+						// }
+					}
+				}
+			} else if (counter < 4) {
+				counter = counter + 1;
+				zahl = 3;
+			} else if (counter == 4) {
+				break;
+			}
+
+		case 3:
+			if (edgeCheckDown(x, y, gameSize)) {
+				if (gameMap[x + 1][y].isRock()) {
+					if (countNeighbors(x + 1, y) < 2) {
+						// if(diagNeighbours(x+1,y)){
+						floodFill(x + 1, y, gameSize);
+						// }
+					}
+				}
+			} else if (counter < 4) {
+				counter = counter + 1;
+				zahl = 4;
+			} else if (counter == 4) {
+				break;
+			}
+
+		case 4:
+			if (edgeCheckLeft(x, y, gameSize)) {
+				if (gameMap[x][y - 1].isRock()) {
+					if (countNeighbors(x, y - 1) < 2) {
+						// if(diagNeighbours(x,y-1)){
+						floodFill(x, y - 1, gameSize);
+						// }
+					}
+				}
+			} else if (counter < 4) {
+				counter = counter + 1;
+				zahl = 1;
+			} else if (counter == 4) {
+				break;
+			}
+
+		}
+	}
+
+	/**
+	 * Checks every Tile in the Array, and prints it on the console.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void PaintTest(int gameSize) {
+		System.out.println("");
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+
+				if (gameMap[i][j].isEntry()) {
+					System.out.print("S ");
+
+				} else if (gameMap[i][j].isExit()) {
+					System.out.print("Z ");
+
+				} else if (gameMap[i][j].containsKey()) {
+					System.out.print("K ");
+
+				} else if (gameMap[i][j].containsPotion()) {
+					System.out.print("P ");
+
+				} else if (gameMap[i][j].isRock()) {
+					System.out.print("+ ");
+
+				} else if (gameMap[i][j].isFloor()) {
+					System.out.print("o ");
+
+				}
+
+			}
+			System.out.println("");
+		}
+	}
+
+	/**
+	 * A Main-Method for a Test.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void main(String[] args) {
+
+		System.out.println("Test\n");
+
+		generateLabyrinth(16);
+		PaintTest(16);
+
+	}
+
+}
