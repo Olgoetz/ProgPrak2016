@@ -2,17 +2,21 @@
 package pp2016.team19.server.engine;
 
 import pp2016.team19.shared.*;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import pp2016.team19.server.map.*;
 
 public class ServerMain {
 
 	public static void main(String[] args) {
-		//Test
-		Player player1 = new Player();
-		Game game1 = new Game(player1, 20);
-		game1.run();
+		ExecutorService serverThreadPool = Executors.newCachedThreadPool();
+		LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<Message>();
+		LinkedBlockingQueue<Message> messagesToClient = new LinkedBlockingQueue<Message>();
+		serverThreadPool.execute(new ServerEngine(serverThreadPool, messagesFromClient, messagesToClient));
 	}
-
 }
 
 

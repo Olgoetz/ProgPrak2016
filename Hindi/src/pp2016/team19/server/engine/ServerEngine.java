@@ -1,26 +1,33 @@
-ppackage pp2016.team19.server.engine;
+package pp2016.team19.server.engine;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import pp2016.team19.shared.*;
-import sharedMessages.Message;
 
 public class ServerEngine implements Runnable {
 	private LinkedBlockingQueue<Message> messagesFromClient;
 	private LinkedBlockingQueue<Message> messagesToClient;
-
-	//private LinkedBlockingQueue<Message> messagesFromGame; direkt zum Client
+	private LinkedBlockingQueue<Message> messagesToGame;
+	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
 	private String userName;
 	private String password;
 	private Player player;
-	Game game1;
+	private Game game1;
+	public ServerEngine(ExecutorService serverThreadPool,
+			LinkedBlockingQueue<Message> messagesFromClient,
+			LinkedBlockingQueue<Message> messagesToClient) {
+		this.threadPool = serverThreadPool;
+		this.messagesFromClient = messagesFromClient;
+		this.messagesToClient = messagesToClient;
+	}
 
 	public void run() {
 		while (true) {
+			
 			try {
 				Message message = this.messagesFromClient.poll(10,
 						TimeUnit.MILLISECONDS);
@@ -31,12 +38,13 @@ public class ServerEngine implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 	}
 	
 	public void distributor(Message message) {
-		switch(message.type) {
+		switch(message.getType()) {
 		case 0:
-			switch(message.subType) {
+			switch(message.getSubType()) {
 			case 0: 
 				this.ConnectionRequest(message);
 				break;
@@ -62,7 +70,8 @@ public class ServerEngine implements Runnable {
 			break;
 			}
 		}
-	}
+
+	
 	//Sends Player Commands to Game
 	private void sendToGame(Message message) {
 		try {
@@ -74,9 +83,33 @@ public class ServerEngine implements Runnable {
 	}
 	private void signInRequest(Message message) {
 		if(message.userName==this.userName && message.password==this.password) {
-			game1=new Game(player, 30);
+			messagesToGame = new LinkedBlockingQueue<Message>();
+			game1=new Game(player, 30, messagesToGame);
 			game1.run();
+			this.messagesToClient.addElement(MessSignInAnswer(true,type,subtype));
+		} else {
+			this.messagesToClient.addElement(MessSignInAnswer(false,type,subtype));
 		}
+		
+	}
+	private void signOffRequest(Message message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void signOutRequest(Message message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void signUpRequest(Message message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void ConnectionRequest(Message message) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 	

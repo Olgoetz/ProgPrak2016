@@ -1,8 +1,6 @@
 package pp2016.team19.server.engine;
 
 import pp2016.team19.shared.*;
-import sharedMessages.Message;
-
 import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,17 +10,18 @@ import pp2016.team19.server.map.*;
 
 public class Game implements Runnable {
 	LinkedBlockingQueue<Message> messagesFromServer;
-	private Tile[][] gameMap;
-	private Player player;
+	LinkedBlockingQueue<Message> messagesToEngine;
+	Tile[][] gameMap;
+	Player player;
 	private int gameSize;
-	private Vector Monsters = new Vector();
+	Vector<Monster> Monsters = new Vector();
 	int levelNumber=1;
-	private GameEngine engine = new GameEngine();
 	private Timer tick;
 	//Konstruktor
-	public Game(Player player, int gameSize) {
+	public Game(Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
+		this.messagesFromServer = messagesFromServer;
 	}
 	//Test
 	public void run() {
@@ -41,22 +40,32 @@ public class Game implements Runnable {
 		}
 	}
 	public void distributor(Message message) {
-		switch(message.subType) {
+		switch(message.getSubType()) {
 		case 14: //OpenDoorRequest
-			if (player.HasKey) {
+			if (player.hasKey()) {
 			levelNumber++;
-			setLevel(levelNumber);
+			newLevel(levelNumber);
 			}
 			break;
 		default: //Player Command
-			engine.messagesFromGame.put(message);
+			try {
+				this.messagesToEngine.put(message);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 			
 			
 		
 		}
-	public void setLevel(int levelNumber) {
+	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generateLabyrinth(gameSize);
-		Monsters = Labyrinth.placeMonsters(gameMap, levelNumber);
+		//Monsters = Labyrinth.placeMonsters(gameMap, levelNumber); Needs Input
+	}
+//Getters
+
+	public Player getPlayer() {
+		return player;
 	}
 }
