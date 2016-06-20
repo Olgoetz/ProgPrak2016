@@ -40,7 +40,12 @@ public class GameField extends JPanel {
 			System.err.println("Error while loading one of the images.");
 		}
 	}
-
+	
+	/**
+	* Paints the gamefield including the map, player, items and monsters. This method also includes the FSM,
+	* which decides what the monster should do next (regenerate health, flee or move to the player & attack).
+	* @author FEEEEEEEEEE
+	* @author Strohbuecker, Max, 5960738 */
 	public void paint(Graphics g) {
 		
 		// First, everything is going to be overpainted while repainting
@@ -89,7 +94,7 @@ public class GameField extends JPanel {
 				}
 			}
 		}
-
+		
 		// Draw the monsters at their specific position
 		for (int i = 0; i < window.monsterList.size(); i++) {
 			Monster m = window.monsterList.get(i);

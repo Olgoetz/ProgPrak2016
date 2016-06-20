@@ -67,7 +67,7 @@ public class Monster extends Character {
 		}
 	}
 	/**
-	* saves the actual position of the player in an array
+	* Saves the actual position of the player in an array
 	* * @author Strohbuecker, Max, 5960738 */
 	public void updatePlayerPos() {
 		this.lastPlayerPos[0] = this.player.getXPos();
@@ -108,10 +108,17 @@ public class Monster extends Character {
 		}
 	}
 	
+	/**
+	* Calculates the percentage of when the monster is able to attack again
+	* @return returns the cooldown rate
+	* @author Strohbuecker, Max, 5960738 */
 	public double cooldownRate(){		
 		return 1.0*(System.currentTimeMillis() - lastAttack)/cooldownAttack;
 	}
 	
+	/**
+	* Regenerates the health of a monster
+	* @author Strohbuecker, Max, 5960738 */
 	public void regenerate(){
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
 		if(nextWalk && this.getHealth() < this.getMaxHealth())
@@ -119,6 +126,12 @@ public class Monster extends Character {
 		
 	}
 	
+	/**
+	* Moves the monster to the player. If the playerPos has changed, it calls the AStar to calculate a path to him
+	* and the monster goes the first step of the path. Otherwise the monster should go further the calculated path.
+	* @return returns true if the movement was successful, returns false if there was an error while changing direction
+	* or validating the next step
+	* @author Strohbuecker, Max, 5960738 */
 	// Move the monster
 	public boolean moveToPlayer(){
 		 boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
@@ -140,13 +153,16 @@ public class Monster extends Character {
 						case 3 : moveLeft(); break;
 					}
 					lastStep = System.currentTimeMillis();
-				}
-		}else{
-			return false;			
+				}else{
+					return false;
+				}			
 		}
 		return true;
 	}
 	
+	/**
+	* Compares the position of the player to the position of the monster and moves the monster in the other way.
+	* @author Strohbuecker, Max, 5960738 */
 	public void flee(){
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
 		if(nextWalk){
@@ -200,7 +216,11 @@ public class Monster extends Character {
 		}
 	}
 	
-	// Change the running direction of the monster
+	/**
+	* Removes the next Step of the AStarPath and changes the running direction of the monster
+	* @return returns true if the change was successful, returns false if the next step is not next
+	* to the monster position
+	* @author Strohbuecker, Max, 5960738 */
 	public boolean changeDir(){
 		Node nextNode = AStarPath.removeFirst();
 		if(nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos()-1){
@@ -212,11 +232,20 @@ public class Monster extends Character {
 		} else if(nextNode.getXPos() == this.getXPos()-1 && nextNode.getYPos() == this.getYPos()){
 			dir = 3;
 		} else {
+			System.out.println("Error while changing direction: Next step is not next to the monster");
 			return false;
 		}
 		return true;
 	}
 	
+	/**
+	* A-Star-Algorithm to search for the player.
+	* @param xStart x-coordinate of the starting point
+	* @param yStart y-coordinate of the starting point
+	* @param xGoal x-coordinate of the goal
+	* @param yGoal x-coordinate of the goal
+	* @return returns the calculated path
+	* @author Strohbuecker, Max, 5960738 */
 	// A-Star-Algorithm to search for the player
 	public LinkedList<Node> AStarSearch (int xStart, int yStart, int xGoal, int yGoal){
 		ArrayList<Node> openList = new ArrayList<Node>();
@@ -232,7 +261,7 @@ public class Monster extends Character {
 			// Find the cheapest node in the openList
 			cheapest = openList.get(0);
 			for(Node node : openList){
-				if (node.getCalculatedCosts() < cheapest.getCalculatedCosts()){
+				if (node.getTotalCosts() < cheapest.getTotalCosts()){
 					cheapest = node;
 				}
 			}
@@ -293,14 +322,14 @@ public class Monster extends Character {
 					for (Node checkOpen : openList){
 						if (checkOpen.getXPos() == neighbors[k].getXPos() && checkOpen.getYPos() == neighbors[k].getYPos()){
 							// Neighbor already in the openList
-							if(checkOpen.getCalculatedCosts() <= neighbors[k].getCalculatedCosts())
+							if(checkOpen.getTotalCosts() <= neighbors[k].getTotalCosts())
 								skipNode = true;
 						}
 					}
 					for (Node checkClosed : closedList){
 						if (checkClosed.getXPos() == neighbors[k].getXPos() && checkClosed.getYPos() == neighbors[k].getYPos()){
 							// Neighbor already in the closedList
-							if(checkClosed.getCalculatedCosts() <= neighbors[k].getCalculatedCosts())
+							if(checkClosed.getTotalCosts() <= neighbors[k].getTotalCosts())
 								skipNode = true;
 						}
 					}
@@ -322,10 +351,18 @@ public class Monster extends Character {
 		return path;
 	}
 	
+	/**
+	* Returns the type of the monster. 0 - spawns at beginning, 1 - spawns after taking the key
+	* @return type of the monster
+	* @author Strohbuecker, Max, 5960738 */
 	public int getType(){
 		return type;
 	}
 	
+	/**
+	* Checks, whether the next step is valid.
+	* @return returns false if the next step is blocked by a wall, door or key
+	* @author Strohbuecker, Max, 5960738 */
 	// Check whether the next step is valid
 	private boolean valid(){
 		if(dir == -1) return true;
@@ -347,7 +384,10 @@ public class Monster extends Character {
 				   !(window.level[getXPos()-1][getYPos()] instanceof Door) &&
 				   !(window.level[getXPos()-1][getYPos()] instanceof Key);
 		}
-		else return false;
+		else{
+			System.out.println("Error while validating step: Next step blocked by a wall, door or key.");
+			return false;
+		}
 	}
 	
 }
