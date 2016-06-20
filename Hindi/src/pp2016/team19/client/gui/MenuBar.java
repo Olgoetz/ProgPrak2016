@@ -13,7 +13,8 @@ import gui.GameWindow;
 public class MenuBar extends JMenuBar implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	// menubar push fee 
 	// JMenus 
     private JMenu game;
     private JMenu show;
