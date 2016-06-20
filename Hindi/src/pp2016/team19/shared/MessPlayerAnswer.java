@@ -14,16 +14,11 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	private static final long serialVersionUID = 3578181825991876365L;
 	private Player myPlayer;
 	
-	public MessPlayerAnswer(int NumberOfPoitions, int effect, int health,
-								int x, int y, int maxHealth, Image img, int type, int subType) {
+	public MessPlayerAnswer(Player myPlayer, int type, int subType) {
 		
 		super(type, subType);
 		
-		myPlayer.setPos(x, y);
-		myPlayer.setHealth(maxHealth);
-		myPlayer.setNumberOfPotions(NumberOfPoitions);
-		myPlayer.setImage(img);
-		myPlayer.setMaxHealth(maxHealth);
+		this.myPlayer = myPlayer;
 	}
 	
 	public Player getMyPlayer() {
