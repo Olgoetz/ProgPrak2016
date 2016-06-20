@@ -1,134 +1,200 @@
 package pp2016.team19.server.map;
-import pp2016.team19.server.map.*;
 
-import java.util.Vector;
+/**
+ * Generally:
+ * 
+ * 		Its a data structure called Tile, used in class called Labyrinth.
+ * 
+ * Class Tile contains:
+ * 
+ * 		4 Attributes called: 	type ("Is the type of the Tile") 									
+ * 								containsKey ("Does the Tile contain a Key?") 
+ * 								containsPotion ("Does the Tile contain a Potion?") 
+ * 								contains Monster ("Does the Tile contain a Monster?")
+ * 
+ * 		7 Constants: 			Which represent the types and contants.
+ * 
+ * 		4 Setter methods: 		They set for example the type of the Tile 
+ * 								or if a Tile contains a Potion.
+ * 
+ * 		8 Other methods: 		For example, check if a Tile is of the type ROCK. 
+ * 								Or if a Tile is walkable.
+ * 
+ * @author < Czernik, Christof, 5830621 >
+ */
 
+public class Tile {
 
-import java.util.*;
+	/**
+	 * 4 Attributes
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
 
-import java.util.Vector;
+	// Attribute, 	("Is the type of the Tile")
+	public int type;
+	// Attribute,	("Does the Tile contain a Key?")
+	public boolean containsKey = false;
+	// Attribute, 	("Does the Tile contain a Potion?")
+	public boolean containsPotion = false;
+	// Attribute,	("Does the Tile contain a Monster?")
+	public boolean containsMonster = false;
 
-
-import java.util.*;
-
-public class Tile{
-		
-		public int Type;
-		public boolean ContainsKey = false;
-		public boolean ContainsPotion = false;
-		public boolean ContainsMonster = false;
-		
-		public static final int Rock = 1;
-		public static final int Floor = 0;
-		public static final int Entry = 2;
-		public static final int Exit = 3;
-		
-		public static final int Key = 11;
-		public static final int Potion = 12;
-		public static final int Monster = 13;
-		
-		
-		
-		private Vector<Content> content = null;
-		
+	/**
+	 * 7 Constants
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
 	
-		
-		
-		
-		
-		
-		// Input = Rock, Floor, Door, 
-		public void setType(int input){
-			Type = input;
-		}
-		
-		
-		
-		public boolean isRock(){
-			
-			if (Type == Rock){
-				return true;
-			}
-			
-			return false;
-		}
-		
-		public boolean isFloor(){
-			
-			if (Type == Floor){
-				return true;
-			}
-			
-			return false;
-		}
-		
-		public boolean isEntry(){
-			
-			if (Type == Entry){
-				return true;
-			}
-			return false;
-		}
-		
-		public boolean isExit(){
-			
-			if (Type == Exit){
-				return true;
-			}
-			return false;
-		}
-		
-		
-		
-		
-		// Schlüssel Methoden:
-		public void setContainsKey(boolean input){
-			ContainsKey = input;
-		}
-		
-		public boolean containsKey(){
-			return ContainsKey;
-		}
-		
-		
-		// Potion Methoden:
-		public boolean containsPotion(){
-			return ContainsPotion;
-		}
-		
-		public void setContainsPotion(boolean input){
-			ContainsPotion = input;
-		}
-		
-		
-		
-		
-		// Monster Methoden:
-		public boolean containsMonster(){
-			
-			return ContainsMonster;
-		}
-		
-		public void setContainsMonster(boolean input){
-			ContainsMonster = input;
-		}
-		
-		
-		
-		// Walkable Methoden
+	public static final int ROCK = 1;
+	public static final int FLOOR = 0;
+	public static final int ENTRY = 2;
+	public static final int EXIT = 3;
 
-		public boolean isWalkable(){
-			if(Type == Floor || Type == Entry || Type == Exit ){
-				System.out.println("and is walkable");
-				return true;
-			}
-			return false;
-		}
+	public static final int KEY = 11;
+	public static final int POTION = 12;
+	public static final int MONSTER = 13;
+	
+	/**
+	 * Setter method, which sets the type of Tile
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public void setType(int input) {
 		
+		type = input;
+		
+	}
 
+	/**
+	 * Method, which returns a boolean, if a Tile is of type ROCK or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public boolean isRock() {
+
+		if (type == ROCK) {
+			return true;
+		}
+		return false;
 	}
 	
-	
-	
+	/**
+	 * Method, which returns a boolean, if a Tile is of type FLOOR or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
 
+	public boolean isFloor() {
 
+		if (type == FLOOR) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method, which returns a boolean, if a Tile is of type ENTRY or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public boolean isEntry() {
+
+		if (type == ENTRY) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Method, which returns a boolean, if a Tile is of type EXIT or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+
+	public boolean isExit() {
+
+		if (type == EXIT) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Setter method, which sets a Tile to contain a Key or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	public void setContainsKey(boolean input) {
+		containsKey = input;
+	}
+
+	/**
+	 * Setter method, which sets a Tile to contain a Potion or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public void setContainsPotion(boolean input) {
+		containsPotion = input;
+	}
+	
+	/**
+	 * Setter method, which sets a Tile to contain a Monster or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public void setContainsMonster(boolean input) {
+		containsMonster = input;
+	}
+	
+	/**
+	 * Getter Method, which returns a boolean if a Tile contains a Key or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public boolean containsKey() {
+		return containsKey;
+	}
+
+	/**
+	 * Getter Method, which returns a boolean if a Tile contains a Potion or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public boolean containsPotion() {
+		return containsPotion;
+	}
+
+	/**
+	 * Getter Method, which returns a boolean if a Tile contains a Monster or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public boolean containsMonster() {
+
+		return containsMonster;
+	}
+
+	/**
+	 * Getter Method, which returns a boolean if a Tile is walkable or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+
+	public boolean isWalkable() {
+		if (type == FLOOR || type == ENTRY || type == EXIT) {
+			return true;
+		}
+		return false;
+	}
+
+} // Class End.
