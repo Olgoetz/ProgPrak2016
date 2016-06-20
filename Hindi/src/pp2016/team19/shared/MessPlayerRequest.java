@@ -8,7 +8,7 @@ public class MessPlayerRequest extends Message implements Serializable {
 	 * @author Oliver Goetz, 5961343
 	 * @parameter player
 	 * 
-	 * Move Request to server.
+	 * Player Request to server.
 	 */
 	private static final long serialVersionUID = -7001895885835235328L;   
 	private Player player;
