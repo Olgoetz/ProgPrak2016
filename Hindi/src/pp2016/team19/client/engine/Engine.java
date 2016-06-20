@@ -252,7 +252,7 @@ public class Engine implements Runnable {
 	public void moveCharacterRequest() {
 		
 		
-		//this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
+//		this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
 	System.out.println("Message sent");
 	} 
 	
@@ -309,27 +309,56 @@ public class Engine implements Runnable {
 //	}
 //	
 //	
-//	// ********** TYPE = 1 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
-//	
-//	public void levelRequest(Message pMessage){
-//		System.out.println("METHOD Egnine.levelRequest:" + pMessage.toString());
-//		this.sendToServer(pMessage);
-//	}
-//	
-//	public void levelAnswer(Message pMessage) {
-//		System.out.println("METHOD Egnine.levelAnswerr:" + pMessage.toString());
-//	}
-//	
-//	public void updateMonsterRequest(Message pMessage) {
-//		System.out.println("METHOD Egnine.updateMonserRequest:" + pMessage.toString());
-//	}
-//	
-//	public void updateMonsterAnswer(Message pMessage) {
-//		System.out.println("METHOD Egnine.updateMonserAnswer:" + pMessage.toString());
-//	}
-//	
-//	
-//	
+	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
+	
+	
+	
+	public void playerRequest() {
+		
+		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
+	}
+	
+	public void playerAnswer(Message pMessage) {
+		
+		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
+		
+		myPlayer.xPos = message.getMyPlayer().xPos;
+		myPlayer.yPos = message.getMyPlayer().yPos;
+		myPlayer.setHealth(message.getMyPlayer().getHealth());
+		myPlayer.setImage(message.getMyPlayer().getImage());
+		myPlayer.setNumberOfPotions(message.getMyPlayer().getNumberOfPotions());
+	
+		
+		
+	}
+	
+	
+	public void levelRequest(Message pMessage){
+		System.out.println("METHOD Egnine.levelRequest:" + pMessage.toString());
+		this.sendToServer(pMessage);
+	}
+	
+	public void levelAnswer(Message pMessage) {
+		System.out.println("METHOD Egnine.levelAnswerr:" + pMessage.toString());
+	}
+	
+	public void updateMonsterRequest(Message pMessage) {
+		System.out.println("METHOD Egnine.updateMonserRequest:" + pMessage.toString());
+	}
+	
+	public void updateMonsterAnswer(Message pMessage) {
+		System.out.println("METHOD Egnine.updateMonserAnswer:" + pMessage.toString());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/***
 	 * @author Oliver Goetz, 596313
 	 * 
