@@ -164,9 +164,3 @@ public class MiniField extends JPanel {
 	}
 	
 }
- 
-
-
-
-
-}

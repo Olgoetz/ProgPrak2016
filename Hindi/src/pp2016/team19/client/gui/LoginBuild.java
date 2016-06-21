@@ -211,5 +211,3 @@ public class LoginBuild extends JFrame {
 
 
 		}
-
-}
