@@ -23,7 +23,6 @@ public class Game implements Runnable {
 	private Timer tick;
 	ServerEngine engine;
 	boolean stop = false;
-	//bla
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
