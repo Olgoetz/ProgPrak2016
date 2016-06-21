@@ -101,7 +101,7 @@ public class Labyrinth {
 		// Places a Potion.
 		placePotion(gameSize);
 
-		// Places a Monster.
+		// Places a number of Monster.
 		placeMonster(gameSize,2);
 
 		return gameMap;
