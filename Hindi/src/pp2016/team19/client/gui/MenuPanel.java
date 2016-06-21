@@ -21,6 +21,7 @@ public class MenuPanel extends JPanel{
 	JButton start = new JButton("Start");
 	JButton highscore = new JButton("Highscore");
 	JButton quit = new JButton("Quit");
+	
 	JTextField name = new JTextField("Player One");
 	
 	GameWindow window;
@@ -64,7 +65,7 @@ public class MenuPanel extends JPanel{
 				window.showHighscore();
 			}	
 		});
-		//highscore.setPreferredSize(new Dimension(200,50));
+		
 		
 		// Quit-Button
 		quit.addActionListener(new ActionListener(){

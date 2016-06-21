@@ -47,6 +47,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 
 	private boolean playerInHighscore = false;
 	public boolean highscoreShown = false;
+	public boolean controlsShown = false;
 
 	public final int MAXLEVEL = 5;
 	public final int WIDTH = 16;
@@ -93,12 +94,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public void showGameField() {
 		// Remove everything
 		highscoreShown = false;
+		controlsShown = false;
 		this.remove(highscore);
 		this.remove(controls);
 		// Create the gamefield
 		this.add(gamefield, BorderLayout.CENTER); 
 		this.add(statusbar, BorderLayout.EAST);
-		
 		this.add(menubar, BorderLayout.NORTH);
 		// Activate the finished gamefield
 		this.requestFocus();
@@ -121,6 +122,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 
 	public void showControls() {
 		// Remove everything
+		controlsShown= true;
 		highscoreShown = false;
 		this.remove(gamefield);
 		this.remove(statusbar);
@@ -132,13 +134,15 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.pack();
 		controls.repaint();
 	}
+	
+	
 
 
 	// Getter for gamefield and statusbar
 	public GameField getGameField() {return gamefield;}
 	public Statusbar getStatusbar() {return statusbar;}
 	public Highscore getHighscore() {return highscore;}
-	// what about control?
+	public Controls getControls(){return controls;}
 
 	
 	public void mouseClicked(MouseEvent m) {
