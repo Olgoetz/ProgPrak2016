@@ -96,35 +96,37 @@ public class GameField extends JPanel {
 			boolean event = window.player.hasKey();
 			
 			// At this point, an FSM is deciding, what the monster should do
-			if(event && !m.attackPlayer(event)){
-				// Player has the key - every monster walks to the player and attacks him
-				m.moveToPlayer();
-			}else if(event && m.attackPlayer(event)){
-				int box = window.BOX;
-				Player s = window.player;
-				
-				double p = m.cooldownRate();
-				g.setColor(Color.RED);
-				g.drawImage(fireball, (int)(((1-p) * m.getXPos() + (p) * s.getXPos())*box) + box/2, 
-						   (int)(((1-p) * m.getYPos() + (p) * s.getYPos())*box) + box/2, 8, 8, null);
-			}else if(!inRange(m.getXPos(),m.getYPos())){
-				// Monster is out of range and should regenerate health
-				m.regenerate();
-			}else if(m.getHealth() <= m.getMaxHealth()/4){
-				// Monster is in range but has low HP
-				m.flee();
-			}else if(m.attackPlayer(event)){
-				int box = window.BOX;
-				Player s = window.player;
-				
-				double p = m.cooldownRate();
-				g.setColor(Color.RED);
-				g.drawImage(fireball, (int)(((1-p) * m.getXPos() + (p) * s.getXPos())*box) + box/2, 
-						   (int)(((1-p) * m.getYPos() + (p) * s.getYPos())*box) + box/2, 8, 8, null);
-			}else if(m.getType() == 0){
-				// Monster spawned from beginning, is in range and should move to the player to attack him
-				m.moveToPlayer();
-			}
+			
+			m.move();
+//			if(event && !m.attackPlayer(event)){
+//				// Player has the key - every monster walks to the player and attacks him
+//				m.moveToPlayer();
+//			}else if(event && m.attackPlayer(event)){
+//				int box = window.BOX;
+//				Player s = window.player;
+//				
+//				double p = m.cooldownRate();
+//				g.setColor(Color.RED);
+//				g.drawImage(fireball, (int)(((1-p) * m.getXPos() + (p) * s.getXPos())*box) + box/2, 
+//						   (int)(((1-p) * m.getYPos() + (p) * s.getYPos())*box) + box/2, 8, 8, null);
+//			}else if(!inRange(m.getXPos(),m.getYPos())){
+//				// Monster is out of range and should regenerate health
+//				m.regenerate();
+//			}else if(m.getHealth() <= m.getMaxHealth()/4){
+//				// Monster is in range but has low HP
+//				m.flee();
+//			}else if(m.attackPlayer(event)){
+//				int box = window.BOX;
+//				Player s = window.player;
+//				
+//				double p = m.cooldownRate();
+//				g.setColor(Color.RED);
+//				g.drawImage(fireball, (int)(((1-p) * m.getXPos() + (p) * s.getXPos())*box) + box/2, 
+//						   (int)(((1-p) * m.getYPos() + (p) * s.getYPos())*box) + box/2, 8, 8, null);
+//			}else if(m.getType() == 0){
+//				// Monster spawned from beginning, is in range and should move to the player to attack him
+//				m.moveToPlayer();
+//			}
 
 			// Draw the monster, if it's present from the beginning on
 			if (m.getType() == 0) drawMonster(g,m);
