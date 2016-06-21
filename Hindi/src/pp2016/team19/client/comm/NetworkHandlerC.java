@@ -16,112 +16,58 @@ import pp2016.team19.shared.Message;
 import pp2016.team19.shared.TestMessage;
 
 public class NetworkHandlerC {
-
-	private Socket server;
-	private LinkedBlockingQueue<Message> messagesFromServer;
-	private LinkedBlockingQueue<Message> messagesToServer;
-	private ObjectOutputStream out;
-	private ObjectInputStream in;
-	private TestMessage test;
-//	private int clientID;
-//	private Timer pingTimer;
 	
+	public LinkedBlockingQueue<Message> outputQueue = new LinkedBlockingQueue<>();
+	private Socket server;
+	private NetworkReceiverC receiver;
+	private NetworkTransmitterC transmitter;
 
-	/*LinkedBlockingQueue<Message> pMessagesFromServer,
-			LinkedBlockingQueue<Message> pMessagesToServer*/
 	public NetworkHandlerC() {
 
-//		this.messagesFromServer = pMessagesFromServer;
-//		this.messagesToServer = pMessagesToServer;
-//		this.clientID = -1;
-//		this.pingTimer = new Timer();
-		test = new TestMessage(1,2, "Ich bin ein Test!");
 		while (this.server == null) {
 			try {
-
 				// this.server = new Socket("62.143.243.85", 33333);
+				System.out.println("NetworkHandlerClient.NetworkHandlerC()");
 				this.server = new Socket("localhost", 44444);
-				in = new ObjectInputStream(server.getInputStream());
-				out = new ObjectOutputStream(server.getOutputStream());
-				out.writeObject(test);
-
 			} catch (UnknownHostException e) {
-				System.out.println("ERROR: NetworkService 1");
+				System.out.println("ERROR: NetworkHandlerClient ");
 				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println("ERROR: >>>>>>>>>>NetworkService 2 SERVER UNREACHABLE<<<<<<<<<<");
+				System.out.println("ERROR: >>>>>>>>>>NetworkHandlerClient SERVER UNREACHABLE<<<<<<<<<<");
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-						"Verbindung zum Server kann nicht aufgebaut werden! \n\n Bitte ueberpruefen Sie: \n 1. Ist der Spiel-Server gestartet? \n 2. Ist die richtige Serveradresse in Ihrem Client eingestellt? \n 3. Stimmen die Ports in Server und Client ueberein? \n\n Starten Sie das Spiel anschliessend neu!",
-						"Verbindungfehler 1!", JOptionPane.ERROR_MESSAGE);
+						"Connection server cannot be built! \n\n Please check : \n 1. The game-server is started? \n 2. The client follows the appropriate serveraddress? \n 3. The server-port and the client-port do match? \n\n Start the game again afterwards!",
+						"Connection-Error!", JOptionPane.ERROR_MESSAGE);
 				System.exit(0);
 			}
 		}
-//		this.startNetworkComponents();
+		startComponents();
 	}
-//
-//	public void startNetworkComponents() {
-//
-//		this.getThreadPool().execute(new NetworkTransmitterC(this));
-//		this.getThreadPool().execute(new NetworkReceiverC(this));
-//		this.getPingTimer().scheduleAtFixedRate(new NetworkPingCheckC(this), 3000, 3000);
-//	}
 
+	private void startComponents(){
+		System.out.println("NetworkHandlerClient.startComponents()");
+		transmitter = new NetworkTransmitterC(server);
+		receiver = new NetworkReceiverC(server);
+		transmitter.start();
+		receiver.start();
+	}
+	
+	public Socket getServer() {
+		return server;
+	}
+	public void setServer(Socket server) {
+		this.server = server;
+	}
+	public void sendMessageToServer(Message message){
+		System.out.println("NetworkHandlerClient.sendMessageToServer()");
+		transmitter.writeMessage(message);
+	}
+	public Message getMessageFromServer(){
+		return receiver.getMessage();
+	}
+	
+	public LinkedBlockingQueue<Message> getOutputQueue(){
+		return this.outputQueue = transmitter.getQueueMessagesToServer();
+	}
 
-
-//	public void close(String message, String title) {
-//
-//		try {
-//			System.out.println("CLOSED: NetworkHandler");
-//			this.setStopNetwork(true);
-//			this.getPingTimer().cancel();
-//			this.getServer().close();
-//			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message, title, JOptionPane.ERROR_MESSAGE);
-//			System.exit(1);
-//		} catch (IOException e) {
-//			System.out.println("ERROR: NETWORKHANDLER 3");
-//			e.printStackTrace();
-//		}
-//	}
-
-
-//	Socket getServer() {
-//		return server;
-//	}
-//
-//	private void setServer(Socket server) {
-//		this.server = server;
-//	}
-//
-//	LinkedBlockingQueue<Message> getMessagesFromServer() {
-//		return messagesFromServer;
-//	}
-//
-//	private void setMessagesFromServer(LinkedBlockingQueue<Message> messagesFromServer) {
-//		this.messagesFromServer = messagesFromServer;
-//	}
-//
-//	LinkedBlockingQueue<Message> getMessagesToServer() {
-//		return messagesToServer;
-//	}
-//
-//	private void setMessagesToServer(LinkedBlockingQueue<Message> messagesToServer) {
-//		this.messagesToServer = messagesToServer;
-//	}
-//
-//	public int getClientID() {
-//		return clientID;
-//	}
-//
-//	void setClientID(int clientID) {
-//		this.clientID = clientID;
-//	}
-//
-//	Timer getPingTimer() {
-//		return pingTimer;
-//	}
-//
-//	private void setPingTimer(Timer pingTimer) {
-//		this.pingTimer = pingTimer;
-//	}
 }
