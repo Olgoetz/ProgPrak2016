@@ -45,6 +45,10 @@ public class MenuBuild extends JFrame implements ActionListener{
 		b2 = new JButton("Show Highscore");	
 		b3 = new JButton ("Logout");
 		
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		b3.addActionListener(this);
+		
 		this.add(b1);
 		this.add(b2);
 		this.add(b3);		
