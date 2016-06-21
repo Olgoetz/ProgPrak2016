@@ -9,6 +9,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import pp2016.team19.server.map.*;
 
+/** 
+ * Server Main, used to execute the Server Engine
+ * 
+ * @author Tobias Schrader
+ */
 public class ServerMain {
 
 	public static void main(String[] args) {
@@ -16,6 +21,7 @@ public class ServerMain {
 		LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<Message>();
 		LinkedBlockingQueue<Message> messagesToClient = new LinkedBlockingQueue<Message>();
 		serverThreadPool.execute(new ServerEngine(serverThreadPool, messagesFromClient, messagesToClient));
+		NetworkHandlerS network = new NetworkHandlerS();
 	}
 }
 
