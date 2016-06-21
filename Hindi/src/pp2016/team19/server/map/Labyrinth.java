@@ -43,6 +43,8 @@ package pp2016.team19.server.map;
  * @author < Czernik, Christof Martin, 5830621 >
  */
 
+import java.util.Vector;
+
 public class Labyrinth {
 
 	/**
@@ -102,7 +104,7 @@ public class Labyrinth {
 		placePotion(gameSize);
 
 		// Places a Monster.
-		// placeMonster();
+		placeMonster(gameSize);
 
 		return gameMap;
 	}
@@ -276,6 +278,53 @@ public class Labyrinth {
 		}
 
 	}
+	
+	/**
+	 * Searches for a random walkable Tile in a quadrant, to put a Monster at this Tile (Recursiv)
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void placeMonster(int gameSize){
+		
+		// create Vector, for possible monster Tiles
+		int[] possibleMonsterPlaces = new int[gameSize*gameSize];
+	
+		// Counter-Variable
+		int counter = 0;
+		int x;
+		int y;
+		
+		// put all Floor-Tiles indizes in an int Array
+		for (int i = 1; i < gameSize; i++){
+			for (int j = 1; j < gameSize; j++){
+				if(gameMap[i][j].isFloor()){
+					if(!gameMap[i][j].containsMonster()){
+					possibleMonsterPlaces[counter] = i;
+					possibleMonsterPlaces[counter + 1] = j;
+					counter = counter + 2;
+					}
+				}	
+			}
+		}
+		
+		// Random number to get a random floor
+		int number = (int) ((Math.random()) * counter + 1);
+		
+		// Gets the x and y Coordinate of gameMap
+		if (number%2 != 0){
+			x = possibleMonsterPlaces[number];
+			y = possibleMonsterPlaces[number + 1];
+		}
+		else{
+			y = possibleMonsterPlaces[number];
+			x = possibleMonsterPlaces[number + 1];
+		}
+		
+		// sets the Tile where the monster spawns True.
+		gameMap[x][y].setContainsMonster(true);
+	
+	}
 
 	/**
 	 * Searches for a blind alley in a quadrant, to put a Key at this blind alley. (Recursiv)
@@ -340,7 +389,7 @@ public class Labyrinth {
 	}
 
 	/**
-	 * A Random FloodFill Algorithmus.
+	 * A Random FloodFill Algorithm.
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */

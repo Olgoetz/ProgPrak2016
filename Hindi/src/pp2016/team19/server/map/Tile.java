@@ -46,11 +46,13 @@ public class Tile {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
+	// Constants for attribute type
 	public static final int ROCK = 1;
 	public static final int FLOOR = 0;
 	public static final int ENTRY = 2;
 	public static final int EXIT = 3;
 
+	// Constants for other attributes
 	public static final int KEY = 11;
 	public static final int POTION = 12;
 	public static final int MONSTER = 13;
