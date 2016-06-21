@@ -74,7 +74,7 @@ public class Game extends TimerTask {
 		}
 	private void messageTester(Message message) { //Testing
 		System.out.println(message.toString());
-		Message answer = (MessPlayerAnswer) new MessPlayerAnswer(player,1,18);
+		Message answer = (TestMessage) new TestMessage(1,18,"Answering Test");
 		try {
 			engine.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
