@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
@@ -17,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 
-public class LoginBuild extends JFrame {
+public class LoginBuild extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -27,6 +28,7 @@ public class LoginBuild extends JFrame {
 	private JPasswordField passwordField_2;
 	private JButton LogButton;
 	private JButton RegButton;
+
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
@@ -67,6 +69,7 @@ public class LoginBuild extends JFrame {
 		tabbedPane.addTab("Login", null, LoginPanel, null);
 		LoginPanel.setLayout(new GridLayout(5, 0, 5, 5)); //z Zeilen,s Spalten, abstaende
 		// LoginPanel.setBackground( Color.RED );
+		getContentPane().add(LoginPanel);
 		
 		
 		// add username label
@@ -91,8 +94,8 @@ public class LoginBuild extends JFrame {
 		// add login button
 		LogButton = new JButton("Login");
 		LogButton.setBounds(10, 185, 169, 23);
-		LoginPanel.add(LogButton);
-		
+		LogButton.addActionListener(this); 	
+		LoginPanel.add(LogButton);	
 
 		// RegisterPanel erstellt
 		JPanel RegisterPanel = new JPanel();
@@ -131,58 +134,69 @@ public class LoginBuild extends JFrame {
 		RegButton.setBounds(10, 185, 169, 23);
 		RegisterPanel.add(RegButton);
 				
-		// add ButtonListener object to buttons 
-		ButtonListener bL = new ButtonListener(textField_1, passwordField_1);
-		LogButton.addActionListener(bL);
-		RegButtonListener rL = new RegButtonListener(textField_1, passwordField_1, passwordField_2);
-		RegButton.addActionListener(rL);	
-	}
-	 
-	}
+		
 	
 	// plan: here implement method that login worked, after checking username and pw, then open the gamewindow automatically 
-	
-		// ButtonListener class within: what happens after clicking the button login 
-		class ButtonListener implements ActionListener {
 		
+	}
+	
+	
+	public void actionPerformed(ActionEvent ae) {
+		if(ae.getSource()==LogButton){	
+	String username = textField_1.getText();  //JTextfield
+	String password = passwordField_1.getText();		//JPasswordField
+	if(username.equals("user") && password.equals("123")) {
+		System.out.println("login successful");
+	}else{
+//		JOptionPane.showMessageDialog(null, "Wrong Username or Password");
+		System.out.println("Wrong Username or Password");
+	}		
+	}
+	
+}
+}
 
-		private String user;
-		private String pw;
-	LoginBuild	lg= new LoginBuild();
-		public ButtonListener(JTextField text, JPasswordField pw){
 			
-			
-			this.user = text.getText();
-			this.pw = pw.getText();
-		}
-			
-			public void actionPerformed(ActionEvent ae){
-				
-			if(ae.getSource()==lg.LogButton){	
-			System.out.println("login success");
-			if(user.equals("user")&& pw.equals("123")){   // data for test 
-				System.out.println("Login erfolgreich!");
-			}else{
+// hier wird der neue Frame 
+//	Newframe regFace =new Newframe();
+//	regFace.setVisible(true);
+//	dispose();
+//	} else {
+//
+//	JOptionPane.showMessageDialog(null,"Wrong Password / Username");
+//	txuser.setText("");
+//	pass.setText("");
+//	txuser.requestFocus();
+//	}
+
+
+		
+//			public void actionPerformed(ActionEvent ae){
+//			if(ae.getSource()==lg.LogButton){	
+//			System.out.println("login success");
+			//if(user.equals("user")&& pw.equals("123")){   // data for test 
+			//	System.out.println("Login erfolgreich!");
+			//}else{
 //				JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-				System.out.println("Falsche eingabe");
-			}
-			}}
-		}
+			//	System.out.println("Falsche eingabe");
+			//}
+			//}}
+	
 			
-		class RegButtonListener implements ActionListener {
-			private String user2;
-			private String pw1;
-			private String pw2;
-			
-			public RegButtonListener (JTextField text2, JPasswordField pw1, JPasswordField pw2){
-				this.user2 =text2.getText();
-				this.pw1 = pw1.getText();
-				this.pw2 = pw2.getText();
-			}
-			public void actionPerformed(ActionEvent ae){
-				System.out.println("register success");
-				
-			}
+//		class RegButtonListener implements ActionListener {
+//			private String user2;
+//			private String pw1;
+//			private String pw2;
+//			
+//			public RegButtonListener (JTextField text2, JPasswordField pw1, JPasswordField pw2){
+//				this.user2 =text2.getText();
+//				this.pw1 = pw1.getText();
+//				this.pw2 = pw2.getText();
+//			}
+//			public void actionPerformed(ActionEvent ae){
+//				System.out.println("register success");			
+//			}
+		
 		
 		
 	
@@ -210,11 +224,6 @@ public class LoginBuild extends JFrame {
 		}  
 		*/
 	
-	// method for register. senden der daten an die engine olli 
+
+
 		
-	/* public void actionregister () {
-	 * 
-	 */
-
-
-		}
