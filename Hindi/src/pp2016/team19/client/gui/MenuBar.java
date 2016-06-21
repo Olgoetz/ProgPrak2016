@@ -94,7 +94,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		}else if(e.getSource() == quit){
 			System.exit(0);
 		}else if(e.getSource() == controls){
+			if(window.controlsShown){
+			window.showGameField();
+			controls.setText("Show Control");
+		}else{
 			window.showControls();
+			controls.setText("Show Gamefield");
+		}
 		}else if(e.getSource()== LogArrow){
 			System.exit(0);                  // quit game and initiate logout???
 		}
