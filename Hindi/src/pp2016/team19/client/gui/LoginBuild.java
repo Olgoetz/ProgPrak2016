@@ -28,6 +28,8 @@ public class LoginBuild extends JFrame implements ActionListener {
 	private JPasswordField passwordField_2;
 	private JButton LogButton;
 	private JButton RegButton;
+	
+	private String username = "";
 
 	
 	public static final int BOX = 32;
@@ -81,6 +83,7 @@ public class LoginBuild extends JFrame implements ActionListener {
 		textField_1.setColumns(10);
 		textField_1.setBounds(10, 25, 169, 20);
 		LoginPanel.add(textField_1);
+		//textField_1.setEditable(true);
 		
 		// add password label
 		JLabel logLabel_2 = new JLabel("Password");
@@ -143,13 +146,13 @@ public class LoginBuild extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==LogButton){	
-	String username = textField_1.getText();  //JTextfield
+	username = textField_1.getText();  //JTextfield
 	String password = passwordField_1.getText();		//JPasswordField
 	if(username.equals("user") && password.equals("123")) {
 		System.out.println("login successful");
 	}else{
 //		JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-		System.out.println("Wrong Username or Password");
+		System.out.println("warum funktioniert das nicht");
 	}		
 	}
 	
