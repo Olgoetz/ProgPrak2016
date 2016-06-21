@@ -5,11 +5,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import pp2016.team19.shared.*;
-
+/**
+ * Server Engine, distributes messages, administrates players, and starts games
+ * @author Tobias Schrader
+ *
+ */
 public class ServerEngine implements Runnable {
-	private LinkedBlockingQueue<Message> messagesFromClient;
-	private LinkedBlockingQueue<Message> messagesToClient;
-	private LinkedBlockingQueue<Message> messagesToGame;
+	LinkedBlockingQueue<Message> messagesFromClient;
+	LinkedBlockingQueue<Message> messagesToClient;
+	LinkedBlockingQueue<Message> messagesToGame;
 	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
@@ -17,6 +21,12 @@ public class ServerEngine implements Runnable {
 	private String password;
 	private Player player;
 	private Game game1;
+	/**
+	 * Constructor sets Message Queues for communication
+	 * @param serverThreadPool
+	 * @param messagesFromClient
+	 * @param messagesToClient
+	 */
 	public ServerEngine(ExecutorService serverThreadPool,
 			LinkedBlockingQueue<Message> messagesFromClient,
 			LinkedBlockingQueue<Message> messagesToClient) {
@@ -24,7 +34,9 @@ public class ServerEngine implements Runnable {
 		this.messagesFromClient = messagesFromClient;
 		this.messagesToClient = messagesToClient;
 	}
-
+/**
+ * Keeps processing Messages
+ */
 	public void run() {
 		while (true) {
 			
@@ -40,7 +52,10 @@ public class ServerEngine implements Runnable {
 			}
 		}
 	}
-	
+	/**
+	 * Determines action depending on type and subtype
+	 * @param message
+	 */
 	public void distributor(Message message) {
 		switch(message.getType()) {
 		case 0:
@@ -72,7 +87,10 @@ public class ServerEngine implements Runnable {
 		}
 
 	
-	//Sends Player Commands to Game
+	/** 
+	 * Forwards player actions to game
+	 * @param message
+	 */
 	private void sendToGame(Message message) {
 		try {
 			game1.messagesFromServer.put(message);
@@ -81,10 +99,14 @@ public class ServerEngine implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Checks Log-In information, starts new game if correct
+	 * @param message
+	 */
 	private void signInRequest(Message message) {
 		if(message.userName==this.userName && message.password==this.password) {
 			messagesToGame = new LinkedBlockingQueue<Message>();
-			game1=new Game(player, 30, messagesToGame);
+			game1=new Game(this, player, 30, messagesToGame);
 			game1.run();
 			this.messagesToClient.addElement(MessSignInAnswer(true,type,subtype));
 		} else {
@@ -98,7 +120,6 @@ public class ServerEngine implements Runnable {
 	}
 
 	private void signOutRequest(Message message) {
-		// TODO Auto-generated method stub
 		
 	}
 

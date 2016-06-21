@@ -31,7 +31,7 @@ public class GameField extends JPanel {
 		try {
 			floor = ImageIO.read(new File("img//floor.png"));
 			wall = ImageIO.read(new File("img//wall.png"));
-			doorClosed = ImageIO.read(new File("img//door.png"));
+			doorClosed = ImageIO.read(new File("img//doorClosed.png"));
 			doorOpen = ImageIO.read(new File("img//dooropen.png"));
 			key = ImageIO.read(new File("img//key.png"));
 			potion = ImageIO.read(new File("img//potion.png"));
@@ -40,12 +40,7 @@ public class GameField extends JPanel {
 			System.err.println("Error while loading one of the images.");
 		}
 	}
-	
-	/**
-	* Paints the gamefield including the map, player, items and monsters. This method also includes the FSM,
-	* which decides what the monster should do next (regenerate health, flee or move to the player & attack).
-	* @author FEEEEEEEEEE
-	* @author Strohbuecker, Max, 5960738 */
+
 	public void paint(Graphics g) {
 		
 		// First, everything is going to be overpainted while repainting
