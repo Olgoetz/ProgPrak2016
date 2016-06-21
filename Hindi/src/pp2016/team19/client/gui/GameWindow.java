@@ -109,6 +109,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public void showHighscore() {
 		// Remove everything
 		highscoreShown = true;
+		controlsShown = false;
 		this.remove(gamefield);
 		this.remove(statusbar);
 		this.remove(controls);
