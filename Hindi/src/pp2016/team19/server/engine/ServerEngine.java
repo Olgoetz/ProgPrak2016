@@ -18,11 +18,12 @@ public class ServerEngine implements Runnable {
 	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
-	private String userName;
-	private String password;
+	private String userName = "user";
+	private String password = "123";
 	private Vector<Player> players;
 	private Game game1;
 	private Player player;
+	
 	private Vector<Game> games;
 	NetworkHandlerS network = new NetworkHandlerS();
 	/**
@@ -102,9 +103,11 @@ public class ServerEngine implements Runnable {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
 			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
-			this.messagesToClient.addElement(new MessSignInAndUpAnswer(true,0,3));
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+			this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
 		} else {
-			this.messagesToClient.addElement(new MessSignInAndUpAnswer(false,0,3));
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+			this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
 		}
 		
 	}
