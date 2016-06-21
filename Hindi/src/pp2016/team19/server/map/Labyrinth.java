@@ -524,7 +524,7 @@ public class Labyrinth {
 	}
 
 	/**
-	 * A Main-Method for a Test.
+	 * A Main-Method for a Test..
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
