@@ -61,10 +61,7 @@ public class ServerEngine implements Runnable {
 				this.ConnectionRequest(message);
 				break;
 			case 2: 
-				this.signUpRequest(message);
-				break;
-			case 4: 
-				this.signInRequest(message);
+				this.signInAndUpRequest(message);
 				break;
 			case 6: 
 				this.signOutRequest(message);
@@ -103,11 +100,11 @@ public class ServerEngine implements Runnable {
 	private void signInAndUpRequest(Message message) {
 		if(message.userName==this.username && message.password==this.password) {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
-			this.games.addElement(new Game(this, player, 30, this.messagesToGames.addElement(new LinkedBlockingQueue<Message>)));
+			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
-			this.messagesToClient.addElement(MessSignInAnswer(true,type,subtype));
+			this.messagesToClient.addElement(new MessSignInAndUpAnswer(true,0,3));
 		} else {
-			this.messagesToClient.addElement(MessSignInAnswer(false,type,subtype));
+			this.messagesToClient.addElement(new MessSignInAndUpAnswer(false,0,3));
 		}
 		
 	}
