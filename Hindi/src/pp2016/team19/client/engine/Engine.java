@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.NetworkHandlerC;
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.server.map.Labyrinth;
 import pp2016.team19.shared.*;
 import pp2016.team19.shared.Character;
 
@@ -37,6 +38,7 @@ public class Engine implements Runnable {
 	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
+	private Labyrinth labyrinth;
 
 	
 	public static final int BOX = 32;
@@ -146,12 +148,28 @@ public class Engine implements Runnable {
 
 			break;	
 			
-	} // end of great switch	
+
+		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
 		
-} // end of message-Reader	
-//		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
-
-
+		case 2:
+		
+			switch (pMessage.getSubType()) {
+			case 1:
+				this.levelAnswer(pMessage);
+				break;
+		
+		
+			default:
+				break;
+			}
+		
+			break;	
+			
+		} // end of great switch	
+		
+	} // end of message-Reader	
+	
+	
 //
 //	
 //	/***
@@ -307,7 +325,16 @@ public class Engine implements Runnable {
 //	
 	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
 	
+	public void levelRequest() {
+		
+		this.sendToServer(new MessLevelRequest(labyrinth,2,0));
+	}
 	
+	public void levelAnswer(Message pMessage) {
+		MessLevelAnswer message = (MessLevelAnswer) pMessage;
+		
+		this.labyrinth = message.getLabyrinth();
+	}
 	
 	public void playerRequest() {
 		System.out.println("METHOD Engine.playerRequest: Player requested!" );
@@ -322,15 +349,7 @@ public class Engine implements Runnable {
 	}
 	
 	
-	public void levelRequest(Message pMessage){
-		System.out.println("METHOD Egnine.levelRequest:" + pMessage.toString());
-		this.sendToServer(pMessage);
-	}
-	
-	public void levelAnswer(Message pMessage) {
-		System.out.println("METHOD Egnine.levelAnswerr:" + pMessage.toString());
-	}
-	
+
 	public void updateMonsterRequest(Message pMessage) {
 		System.out.println("METHOD Egnine.updateMonserRequest:" + pMessage.toString());
 	}
