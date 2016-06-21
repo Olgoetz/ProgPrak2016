@@ -82,6 +82,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			}else{
 				window.showHighscore();
 				highscore.setText("Show Gamefield");
+				controls.setText("Show Control");
 			}
 			
 		}else if(e.getSource() == showMap){
