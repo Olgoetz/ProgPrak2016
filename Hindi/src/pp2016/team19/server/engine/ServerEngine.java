@@ -1,9 +1,11 @@
 package pp2016.team19.server.engine;
 import java.util.LinkedList;
+import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import pp2016.team19.server.comm.NetworkHandlerS;
 import pp2016.team19.shared.*;
 /**
  * Server Engine, distributes messages, administrates players, and starts games
@@ -11,16 +13,16 @@ import pp2016.team19.shared.*;
  *
  */
 public class ServerEngine implements Runnable {
-	LinkedBlockingQueue<Message> messagesFromClient;
 	LinkedBlockingQueue<Message> messagesToClient;
-	LinkedBlockingQueue<Message> messagesToGame;
+	Vector<LinkedBlockingQueue<Message>> messagesToGames;
 	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
 	private String userName;
 	private String password;
-	private Player player;
-	private Game game1;
+	private Vector<Player> players;
+	private Vector<Game> games;
+	NetworkHandlerS network = new NetworkHandlerS();
 	/**
 	 * Constructor sets Message Queues for communication
 	 * @param serverThreadPool
@@ -28,10 +30,8 @@ public class ServerEngine implements Runnable {
 	 * @param messagesToClient
 	 */
 	public ServerEngine(ExecutorService serverThreadPool,
-			LinkedBlockingQueue<Message> messagesFromClient,
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
-		this.messagesFromClient = messagesFromClient;
 		this.messagesToClient = messagesToClient;
 	}
 /**
@@ -40,18 +40,13 @@ public class ServerEngine implements Runnable {
 	public void run() {
 		while (true) {
 			
-			try {
-				Message message = this.messagesFromClient.poll(10,
-						TimeUnit.MILLISECONDS);
+				Message message = network.getMessageFromClient();
 				if (message != null) {
 					this.distributor(message);
 				}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				network.sendMessageToClient(this.messagesToClient.poll());
 			}
 		}
-	}
 	/**
 	 * Determines action depending on type and subtype
 	 * @param message
@@ -91,9 +86,9 @@ public class ServerEngine implements Runnable {
 	 * Forwards player actions to game
 	 * @param message
 	 */
-	private void sendToGame(Message message) {
+	private void sendToGame(Message message, int playerID) {
 		try {
-			game1.messagesFromServer.put(message);
+			.messagesFromServer.put(message);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,8 +101,8 @@ public class ServerEngine implements Runnable {
 	private void signInRequest(Message message) {
 		if(message.userName==this.userName && message.password==this.password) {
 			messagesToGame = new LinkedBlockingQueue<Message>();
-			game1=new Game(this, player, 30, messagesToGame);
-			game1.run();
+			this.games.addElement(new Game(this, message.player, 30, this.messagesToGames.addElement(new LinkedBlockingQueue<Message>)));
+			this.games.lastElement().run();
 			this.messagesToClient.addElement(MessSignInAnswer(true,type,subtype));
 		} else {
 			this.messagesToClient.addElement(MessSignInAnswer(false,type,subtype));
@@ -132,5 +127,6 @@ public class ServerEngine implements Runnable {
 		// TODO Auto-generated method stub
 		
 	}
+	private 
 }
 	
