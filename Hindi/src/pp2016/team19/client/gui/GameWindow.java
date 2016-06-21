@@ -35,13 +35,15 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public LinkedList<Monster> monsterList;
 	public Player player;
 	public GameObject[][] level;
-
+	public Engine engine;
+	
 	public int currentLevel = 0;
 	public boolean gameWon = false;
 	public boolean gameLost = false;
 	public long startTime;
 	public int neededTime;
 	public boolean mistOn = true;
+	
 
 	private boolean playerInHighscore = false;
 	public boolean highscoreShown = false;
@@ -51,7 +53,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
-	public GameWindow(int width, int height, String title) {
+	public GameWindow(Engine engine,int width, int height, String title) {
+		this.engine = engine;
 		initializeJFrame(width, height, title);
 		startNewGame();
 	}
