@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import pp2016.team19.shared.Message;
-import pp2016.team19.shared.SleepTool;
+import pp2016.team19.shared.ThreadWaitForMessage;
 
 public class NetworkTransmitterS extends Thread {
 	
@@ -26,7 +26,7 @@ public class NetworkTransmitterS extends Thread {
 			out = new ObjectOutputStream(new BufferedOutputStream(client.getOutputStream()));
 			while (true)
 			{
-				SleepTool.sleepFor(100L);
+				ThreadWaitForMessage.waitFor(100L);
 				messageTC = messagesToClient.poll();
 				if (messageTC != null)
 				{

@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pp2016.team19.shared.Message;
-import pp2016.team19.shared.SleepTool;
+import pp2016.team19.shared.ThreadWaitForMessage;
 
 public class NetworkReceiverS extends Thread{
 
@@ -24,7 +24,7 @@ public class NetworkReceiverS extends Thread{
 		try {
 			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
 			while(true){
-				SleepTool.sleepFor(100L);
+				ThreadWaitForMessage.waitFor(100L);
 				messageFC = (Message) in.readObject();
 				if(messageFC != null){
 					messagesFromClient.offer(messageFC);
