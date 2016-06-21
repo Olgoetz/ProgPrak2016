@@ -14,15 +14,15 @@ import pp2016.team19.server.map.*;
  */
 public class Game implements Runnable {
 	LinkedBlockingQueue<Message> messagesFromServer;
-	LinkedBlockingQueue<Message> messagesToEngine;
+	LinkedBlockingQueue<Message> messagesToEngine = new LinkedBlockingQueue<Message>();
 	Tile[][] gameMap;
-	Player player;
 	private int gameSize;
 	Vector<Monster> Monsters = new Vector();
 	int levelNumber=1;
 	private Timer tick;
 	ServerEngine engine;
-	boolean stop = false;
+	boolean stop = true;
+	Player player;
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
@@ -33,17 +33,15 @@ public class Game implements Runnable {
 	 * Sets Clock for Game Engine, processes messages
 	 */
 	public void run() {
+		System.out.println("game executed");
 		this.tick.scheduleAtFixedRate(new GameEngine(engine, this, player, messagesToEngine), 0, 50);
-		while (!stop) {
-			try {
-				Message message = this.messagesFromServer.poll(10,
-						TimeUnit.MILLISECONDS);
-				if (message != null) {
-					this.distributor(message);
-				}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		System.out.println("before while");
+		while (stop) {
+			System.out.println("while");
+			Message message = this.messagesFromServer.poll();
+			System.out.println("Message received in game");
+			if (message != null) {
+				this.distributor(message);
 			}
 		}
 	}

@@ -13,7 +13,7 @@ import pp2016.team19.shared.*;
  */
 public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
-	LinkedBlockingQueue<Message> messagesToGames;
+	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
@@ -35,19 +35,23 @@ public class ServerEngine implements Runnable {
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
+		game1 = new Game(this, player, 30, messagesToGames);
 	}
 /**
  * Keeps processing Messages
  */
 	public void run() {
+		game1.run();
 		while (true) {
-			
 				Message message = network.getMessageFromClient();
 				if (message != null) {
 					System.out.println("Message received");
+					System.out.println(message.toString());
 					this.distributor(message);
 				}
+				if (!this.messagesToClient.isEmpty()) {
 				network.sendMessageToClient(this.messagesToClient.poll());
+				}
 			}
 		}
 	/**
@@ -90,6 +94,7 @@ public class ServerEngine implements Runnable {
 	private void sendToGame(Message message) {
 		try {
 			game1.messagesFromServer.put(message);
+			System.out.println(game1.messagesFromServer.size());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,6 +144,14 @@ public class ServerEngine implements Runnable {
 
 	private void ConnectionRequest(Message message) {
 		// TODO Auto-generated method stub
+		System.out.println("Connected");
+		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+		try {
+			this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }

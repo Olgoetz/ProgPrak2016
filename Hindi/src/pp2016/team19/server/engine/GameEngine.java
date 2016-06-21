@@ -55,8 +55,10 @@ public class GameEngine extends TimerTask{
 			if (game.gameMap[player.getXPos()][player.getYPos()+1].isFloor()) {
 				player.setPos(player.getXPos(),player.getYPos()+1);
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
+				System.out.println("Move executed");
 				try {
 					engine.messagesToClient.put(answer);
+					System.out.println("Answer sent");
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
