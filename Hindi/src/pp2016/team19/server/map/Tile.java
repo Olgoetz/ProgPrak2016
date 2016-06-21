@@ -41,7 +41,7 @@ public class Tile {
 	public boolean containsMonster = false;
 
 	/**
-	 * 7 Constants
+	 * 8 Constants
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -56,6 +56,7 @@ public class Tile {
 	public static final int KEY = 11;
 	public static final int POTION = 12;
 	public static final int MONSTER = 13;
+	public static final int PLAYER = 14;
 	
 	/**
 	 * Setter method, which sets the type of Tile

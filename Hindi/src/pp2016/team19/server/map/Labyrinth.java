@@ -59,7 +59,8 @@ public class Labyrinth {
 	public static final int KEY = 11;
 	public static final int POTION = 12;
 	public static final int MONSTER = 13;
-
+	public static final int PLAYER = 14;
+	
 	/**
 	 * 2-Dim Tile-Array called "gameMap"
 	 * 
@@ -67,6 +68,13 @@ public class Labyrinth {
 	 */
 	
 	private static Tile[][] gameMap;
+	private static int gameSize;
+	private static int monsterNumber;
+	
+	public Labyrinth(int gameSize, int monsterNumber){
+		this.gameSize = gameSize;
+		this.monsterNumber = monsterNumber;
+	}
 
 	/**
 	 * "generateLabyrinth()" is an essential method, which gets the gameSize as Input and returns the gameMap.
@@ -79,21 +87,21 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static Tile[][] generateLabyrinth(int gameSize) {
+	public static Tile[][] generate(int gameSize) {
 
 		gameMap = new Tile[gameSize][gameSize];
 
 		// Creates a Map of ROCKS.
-		createRockMap(gameSize);
+		createRockMap();
 
 		// Starts to switch Rock-Tiles to Floor-Tiles, to make a maze.
-		floodFill(1, gameSize - 2, gameSize);
+		floodFill(1, gameSize - 2);
 
 		// Places an Entry.
-		placeEntry(gameSize);
+		placeEntry();
 
 		// Places an Exit.
-		placeExit(1, gameSize);
+		placeExit(1);
 
 		// Places a Key
 		placeKey(1, gameSize);
@@ -102,7 +110,7 @@ public class Labyrinth {
 		placePotion(gameSize);
 
 		// Places a number of Monster.
-		placeMonster(gameSize,2);
+		placeMonster();
 
 		return gameMap;
 	}
@@ -113,7 +121,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void createRockMap(int gameSize){
+	public static void createRockMap(){
 		
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
@@ -131,7 +139,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckUp(int x, int y, int GameSize) {
+	public static boolean edgeCheckUp(int x, int y) {
 
 		if (x - 1 == 0) {
 			return false;
@@ -148,7 +156,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckRight(int x, int y, int gameSize) {
+	public static boolean edgeCheckRight(int x, int y) {
 
 		if (y + 1 == gameSize - 1) {
 			return false;
@@ -165,7 +173,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckDown(int x, int y, int gameSize) {
+	public static boolean edgeCheckDown(int x, int y) {
 
 		if (x + 1 == gameSize - 1) {
 			return false;
@@ -182,7 +190,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckLeft(int x, int y, int gameSize) {
+	public static boolean edgeCheckLeft(int x, int y) {
 
 		if (y - 1 == 0) {
 			return false;
@@ -280,12 +288,12 @@ public class Labyrinth {
 	/**
 	 * Searches for a random walkable Tile in a quadrant, to put a Monster at this Tile (Recursiv)
 	 * 
+	 * @param gameSize size of the gameMap
+	 * @param monster number of all monsters
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeMonster(int gameSize, int monster){
-		
-		
+	public static void placeMonster(){
 		
 		// create Vector, for possible monster Tiles
 		int[] possibleMonsterPlaces = new int[gameSize*gameSize];
@@ -309,7 +317,7 @@ public class Labyrinth {
 		}
 		
 		// For, to generate the number of Monster..
-		for (int m = 1; m <= monster; m++){
+		for (int m = 1; m <= monsterNumber; m++){
 		
 		// Random number to get a random floor
 		int number = (int) ((Math.random()) * counter + 1);
@@ -362,7 +370,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeExit(int j, int gameSize) {
+	public static void placeExit(int j) {
 		boolean br = false;
 		for (int i = (gameSize - 2); i > (gameSize / 2 + 1); --i) {
 			if (gameMap[i][j].isFloor()) {
@@ -377,7 +385,7 @@ public class Labyrinth {
 		}
 
 		if (br == false) {
-			placeExit(j + 1, gameSize);
+			placeExit(j + 1);
 		}
 	}
 
@@ -387,7 +395,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeEntry(int gameSize) {
+	public static void placeEntry() {
 		gameMap[1][gameSize - 2].setType(ENTRY);
 		System.out.println("Entry placed in upper right Corner");
 	}
@@ -398,7 +406,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void floodFill(int x, int y, int gameSize) {
+	public static void floodFill(int x, int y) {
 
 		int zahl = (int) ((Math.random()) * 4 + 1);
 
@@ -409,11 +417,11 @@ public class Labyrinth {
 		switch (zahl) {
 
 		case 1:
-			if (edgeCheckUp(x, y, gameSize)) {
+			if (edgeCheckUp(x, y)) {
 				if (gameMap[x - 1][y].isRock()) {
 					if (countNeighbors(x - 1, y) < 2) {
 						// if(diagNeighbours(x-1,y)){
-						floodFill(x - 1, y, gameSize);
+						floodFill(x - 1, y);
 						// }
 
 					}
@@ -426,11 +434,11 @@ public class Labyrinth {
 			}
 
 		case 2:
-			if (edgeCheckRight(x, y, gameSize)) {
+			if (edgeCheckRight(x, y)) {
 				if (gameMap[x][y + 1].isRock()) {
 					if (countNeighbors(x, y + 1) < 2) {
 						// if(diagNeighbours(x,y+1)){
-						floodFill(x, y + 1, gameSize);
+						floodFill(x, y + 1);
 						// }
 					}
 				}
@@ -442,11 +450,11 @@ public class Labyrinth {
 			}
 
 		case 3:
-			if (edgeCheckDown(x, y, gameSize)) {
+			if (edgeCheckDown(x, y)) {
 				if (gameMap[x + 1][y].isRock()) {
 					if (countNeighbors(x + 1, y) < 2) {
 						// if(diagNeighbours(x+1,y)){
-						floodFill(x + 1, y, gameSize);
+						floodFill(x + 1, y);
 						// }
 					}
 				}
@@ -458,11 +466,11 @@ public class Labyrinth {
 			}
 
 		case 4:
-			if (edgeCheckLeft(x, y, gameSize)) {
+			if (edgeCheckLeft(x, y)) {
 				if (gameMap[x][y - 1].isRock()) {
 					if (countNeighbors(x, y - 1) < 2) {
 						// if(diagNeighbours(x,y-1)){
-						floodFill(x, y - 1, gameSize);
+						floodFill(x, y - 1);
 						// }
 					}
 				}
@@ -525,7 +533,7 @@ public class Labyrinth {
 
 		System.out.println("Test\n");
 
-		generateLabyrinth(16);
+		generate(16);
 		PaintTest(16);
 
 	}
