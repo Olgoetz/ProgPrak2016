@@ -144,22 +144,29 @@ public class LoginBuild extends JFrame {
 	
 		// ButtonListener class within: what happens after clicking the button login 
 		class ButtonListener implements ActionListener {
+		
+
 		private String user;
 		private String pw;
-		
+	LoginBuild	lg= new LoginBuild();
 		public ButtonListener(JTextField text, JPasswordField pw){
+			
+			
 			this.user = text.getText();
 			this.pw = pw.getText();
 		}
 			
 			public void actionPerformed(ActionEvent ae){
+				
+			if(ae.getSource()==lg.LogButton){	
 			System.out.println("login success");
-			//if(user.equals("user")&& pw.equals("123")){   // data for test 
-			//	System.out.println("Login erfolgreich!");
-			//}else{
-			//	JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-			//}
+			if(user.equals("user")&& pw.equals("123")){   // data for test 
+				System.out.println("Login erfolgreich!");
+			}else{
+//				JOptionPane.showMessageDialog(null, "Wrong Username or Password");
+				System.out.println("Falsche eingabe");
 			}
+			}}
 		}
 			
 		class RegButtonListener implements ActionListener {
