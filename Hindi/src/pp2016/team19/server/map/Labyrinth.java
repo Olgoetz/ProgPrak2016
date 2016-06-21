@@ -43,8 +43,6 @@ package pp2016.team19.server.map;
  * @author < Czernik, Christof Martin, 5830621 >
  */
 
-import java.util.Vector;
-
 public class Labyrinth {
 
 	/**
@@ -104,7 +102,7 @@ public class Labyrinth {
 		placePotion(gameSize);
 
 		// Places a Monster.
-		placeMonster(gameSize);
+		placeMonster(gameSize,2);
 
 		return gameMap;
 	}
@@ -285,7 +283,9 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeMonster(int gameSize){
+	public static void placeMonster(int gameSize, int monster){
+		
+		
 		
 		// create Vector, for possible monster Tiles
 		int[] possibleMonsterPlaces = new int[gameSize*gameSize];
@@ -308,6 +308,9 @@ public class Labyrinth {
 			}
 		}
 		
+		// For, to generate the number of Monster..
+		for (int m = 1; m <= monster; m++){
+		
 		// Random number to get a random floor
 		int number = (int) ((Math.random()) * counter + 1);
 		
@@ -323,7 +326,8 @@ public class Labyrinth {
 		
 		// sets the Tile where the monster spawns True.
 		gameMap[x][y].setContainsMonster(true);
-	
+		
+		}
 	}
 
 	/**
@@ -494,6 +498,9 @@ public class Labyrinth {
 
 				} else if (gameMap[i][j].containsPotion()) {
 					System.out.print("P ");
+					
+				} else if (gameMap[i][j].containsMonster()) {
+					System.out.print("M ");
 
 				} else if (gameMap[i][j].isRock()) {
 					System.out.print("+ ");
