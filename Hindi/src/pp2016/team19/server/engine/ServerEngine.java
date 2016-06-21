@@ -14,13 +14,16 @@ import pp2016.team19.shared.*;
  */
 public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
-	Vector<LinkedBlockingQueue<Message>> messagesToGames;
+	LinkedBlockingQueue<Message> messagesToGames;
 	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
-	private String userName;
-	private String password;
+	private String userName = "user";
+	private String password = "123";
 	private Vector<Player> players;
+	private Game game1;
+	private Player player;
+	
 	private Vector<Game> games;
 	NetworkHandlerS network = new NetworkHandlerS();
 	/**
@@ -59,10 +62,7 @@ public class ServerEngine implements Runnable {
 				this.ConnectionRequest(message);
 				break;
 			case 2: 
-				this.signUpRequest(message);
-				break;
-			case 4: 
-				this.signInRequest(message);
+				this.signInAndUpRequest(message);
 				break;
 			case 6: 
 				this.signOutRequest(message);
@@ -86,9 +86,9 @@ public class ServerEngine implements Runnable {
 	 * Forwards player actions to game
 	 * @param message
 	 */
-	private void sendToGame(Message message, int playerID) {
+	private void sendToGame(Message message) {
 		try {
-			.messagesFromServer.put(message);
+			game1.messagesFromServer.put(message);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,14 +98,16 @@ public class ServerEngine implements Runnable {
 	 * Checks Log-In information, starts new game if correct
 	 * @param message
 	 */
-	private void signInRequest(Message message) {
-		if(message.userName==this.userName && message.password==this.password) {
-			messagesToGame = new LinkedBlockingQueue<Message>();
-			this.games.addElement(new Game(this, message.player, 30, this.messagesToGames.addElement(new LinkedBlockingQueue<Message>)));
+	private void signInAndUpRequest(Message message) {
+		if(message.userName==this.username && message.password==this.password) {
+			this.messagesToGames = new LinkedBlockingQueue<Message>();
+			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
-			this.messagesToClient.addElement(MessSignInAnswer(true,type,subtype));
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+			this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
 		} else {
-			this.messagesToClient.addElement(MessSignInAnswer(false,type,subtype));
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+			this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
 		}
 		
 	}
@@ -127,6 +129,5 @@ public class ServerEngine implements Runnable {
 		// TODO Auto-generated method stub
 		
 	}
-	private 
 }
 	

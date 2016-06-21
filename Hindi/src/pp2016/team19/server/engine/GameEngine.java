@@ -37,7 +37,7 @@ public class GameEngine extends TimerTask{
 	 */
 	public void distributor(Message message) {
 		switch(message.getSubType()) {
-		case Move:
+		case 0:
 			this.playerMove(message);
 		default:
 			break;
@@ -47,14 +47,83 @@ public class GameEngine extends TimerTask{
  * Executes player movement command
  * @param message
  */
-	private void playerMove(Message message) {
-		switch(message.direction) {
+	private void playerMove(MessMoveCharacterRequest message) {
+		switch(message.getDirection()) {
 		case 0: //MoveUp
 			if (game.gameMap[player.getXPos()][player.getYPos()+1].isFloor()) {
 				player.setPos(player.getXPos(),player.getYPos()+1);
-				engine.messagesToClient.addElement(MessMoveCharacterAns(player.getXPos(),player.getYPos(),type,subtype,true));
+				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
+				try {
+					engine.messagesToClient.put(answer);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
-				engine.messagesToClient.addElement(MessMoveCharacterAns(player.getXPos(),player.getYPos(),type,subtype,false));
+				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+				try {
+					engine.messagesToClient.put(answer);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			case 1: //MoveDown
+				if (game.gameMap[player.getXPos()][player.getYPos()-1].isFloor()) {
+					player.setPos(player.getXPos(),player.getYPos()-1);
+					Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
+					try {
+						engine.messagesToClient.put(answer);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+					try {
+						engine.messagesToClient.put(answer);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				case 2: //MoveLeft
+					if (game.gameMap[player.getXPos()-1][player.getYPos()].isFloor()) {
+						player.setPos(player.getXPos()-1,player.getYPos());
+						Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
+						try {
+							engine.messagesToClient.put(answer);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+						try {
+							engine.messagesToClient.put(answer);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					case 3: //MoveRight
+						if (game.gameMap[player.getXPos()+1][player.getYPos()].isFloor()) {
+							player.setPos(player.getXPos()+1,player.getYPos());
+							Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
+							try {
+								engine.messagesToClient.put(answer);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} else {
+							Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+							try {
+								engine.messagesToClient.put(answer);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 			}
 				
 		}
