@@ -4,7 +4,6 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-//bla
 import pp2016.team19.server.comm.NetworkHandlerS;
 import pp2016.team19.shared.*;
 /**
