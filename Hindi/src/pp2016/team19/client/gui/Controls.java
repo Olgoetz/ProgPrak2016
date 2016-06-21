@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 public class Controls extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	// Controls explanation
 
 	public void paint(Graphics g){
 		Image img = null , control = null, arrows = null , right = null, walker = null, q = null , fire = null, leer = null, mouse = null;
