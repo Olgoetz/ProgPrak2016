@@ -98,16 +98,27 @@ public class ServerEngine implements Runnable {
 	 * Checks Log-In information, starts new game if correct
 	 * @param message
 	 */
-	private void signInAndUpRequest(Message message) {
-		if(message.userName==this.username && message.password==this.password) {
+	private void signInAndUpRequest(Message pmessage) {
+		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
+		if(message.getUsername()==this.userName && message.getPassword()==this.password) {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
 			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
-			this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
+			try {
+				this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
-			this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+			try {
+				this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}

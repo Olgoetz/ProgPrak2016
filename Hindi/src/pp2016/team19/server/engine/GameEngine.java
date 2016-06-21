@@ -47,7 +47,8 @@ public class GameEngine extends TimerTask{
  * Executes player movement command
  * @param message
  */
-	private void playerMove(MessMoveCharacterRequest message) {
+	private void playerMove(Message pmessage) {
+		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 		switch(message.getDirection()) {
 		case 0: //MoveUp
 			if (game.gameMap[player.getXPos()][player.getYPos()+1].isFloor()) {
