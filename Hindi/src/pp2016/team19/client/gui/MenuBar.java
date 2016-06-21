@@ -8,13 +8,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import gui.GameWindow;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	// menubar push fee 
+	
 	// JMenus 
     private JMenu game;
     private JMenu show;
@@ -44,7 +43,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         quit = new JMenuItem("Quit Game");
         highscore = new JMenuItem("Show Highscore");
         showMap = new JMenuItem("Show Map");
-        controls = new JMenuItem("Controls");
+        controls = new JMenuItem("Control");
         LogArrow = new JMenuItem(arrow);
               
         newGame.addActionListener(this);
