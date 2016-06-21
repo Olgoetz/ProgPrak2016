@@ -8,7 +8,9 @@ public class MessLevelRequest extends Message implements Serializable {
 
 	/**
 	 * @author Oliver Goetz, 5961343
-	 * @parameter level
+	 * @parameter labyrinth
+	 * @parameter type
+	 * @parameter subType
 	 * 
 	 * Level Request from Client
 	 */

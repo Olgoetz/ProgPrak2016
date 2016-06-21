@@ -157,6 +157,10 @@ public class Engine implements Runnable {
 			case 1:
 				this.levelAnswer(pMessage);
 				break;
+				
+			case 5:
+				this.playerAnswer(pMessage);
+				break;
 		
 		
 			default:
