@@ -27,6 +27,7 @@ public class MenuPanel extends JPanel{
 	
 	
 	public MenuPanel(GameWindow window){
+		
 		this.window = window;
 		try{
 			menu=ImageIO.read(new File("img//menu.png"));

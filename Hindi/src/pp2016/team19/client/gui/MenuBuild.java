@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
-
 public class MenuBuild extends JFrame implements ActionListener{
 	
 	private static final long serialVersionUID = 1L;
