@@ -95,7 +95,6 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		}else if(e.getSource() == quit){
 			System.exit(0);
 		}else if(e.getSource() == controls){
-			// new
 			if(window.controlsShown){
 			window.showGameField();
 			controls.setText("Show Control");
