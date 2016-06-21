@@ -9,13 +9,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import datastructure.Floor;
-import datastructure.Wall;
-import gui.GameWindow;
 import pp2016.team19.shared.Door;
+import pp2016.team19.shared.Floor;
 import pp2016.team19.shared.GameObject;
 import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Potion;
+import pp2016.team19.shared.Wall;
 
 public class Statusbar extends JPanel {
 

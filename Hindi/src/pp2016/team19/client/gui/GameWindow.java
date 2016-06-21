@@ -4,10 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
-
 
 import pp2016.team19.client.engine.Engine;
 import pp2016.team19.shared.Door;
@@ -19,17 +20,17 @@ import pp2016.team19.shared.Player;
 import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
-public class GameWindow extends JFrame implements KeyListener {
+
+public class GameWindow extends JFrame implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private MenuBar menubar;
 	private GameField gamefield;
 	private Statusbar statusbar;
-	private Highscore highscore;
-	private MenuBar menubar;
-	private Controls controls;
 	
-	public Engine engine;
+	private Highscore highscore;
+	private Controls controls;
 
 	public LinkedList<Monster> monsterList;
 	public Player player;
@@ -50,18 +51,15 @@ public class GameWindow extends JFrame implements KeyListener {
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
-	public GameWindow(Engine engine,int width, int height, String title) {
-		this.engine = engine;
+	public GameWindow(int width, int height, String title) {
 		initializeJFrame(width, height, title);
 		startNewGame();
-		
-		
-
 	}
-	
+
 	public void initializeJFrame(int width, int height, String title) {
 		// Layout of the window
 		this.setLayout(new BorderLayout());
+		
 		// Create objects of the panels
 		this.gamefield = new GameField(this);
 		this.statusbar = new Statusbar(this);
@@ -71,7 +69,7 @@ public class GameWindow extends JFrame implements KeyListener {
 		this.menubar = new MenuBar(this);
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(width, height));
-		statusbar.setPreferredSize(new Dimension(width, BOX));
+		statusbar.setPreferredSize(new Dimension(5* BOX, height));
 		controls.setPreferredSize(new Dimension(width, height + BOX));
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
 		// Create the gamefield
@@ -82,6 +80,7 @@ public class GameWindow extends JFrame implements KeyListener {
 				(int) ((d.getHeight() - this.getHeight()) / 2));
 		// Default setup
 		this.addKeyListener(this);
+		gamefield.addMouseListener(this);
 		this.setResizable(false);
 		this.setTitle(title);
 		this.setVisible(true);
@@ -94,8 +93,9 @@ public class GameWindow extends JFrame implements KeyListener {
 		this.remove(highscore);
 		this.remove(controls);
 		// Create the gamefield
-		this.add(gamefield, BorderLayout.CENTER);
-		this.add(statusbar, BorderLayout.SOUTH);
+		this.add(gamefield, BorderLayout.CENTER); 
+		this.add(statusbar, BorderLayout.EAST);
+		
 		this.add(menubar, BorderLayout.NORTH);
 		// Activate the finished gamefield
 		this.requestFocus();
@@ -130,13 +130,63 @@ public class GameWindow extends JFrame implements KeyListener {
 		controls.repaint();
 	}
 
+
 	// Getter for gamefield and statusbar
 	public GameField getGameField() {return gamefield;}
 	public Statusbar getStatusbar() {return statusbar;}
 	public Highscore getHighscore() {return highscore;}
+	// what about control?
 
+	
+	public void mouseClicked(MouseEvent m) {
+	 
+	 int xPos = player.getXPos();
+	 int yPos = player.getYPos();
+	 int mouseX = m.getX()/32;
+	 int mouseY = m.getY()/32;
+	 System.out.println("Mouse at: " + mouseX + ", " + mouseY);
+	 System.out.println("Player at: " + xPos + ", " + yPos);
+ if (!gameWon) {
+	if (mouseY > yPos &&  !(level[xPos][yPos + 1] instanceof Wall)){  //if click y is higher than playerposition y and theres no wall, player moveDown()  
+			player.moveDown();
+		}else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof Wall)) { // if click y is lower than playerposition y and theres no wall, player moveUp()
+	 				player.moveUp();
+		}else if (mouseX < xPos && !(level[xPos - 1][yPos] instanceof Wall)) { // if click x left from playerposition x and leftside no wall, player moveLeft()
+					player.moveLeft();
+		}else if (mouseX > xPos && !(level[xPos + 1][yPos] instanceof Wall)) { // if click x right from playerposition x and rightside no wall, player moveRight()
+					player.moveRight();
+		} 
+ 	}
+}
+	// attack monster with click???!! 
+
+	
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+		
+	
 	// Methods of the KeyListener interface
-
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
 		int xPos = player.getXPos();
@@ -151,8 +201,6 @@ public class GameWindow extends JFrame implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
 					player.moveUp();
-					engine.moveCharacterRequest();
-//					this.engine.getMyPlayer().getXPos();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();
@@ -224,7 +272,9 @@ public class GameWindow extends JFrame implements KeyListener {
 		playerInHighscore = false;
 		startTime = System.currentTimeMillis();
 	}
-
+	
+	
+	
 	// Gameloop
 	public void startNewGame() {
 		resetGame();
@@ -238,6 +288,7 @@ public class GameWindow extends JFrame implements KeyListener {
 				} catch (InterruptedException e) {}
 
 				getGameField().repaint();
+				//getMiniField().repaint();
 				getStatusbar().repaint();
 
 				if (player.getHealth() <= 0) {
@@ -253,13 +304,15 @@ public class GameWindow extends JFrame implements KeyListener {
 					playerInHighscore = true;
 				} else {
 					getGameField().repaint();
+					//getMiniField().repaint();
 				}
 			}
 
 		} while (true);
 
 	}
-
+	
+	// is gonna change cause of level generating by chance
 	public void nextLevel() {
 		currentLevel++;
 
