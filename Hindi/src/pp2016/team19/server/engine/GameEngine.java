@@ -39,6 +39,7 @@ public class GameEngine extends TimerTask{
 		switch(message.getSubType()) {
 		case 0:
 			this.playerMove(message);
+			System.out.println("Player moved");
 		default:
 			break;
 		}

@@ -45,6 +45,7 @@ public class ServerEngine implements Runnable {
 			
 				Message message = network.getMessageFromClient();
 				if (message != null) {
+					System.out.println("Message received");
 					this.distributor(message);
 				}
 				network.sendMessageToClient(this.messagesToClient.poll());
@@ -75,6 +76,7 @@ public class ServerEngine implements Runnable {
 			}
 		case 1:
 				this.sendToGame(message);
+				System.out.println("Messages forwarded");
 				break;	
 		default:
 			break;
