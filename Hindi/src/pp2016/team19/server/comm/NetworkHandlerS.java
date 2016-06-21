@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import pp2016.team19.shared.MessMoveCharacterRequest;
 import pp2016.team19.shared.Message;
 import pp2016.team19.shared.TestMessage;
 
@@ -53,6 +54,15 @@ public void sendMessageToClient(Message message){
 }
 public Message getMessageFromClient(){
 	return receiver.getMessage();
+}
+public void addMessage(Message message) { //For Testing
+	try {
+		receiver.messagesFromClient.put(message);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
 }
 	
 }

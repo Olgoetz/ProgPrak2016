@@ -1,5 +1,6 @@
 package pp2016.team19.server.engine;
 import java.util.LinkedList;
+import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -13,6 +14,7 @@ import pp2016.team19.shared.*;
  */
 public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
+	LinkedBlockingQueue<Message> messagesFromClient; //For Testing
 	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 	
 	private ExecutorService threadPool;
@@ -21,8 +23,8 @@ public class ServerEngine implements Runnable {
 	private String password = "123";
 	private Vector<Player> players;
 	private Game game1;
-	private Player player;
-	
+	private Player player = new Player();
+	private Timer tick = new Timer();
 	private Vector<Game> games;
 	NetworkHandlerS network = new NetworkHandlerS();
 	/**
@@ -41,7 +43,11 @@ public class ServerEngine implements Runnable {
  * Keeps processing Messages
  */
 	public void run() {
-		game1.run();
+		System.out.println("runs");
+		player.setPos(3, 3);
+		this.tick.scheduleAtFixedRate(game1, 0, 50);
+		network.addMessage(new MessMoveCharacterRequest(0,true,1,37)); //test messages
+		//network.addMessage(new MessMoveCharacterRequest(0,true,1,0));
 		while (true) {
 				Message message = network.getMessageFromClient();
 				if (message != null) {
@@ -50,7 +56,9 @@ public class ServerEngine implements Runnable {
 					this.distributor(message);
 				}
 				if (!this.messagesToClient.isEmpty()) {
-				network.sendMessageToClient(this.messagesToClient.poll());
+					System.out.println(this.messagesToClient.poll().toString());
+					System.out.println("Answer came back");
+					network.sendMessageToClient(this.messagesToClient.poll());
 				}
 			}
 		}
