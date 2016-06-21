@@ -26,8 +26,8 @@ import pp2016.team19.shared.Character;
 
 public class Engine implements Runnable {
 
-	private LinkedBlockingQueue<Message> messagesFromServer;
-	private LinkedBlockingQueue<Message> messagesToServer;
+//	private LinkedBlockingQueue<Message> messagesFromServer;
+//	private LinkedBlockingQueue<Message> messagesToServer;
 	private ExecutorService threadPool;
 
 	private NetworkHandlerC networkHandler;
@@ -37,13 +37,15 @@ public class Engine implements Runnable {
 	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
+
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
 	
 	
 	public Engine() {
-		//this.setNetworkHandler(new NetworkHandlerC());
+		this.setNetworkHandler(new NetworkHandlerC());
+	
 		this.setGUI(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
 	}
 
@@ -78,14 +80,9 @@ public class Engine implements Runnable {
 		System.out.println("THREAD STARTED: Engine");
 
 		while (true) {
-			try {
-				Message message = this.messagesFromServer.poll(10, TimeUnit.MILLISECONDS);
-				if (message != null) {
-				this.messageReader(message);
-				}
-			} catch (InterruptedException e) {
-			
-				e.printStackTrace();
+			Message message = this.networkHandler.getMessageFromServer();
+			if (message != null) {
+			this.messageReader(message);
 			}
 		}
 		// System.out.println("THREAD FINISHED: Engine");
@@ -249,10 +246,9 @@ public class Engine implements Runnable {
 
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
-	public void moveCharacterRequest() {
+	public void moveCharacterRequest(int direction, boolean confirmed) {
 		
-		
-//		this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
+	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 0, 0));
 	System.out.println("Message sent");
 	} 
 	
@@ -364,12 +360,7 @@ public class Engine implements Runnable {
 
 	// ********* HELPERS and GETTERS'n'SETTERS **********
 	private void sendToServer(Message pMessage) {
-		try {
-			this.messagesToServer.put(pMessage);
-		} catch (InterruptedException e) {
-		
-			e.printStackTrace();
-		}
+		this.networkHandler.sendMessageToServer(pMessage);
 	}
 
 
@@ -390,21 +381,21 @@ public class Engine implements Runnable {
 	}
 	
 
-	private LinkedBlockingQueue<Message> getMessagesFromServer() {
-		return messagesFromServer;
-	}
-
-	private void setMessagesFromServer(LinkedBlockingQueue<Message> messagesFromServer) {
-		this.messagesFromServer = messagesFromServer;
-	}
-
-	private LinkedBlockingQueue<Message> getMessagesToServer() {
-		return messagesToServer;
-	}
-
-	private void setMessagesToServer(LinkedBlockingQueue<Message> messagesToServer) {
-		this.messagesToServer = messagesToServer;
-	}
+//	private LinkedBlockingQueue<Message> getMessagesFromServer() {
+//		return messagesFromServer;
+//	}
+//
+//	private void setMessagesFromServer(LinkedBlockingQueue<Message> messagesFromServer) {
+//		this.messagesFromServer = messagesFromServer;
+//	}
+//
+//	private LinkedBlockingQueue<Message> getMessagesToServer() {
+//		return messagesToServer;
+//	}
+//
+//	private void setMessagesToServer(LinkedBlockingQueue<Message> messagesToServer) {
+//		this.messagesToServer = messagesToServer;
+//	}
 
 //	private ExecutorService getThreadPool() {
 //		return threadPool;

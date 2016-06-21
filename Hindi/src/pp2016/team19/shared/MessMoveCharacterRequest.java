@@ -19,5 +19,16 @@ public class MessMoveCharacterRequest extends Message implements Serializable {
 		this.direction = direction;
 		this.confirmed = pConfirmed;
 	}
+	
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
 
+	public int getDirection() {
+		return direction;
+	}
+	
+	public boolean isConfirmed() {
+		return confirmed;
+	}
 }

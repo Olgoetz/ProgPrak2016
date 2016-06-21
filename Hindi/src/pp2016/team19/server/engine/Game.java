@@ -7,7 +7,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import pp2016.team19.server.map.*;
-
+/**
+ * Runs game, holds game data, loads levels
+ * @author Tobias Schrader
+ *
+ */
 public class Game implements Runnable {
 	LinkedBlockingQueue<Message> messagesFromServer;
 	LinkedBlockingQueue<Message> messagesToEngine;
@@ -17,16 +21,20 @@ public class Game implements Runnable {
 	Vector<Monster> Monsters = new Vector();
 	int levelNumber=1;
 	private Timer tick;
-	//Konstruktor
-	public Game(Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
+	ServerEngine engine;
+	boolean stop = false;
+	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
+		this.engine = engine;
 	}
-	//Test
+	/**
+	 * Sets Clock for Game Engine, processes messages
+	 */
 	public void run() {
-		this.tick.scheduleAtFixedRate(engine, 0, 50);
-		while (true) {
+		this.tick.scheduleAtFixedRate(new GameEngine(engine, this, player, messagesToEngine), 0, 50);
+		while (!stop) {
 			try {
 				Message message = this.messagesFromServer.poll(10,
 						TimeUnit.MILLISECONDS);
@@ -39,6 +47,10 @@ public class Game implements Runnable {
 			}
 		}
 	}
+	/**
+	 * Determines action depending on subtype
+	 * @param message
+	 */
 	public void distributor(Message message) {
 		switch(message.getSubType()) {
 		case 14: //OpenDoorRequest
@@ -59,6 +71,10 @@ public class Game implements Runnable {
 			
 		
 		}
+	/**
+	 * Loads new level
+	 * @param levelNumber
+	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generateLabyrinth(gameSize);
 		//Monsters = Labyrinth.placeMonsters(gameMap, levelNumber); Needs Input

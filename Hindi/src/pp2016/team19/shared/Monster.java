@@ -21,7 +21,7 @@ public class Monster extends Character {
 	private int cooldownWalk;
 	
 	private int[] lastPlayerPos;
-	private LinkedList<Node> AStarPath;
+	private LinkedList<Node> aStarPath;
 	
 	private int dir; // Running direction: 0 North, 1 East, 2 South, 3 West
 	private int type; // Present from beginning: 0, Appears later: 1
@@ -52,7 +52,7 @@ public class Monster extends Character {
 		lastPlayerPos = new int[2];
 		lastPlayerPos[0] = -1;
 		lastPlayerPos[1] = -1;
-		AStarPath = new LinkedList<Node>();
+		aStarPath = new LinkedList<Node>();
 		
 		setDamage(5 + window.currentLevel * 2);
 		Random r = new Random();
@@ -137,9 +137,9 @@ public class Monster extends Character {
 		 boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
 		 if(nextWalk){
 			// Did the player move since the last route calculation?
-			if(AStarPath.isEmpty() || player.getXPos() != this.lastPlayerPos[0] || player.getYPos() != this.lastPlayerPos[1]) {
-				AStarPath.clear();
-				AStarPath = AStarSearch(this.getXPos(), this.getYPos(), player.getXPos(), player.getYPos());
+			if(aStarPath.isEmpty() || player.getXPos() != this.lastPlayerPos[0] || player.getYPos() != this.lastPlayerPos[1]) {
+				aStarPath.clear();
+				aStarPath = AStarSearch(this.getXPos(), this.getYPos(), player.getXPos(), player.getYPos());
 				updatePlayerPos();
 			}
 			if(!changeDir()){
@@ -216,13 +216,18 @@ public class Monster extends Character {
 		}
 	}
 	
+	public int[] getFleePos() {
+		//int fleeX = HEIGHT - player.getXPos();
+		return new int[2];
+	}
+	
 	/**
 	* Removes the next Step of the AStarPath and changes the running direction of the monster
 	* @return returns true if the change was successful, returns false if the next step is not next
 	* to the monster position
 	* @author Strohbuecker, Max, 5960738 */
 	public boolean changeDir(){
-		Node nextNode = AStarPath.removeFirst();
+		Node nextNode = aStarPath.removeFirst();
 		if(nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos()-1){
 			dir = 0;
 		} else if(nextNode.getXPos() == this.getXPos()+1 && nextNode.getYPos() == this.getYPos()){
