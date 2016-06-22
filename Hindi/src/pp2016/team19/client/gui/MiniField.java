@@ -43,6 +43,7 @@ public class MiniField extends JPanel {
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
 		}
+		
 	}
 	
 // not used yet
@@ -54,13 +55,13 @@ public class MiniField extends JPanel {
 	public void paint(Graphics g) {
 		
 		// First, everything is going to be overpainted while repainting
-		//g.setColor(Color.BLACK);
-		//g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		// Draw every single field
 		for (int i = 0; i < window.WIDTH; i++) {
 			for (int j = 0; j < window.HEIGHT; j++) {
-//				if (inRange(i,j)) {
+				if (inRange(i,j)) {
 
 					if (window.level[i][j] instanceof Wall) {
 						// Here goes a wall
@@ -96,7 +97,7 @@ public class MiniField extends JPanel {
 						g.drawImage(potion, i * miniBox, j
 								* miniBox, null);
 					}
-				//}
+				}
 			}
 		}
 		
@@ -119,9 +120,9 @@ public class MiniField extends JPanel {
 		}
 	}
     
-//	private boolean inRange(int i, int j) {
-//		return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
-//				+ Math.pow(window.player.getYPos() - j, 2)) < 3 || window.mistOn);
-//	}
-//	
+	private boolean inRange(int i, int j) {
+		return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
+				+ Math.pow(window.player.getYPos() - j, 2)) < 3 || window.mistOn);
+	}
+	
 }

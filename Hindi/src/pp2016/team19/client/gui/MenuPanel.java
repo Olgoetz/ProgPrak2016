@@ -22,7 +22,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	public JPanel p;
 	private JButton b1;
 	private JButton b2;
-	 
+	
 	//constructor of the menupanel
 	
 	public MenuPanel(GameWindow window){
@@ -67,18 +67,18 @@ public class MenuPanel extends JPanel implements ActionListener {
 			window.showGameField();
 	}else if (ae.getSource() == b2)	{
 		System.exit(0);      //ordentliches ausloggen kommt noch :) jetzt erst einfach mal anwendung schließen
-	}
-	
+	}	
 }
+
 	
-// logout button verschwindet, nachdem außerhalb des frames klickt, taucht er auf wtf???
+//logout button verschwindet, nachdem außerhalb des frames klickt, taucht er auf wtf???
 //	public void paint(Graphics g){
 //	//g.setColor(Color.GRAY);
 //	//g.fillRect(0, 300, 300,100);
 //	g.drawImage(menu, this.getWidth()/3, 300, null);	
 //	}
-}
+//}
 
-	
+}
 
 
