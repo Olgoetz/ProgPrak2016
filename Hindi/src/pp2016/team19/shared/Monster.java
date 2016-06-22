@@ -22,11 +22,12 @@ public class Monster extends Character {
 	private long lastStep;
 	private int cooldownAttack;
 	private int cooldownWalk;
+	
+	private int actAction; // Defines what action the monster should do: 0 move to player, 1 flee, 2 regenerate
 
 	private int[] lastPlayerPos;
 	private LinkedList<Node> pathToPlayer;
 	private LinkedList<Node> fleePath;
-	private boolean changedState;
 
 	private int dir; // Running direction: 0 North, 1 East, 2 South, 3 West
 	private int type; // Present from beginning: 0, Appears later: 1
@@ -71,7 +72,7 @@ public class Monster extends Character {
 		lastPlayerPos[1] = -1;
 		pathToPlayer = new LinkedList<Node>();
 		fleePath = new LinkedList<Node>();
-		changedState = true;
+		actAction = -1;
 
 		setDamage(5 + window.currentLevel * 2);
 		Random r = new Random();
@@ -109,6 +110,9 @@ public class Monster extends Character {
 		boolean playerInRange = (Math.sqrt(Math.pow(player.getXPos()
 				- getXPos(), 2)
 				+ Math.pow(player.getYPos() - getYPos(), 2)) < 2);
+		
+		// Did the monster attack or is it weak?
+//		boolean attacked = false;
 
 		// Is the monster able to attack?
 		boolean ableToAttack = false;
@@ -117,9 +121,14 @@ public class Monster extends Character {
 		if (type == 1)
 			ableToAttack = (hasKey && ((System.currentTimeMillis() - lastAttack) >= cooldownAttack));
 
-		if (playerInRange && ableToAttack) {
-			lastAttack = System.currentTimeMillis();
-			player.changeHealth(-getDamage());
+		if (this.getHealth() > this.getMaxHealth() / 4) {
+			if (playerInRange && ableToAttack) {
+				lastAttack = System.currentTimeMillis();
+				player.changeHealth(-getDamage());
+//				attacked = true;
+			}
+		}else{
+			move();
 		}
 		return playerInRange;
 	}
@@ -150,17 +159,20 @@ public class Monster extends Character {
 	}
 
 	// <<<<<<<<<< FSM >>>>>>>>>>
-
+	
 	public void move() {
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
 		if (nextWalk) {
 			if (playerInRange()) {
-				if (this.getHealth() <= this.getMaxHealth()/4)
-					flee();
-				else
+				if (this.getHealth() > this.getMaxHealth()/4)
 					moveToPlayer();
-			} else
+				else
+					flee();
+			} else{
 				changeHealth(5);
+				actAction = 2;
+			}
+			
 			lastStep = System.currentTimeMillis();
 		}
 	}
@@ -170,15 +182,12 @@ public class Monster extends Character {
 	 * the AStar to calculate a path to him and the monster goes the first step
 	 * of the path. Otherwise the monster should go further the calculated path.
 	 * 
-	 * @return returns true if the movement was successful, returns false if
-	 *         there was an error while changing direction or validating the
-	 *         next step
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public boolean moveToPlayer() {
+	public void moveToPlayer() {
 
 		// Did the player move since the last route calculation?
-		if (changedState || pathToPlayer.isEmpty() || player.getXPos() != this.lastPlayerPos[0]
+		if (actAction != 0 || pathToPlayer.isEmpty() || player.getXPos() != this.lastPlayerPos[0]
 				|| player.getYPos() != this.lastPlayerPos[1]) {
 			pathToPlayer.clear();
 			pathToPlayer = AStarSearch(this.getXPos(), this.getYPos(),
@@ -187,25 +196,7 @@ public class Monster extends Character {
 		}
 		
 		changeDir(pathToPlayer);
-		if (valid()) {
-			switch (dir) {
-			case 0:
-				moveUp();
-				break;
-			case 1:
-				moveRight();
-				break;
-			case 2:
-				moveDown();
-				break;
-			case 3:
-				moveLeft();
-				break;
-			}
-		} else {
-			return false;
-		}
-		return true;
+		actAction = 0;
 	}
 
 	/**
@@ -216,7 +207,7 @@ public class Monster extends Character {
 	 */
 	public void flee() {
 
-		if (changedState || fleePath.isEmpty()) {
+		if (actAction != 1 || fleePath.isEmpty()) {
 			Node fleePos = getFleePos();
 			System.out.println("Flee to: " + fleePos.getXPos() + ", "
 					+ fleePos.getYPos());
@@ -226,77 +217,7 @@ public class Monster extends Character {
 		}
 
 		changeDir(fleePath);
-		if (valid()) {
-			switch (dir) {
-			case 0:
-				moveUp();
-				break;
-			case 1:
-				moveRight();
-				break;
-			case 2:
-				moveDown();
-				break;
-			case 3:
-				moveLeft();
-				break;
-			}
-		}
-
-		// if(player.getXPos() < this.getXPos()){
-		// if(player.getYPos() < this.getYPos()){
-		// // Player in north-west of the monster
-		// // Try to go east
-		// dir = 1;
-		// if (!valid()){
-		// // Else try to go south
-		// dir++;
-		// }
-		// }else{
-		// // Player in south-west of the monster
-		// // Try to go north
-		// dir = 0;
-		// if (!valid()){
-		// // Else Try to go east
-		// dir++;
-		// }
-		// }
-		// }else{ // Player in the east of the monster
-		// if(player.getYPos() < this.getYPos()){
-		// // Player in the north-east of the monster
-		// // Try to go south
-		// dir = 2;
-		// if (!valid()){
-		// // Else try to go west
-		// dir++;
-		// }
-		// }else{
-		// // Player in the south-east of the monster
-		// // Try to go west
-		// dir = 3;
-		// if (!valid()){
-		// // Else try north
-		// dir = 0;
-		// }
-		// }
-		// }
-//		if (valid()) {
-//			switch (dir) {
-//			case 0:
-//				moveUp();
-//				break;
-//			case 1:
-//				moveRight();
-//				break;
-//			case 2:
-//				moveDown();
-//				break;
-//			case 3:
-//				moveLeft();
-//				break;
-//			}
-//			lastStep = System.currentTimeMillis();
-//		}
+		actAction = 1;
 	}
 
 	/**
@@ -306,100 +227,47 @@ public class Monster extends Character {
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public Node getFleePos() {
-		int fleeX = -1;
-		int fleeY = -1;
 		
-		if (this.getXPos() < WIDTH/2)
-			fleeX = WIDTH-3;
-		else
-			fleeX = 2;
-		if (this.getYPos() < HEIGHT/2)
-			fleeY = HEIGHT-3;
-		else
-			fleeY = 2;
-		
-		if (!isWalkable(fleeX, fleeY)) {
-			for (int x = -2; x <= 2; x++) {
-				for (int y = -2; y <= 2; y++) {
-					if (isWalkable(fleeX + x, fleeY + y)) {
-						return new Node(fleeX + x, fleeY + y);
+		if (this.getXPos() < WIDTH/2 || this.getXPos() >= player.getXPos()){
+			if (this.getYPos() < HEIGHT/2 || this.getYPos() >= player.getYPos()){
+				// Monster in top left quartal, flee to down right corner
+				for (int fleeX=WIDTH-1; fleeX>=WIDTH/2; fleeX--){
+					for (int fleeY=HEIGHT-1; fleeY>=HEIGHT/2; fleeY--){
+						if (isWalkable(fleeX,fleeY))
+							return new Node(fleeX,fleeY);
+					}
+				}
+			}else if (this.getYPos() >= HEIGHT/2 || this.getYPos() < player.getYPos()){
+				// Monster in down left quartal, flee to top right corner
+				for (int fleeX=WIDTH-1; fleeX>=WIDTH/2; fleeX--){
+					for (int fleeY=0; fleeY<HEIGHT/2; fleeY++){
+						if (isWalkable(fleeX,fleeY))
+							return new Node(fleeX,fleeY);
+					}
+				}
+			}
+		}else if (this.getXPos() >= WIDTH/2 || this.getXPos() < player.getXPos()){
+			if (this.getYPos() < HEIGHT/2 || this.getYPos() >= player.getYPos()){
+				// Monster in top right quartal, flee to down left corner
+				for (int fleeX=0; fleeX<WIDTH/2; fleeX++){
+					for (int fleeY=HEIGHT-1; fleeY>=HEIGHT/2; fleeY--){
+						if (isWalkable(fleeX,fleeY))
+							return new Node(fleeX,fleeY);
+					}
+				}
+			}else if (this.getYPos() >= HEIGHT/2 || this.getYPos() < player.getYPos()){
+				// Monster in down right quartal, flee to top left corner
+				for (int fleeX=0; fleeX<WIDTH/2; fleeX++){
+					for (int fleeY=0; fleeY<HEIGHT/2; fleeY++){
+						if (isWalkable(fleeX,fleeY))
+							return new Node(fleeX,fleeY);
 					}
 				}
 			}
 		}
+		// An error occured, no flee-position was found.
 		System.out.println("No position found, where monster can flee.");
 		return null;
-	}
-
-	/**
-	 * Calculates, whether the target position is walkable for a monster.
-	 * 
-	 * @param x
-	 *            x-coordinate of the target
-	 * @param y
-	 *            y-coordinate of the target
-	 * @return returns true if field is free, returns false if field is a wall,
-	 *         key or door
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public boolean isWalkable(int x, int y) {
-		if (window.level[x][y] instanceof Wall
-				|| window.level[x][y] instanceof Key
-				|| window.level[x][y] instanceof Door) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	/**
-	 * Calculates, whether the player is in range of the monster (Needed for
-	 * move()).
-	 * 
-	 * @return returns true if the player is in range of the monster, returns
-	 *         false if not
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public boolean playerInRange() {
-		int range = 4;
-		if ((player.getXPos() >= this.getXPos() - range && player.getXPos() <= this
-				.getXPos() + range)
-				&& (player.getYPos() >= this.getYPos() - range && player
-						.getYPos() <= this.getYPos() + range)) {
-			return true;
-		} else
-			return false;
-	}
-
-	/**
-	 * Removes the next Step of the AStarPath and changes the running direction
-	 * of the monster
-	 * 
-	 * @param path the path, of which the next step should be calculated
-	 * @return returns true if the change was successful, returns false if the
-	 *         next step is not next to the monster position
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public boolean changeDir(LinkedList<Node> path) {
-		Node nextNode = path.removeFirst();
-		if (nextNode.getXPos() == this.getXPos()
-				&& nextNode.getYPos() == this.getYPos() - 1) {
-			dir = 0;
-		} else if (nextNode.getXPos() == this.getXPos() + 1
-				&& nextNode.getYPos() == this.getYPos()) {
-			dir = 1;
-		} else if (nextNode.getXPos() == this.getXPos()
-				&& nextNode.getYPos() == this.getYPos() + 1) {
-			dir = 2;
-		} else if (nextNode.getXPos() == this.getXPos() - 1
-				&& nextNode.getYPos() == this.getYPos()) {
-			dir = 3;
-		} else {
-			System.out
-					.println("Error while changing direction: Next step is not next to the monster");
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -530,16 +398,94 @@ public class Monster extends Character {
 	}
 
 	/**
-	 * Returns the type of the monster. 0 - spawns at beginning, 1 - spawns
-	 * after taking the key
+	 * Calculates, whether the target position is walkable for a monster.
 	 * 
-	 * @return type of the monster
+	 * @param x
+	 *            x-coordinate of the target
+	 * @param y
+	 *            y-coordinate of the target
+	 * @return returns true if field is free, returns false if field is a wall,
+	 *         key or door
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public int getType() {
-		return type;
+	public boolean isWalkable(int x, int y) {
+		if (window.level[x][y] instanceof Wall
+				|| window.level[x][y] instanceof Key
+				|| window.level[x][y] instanceof Door) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
+	/**
+	 * Calculates, whether the player is in range of the monster (Needed for
+	 * move()).
+	 * 
+	 * @return returns true if the player is in range of the monster, returns
+	 *         false if not
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public boolean playerInRange() {
+		int range = 4;
+		if ((player.getXPos() >= this.getXPos() - range && player.getXPos() <= this
+				.getXPos() + range)
+				&& (player.getYPos() >= this.getYPos() - range && player
+						.getYPos() <= this.getYPos() + range)) {
+			return true;
+		} else
+			return false;
+	}
+	
+	/**
+	 * Removes the next Step of the AStarPath and changes the running direction
+	 * of the monster
+	 * 
+	 * @param path the path, of which the next step should be calculated
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void changeDir(LinkedList<Node> path) {
+		Node nextNode = path.removeFirst();
+//		Node test;
+//		System.out.println("PATH:");
+//		for (int i=0; i<path.size();i++){
+//			test = path.get(i);
+//			System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
+//		}
+		if (nextNode.getXPos() == this.getXPos()
+				&& nextNode.getYPos() == this.getYPos() - 1) {
+			dir = 0;
+		} else if (nextNode.getXPos() == this.getXPos() + 1
+				&& nextNode.getYPos() == this.getYPos()) {
+			dir = 1;
+		} else if (nextNode.getXPos() == this.getXPos()
+				&& nextNode.getYPos() == this.getYPos() + 1) {
+			dir = 2;
+		} else if (nextNode.getXPos() == this.getXPos() - 1
+				&& nextNode.getYPos() == this.getYPos()) {
+			dir = 3;
+		} else {
+			System.out
+					.println("Error while changing direction: Next step is not next to the monster");
+		}
+		if (valid()) {
+			switch (dir) {
+			case 0:
+				moveUp();
+				break;
+			case 1:
+				moveRight();
+				break;
+			case 2:
+				moveDown();
+				break;
+			case 3:
+				moveLeft();
+				break;
+			}
+		}
+	}
+	
 	/**
 	 * Checks, whether the next step is valid.
 	 * 
@@ -571,6 +517,17 @@ public class Monster extends Character {
 					.println("Error while validating step: Next step blocked by a wall, door or key.");
 			return false;
 		}
+	}
+	
+	/**
+	 * Returns the type of the monster. 0 - spawns at beginning, 1 - spawns
+	 * after taking the key
+	 * 
+	 * @return type of the monster
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public int getType() {
+		return type;
 	}
 
 }
