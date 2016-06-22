@@ -23,7 +23,7 @@ import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
 
-public class GameWindow extends JFrame implements KeyListener, MouseListener, ActionListener {
+public class GameWindow extends JFrame implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -94,7 +94,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ac
 		
 		this.addKeyListener(this);
 		gamefield.addMouseListener(this);
-		//menupanel.addActionListener(this);
 		this.setResizable(false);
 		this.setTitle(title);
 		this.setVisible(true);
@@ -177,6 +176,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ac
 	public MenuPanel getMenuPanel(){return menupanel;}
 
 	
+
+// control with mouse 
+// compares the coordinates of the mouseclick with the player positon 
+// if mouseclick higher than player position, player moves up (mouse-y smaller than player-y) 
+// if mouseclick lower than player position, player moves down (mouse-y bigger than player-y) 
+// etc.
 	public void mouseClicked(MouseEvent m) {
 	 
 	 int xPos = player.getXPos();
@@ -197,35 +202,14 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ac
 		} 
  	}
 }
-	// attack monster with click???!! 
 
-	
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+// remaining methods of the MouseListener Interface which have to be implemented but not used
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {}
 		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-		
-	
-	// Methods of the KeyListener interface
+	// control with arrow keys 
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
 		int xPos = player.getXPos();
@@ -294,6 +278,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ac
 
 	}
 
+// remaining methods of the KeyListner interface 
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 
@@ -360,10 +345,5 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ac
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
