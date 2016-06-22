@@ -68,14 +68,15 @@ public class Labyrinth {
 	 */
 	
 	private static Tile[][] gameMap;
-	private static int gameSize;
-	private static int monsterNumber;
+	//private static int gameSize;
+	//private static int monsterNumber;
 	
-	public Labyrinth(int gameSize, int monsterNumber){
+	/**public Labyrinth(int gameSize, int monsterNumber){
 		this.gameSize = gameSize;
 		this.monsterNumber = monsterNumber;
 	}
-
+	*/
+	
 	/**
 	 * "generateLabyrinth()" is an essential method, which gets the gameSize as Input and returns the gameMap.
 	 * It uses the method 		"createRockMap(gameSize)", 		to create an object-Array and set every object of Tile as type = ROCK. 
@@ -92,16 +93,16 @@ public class Labyrinth {
 		gameMap = new Tile[gameSize][gameSize];
 
 		// Creates a Map of ROCKS.
-		createRockMap();
+		createRockMap(gameSize);
 
 		// Starts to switch Rock-Tiles to Floor-Tiles, to make a maze.
-		floodFill(1, gameSize - 2);
+		floodFill(1, gameSize - 2, gameSize);
 
 		// Places an Entry.
-		placeEntry();
+		placeEntry(gameSize);
 
 		// Places an Exit.
-		placeExit(1);
+		placeExit(1, gameSize);
 
 		// Places a Key
 		placeKey(1, gameSize);
@@ -110,7 +111,7 @@ public class Labyrinth {
 		placePotion(gameSize);
 
 		// Places a number of Monster.
-		placeMonster();
+		placeMonster(gameSize,2);
 
 		return gameMap;
 	}
@@ -121,7 +122,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void createRockMap(){
+	public static void createRockMap(int gameSize){
 		
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
@@ -156,7 +157,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckRight(int x, int y) {
+	public static boolean edgeCheckRight(int x, int y, int gameSize) {
 
 		if (y + 1 == gameSize - 1) {
 			return false;
@@ -173,7 +174,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckDown(int x, int y) {
+	public static boolean edgeCheckDown(int x, int y, int gameSize) {
 
 		if (x + 1 == gameSize - 1) {
 			return false;
@@ -190,7 +191,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static boolean edgeCheckLeft(int x, int y) {
+	public static boolean edgeCheckLeft(int x, int y, int gameSize) {
 
 		if (y - 1 == 0) {
 			return false;
@@ -207,7 +208,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static int countNeighbors(int x, int y) {
+	public static int countNeighbors(int x, int y, int gameSize) {
 
 		int counter = 0;
 
@@ -293,7 +294,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeMonster(){
+	public static void placeMonster(int gameSize, int monsterNumber){
 		
 		// create Vector, for possible monster Tiles
 		int[] possibleMonsterPlaces = new int[gameSize*gameSize];
@@ -348,7 +349,7 @@ public class Labyrinth {
 		boolean br = false;
 		for (int i = 1; i < (gameSize / 2 + 1); i++) {
 			if (gameMap[i][j].isFloor()) {
-				if (countNeighbors(i, j) < 2) {
+				if (countNeighbors(i, j, gameSize) < 2) {
 					gameMap[i][j].setContainsKey(true);
 					br = true;
 					System.out.print("\nKey placed...");
@@ -370,11 +371,11 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeExit(int j) {
+	public static void placeExit(int j, int gameSize) {
 		boolean br = false;
 		for (int i = (gameSize - 2); i > (gameSize / 2 + 1); --i) {
 			if (gameMap[i][j].isFloor()) {
-				if (countNeighbors(i, j) < 2) {
+				if (countNeighbors(i, j, gameSize) < 2) {
 					gameMap[i][j].setType(EXIT);
 					br = true;
 					System.out.println("\nExit placed in lower left Corner\n");
@@ -385,7 +386,7 @@ public class Labyrinth {
 		}
 
 		if (br == false) {
-			placeExit(j + 1);
+			placeExit((j + 1), gameSize);
 		}
 	}
 
@@ -395,7 +396,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeEntry() {
+	public static void placeEntry(int gameSize) {
 		gameMap[1][gameSize - 2].setType(ENTRY);
 		System.out.println("Entry placed in upper right Corner");
 	}
@@ -406,7 +407,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void floodFill(int x, int y) {
+	public static void floodFill(int x, int y, int gameSize) {
 
 		int zahl = (int) ((Math.random()) * 4 + 1);
 
@@ -419,9 +420,9 @@ public class Labyrinth {
 		case 1:
 			if (edgeCheckUp(x, y)) {
 				if (gameMap[x - 1][y].isRock()) {
-					if (countNeighbors(x - 1, y) < 2) {
+					if (countNeighbors(x - 1, y, gameSize) < 2) {
 						// if(diagNeighbours(x-1,y)){
-						floodFill(x - 1, y);
+						floodFill(x - 1, y, gameSize);
 						// }
 
 					}
@@ -434,11 +435,11 @@ public class Labyrinth {
 			}
 
 		case 2:
-			if (edgeCheckRight(x, y)) {
+			if (edgeCheckRight(x, y, gameSize)) {
 				if (gameMap[x][y + 1].isRock()) {
-					if (countNeighbors(x, y + 1) < 2) {
+					if (countNeighbors(x, y + 1, gameSize) < 2) {
 						// if(diagNeighbours(x,y+1)){
-						floodFill(x, y + 1);
+						floodFill(x, y + 1, gameSize);
 						// }
 					}
 				}
@@ -450,11 +451,11 @@ public class Labyrinth {
 			}
 
 		case 3:
-			if (edgeCheckDown(x, y)) {
+			if (edgeCheckDown(x, y, gameSize)) {
 				if (gameMap[x + 1][y].isRock()) {
-					if (countNeighbors(x + 1, y) < 2) {
+					if (countNeighbors(x + 1, y, gameSize) < 2) {
 						// if(diagNeighbours(x+1,y)){
-						floodFill(x + 1, y);
+						floodFill(x + 1, y, gameSize);
 						// }
 					}
 				}
@@ -466,11 +467,11 @@ public class Labyrinth {
 			}
 
 		case 4:
-			if (edgeCheckLeft(x, y)) {
+			if (edgeCheckLeft(x, y, gameSize)) {
 				if (gameMap[x][y - 1].isRock()) {
-					if (countNeighbors(x, y - 1) < 2) {
+					if (countNeighbors(x, y - 1, gameSize) < 2) {
 						// if(diagNeighbours(x,y-1)){
-						floodFill(x, y - 1);
+						floodFill(x, y - 1, gameSize);
 						// }
 					}
 				}
