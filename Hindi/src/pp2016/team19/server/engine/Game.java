@@ -23,12 +23,13 @@ public class Game extends TimerTask {
 	ServerEngine engine;
 	boolean tester = true; //Testing
 	Player player;
+	int potions;
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
-		gameMap = Labyrinth.generateLabyrinth(gameSize);
+		//gameMap = Labyrinth.generate(gameSize);
 	}
 	/**
 	 * Sets Clock for Game Engine, processes messages
@@ -57,21 +58,54 @@ public class Game extends TimerTask {
 			this.playerMove(message);
 			System.out.println("Player moved");
 			break;
+		case 2:
+			this.playerAttack(message);
+			break;
+		case 4:
+			this.collectItem(message);
+		case 6:
+			this.usePotion(message);
 		default:
 			break;
-		case 14: //OpenDoorRequest
-			if (player.hasKey()) {
-			levelNumber++;
-			newLevel(levelNumber);
-			}
+		case 8: //OpenDoorRequest
+			this.openDoor();
 		case 37: //Testing
 			this.messageTester(message);
 			break;
 		}
-			
-			
-		
+
 		}
+
+	private void openDoor() {
+		if (player.hasKey()) {
+			levelNumber++;
+			this.newLevel(levelNumber);
+			//Message answer = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1); //Datatype
+		}
+		
+	}
+	private void usePotion(Message message) { //How does it work?
+		potions = player.getNumberOfPotions();
+		if (potions>0) {
+			player.usePotion();
+			//doSomething, doesn't seem to work yet
+		}
+	}
+	private void collectItem(Message message) {
+		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
+			//player.takePotion(); //How do I access the object?
+			//Message answer = (MessTakePotionAnswer) new MessTakePotionAnswer(1,5); Doesn't exist yet
+			//Don't forget to send answer
+		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
+			player.takeKey();
+			//Message answer = (MessTakePotionAnswer) new MessTakePotionAnswer(1,5); Doesn't exist yet
+			//Don't forget to send answer
+		}
+	}
+	private void playerAttack(Message message) {
+		//player.monsterToAttack(); What does it return?
+		//What about attacking multiple monsters at once?
+	}
 	private void messageTester(Message message) { //Testing
 		System.out.println(message.toString());
 		Message answer = (TestMessage) new TestMessage(1,18,"Answering Test");
@@ -98,7 +132,7 @@ public class Game extends TimerTask {
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 		switch(message.getDirection()) {
 		case 0: //MoveUp
-		if (gameMap[player.getXPos()][player.getYPos()+1].isFloor()) {
+		if (gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
 				player.setPos(player.getXPos(),player.getYPos()+1);
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 				System.out.println("Move executed");
@@ -119,7 +153,7 @@ public class Game extends TimerTask {
 				}
 			}  
 			case 1: //MoveDown
-				if (gameMap[player.getXPos()][player.getYPos()-1].isFloor()) {
+				if (gameMap[player.getXPos()][player.getYPos()-1].isWalkable()) {
 					player.setPos(player.getXPos(),player.getYPos()-1);
 					Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 					try {
@@ -138,7 +172,7 @@ public class Game extends TimerTask {
 					}
 				}
 				case 2: //MoveLeft
-					if (gameMap[player.getXPos()-1][player.getYPos()].isFloor()) {
+					if (gameMap[player.getXPos()-1][player.getYPos()].isWalkable()) {
 						player.setPos(player.getXPos()-1,player.getYPos());
 						Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 						try {
@@ -157,7 +191,7 @@ public class Game extends TimerTask {
 						}
 					}
 					case 3: //MoveRight
-						if (gameMap[player.getXPos()+1][player.getYPos()].isFloor()) {
+						if (gameMap[player.getXPos()+1][player.getYPos()].isWalkable()) {
 							player.setPos(player.getXPos()+1,player.getYPos());
 							Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 							try {

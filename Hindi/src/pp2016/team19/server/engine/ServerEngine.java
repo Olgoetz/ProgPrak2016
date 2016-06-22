@@ -47,7 +47,7 @@ public class ServerEngine implements Runnable {
 		player.setPos(3, 3);
 		this.tick.scheduleAtFixedRate(game1, 0, 50);
 		network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
-		//network.addMessage(new MessMoveCharacterRequest(0,true,1,0));
+		network.addMessage(new MessMoveCharacterRequest(1,true,1,0));
 		while (true) {
 				Message message = network.getMessageFromClient();
 				if (message != null) {
@@ -153,7 +153,7 @@ public class ServerEngine implements Runnable {
 	private void ConnectionRequest(Message message) {
 		// TODO Auto-generated method stub
 		System.out.println("Connected");
-		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0, 3);
 		try {
 			this.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
