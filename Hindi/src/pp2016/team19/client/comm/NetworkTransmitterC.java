@@ -27,6 +27,7 @@ public class NetworkTransmitterC extends Thread {
 			while (true)
 			{
 				ThreadWaitForMessage.waitFor(100L);
+//				Thread.sleep(100);
 				messageTS = messagesToServer.poll();
 				if (messageTS != null)
 				{

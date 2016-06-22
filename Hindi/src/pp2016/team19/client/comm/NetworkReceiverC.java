@@ -46,4 +46,5 @@ public class NetworkReceiverC extends Thread {
 	public Message getMessage(){
 		return messagesFromServer.poll();
 	}
+
 }
