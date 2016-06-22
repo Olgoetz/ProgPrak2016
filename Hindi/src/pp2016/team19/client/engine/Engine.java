@@ -20,10 +20,31 @@ import pp2016.team19.shared.Character;
  * 
  * @author Oliver Goetz, 5961343
  * 
- * This class is the client engine. It contains methods to analyze the message type
- * as well as corresponding methods to process these messages.
+ * Summary:
+ * This class represents the client-engine together with all its variables and processing
+ * methods. It consists of several sections:
+ * 
+ * Section 1:
+ * 				- Constructor 
+ * 				- A thread is initialized
+ * 				
+ * 
+ * Section 2:
+ * 				- messageReader-Method to analyze incoming messages
+ * 				- several subsections with switch cases statements to call the appropriate method
+ * 
+ * Section 3:
+ * 				- Request Methods to send information to the server
+ * 				- Answer Methods to process messages from the sever
+ * 
+ * Section 4:
+ * 				- Helper methods
+ * 				- Getter and Setter methods
+ * 				
  */
 
+
+//***** Section 1 *****//
 
 public class Engine implements Runnable {
 
@@ -90,6 +111,11 @@ public class Engine implements Runnable {
 		// System.out.println("THREAD FINISHED: Engine");
 	}
 
+	
+	
+
+//***** Section 2 *****//
+	
 	
 	/***
 	 * @author Oliver Goetz, 5961343
@@ -180,9 +206,6 @@ public class Engine implements Runnable {
 //	 * 
 //	 * @author Oliver Goetz, 5961343
 //	 * 
-//	 * @param userName
-//	 * @param password
-//	 * @param password2
 //	 * 
 //	 * 
 //	 * 
@@ -190,8 +213,22 @@ public class Engine implements Runnable {
 //	 */
 //
 //	
+	
+//***** Section 3 *****//
+	
+	/***
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage
+	 * @param userName
+	 * @param password
+	 * @param password2
+	 * 
+	 * In this section, methods are provided to process requests and answers
+	 */
+	
 	// ********** TYPE = 0 >> SIGN{UP,IN} ACTIONS AND METHODS **********
 
+	// Sends a SignUpRequest to the server
 	public void serverSignUpRequest(String pUsername, String pPassword, String pPassword2) {
 		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
 
@@ -203,6 +240,7 @@ public class Engine implements Runnable {
 		}
 	}
 
+	// Processes a SignUpAnswer Message coming from the server
 	private void serverSignUpAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.serverSignUpAnswer() " + pMessage.toString());
 
@@ -219,6 +257,7 @@ public class Engine implements Runnable {
 		}
 	}
 	
+	// Sends a SignInRequest to the server
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
@@ -226,7 +265,7 @@ public class Engine implements Runnable {
 		//this.GUI.getLoginFrame().newStatus("sign in requested", Color.BLACK);
 	}
 
-
+	// Processes a SignInAnswer Message coming from the server
 	private void serverSignInAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.serverSignInAnswer() " + pMessage.toString());
 
@@ -265,15 +304,23 @@ public class Engine implements Runnable {
 //	}
 	
 	
+	/**
+	 * @author Oliver Goetz, 5961343
+	 * @param direction
+	 * @param confirmed
+	 */
 
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
+	
+	// Sends a moveCharacterRequest to the server
 	public void moveCharacterRequest(int direction, boolean confirmed) {
 		
 	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 1, 0));
 	System.out.println("Message sent");
 	} 
 	
+	// Processes a moveCharacterAnswer Message coming from the server
 	private void moveCharacterAnswer(Message pMessage) {	
 			
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
@@ -284,10 +331,12 @@ public class Engine implements Runnable {
 			
 		}
 	
+	// Sends an attackRequest to the server
 	public void attackRequest(boolean attack) {
 		this.sendToServer(new MessAttackRequest(attack,0,2));
 	}
 	
+	// Processes an attackAnswer Message coming from the server
 	public void attackAnswer(Message pMessage) {
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
 		
@@ -327,24 +376,34 @@ public class Engine implements Runnable {
 //	}
 //	
 //	
+	
+	/**
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage
+	 */
+	
+	
 	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
 	
+	// Sends a levelRequest to the server
 	public void levelRequest() {
-		
 		this.sendToServer(new MessLevelRequest(labyrinth,2,0));
 	}
 	
+	// Processes a levelAnswer Message coming from the server
 	public void levelAnswer(Message pMessage) {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
 	}
 	
+	// Sends a playerRequest to the server
 	public void playerRequest() {
 		System.out.println("METHOD Engine.playerRequest: Player requested!" );
 		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
 	}
 	
+	// Processes an levelAnswer Message coming from the server
 	public void playerAnswer(Message pMessage) {
 		System.out.println("METHoD Engine.plyerAnswer:" + pMessage.toString());
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
@@ -369,12 +428,16 @@ public class Engine implements Runnable {
 	
 	
 	
-	
+	//***** Section 4 *****//
 	
 	/***
 	 * @author Oliver Goetz, 596313
 	 * 
 	 * @param pMessage
+	 * @param myPlayer
+	 * @param myMonster
+	 * @param networkHandler
+	 * @param GUI
 	 * 
 	 * This block contains helper, getter and setter methods
 	 */
@@ -382,6 +445,8 @@ public class Engine implements Runnable {
 
 
 	// ********* HELPERS and GETTERS'n'SETTERS **********
+	
+	// Calls the networkHandler a puts the message in a queue
 	private void sendToServer(Message pMessage) {
 		this.networkHandler.sendMessageToServer(pMessage);
 	}
