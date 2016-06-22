@@ -320,6 +320,10 @@ public class Labyrinth {
 		
 			// Random number to get a random floor
 			int number = (int) ((Math.random()) * counter + 1);
+			
+			if(number <= 1){
+				number = number + 2;
+			}
 		
 			// Gets the x and y Coordinate of gameMap
 			if (number%2 == 0){
