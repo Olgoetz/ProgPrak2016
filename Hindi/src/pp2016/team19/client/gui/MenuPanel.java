@@ -12,10 +12,7 @@ import javax.swing.*;
 public class MenuPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	
-//	JButton start = new JButton("Start Game");
-//	JButton highscore = new JButton("Show Highscore");
-//	JButton quit = new JButton("Quit");
+
 	private Image menu;
 	
 	private GameWindow window;
@@ -29,32 +26,33 @@ public class MenuPanel extends JPanel{
 	public MenuPanel(GameWindow window){
 		
 		this.window = window;
-		try{
-			menu=ImageIO.read(new File("img//menu.png"));
-		} catch (IOException e) {
-			System.err.println("Error while loading one of the images.");
-		}
+//		try{
+//			menu=ImageIO.read(new File("img//menu.png"));
+//		} catch (IOException e) {
+//			System.err.println("Error while loading one of the images.");
+//		}
 		
 		p=new JPanel();
-		p.setBackground(Color.YELLOW);
+		p.setBackground(Color.LIGHT_GRAY);
+		
 		p.setLayout( new GridLayout( 3, 0 ));
+		p.setBounds(20, 100, 400, 600);
+		p.setVisible(true);
 		 
-		b1 = new JButton("Button1");
-		b2 = new JButton("Button2");
-	
-		b3 = new JButton("Button3");
+		b1 = new JButton("Start Game");
+		b2 = new JButton("Show Highscore");
+		b3 = new JButton("Logout");
 		
 		p.add(b1);
 		p.add(b2);
 		p.add(b3);
+		this.add(p);
 		
 	}
 }
 
 //	public void paint(Graphics g){
-//		this.add(start);
-//		this.add(highscore);
-//		this.add(quit);
+//		
 //		g.setColor(Color.GRAY);
 //		g.fillRect(0, 0, 400,200);
 //
