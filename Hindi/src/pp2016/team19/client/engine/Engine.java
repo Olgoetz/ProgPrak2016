@@ -9,9 +9,10 @@ import java.util.concurrent.TimeUnit;
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.NetworkHandlerC;
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.client.gui.LoginBuild;
 import pp2016.team19.server.map.Labyrinth;
 import pp2016.team19.shared.*;
-import pp2016.team19.shared.Character;
+
 
 
 
@@ -53,7 +54,8 @@ public class Engine implements Runnable {
 	private ExecutorService threadPool;
 
 	private NetworkHandlerC networkHandler;
-	private GameWindow GUI;
+	private GameWindow gamewindow;
+	private LoginBuild loginbuild;
 
 	private int playerID;
 	private Player myPlayer;
@@ -68,8 +70,11 @@ public class Engine implements Runnable {
 	
 	public Engine() {
 		this.setNetworkHandler(new NetworkHandlerC());
-	
-		this.setGUI(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+//		this.setLoginBuild(new LoginBuild());
+		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		// here comes si
+		this.levelRequest();
+		this.playerRequest();
 	}
 
 //	public Engine(ExecutorService pThreadPool) {
@@ -322,11 +327,12 @@ public class Engine implements Runnable {
 	
 	// Processes a moveCharacterAnswer Message coming from the server
 	private void moveCharacterAnswer(Message pMessage) {	
-			
+		System.out.println("Message came from server");
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
 			if(message.isConfirmed()) {
 			myPlayer.xPos = message.getX();
 			myPlayer.yPos = message.getY();
+		
 			}
 			
 		}
@@ -437,7 +443,7 @@ public class Engine implements Runnable {
 	 * @param myPlayer
 	 * @param myMonster
 	 * @param networkHandler
-	 * @param GUI
+	 * @param gamewindow
 	 * 
 	 * This block contains helper, getter and setter methods
 	 */
@@ -497,17 +503,26 @@ public class Engine implements Runnable {
 		return networkHandler;
 	}
 
-	private void setNetworkHandler(NetworkHandlerC networkHandler) {
+	public void setNetworkHandler(NetworkHandlerC networkHandler) {
 		this.networkHandler = networkHandler;
 	}
 
-	private GameWindow getGUI() {
-		return GUI;
+	public GameWindow getGameWindow() {
+		return gamewindow;
 	}
 
-	private void setGUI(GameWindow gUI) {
-		GUI = gUI;
+	public void setGameWindow(GameWindow gamewindow) {
+		this.gamewindow = gamewindow;
 	}
+	
+	public LoginBuild getLoginBuild() {
+		return loginbuild;
+	}
+	
+	public void setLoginBuild(LoginBuild loginbuild) {
+		this.loginbuild = loginbuild;
+	}
+	
 	
 
 	
