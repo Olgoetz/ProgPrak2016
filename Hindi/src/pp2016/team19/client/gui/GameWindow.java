@@ -165,9 +165,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.pack();
 		controls.repaint();
 	}
-	
-	
-
 
 	// Getter for gamefield and statusbar
 	public GameField getGameField() {return gamefield;}
