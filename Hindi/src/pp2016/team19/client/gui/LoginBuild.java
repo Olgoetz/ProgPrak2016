@@ -135,15 +135,10 @@ public class LoginBuild extends JFrame implements ActionListener {
 		
 		RegButton = new JButton("Register");
 		RegButton.setBounds(10, 185, 169, 23);
-		RegisterPanel.add(RegButton);
-				
-		
-	
-	// plan: here implement method that login worked, after checking username and pw, then open the gamewindow automatically 
-		
+		RegisterPanel.add(RegButton);		
 	}
 	
-	
+	// plan: here implement method that login worked, after checking username and pw, then open the gamewindow automatically
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==LogButton){	
 	username = textField_1.getText();  //JTextfield

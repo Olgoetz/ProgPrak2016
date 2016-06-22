@@ -2,6 +2,8 @@ package pp2016.team19.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -21,7 +23,7 @@ import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
 
-public class GameWindow extends JFrame implements KeyListener, MouseListener {
+public class GameWindow extends JFrame implements KeyListener, MouseListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -74,6 +76,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.highscore = new Highscore();
 		this.menupanel = new MenuPanel(this);
 		this.menubar = new MenuBar(this);
+		
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(width, height));
 		statusbar.setPreferredSize(new Dimension(5* BOX, height));
@@ -81,8 +84,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
 		menupanel.setPreferredSize(new Dimension(width, height));
 		// Create the gamefield
-		showGameField();
-		//showMenu();
+		//showGameField();
+		showMenu();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
@@ -91,7 +94,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		
 		this.addKeyListener(this);
 		gamefield.addMouseListener(this);
-		menupanel.addMouseListener(this);
+		//menupanel.addActionListener(this);
 		this.setResizable(false);
 		this.setTitle(title);
 		this.setVisible(true);
@@ -355,6 +358,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		Reader reader = new Reader("lvl//level" + currentLevel + ".txt", this);
 		level = reader.getLevel();
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
