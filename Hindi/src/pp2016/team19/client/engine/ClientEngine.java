@@ -29,7 +29,6 @@ import pp2016.team19.shared.*;
  * 				- Constructor 
  * 				- A thread is initialized
  * 				
- * 
  * Section 2:
  * 				- messageReader-Method to analyze incoming messages
  * 				- several subsections with switch cases statements to call the appropriate method
@@ -47,7 +46,7 @@ import pp2016.team19.shared.*;
 
 //***** Section 1 *****//
 
-public class Engine implements Runnable {
+public class ClientEngine implements Runnable   {
 
 //	private LinkedBlockingQueue<Message> messagesFromServer;
 //	private LinkedBlockingQueue<Message> messagesToServer;
@@ -61,21 +60,28 @@ public class Engine implements Runnable {
 	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
-	private Labyrinth labyrinth;
-
+	private GameObject[][] labyrinth;
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
 	
 	
-	public Engine() {
+	public ClientEngine(ExecutorService clientThreadPool) {
+		System.out.println("Start Constructor");
+		this.setThreadPool(clientThreadPool);
 		this.setNetworkHandler(new NetworkHandlerC());
 //		this.setLoginBuild(new LoginBuild());
-		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		
 		// here comes si
-		this.levelRequest();
-		this.playerRequest();
+//		this.levelRequest();
+//		this.playerRequest();
+
+		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		this.getThreadPool().execute(this.getGameWindow());
+
 	}
+	
+	
 
 //	public Engine(ExecutorService pThreadPool) {
 //
@@ -102,19 +108,26 @@ public class Engine implements Runnable {
 	 * @author Oliver Goetz, 5961343
 	 * This method starts a thread.
 	 */
+	
 
 	@Override
 	public void run() {
-		System.out.println("THREAD STARTED: Engine");
-
+		// TODO Auto-generated method stub
+		System.out.println("Engine started");
 		while (true) {
-			Message message = this.networkHandler.getMessageFromServer();
-			if (message != null) {
-			this.messageReader(message);
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			Message message = this.getNetworkHandler().getMessageFromServer();
+			if (message != null) {
+				this.messageReader(message);
+			}		
 		}
-		// System.out.println("THREAD FINISHED: Engine");
 	}
+	
 
 	
 	
@@ -171,6 +184,10 @@ public class Engine implements Runnable {
 
 			case 3:
 				this.attackAnswer(pMessage);
+				break;
+				
+			case 18:
+				System.out.println("Ich bin da");
 				break;
 
 			default:
@@ -277,6 +294,8 @@ public class Engine implements Runnable {
 		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
 
 		if (message.isConfirmed()) {
+			this.levelRequest();
+			this.playerRequest();
 		//	this.setPlayerID(message.getPlayerID());
 		//	this.GUI.getLoginFrame().newStatus("sign in confirmed", Color.BLACK);
 
@@ -339,7 +358,7 @@ public class Engine implements Runnable {
 	
 	// Sends an attackRequest to the server
 	public void attackRequest(boolean attack) {
-		this.sendToServer(new MessAttackRequest(attack,0,2));
+		this.sendToServer(new MessAttackRequest(attack,1,2));
 	}
 	
 	// Processes an attackAnswer Message coming from the server
@@ -393,7 +412,8 @@ public class Engine implements Runnable {
 	
 	// Sends a levelRequest to the server
 	public void levelRequest() {
-		this.sendToServer(new MessLevelRequest(labyrinth,2,0));
+		int l = 0;
+		this.sendToServer(new MessLevelRequest(0,2,0));
 	}
 	
 	// Processes a levelAnswer Message coming from the server
@@ -491,14 +511,14 @@ public class Engine implements Runnable {
 //		this.messagesToServer = messagesToServer;
 //	}
 
-//	private ExecutorService getThreadPool() {
-//		return threadPool;
-//	}
-//
-//	private void setThreadPool(ExecutorService threadPool) {
-//		this.threadPool = threadPool;
-//	}
-//
+	private ExecutorService getThreadPool() {
+		return threadPool;
+	}
+
+	private void setThreadPool(ExecutorService threadPool) {
+		this.threadPool = threadPool;
+	}
+
 	public NetworkHandlerC getNetworkHandler() {
 		return networkHandler;
 	}
@@ -523,6 +543,13 @@ public class Engine implements Runnable {
 		this.loginbuild = loginbuild;
 	}
 	
+	
+	public GameObject[][] getLabyrinth() {
+		return labyrinth;
+	}
+
+
+
 	
 
 	

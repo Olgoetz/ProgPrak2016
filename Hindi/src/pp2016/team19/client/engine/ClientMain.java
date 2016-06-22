@@ -1,8 +1,8 @@
 package pp2016.team19.client.engine;
 
-import pp2016.team19.client.comm.NetworkHandlerC;
-import pp2016.team19.client.gui.GameWindow;
-import pp2016.team19.shared.TestMessage;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 
 public class ClientMain {
@@ -14,15 +14,10 @@ public class ClientMain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		new Engine();
-		
-		
-		//testEngine.getNetworkHandler();
-		
+		ExecutorService clientThreadPool = Executors.newCachedThreadPool();
+		System.out.println("Threadpool created");
+		clientThreadPool.execute(new ClientEngine(clientThreadPool));
+		System.out.println("Client Engine created");	
 	}
-
-
-
 }
 

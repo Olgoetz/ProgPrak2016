@@ -16,18 +16,18 @@ public class MessLevelAnswer extends Message implements Serializable{
 	 */
 	private static final long serialVersionUID = -7110582956443760665L;
 	
-	private Labyrinth labyrinth;
+	private GameObject[][] labyrinth;
 	
-	public MessLevelAnswer(Labyrinth labyrinth, int type, int subType) {
+	public MessLevelAnswer(GameObject[][] labyrinth, int type, int subType) {
 		super(type,subType);
 		this.labyrinth = labyrinth;
 	}
 	
-	public void setLabyrinth(Labyrinth labyrinth) {
+	public void setLabyrinth(GameObject[][] labyrinth) {
 		this.labyrinth = labyrinth;
 	}
 	
-	public Labyrinth getLabyrinth() {
+	public GameObject[][] getLabyrinth() {
 		return labyrinth;
 	}
 	

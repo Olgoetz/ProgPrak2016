@@ -15,19 +15,19 @@ public class MessLevelRequest extends Message implements Serializable {
 	 * Level Request from Client
 	 */
 	private static final long serialVersionUID = 8268363905964396507L;
-	private Labyrinth labyrinth;
+	private int level;
 	
-	public MessLevelRequest(Labyrinth labyrinth, int type, int subType) {
+	public MessLevelRequest(int level, int type, int subType) {
 		super(type, subType);
-		this.labyrinth = labyrinth;
+		this.level = level;
 	}
 	
 	public void setLabyrinth(Labyrinth labyrinth) {
-		this.labyrinth = labyrinth;
+		this.level = level;
 	}
 	
-	public Labyrinth getLabyrinth() {
-		return labyrinth;
+	public int getLabyrinth() {
+		return level;
 	}
 	
 
