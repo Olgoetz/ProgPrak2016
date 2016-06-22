@@ -141,6 +141,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.remove(gamefield);
 		this.remove(statusbar);
 		this.remove(controls);
+		this.remove(menupanel);
 		// Create the display of the highscore
 		this.add(highscore, BorderLayout.CENTER);
 		// Activate the display of the highscore
@@ -156,6 +157,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.remove(gamefield);
 		this.remove(statusbar);
 		this.remove(highscore);
+		this.remove(menupanel);
 		// Create the display of the controls
 		this.add(controls, BorderLayout.CENTER);
 		// Activate the display of the controls
