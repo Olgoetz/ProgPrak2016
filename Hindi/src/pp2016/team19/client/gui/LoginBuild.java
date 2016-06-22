@@ -17,27 +17,25 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
+// author: Felizia Langsdorf, Matr_Nr.: 6002960
+// login window, getText method of JTextfield is not working 
 
 public class LoginBuild extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+	
 	private JTextField textField_1;
 	private JPasswordField passwordField_1;
 	private JPasswordField passwordField_2;
 	private JButton LogButton;
 	private JButton RegButton;
 	
-	private String username = "";
+//	private String username = "";
 
-	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
-	/**
-	 * Launch the application.
-	 */
-	
+
+// die main muss noch weg, loginbuild soll in der hindibones main aufgerufen werden nicht mehr gamewindow! 	
  public static void main(String[] args) {
 	EventQueue.invokeLater(new Runnable() {
 	public void run() {
@@ -51,28 +49,27 @@ public class LoginBuild extends JFrame implements ActionListener {
 	});
   }
 
-	/**
-	 * Create Login Window
-	 */
+// create the window (constructor)
+// first without a registerpanel; just prepared it 
+ 
 	public LoginBuild() {
 		setResizable(false);
 		setBounds(200, 200, 400, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setTitle("Welcome!");
+		this.setVisible(true);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane);
 
-		// LoginPanel erstellt	
+		// create LoginPanel 
 		JPanel LoginPanel = new JPanel();
 		LoginPanel.setSize(new Dimension(100, 100));
 		LoginPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tabbedPane.addTab("Login", null, LoginPanel, null);
 		LoginPanel.setLayout(new GridLayout(5, 0, 5, 5)); //z Zeilen,s Spalten, abstaende
-		// LoginPanel.setBackground( Color.RED );
 		getContentPane().add(LoginPanel);
-		
 		
 		// add username label
 		JLabel logLabel_1 = new JLabel("Username");
@@ -100,7 +97,7 @@ public class LoginBuild extends JFrame implements ActionListener {
 		LogButton.addActionListener(this); 	
 		LoginPanel.add(LogButton);	
 
-		// RegisterPanel erstellt
+		// create RegisterPanel 
 		JPanel RegisterPanel = new JPanel();
 		tabbedPane.addTab("Register", null, RegisterPanel, null);
 		RegisterPanel.setLayout(null);
@@ -124,7 +121,7 @@ public class LoginBuild extends JFrame implements ActionListener {
 		passwordField_1.setBounds(10, 74, 169, 20);
 		RegisterPanel.add(passwordField_1);
 		
-		// fuegt confirm password in den RegisterPanel ein
+		// adding confirm password in the RegisterPanel 
 		JLabel lblPasswordConfirm = new JLabel("Confirm password");
 		lblPasswordConfirm.setBounds(10, 101, 169, 14);
 		RegisterPanel.add(lblPasswordConfirm);
@@ -137,24 +134,25 @@ public class LoginBuild extends JFrame implements ActionListener {
 		RegButton.setBounds(10, 185, 169, 23);
 		RegisterPanel.add(RegButton);		
 	}
-	
-	// plan: here implement method that login worked, after checking username and pw, then open the gamewindow automatically
+
+// plan: here implement method that login worked, after checking username and pw, then open the gamewindow automatically
+// now just cheap System.out.println, checks that buttons works. 
+// comparison in if clause is not working because getText() method is getting nothing! can't explain why, tried everything :(
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getSource()==LogButton){	
-	username = textField_1.getText();  //JTextfield
-	String password = passwordField_1.getText();		//JPasswordField
-	if(username.equals("user") && password.equals("123")) {
+		if(ae.getSource()==LogButton){				
+//	username = textField_1.getText();  //JTextfield
+//	String password = passwordField_1.getText();		//JPasswordField
+//	if(username.equals("user") && password.equals("123")) {
 		System.out.println("login successful");
 	}else{
 //		JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-		System.out.println("warum funktioniert das nicht");
+		System.out.println("button not working");
 	}		
 	}
-	
-}
 }
 
-			
+
+
 // hier wird der neue Frame 
 //	Newframe regFace =new Newframe();
 //	regFace.setVisible(true);
@@ -167,60 +165,25 @@ public class LoginBuild extends JFrame implements ActionListener {
 //	txuser.requestFocus();
 //	}
 
+//
+//		if(name.equals("user") && paswd.equals("123")) {
+//		
+//		// hier wird der neue Frame: in unserem Fall das Spielfenster: GameWindow + starte neues spiel. bzw. da wo der spieler aufgehört hat
+//		GameWindow gWindow = new GameWindow(BOX*WIDTH, BOX*HEIGHT, "Hindi Bones");
+//		gWindow.setVisible(true);
+//		dispose();
+//		} else {
+//
+//		JOptionPane.showMessageDialog(null,"Wrong Password / Username");
+//		textField_1.setText("");
+//		passwordField_1.setText("");
+//		textField_1.requestFocus();
+//		}
+//
+//		}
+//		});
+//		}  
 
-		
-//			public void actionPerformed(ActionEvent ae){
-//			if(ae.getSource()==lg.LogButton){	
-//			System.out.println("login success");
-			//if(user.equals("user")&& pw.equals("123")){   // data for test 
-			//	System.out.println("Login erfolgreich!");
-			//}else{
-//				JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-			//	System.out.println("Falsche eingabe");
-			//}
-			//}}
-	
-			
-//		class RegButtonListener implements ActionListener {
-//			private String user2;
-//			private String pw1;
-//			private String pw2;
-//			
-//			public RegButtonListener (JTextField text2, JPasswordField pw1, JPasswordField pw2){
-//				this.user2 =text2.getText();
-//				this.pw1 = pw1.getText();
-//				this.pw2 = pw2.getText();
-//			}
-//			public void actionPerformed(ActionEvent ae){
-//				System.out.println("register success");			
-//			}
-		
-		
-		
-	
-	/*public void actionlogin(){
-		LogButton.addActionListener(new ActionListener() { //kann nicht auf die variable zugreifen; wie löse ich das?
-		public void actionPerformed(ActionEvent ae) {
-		  //JTextfield
-		String paswd = passwordField_1.getText();		//JPasswordField
-		if(name.equals("user") && paswd.equals("123")) {
-		
-		// hier wird der neue Frame: in unserem Fall das Spielfenster: GameWindow + starte neues spiel. bzw. da wo der spieler aufgehört hat
-		GameWindow gWindow = new GameWindow(BOX*WIDTH, BOX*HEIGHT, "Hindi Bones");
-		gWindow.setVisible(true);
-		dispose();
-		} else {
-
-		JOptionPane.showMessageDialog(null,"Wrong Password / Username");
-		textField_1.setText("");
-		passwordField_1.setText("");
-		textField_1.requestFocus();
-		}
-
-		}
-		});
-		}  
-		*/
 	
 
 
