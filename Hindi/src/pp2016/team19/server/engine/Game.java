@@ -98,7 +98,7 @@ public class Game extends TimerTask {
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 		switch(message.getDirection()) {
 		case 0: //MoveUp
-			if (gameMap[player.getXPos()][player.getYPos()+1].isFloor()) {
+		if (gameMap[player.getXPos()][player.getYPos()+1].isFloor()) {
 				player.setPos(player.getXPos(),player.getYPos()+1);
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 				System.out.println("Move executed");
@@ -108,7 +108,7 @@ public class Game extends TimerTask {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+			}
 			} else {
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
 				try {
@@ -117,7 +117,7 @@ public class Game extends TimerTask {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}  
 			case 1: //MoveDown
 				if (gameMap[player.getXPos()][player.getYPos()-1].isFloor()) {
 					player.setPos(player.getXPos(),player.getYPos()-1);

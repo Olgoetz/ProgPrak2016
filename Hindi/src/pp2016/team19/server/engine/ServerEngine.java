@@ -22,8 +22,8 @@ public class ServerEngine implements Runnable {
 	private String userName = "user";
 	private String password = "123";
 	private Vector<Player> players;
-	private Game game1;
-	private Player player = new Player();
+	private Game game1; //Test
+	private Player player = new Player(); //Test
 	private Timer tick = new Timer();
 	private Vector<Game> games;
 	NetworkHandlerS network = new NetworkHandlerS();
@@ -56,7 +56,7 @@ public class ServerEngine implements Runnable {
 					this.distributor(message);
 				}
 				if (!this.messagesToClient.isEmpty()) {
-					System.out.println(this.messagesToClient.poll().toString());
+					System.out.println(this.messagesToClient.peek().toString());
 					System.out.println("Answer came back");
 					network.sendMessageToClient(this.messagesToClient.poll());
 				}
@@ -146,7 +146,7 @@ public class ServerEngine implements Runnable {
 	}
 
 	private void signUpRequest(Message message) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -155,7 +155,7 @@ public class ServerEngine implements Runnable {
 		System.out.println("Connected");
 		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
 		try {
-			this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+			this.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
