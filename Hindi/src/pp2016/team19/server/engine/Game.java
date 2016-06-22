@@ -121,7 +121,7 @@ public class Game extends TimerTask {
 	 * @param levelNumber
 	 */
 	public void newLevel(int levelNumber) {
-		gameMap = Labyrinth.generateLabyrinth(gameSize);
+		gameMap = Labyrinth.generate(gameSize, gameSize);
 		//Monsters = Labyrinth.placeMonsters(gameMap, levelNumber); Needs Input
 	}
 	/**
