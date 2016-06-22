@@ -28,6 +28,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	private MenuBar menubar;
 	private GameField gamefield;
 	private Statusbar statusbar;
+	private MenuPanel menupanel;
 	
 	private Highscore highscore;
 	private Controls controls;
@@ -47,6 +48,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 
 	private boolean playerInHighscore = false;
 	public boolean highscoreShown = false;
+	public boolean controlsShown = false;
+	public boolean gamefieldShown = false;
+	public boolean menuShown = false;
 
 	public final int MAXLEVEL = 5;
 	public final int WIDTH = 16;
@@ -68,37 +72,60 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.statusbar = new Statusbar(this);
 		this.controls = new Controls();
 		this.highscore = new Highscore();
-		// Create menubar
+		this.menupanel = new MenuPanel(this);
 		this.menubar = new MenuBar(this);
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(width, height));
 		statusbar.setPreferredSize(new Dimension(5* BOX, height));
 		controls.setPreferredSize(new Dimension(width, height + BOX));
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
+		menupanel.setPreferredSize(new Dimension(width, height));
 		// Create the gamefield
 		showGameField();
+		//showMenu();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
 				(int) ((d.getHeight() - this.getHeight()) / 2));
 		// Default setup
+		
 		this.addKeyListener(this);
 		gamefield.addMouseListener(this);
+		menupanel.addMouseListener(this);
 		this.setResizable(false);
 		this.setTitle(title);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
+	
+	public void showMenu(){
+		highscoreShown = false;
+		controlsShown = false;
+		gamefieldShown = false;
+		menuShown = true;
+		this.remove(highscore);
+		this.remove(controls);
+		this.remove(gamefield);
+		this.remove(menubar);
+		this.remove(statusbar);
+		this.add(menupanel, BorderLayout.CENTER);
+		this.requestFocus();
+		this.pack();
+		menupanel.repaint();
+	}
 
 	public void showGameField() {
 		// Remove everything
 		highscoreShown = false;
+		controlsShown = false;
+		menuShown= false;
+		gamefieldShown = true;
 		this.remove(highscore);
 		this.remove(controls);
+		this.remove(menupanel);
 		// Create the gamefield
 		this.add(gamefield, BorderLayout.CENTER); 
 		this.add(statusbar, BorderLayout.EAST);
-		
 		this.add(menubar, BorderLayout.NORTH);
 		// Activate the finished gamefield
 		this.requestFocus();
@@ -108,9 +135,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public void showHighscore() {
 		// Remove everything
 		highscoreShown = true;
+		controlsShown = false;
+		menuShown = false;
+		gamefieldShown = false;
 		this.remove(gamefield);
 		this.remove(statusbar);
 		this.remove(controls);
+		this.remove(menupanel);
 		// Create the display of the highscore
 		this.add(highscore, BorderLayout.CENTER);
 		// Activate the display of the highscore
@@ -121,10 +152,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 
 	public void showControls() {
 		// Remove everything
+		controlsShown= true;
 		highscoreShown = false;
 		this.remove(gamefield);
 		this.remove(statusbar);
 		this.remove(highscore);
+		this.remove(menupanel);
 		// Create the display of the controls
 		this.add(controls, BorderLayout.CENTER);
 		// Activate the display of the controls
@@ -133,12 +166,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		controls.repaint();
 	}
 
-
 	// Getter for gamefield and statusbar
 	public GameField getGameField() {return gamefield;}
 	public Statusbar getStatusbar() {return statusbar;}
 	public Highscore getHighscore() {return highscore;}
-	// what about control?
+	public Controls getControls(){return controls;}
+	public MenuPanel getMenuPanel(){return menupanel;}
 
 	
 	public void mouseClicked(MouseEvent m) {
@@ -203,7 +236,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		if (!gameWon) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
-					player.moveUp();
+					engine.moveCharacterRequest(0, true);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();

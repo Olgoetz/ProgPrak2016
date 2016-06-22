@@ -17,7 +17,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	// JMenus 
     private JMenu game;
     private JMenu show;
-	private JMenu help;
+	//private JMenu help;
 	private JMenu logOut;
 
     //MenuItems 
@@ -36,14 +36,14 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		
 		game = new JMenu("Game");
 		show = new JMenu("Show");
-		help = new JMenu("Help");
+		//help = new JMenu("Help");
 		logOut = new JMenu("LogOut");
         
         newGame = new JMenuItem("Start New Game");
         quit = new JMenuItem("Quit Game");
         highscore = new JMenuItem("Show Highscore");
         showMap = new JMenuItem("Show Map");
-        controls = new JMenuItem("Control");
+        controls = new JMenuItem("Show Control");
         LogArrow = new JMenuItem(arrow);
               
         newGame.addActionListener(this);
@@ -53,18 +53,19 @@ public class MenuBar extends JMenuBar implements ActionListener {
         controls.addActionListener(this);
         LogArrow.addActionListener(this);
         
-        help.addActionListener(this);
+        //help.addActionListener(this);
         
         game.add(newGame);
         game.add(quit);
         show.add(highscore);
         show.add(showMap);
-        help.add(controls);
+        show.add(controls);
+        //help.add(controls);
         logOut.add(LogArrow);   
         
         this.add(game);
         this.add(show);
-        this.add(help);
+        //this.add(help);
         this.add(logOut);      
 	}
 	
@@ -81,6 +82,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			}else{
 				window.showHighscore();
 				highscore.setText("Show Gamefield");
+				controls.setText("Show Control");
 			}
 			
 		}else if(e.getSource() == showMap){
@@ -94,7 +96,14 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		}else if(e.getSource() == quit){
 			System.exit(0);
 		}else if(e.getSource() == controls){
+			if(window.controlsShown){
+			window.showGameField();
+			controls.setText("Show Control");
+		}else{
 			window.showControls();
+			controls.setText("Show Gamefield");
+			highscore.setText("Show Highscore");
+		}
 		}else if(e.getSource()== LogArrow){
 			System.exit(0);                  // quit game and initiate logout???
 		}

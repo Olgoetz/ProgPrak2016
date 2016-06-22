@@ -1,10 +1,10 @@
 package pp2016.team19.server.engine;
 import java.util.LinkedList;
+import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-//bla
 import pp2016.team19.server.comm.NetworkHandlerS;
 import pp2016.team19.shared.*;
 /**
@@ -14,16 +14,17 @@ import pp2016.team19.shared.*;
  */
 public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
-	LinkedBlockingQueue<Message> messagesToGames;
+	LinkedBlockingQueue<Message> messagesFromClient; //For Testing
+	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 	
 	private ExecutorService threadPool;
 	//private LinkedList<Player> players;
 	private String userName = "user";
 	private String password = "123";
 	private Vector<Player> players;
-	private Game game1;
-	private Player player;
-	
+	private Game game1; //Test
+	private Player player = new Player(); //Test
+	private Timer tick = new Timer();
 	private Vector<Game> games;
 	NetworkHandlerS network = new NetworkHandlerS();
 	/**
@@ -36,18 +37,29 @@ public class ServerEngine implements Runnable {
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
+		game1 = new Game(this, player, 30, messagesToGames);
 	}
 /**
  * Keeps processing Messages
  */
 	public void run() {
+		System.out.println("runs");
+		player.setPos(3, 3);
+		this.tick.scheduleAtFixedRate(game1, 0, 50);
+		network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
+		network.addMessage(new MessMoveCharacterRequest(1,true,1,0));
 		while (true) {
-			
 				Message message = network.getMessageFromClient();
 				if (message != null) {
+					System.out.println("Message received");
+					System.out.println(message.toString());
 					this.distributor(message);
 				}
-				network.sendMessageToClient(this.messagesToClient.poll());
+				if (!this.messagesToClient.isEmpty()) {
+					System.out.println(this.messagesToClient.peek().toString());
+					System.out.println("Answer came back");
+					network.sendMessageToClient(this.messagesToClient.poll());
+				}
 			}
 		}
 	/**
@@ -75,6 +87,7 @@ public class ServerEngine implements Runnable {
 			}
 		case 1:
 				this.sendToGame(message);
+				System.out.println("Messages forwarded");
 				break;	
 		default:
 			break;
@@ -89,6 +102,7 @@ public class ServerEngine implements Runnable {
 	private void sendToGame(Message message) {
 		try {
 			game1.messagesFromServer.put(message);
+			System.out.println(game1.messagesFromServer.size());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,16 +112,27 @@ public class ServerEngine implements Runnable {
 	 * Checks Log-In information, starts new game if correct
 	 * @param message
 	 */
-	private void signInAndUpRequest(Message message) {
-		if(message.userName==this.username && message.password==this.password) {
+	private void signInAndUpRequest(Message pmessage) {
+		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
+		if(message.getUsername()==this.userName && message.getPassword()==this.password) {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
 			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
-			this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
+			try {
+				this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
-			this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+			try {
+				this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -121,12 +146,20 @@ public class ServerEngine implements Runnable {
 	}
 
 	private void signUpRequest(Message message) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	private void ConnectionRequest(Message message) {
 		// TODO Auto-generated method stub
+		System.out.println("Connected");
+		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0, 3);
+		try {
+			this.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }

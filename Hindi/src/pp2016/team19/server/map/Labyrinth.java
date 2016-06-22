@@ -539,4 +539,9 @@ public class Labyrinth {
 
 	}
 
+	public static Tile[][] generateLabyrinth(int gameSize2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

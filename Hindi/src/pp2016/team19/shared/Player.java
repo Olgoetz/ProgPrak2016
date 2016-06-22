@@ -19,6 +19,9 @@ public class Player extends Character {
 	
 	private GameWindow window;
 	
+	public Player() {
+		
+	}
 	public Player(String imgFile, GameWindow window){
 		this.window = window;
 		

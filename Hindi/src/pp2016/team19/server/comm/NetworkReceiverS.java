@@ -13,7 +13,7 @@ public class NetworkReceiverS extends Thread{
 
 	private Socket client;
 	private ObjectInputStream in;
-	private LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<>();
+	LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<>();
 	private Message messageFC;
 	
 	public NetworkReceiverS(Socket client){
