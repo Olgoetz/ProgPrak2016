@@ -79,16 +79,13 @@ public class Labyrinth {
 	
 	/**
 	 * "generateLabyrinth()" is an essential method, which gets the gameSize as Input and returns the gameMap.
-	 * It uses the method 		"createRockMap(gameSize)", 		to create an object-Array and set every object of Tile as type = ROCK. 
-	 * Then it starts the method 		"floodFill(1, gameSize-2, gameSize)", 		to create a Labyrinth in the Array with Tiles as Type = FLOOR.
-	 * Furthermore it places the entry on the startTile of "floodFill()" with the method 		"placeEntry(gameSize)".
-	 * In addition it places the exit with 		"placeExit(1, gameSize)"		in the lower-left quadrant of the gameMap, in a blind alley.
-	 * In the end, it places the key, potion, and monster with similar methods in different quadrants of the gameMap, also in blind alleys.
 	 * 
+	 * @param gameSize Size of the GameMap
+	 * @param monsterNumber Amount of Monsters that will be created
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static Tile[][] generate(int gameSize) {
+	public static Tile[][] generate(int gameSize, int monsterNumber) {
 
 		gameMap = new Tile[gameSize][gameSize];
 
@@ -111,13 +108,14 @@ public class Labyrinth {
 		placePotion(gameSize);
 
 		// Places a number of Monster.
-		placeMonster(gameSize,2);
+		placeMonster(gameSize,monsterNumber);
 
 		return gameMap;
 	}
 	
 	/**
 	 * Creates an Object for every index, and sets the type to ROCK.
+	 * 
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -272,7 +270,7 @@ public class Labyrinth {
 
 				gameMap[i][(gameSize - 2)].setContainsPotion(true);
 				br = true;
-				System.out.print("\nPotion placed...");
+				System.out.print("\nPotion placed randomly in a blind alley.");
 				gameMap[i][(gameSize - 2)].isWalkable();
 				break;
 
@@ -308,7 +306,7 @@ public class Labyrinth {
 		for (int i = 1; i < gameSize; i++){
 			for (int j = 1; j < gameSize; j++){
 				if(gameMap[i][j].isFloor()){
-					if(!gameMap[i][j].containsMonster()){
+					if(!gameMap[i][j].containsMonster() && !gameMap[i][j].containsPlayer()){
 					possibleMonsterPlaces[counter] = i;
 					possibleMonsterPlaces[counter + 1] = j;
 					counter = counter + 2;
@@ -320,23 +318,28 @@ public class Labyrinth {
 		// For, to generate the number of Monster..
 		for (int m = 1; m <= monsterNumber; m++){
 		
-		// Random number to get a random floor
-		int number = (int) ((Math.random()) * counter + 1);
+			// Random number to get a random floor
+			int number = (int) ((Math.random()) * counter + 1);
 		
-		// Gets the x and y Coordinate of gameMap
-		if (number%2 != 0){
-			x = possibleMonsterPlaces[number];
-			y = possibleMonsterPlaces[number + 1];
-		}
-		else{
-			y = possibleMonsterPlaces[number];
-			x = possibleMonsterPlaces[number + 1];
-		}
+			// Gets the x and y Coordinate of gameMap
+			if (number%2 == 0){
+				x = possibleMonsterPlaces[number];
+				y = possibleMonsterPlaces[number + 1];
+			}
+			else{
+				y = possibleMonsterPlaces[number];
+				x = possibleMonsterPlaces[number - 1];
+			}
+			
+			if(gameMap[x][y].containsMonster){
+				m = m-1;
+				continue;
+			}
+			// sets the Tile where the monster spawns True.
+			gameMap[x][y].setContainsMonster(true);
 		
-		// sets the Tile where the monster spawns True.
-		gameMap[x][y].setContainsMonster(true);
-		
 		}
+		System.out.print("\n" + monsterNumber + " Monster placed randomly over the map.");
 	}
 
 	/**
@@ -352,7 +355,7 @@ public class Labyrinth {
 				if (countNeighbors(i, j, gameSize) < 2) {
 					gameMap[i][j].setContainsKey(true);
 					br = true;
-					System.out.print("\nKey placed...");
+					System.out.print("\nKey placed randomly in a blind alley.");
 					gameMap[i][j].isWalkable();
 					break;
 
@@ -378,7 +381,7 @@ public class Labyrinth {
 				if (countNeighbors(i, j, gameSize) < 2) {
 					gameMap[i][j].setType(EXIT);
 					br = true;
-					System.out.println("\nExit placed in lower left Corner\n");
+					System.out.print("\nExit placed in lower left Corner\n");
 					break;
 
 				}
@@ -398,7 +401,8 @@ public class Labyrinth {
 	
 	public static void placeEntry(int gameSize) {
 		gameMap[1][gameSize - 2].setType(ENTRY);
-		System.out.println("Entry placed in upper right Corner");
+		gameMap[1][gameSize - 2].setContainsPlayer(true);
+		System.out.print("\nEntry placed in upper right Corner");
 	}
 
 	/**
@@ -492,7 +496,7 @@ public class Labyrinth {
 	 */
 	
 	public static void PaintTest(int gameSize) {
-		System.out.println("");
+		System.out.println("\n");
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 
@@ -523,25 +527,4 @@ public class Labyrinth {
 			System.out.println("");
 		}
 	}
-
-	/**
-	 * A Main-Method for a Test..
-	 * 
-	 * @author < Czernik, Christof, 5830621 >
-	 */
-	
-	public static void main(String[] args) {
-
-		System.out.println("Test\n");
-
-		generate(16);
-		PaintTest(16);
-
-	}
-
-	public static Tile[][] generateLabyrinth(int gameSize2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
