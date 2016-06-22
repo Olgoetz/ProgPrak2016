@@ -16,7 +16,7 @@ public class Controls extends JPanel {
 	// Controls explanation
 
 	public void paint(Graphics g){
-		Image img = null , control = null, arrows = null , right = null, walker = null, q = null , fire = null, leer = null, mouse = null;
+		Image img = null , control = null, arrows = null , right = null, walker = null, q = null , fire = null, leer = null, mouse = null, b = null;
 				
 		try{
 			img = ImageIO.read(new File("img//controller.png"));
@@ -25,6 +25,7 @@ public class Controls extends JPanel {
 			right = ImageIO.read(new File ("img//right-arrow.png"));
 			walker = ImageIO.read(new File ("img//walking.png"));
 			q = ImageIO.read(new File ("img//Q_key.png"));
+			b= ImageIO.read(new File("img//b-button.png"));
 			fire = ImageIO.read(new File ("img//fire.png"));
 			leer = ImageIO.read(new File ("img//Leertaste.png"));
 			mouse = ImageIO.read(new File ("img//mouse.png"));
@@ -33,35 +34,36 @@ public class Controls extends JPanel {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
 		
+		
 		g.drawImage(img, 200, 10, null);
 		g.drawImage(control, 205, 15, null);
 		g.setColor(Color.WHITE);
 		g.drawLine(10, 120, 500, 120);
-		g.drawImage(arrows , 60, 150, null);
-		g.drawImage(right, 180 , 160, null);
-		g.setColor(Color.WHITE);
-		g.drawImage(walker, 300 , 150, null);
-		g.drawString("move", 400 , 180);
-		g.drawImage(q, 60, 250, null);
-		g.drawImage(right, 180, 260, null);
-		g.drawImage(fire, 310, 260, null);
-		g.drawString("attack monster",400 ,285);
-		g.drawImage(leer, 60, 360, null);
-		g.drawImage(right, 180 , 355 , null);
-		g.drawString("pick up item", 310, 375);
-		g.drawImage(mouse, 40 , 450, null);
-		g.drawImage(right, 180, 460, null);
-		g.drawImage(walker, 300, 450, null);
-		g.drawString("move", 400, 480);
+		g.fillRect(0, 120, this.getWidth(), this.getHeight());
 		
+		g.drawImage(arrows , 60, 120, null);
+		g.drawImage(right, 180 , 140, null);
+		g.drawImage(walker, 300 , 130, null);
+		g.setColor(Color.BLACK);
+		g.drawString("move", 400 , 150);
 		
+		g.drawImage(mouse, 40 , 220, null);
+		g.drawImage(right, 180, 230, null);
+		g.drawImage(walker, 300, 220, null);
+		g.drawString("move", 400, 240);
 		
-		//for(int i = 0; i < 16; i++){
-			//for(int j = 0; j < 17; j++){
-				
-				//g.drawImage(floor, 32*i,32*j,null);
-			//}
-		//}
+		g.drawImage(q, 60, 320, null);
+		g.drawImage(right, 180, 330, null);
+		g.drawImage(fire, 300, 325, null);
+		g.drawString("attack monster",400 ,350);
+		
+		g.drawImage(leer, 60, 410, null);
+		g.drawImage(right, 180 , 410 , null);
+		g.drawString("pick up item", 300, 425);
+		
+		g.drawImage(b,60, 460, null);
+		g.drawImage(right, 180, 470, null);
+		g.drawString("take the potion", 300, 500);
 		
 	}
 	
