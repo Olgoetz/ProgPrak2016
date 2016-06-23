@@ -42,13 +42,13 @@ public class Game extends TimerTask {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-			}
+			}*/
 		Message message = this.messagesFromServer.poll();
 		if (message != null) {
 			System.out.println("Message received in game");
 			this.distributor(message);
 		}
-		for(Monster monster: Monsters) {
+		/*for(Monster monster: Monsters) {
 			boolean attack = monster.attackPlayer(player.hasKey());
 			if (!attack) {
 				monster.move();
@@ -79,6 +79,7 @@ public class Game extends TimerTask {
 			this.openDoor();
 		case 37: //Testing
 			this.messageTester(message);
+			System.out.println("In game");
 			break;
 		}
 
@@ -141,6 +142,7 @@ public class Game extends TimerTask {
 		Message answer = (TestMessage) new TestMessage(1,18,"Answering Test");
 		try {
 			engine.messagesToClient.put(answer);
+			System.out.println("Message sent back");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
