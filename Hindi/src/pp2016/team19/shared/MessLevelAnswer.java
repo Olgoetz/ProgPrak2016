@@ -3,6 +3,7 @@ package pp2016.team19.shared;
 import java.io.Serializable;
 
 import pp2016.team19.server.map.Labyrinth;
+import pp2016.team19.server.map.Tile;
 
 public class MessLevelAnswer extends Message implements Serializable{
 
@@ -16,18 +17,18 @@ public class MessLevelAnswer extends Message implements Serializable{
 	 */
 	private static final long serialVersionUID = -7110582956443760665L;
 	
-	private GameObject[][] labyrinth;
+	private Tile[][] labyrinth;
 	
-	public MessLevelAnswer(GameObject[][] labyrinth, int type, int subType) {
+	public MessLevelAnswer(Tile[][] labyrinth, int type, int subType) {
 		super(type,subType);
 		this.labyrinth = labyrinth;
 	}
 	
-	public void setLabyrinth(GameObject[][] labyrinth) {
+	public void setLabyrinth(Tile[][] labyrinth) {
 		this.labyrinth = labyrinth;
 	}
 	
-	public GameObject[][] getLabyrinth() {
+	public Tile[][] getLabyrinth() {
 		return labyrinth;
 	}
 	
