@@ -35,7 +35,7 @@ public class ServerEngine implements Runnable {
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
-		game1 = new Game(this, player, 30, messagesToGames);
+		//game1 = new Game(this, player, 30, messagesToGames);
 	}
 /**
  * Keeps processing Messages
