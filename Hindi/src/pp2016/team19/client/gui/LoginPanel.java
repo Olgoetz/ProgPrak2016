@@ -30,7 +30,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JPasswordField passwordField_1;
 	private JButton LogButton;
 	private String username = "";
-
+	private String password ="";
 	
 	public LoginPanel (GameWindow window){
 		
@@ -82,11 +82,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			if(ae.getSource()==LogButton){				
 		username = textField_1.getText();  //JTextfield
-		String password = passwordField_1.getText();		//JPasswordField
-		if(username.equals("user") && password.equals("123")) {
-			System.out.println("login successful, welcome" + " " + username);
-			window.engine.serverSignInRequest("user", "123");
-		}
+		password = passwordField_1.getText();	//JPasswordField
+			window.engine.serverSignInRequest(username, password);
+
 	}
 
 }
