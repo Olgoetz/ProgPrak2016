@@ -41,7 +41,11 @@ public class Game extends TimerTask {
 			this.distributor(message);
 		}
 		for(Monster monster: Monsters) {
-			//Move Monster
+			boolean attack = monster.attackPlayer(player.hasKey());
+			if (!attack) {
+				monster.move();
+			}
+			
 		}
 	}
 	/**
@@ -99,8 +103,9 @@ public class Game extends TimerTask {
 		}
 	}
 	private void playerAttack(Message message) {
-		//player.monsterToAttack(); What does it return?
-		//What about attacking multiple monsters at once?
+		if(player.monsterToAttack()!=null) {
+			
+		}
 	}
 	private void messageTester(Message message) { //Testing
 		System.out.println(message.toString());
