@@ -46,6 +46,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		textField_1.setColumns(10);
 		textField_1.setBounds(10, 25, 169, 20);
 		LoginPanel.add(textField_1);
+		textField_1.setText("user");
 		
 		// add password label
 		JLabel logLabel_2 = new JLabel("Password");
@@ -55,6 +56,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		passwordField_1 = new JPasswordField();
 		passwordField_1.setBounds(10, 70, 50, 20);
 		LoginPanel.add(passwordField_1);
+		textField_1.setText("123");
 				
 		// add login button
 		LogButton = new JButton("Login");
