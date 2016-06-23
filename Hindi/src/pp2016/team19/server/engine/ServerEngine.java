@@ -13,7 +13,6 @@ import pp2016.team19.shared.*;
  */
 public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
-	LinkedBlockingQueue<Message> messagesFromClient; //For Testing
 	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 	
 	private ExecutorService threadPool;
@@ -55,7 +54,7 @@ public class ServerEngine implements Runnable {
 					}
 				}
 				if (!this.messagesToClient.isEmpty()) {
-					//System.out.println(this.messagesToClient.peek().toString());
+					System.out.println(this.messagesToClient.peek().toString());
 					//System.out.println("Answer came back");
 					network.sendMessageToClient(this.messagesToClient.poll());
 				}
@@ -84,6 +83,7 @@ public class ServerEngine implements Runnable {
 			default:
 				break;
 			}
+			break;
 		case 1:
 				this.sendToGame(message);
 				System.out.println("Messages forwarded");
@@ -126,10 +126,12 @@ public class ServerEngine implements Runnable {
 	
 	private void signInAndUpRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
-		if(message.getUsername()==this.userName && message.getPassword()==this.password) {
+		System.out.println("Method engaging");
+		if(userName.equals(message.getUsername()) && password.equals(message.getPassword())) {
+			System.out.println("did work");
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
 			//this.games.addElement(new Game(this, player, 30, this.messagesToGames));
-			this.games.lastElement().run();
+			//this.games.lastElement().run();
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
 				this.messagesToClient.put(answer);
@@ -138,7 +140,8 @@ public class ServerEngine implements Runnable {
 				e.printStackTrace();
 			}
 		} else {
-			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+			System.out.println("did not work");
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
 			try {
 				this.messagesToClient.put(answer);
 			} catch (InterruptedException e) {

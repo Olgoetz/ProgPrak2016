@@ -46,6 +46,7 @@ public class Game extends TimerTask {
 		Message message = this.messagesFromServer.poll();
 		if (message != null) {
 			System.out.println("Message received in game");
+			System.out.println(message.toString());
 			this.distributor(message);
 		}
 		/*for(Monster monster: Monsters) {
