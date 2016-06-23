@@ -31,6 +31,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	private GameField gamefield;
 	private Statusbar statusbar;
 	private MenuPanel menupanel;
+	private LoginPanel loginpanel;
 	
 	private Highscore highscore;
 	private Controls controls;
@@ -53,6 +54,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public boolean controlsShown = false;
 	public boolean gamefieldShown = false;
 	public boolean menuShown = false;
+	public boolean loginShown = false;
 
 	public final int MAXLEVEL = 5;
 	public final int WIDTH = 16;
@@ -76,6 +78,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.highscore = new Highscore();
 		this.menupanel = new MenuPanel(this);
 		this.menubar = new MenuBar(this);
+		this.loginpanel = new LoginPanel(this);
 		
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(width, height));
@@ -83,9 +86,11 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		controls.setPreferredSize(new Dimension(width, height + BOX));
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
 		menupanel.setPreferredSize(new Dimension(width, height));
-		// Create the gamefield
+		loginpanel.setPreferredSize(new Dimension(width, height));
+		
 		//showGameField();
-		showMenu();
+		//showMenu();
+		showLogin();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
@@ -100,16 +105,36 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	public void showLogin(){
+		highscoreShown = false;
+		controlsShown = false;
+		gamefieldShown = false;
+		menuShown = false;
+		loginShown = true;
+		this.remove(highscore);
+		this.remove(controls);
+		this.remove(gamefield);
+		this.remove(menubar);
+		this.remove(statusbar);
+		this.remove(menupanel);
+		this.add(loginpanel, BorderLayout.CENTER);
+		this.requestFocus();
+		this.pack();
+		loginpanel.repaint();			
+	}
+	
 	public void showMenu(){
 		highscoreShown = false;
 		controlsShown = false;
 		gamefieldShown = false;
+		loginShown = false;
 		menuShown = true;
 		this.remove(highscore);
 		this.remove(controls);
 		this.remove(gamefield);
 		this.remove(menubar);
 		this.remove(statusbar);
+		this.remove(loginpanel);
 		this.add(menupanel, BorderLayout.CENTER);
 		this.requestFocus();
 		this.pack();
@@ -125,6 +150,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.remove(highscore);
 		this.remove(controls);
 		this.remove(menupanel);
+		this.remove(loginpanel);
 		// Create the gamefield
 		this.add(gamefield, BorderLayout.CENTER); 
 		this.add(statusbar, BorderLayout.EAST);
@@ -144,6 +170,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.remove(statusbar);
 		this.remove(controls);
 		this.remove(menupanel);
+		this.remove(loginpanel);
 		// Create the display of the highscore
 		this.add(highscore, BorderLayout.CENTER);
 		// Activate the display of the highscore
@@ -160,6 +187,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		this.remove(statusbar);
 		this.remove(highscore);
 		this.remove(menupanel);
+		this.remove(loginpanel);
 		// Create the display of the controls
 		this.add(controls, BorderLayout.CENTER);
 		// Activate the display of the controls
@@ -174,6 +202,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public Highscore getHighscore() {return highscore;}
 	public Controls getControls(){return controls;}
 	public MenuPanel getMenuPanel(){return menupanel;}
+	public LoginPanel getLoginPanel(){return loginpanel;}
 
 	
 
@@ -182,14 +211,15 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 // if mouseclick higher than player position, player moves up (mouse-y smaller than player-y) 
 // if mouseclick lower than player position, player moves down (mouse-y bigger than player-y) 
 // etc.
+	
 	public void mouseClicked(MouseEvent m) {
 	 
 	 int xPos = player.getXPos();
 	 int yPos = player.getYPos();
 	 int mouseX = m.getX()/32;
 	 int mouseY = m.getY()/32;
-	 System.out.println("Mouse at: " + mouseX + ", " + mouseY);
-	 System.out.println("Player at: " + xPos + ", " + yPos);
+//	 System.out.println("Mouse at: " + mouseX + ", " + mouseY);
+//	 System.out.println("Player at: " + xPos + ", " + yPos);
  if (!gameWon) {
 	if (mouseY > yPos &&  !(level[xPos][yPos + 1] instanceof Wall)){  //if click y is higher than playerposition y and theres no wall, player moveDown()  
 			player.moveDown();
@@ -208,7 +238,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public void mouseExited(MouseEvent arg0) {}
 	public void mousePressed(MouseEvent arg0) {}
 	public void mouseReleased(MouseEvent arg0) {}
-		
+	
+	
 	// control with arrow keys 
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
