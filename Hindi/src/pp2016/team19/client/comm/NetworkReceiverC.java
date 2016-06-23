@@ -1,49 +1,130 @@
 package pp2016.team19.client.comm;
 
 import java.io.BufferedInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import pp2016.team19.shared.Message;
 import pp2016.team19.shared.ThreadWaitForMessage;
 
+/**
+ * The NetworkReceiverC Class builds the Thread for receiving Messages from the
+ * Server. The Thread allows to save the Data of the InputStream. The saved
+ * messages are going to be gathered by a LinkedBlockingQueue and a loop allows
+ * to read these messages from the InputStream repetetively and eventually save
+ * the messages in a Queue.
+ * 
+ * @author Bulut , Taner , 5298261
+ * 
+ */
 public class NetworkReceiverC extends Thread {
 
+	private NetworkHandlerC networkHandler;
 	private LinkedBlockingQueue<Message> messagesFromServer = new LinkedBlockingQueue<>();
 	private Socket server;
 	private ObjectInputStream in;
 	private Message messageFS;
 
-	public NetworkReceiverC(Socket server) {
+	/**
+	 * Initializes the Socket 'server' variable so that the InputStream can be
+	 * operated assigned to the Socket and initializes the NetworkHandlerC
+	 * 'networkHandler'
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
+	public NetworkReceiverC(Socket server, NetworkHandlerC networkHandler) {
 		this.server = server;
+		this.networkHandler = networkHandler;
 	}
 
+	/**
+	 * Builds an instance of ObjectInputStream that reads from the InputStream
+	 * of the Client-Socket and saves the Data in a LinkedBlockingQueue. A
+	 * while-loop is executing the operation consistently. And each time a
+	 * message is read from the InputStream, the Thread is yielded before and
+	 * waits for a certain time.
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
 	private void receiveMessage() {
 		try {
+			/*
+			 * The Stream header is read from the InputStream that refers to the
+			 * appropriate InputStream. The BufferedInputStream is allowing to
+			 * save the arguments of the InputStream.
+			 */
 			in = new ObjectInputStream(new BufferedInputStream(server.getInputStream()));
-			while(true){
+			while (true) {
+				/*
+				 * The Thread is waiting before the messages can be read and
+				 * saved in the Queue by executing Thread.yield()
+				 */
 				ThreadWaitForMessage.waitFor(100L);
+				// The read argument has to be parsed into a Message-Type
 				messageFS = (Message) in.readObject();
-				if(messageFS != null){
-					messagesFromServer.offer(messageFS);
+				/*
+				 * Sets the variables connectedState1 and connectedState2 to
+				 * true, so that the connection between the Server and the
+				 * Client is proofed. The NetworkPingCheckC then tries the first
+				 * attempt again to check if the InputStream is readable.
+				 */
+				networkHandler.setConnectedState1(true);
+				networkHandler.setConnectedState2(true);
+				if (messageFS != null) {
+					// Puts the read messages into the Queue messagesFromServer
+					messagesFromServer.put(messageFS);
 				}
 			}
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (EOFException e) {
+			System.out.println("ERROR ObjectInputStream: NETWORKRECEiVERC");
+		} catch (SocketException e) {
+			this.networkHandler.close("Connection to the Server lost!");
+			System.out.println("ERROR SocketException: NETWORKRECEIVERC");
 			e.printStackTrace();
+		} catch (IOException | ClassNotFoundException | InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				System.out.println("InputStream is closed: NETWORKRECEiVERC");
+				this.in.close();
+			} catch (IOException e) {
+				System.out.println("ERROR: NETWORKRECEIVER");
+				e.printStackTrace();
+			}
+			System.exit(1);
 		}
 	}
 
+	/**
+	 * Runs the Thread and executes the consistent receiving of the messages by
+	 * the receiveMessage() method
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
 	@Override
 	public void run() {
 		this.receiveMessage();
 	}
-	
-	public LinkedBlockingQueue<Message> getMessagesFromServer(){
+
+	/**
+	 * Returns the LinkedBlockingQueue 'messagesFromServer'
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
+	public LinkedBlockingQueue<Message> getMessagesFromServer() {
 		return messagesFromServer;
 	}
-	public Message getMessage(){
+
+	/**
+	 * Returns the Message that is polled from the Queue 'messagesFromServer'
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
+	public Message getMessage() {
 		return messagesFromServer.poll();
 	}
 
