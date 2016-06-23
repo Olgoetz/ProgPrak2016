@@ -29,7 +29,7 @@ public class Game extends TimerTask {
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
-		//gameMap = Labyrinth.generate(gameSize);
+		gameMap = Labyrinth.generate(gameSize,gameSize);
 	}
 	/**
 	 * Sets Clock for Game Engine, processes messages

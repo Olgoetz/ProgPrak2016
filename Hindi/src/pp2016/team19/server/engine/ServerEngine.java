@@ -99,7 +99,6 @@ public class ServerEngine implements Runnable {
 
 	
 	private void confirmConnection() {
-		System.out.println("I am still there");
 		Message answer = (MessPing) new MessPing(100,0);
 		try {
 			this.messagesToClient.put(answer);
