@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.NetworkHandlerC;
 import pp2016.team19.client.gui.GameWindow;
-import pp2016.team19.client.gui.LoginBuild;
+
 import pp2016.team19.server.map.Labyrinth;
 import pp2016.team19.shared.*;
 
@@ -54,7 +54,7 @@ public class ClientEngine implements Runnable   {
 
 	private NetworkHandlerC networkHandler;
 	private GameWindow gamewindow;
-	private LoginBuild loginbuild;
+	
 
 	private int playerID;
 	private Player myPlayer;
@@ -535,14 +535,7 @@ public class ClientEngine implements Runnable   {
 		this.gamewindow = gamewindow;
 	}
 	
-	public LoginBuild getLoginBuild() {
-		return loginbuild;
-	}
-	
-	public void setLoginBuild(LoginBuild loginbuild) {
-		this.loginbuild = loginbuild;
-	}
-	
+
 	
 	public GameObject[][] getLabyrinth() {
 		return labyrinth;
