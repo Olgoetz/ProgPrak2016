@@ -123,6 +123,7 @@ public class ServerEngine implements Runnable {
 	 * Checks Log-In information, starts new game if correct
 	 * @param message
 	 */
+	
 	private void signInAndUpRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
 		if(message.getUsername()==this.userName && message.getPassword()==this.password) {
@@ -137,7 +138,7 @@ public class ServerEngine implements Runnable {
 				e.printStackTrace();
 			}
 		} else {
-			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
 				this.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
