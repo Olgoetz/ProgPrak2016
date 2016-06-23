@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
 
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.NetworkHandlerC;
@@ -153,12 +154,10 @@ public class ClientEngine implements Runnable   {
 
 			switch (pMessage.getSubType()) {
 			case 3:
-				this.serverSignUpAnswer(pMessage);
+				this.serverSignInAndUpAnswer(pMessage);
 				break;
 
-			case 5:
-				this.serverSignInAnswer(pMessage);
-				break;
+		
 
 //			case 5:
 //				this.serverSignOutAnswer(pMessage);
@@ -188,7 +187,7 @@ public class ClientEngine implements Runnable   {
 				break;
 				
 			case 18:
-				System.out.println("Ich bin da");
+				System.out.println("Message received");
 				break;
 
 			default:
@@ -263,46 +262,35 @@ public class ClientEngine implements Runnable   {
 		}
 	}
 
-	// Processes a SignUpAnswer Message coming from the server
-	private void serverSignUpAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.serverSignUpAnswer() " + pMessage.toString());
-
-		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
-
-		if (message.isConfirmed()) {
-			
-		//	this.getGUI().getLoginFrame().newStatus("sign up confirmed", Color.BLACK);
-
-		//	this.serverPlayerRequest();
-		//	this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
-		} else {
-		//	this.GUI.getLoginFrame().newStatus("sign up denied", Color.RED);
-		}
-	}
 	
 	// Sends a SignInRequest to the server
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
-		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,4));
+		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
 		//this.GUI.getLoginFrame().newStatus("sign in requested", Color.BLACK);
 	}
 
 	// Processes a SignInAnswer Message coming from the server
-	private void serverSignInAnswer(Message pMessage) {
+	private void serverSignInAndUpAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.serverSignInAnswer() " + pMessage.toString());
 
 		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
-
+		System.out.println("Server SignInAnswer received");
 		if (message.isConfirmed()) {
-			this.levelRequest();
-			this.playerRequest();
+			System.out.println("Data correct");
+			
+//			this.levelRequest();
+//			this.playerRequest();
+			getGameWindow().showMenu();
+		}else{
+			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
 		//	this.setPlayerID(message.getPlayerID());
 		//	this.GUI.getLoginFrame().newStatus("sign in confirmed", Color.BLACK);
 
 		//	this.serverPlayerRequest();
 		//	this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
-		} else {
+		
 		//	this.GUI.getLoginFrame().newStatus("sign in denied", Color.RED);
 		}
 	}
@@ -341,8 +329,8 @@ public class ClientEngine implements Runnable   {
 	// Sends a moveCharacterRequest to the server
 	public void moveCharacterRequest(int direction, boolean confirmed) {
 		
-	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 1, 0));
-	System.out.println("Message sent");
+//	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 1, 0));
+//	System.out.println("Message sent");
 	} 
 	
 	// Processes a moveCharacterAnswer Message coming from the server
@@ -359,7 +347,7 @@ public class ClientEngine implements Runnable   {
 	
 	// Sends an attackRequest to the server
 	public void attackRequest(boolean attack) {
-		this.sendToServer(new MessAttackRequest(attack,1,2));
+//		this.sendToServer(new MessAttackRequest(attack,1,2));
 	}
 	
 	// Processes an attackAnswer Message coming from the server
@@ -413,21 +401,21 @@ public class ClientEngine implements Runnable   {
 	
 	// Sends a levelRequest to the server
 	public void levelRequest() {
-		int l = 0;
-		this.sendToServer(new MessLevelRequest(0,2,0));
+//		int l = 0;
+//		this.sendToServer(new MessLevelRequest(0,2,0));
 	}
 	
 	// Processes a levelAnswer Message coming from the server
 	public void levelAnswer(Message pMessage) {
-		MessLevelAnswer message = (MessLevelAnswer) pMessage;
-		
-		this.labyrinth = message.getLabyrinth();
+//		MessLevelAnswer message = (MessLevelAnswer) pMessage;
+//		
+//		this.labyrinth = message.getLabyrinth();
 	}
 	
 	// Sends a playerRequest to the server
 	public void playerRequest() {
-		System.out.println("METHOD Engine.playerRequest: Player requested!" );
-		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
+//		System.out.println("METHOD Engine.playerRequest: Player requested!" );
+//		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
 	}
 	
 	// Processes an levelAnswer Message coming from the server

@@ -85,10 +85,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 		String password = passwordField_1.getText();		//JPasswordField
 		if(username.equals("user") && password.equals("123")) {
 			System.out.println("login successful, welcome" + " " + username);
-			window.showMenu();
-		}else{
-			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-		}		
+			window.engine.serverSignInRequest("user", "123");
+		}
 	}
 
 }
