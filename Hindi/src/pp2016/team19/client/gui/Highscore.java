@@ -14,15 +14,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
 
 public class Highscore extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private LinkedList<HighScoreElement> highScore;
 	
-	
-	
-	// konstruktor fuer Highscore
 	
 		public Highscore(){
 

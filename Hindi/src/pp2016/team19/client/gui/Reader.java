@@ -11,6 +11,8 @@ import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Monster;
 import pp2016.team19.shared.Wall;
 
+
+// this class was provided
 public class Reader {
 
 	private String filename;

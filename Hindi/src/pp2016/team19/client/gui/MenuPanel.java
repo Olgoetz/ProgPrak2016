@@ -9,7 +9,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-// author: Felizia Langsdorf, Matr_Nr: 6002960
+/**
+ *
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
 
 // class for the menu, shown after successful login
 // problems occurred with the paint method, read the text below at the end of this class
