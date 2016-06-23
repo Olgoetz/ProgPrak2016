@@ -128,7 +128,7 @@ public class ServerEngine implements Runnable {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
 	//	if(message.getUsername()==this.userName && message.getPassword()==this.password) {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
-			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
+			//this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
