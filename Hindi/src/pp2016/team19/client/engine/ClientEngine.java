@@ -11,6 +11,7 @@ import pp2016.team19.client.comm.NetworkHandlerC;
 import pp2016.team19.client.gui.GameWindow;
 
 import pp2016.team19.server.map.Labyrinth;
+import pp2016.team19.server.map.Tile;
 import pp2016.team19.shared.*;
 
 
@@ -60,7 +61,7 @@ public class ClientEngine implements Runnable   {
 	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
-	private GameObject[][] labyrinth;
+	private Tile[][] labyrinth;
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
@@ -537,7 +538,7 @@ public class ClientEngine implements Runnable   {
 	
 
 	
-	public GameObject[][] getLabyrinth() {
+	public Tile[][] getLabyrinth() {
 		return labyrinth;
 	}
 
