@@ -44,7 +44,7 @@ public class ServerEngine implements Runnable {
 		System.out.println("runs");
 		player.setPos(3, 3);
 		this.tick.scheduleAtFixedRate(game1, 0, 50);
-		//network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
+		network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
 		while (true) {
 				Message message = network.getMessageFromClient();
 				if (message != null) {
@@ -126,7 +126,7 @@ public class ServerEngine implements Runnable {
 	
 	private void signInAndUpRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
-	//	if(message.getUsername()==this.userName && message.getPassword()==this.password) {
+		if(message.getUsername()==this.userName && message.getPassword()==this.password) {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
 			//this.games.addElement(new Game(this, player, 30, this.messagesToGames));
 			this.games.lastElement().run();
@@ -137,7 +137,7 @@ public class ServerEngine implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	/*	} else {
+		} else {
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
 				this.messagesToClient.put(answer);
@@ -145,7 +145,7 @@ public class ServerEngine implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} */
+		} 
 		
 	}
 	private void signOffRequest(Message message) {
