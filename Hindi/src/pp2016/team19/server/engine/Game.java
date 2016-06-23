@@ -41,7 +41,11 @@ public class Game extends TimerTask {
 			this.distributor(message);
 		}
 		for(Monster monster: Monsters) {
-			//Move Monster
+			boolean attack = monster.attackPlayer(player.hasKey());
+			if (!attack) {
+				monster.move();
+			}
+			
 		}
 	}
 	/**
@@ -52,7 +56,7 @@ public class Game extends TimerTask {
 		switch(message.getSubType()) {
 		case 0:
 			this.playerMove(message);
-			System.out.println("Player moved");
+			System.out.println("playerMove executed");
 			break;
 		case 2:
 			this.playerAttack(message);
@@ -99,8 +103,9 @@ public class Game extends TimerTask {
 		}
 	}
 	private void playerAttack(Message message) {
-		//player.monsterToAttack(); What does it return?
-		//What about attacking multiple monsters at once?
+		if(player.monsterToAttack()!=null) {
+			
+		}
 	}
 	private void messageTester(Message message) { //Testing
 		System.out.println(message.toString());
@@ -131,6 +136,8 @@ public class Game extends TimerTask {
 		if (gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
 				player.setPos(player.getXPos(),player.getYPos()+1);
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
+				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
+				System.out.println("Player position test:"+tester.getX());
 				System.out.println("Move executed");
 				try {
 					engine.messagesToClient.put(answer);
@@ -141,6 +148,7 @@ public class Game extends TimerTask {
 			}
 			} else {
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+				System.out.println("Move not allowed");
 				try {
 					engine.messagesToClient.put(answer);
 				} catch (InterruptedException e) {

@@ -265,7 +265,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		if (!gameWon) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
-					engine.moveCharacterRequest(0, true);
+					player.moveUp();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();

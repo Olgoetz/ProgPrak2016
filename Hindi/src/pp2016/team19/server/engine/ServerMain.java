@@ -15,6 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ServerMain {
 
 	public static void main(String[] args) {
+		System.out.println("METHOD ServerMain.main: ServerEngine started");
 		ExecutorService serverThreadPool = Executors.newCachedThreadPool();
 		LinkedBlockingQueue<Message> messagesToClient = new LinkedBlockingQueue<Message>();
 		serverThreadPool.execute(new ServerEngine(serverThreadPool, messagesToClient));

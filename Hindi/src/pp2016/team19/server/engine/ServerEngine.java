@@ -21,15 +21,14 @@ public class ServerEngine implements Runnable {
 	private String userName = "user";
 	private String password = "123";
 	private Vector<Player> players;
+	private Vector<Game> games;
 	private Game game1; //Test
 	private Player player = new Player(); //Test
 	private Timer tick = new Timer();
-	private Vector<Game> games;
 	NetworkHandlerS network = new NetworkHandlerS();
 	/**
 	 * Constructor sets Message Queues for communication
 	 * @param serverThreadPool
-	 * @param messagesFromClient
 	 * @param messagesToClient
 	 */
 	public ServerEngine(ExecutorService serverThreadPool,
@@ -46,17 +45,18 @@ public class ServerEngine implements Runnable {
 		player.setPos(3, 3);
 		this.tick.scheduleAtFixedRate(game1, 0, 50);
 		network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
-		network.addMessage(new MessMoveCharacterRequest(1,true,1,0));
 		while (true) {
 				Message message = network.getMessageFromClient();
 				if (message != null) {
+					if (message.getType()!=100) {
 					System.out.println("Message received");
 					System.out.println(message.toString());
 					this.distributor(message);
+					}
 				}
 				if (!this.messagesToClient.isEmpty()) {
-					System.out.println(this.messagesToClient.peek().toString());
-					System.out.println("Answer came back");
+					//System.out.println(this.messagesToClient.peek().toString());
+					//System.out.println("Answer came back");
 					network.sendMessageToClient(this.messagesToClient.poll());
 				}
 			}

@@ -14,10 +14,12 @@ public class ClientMain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 		ExecutorService clientThreadPool = Executors.newCachedThreadPool();
-		System.out.println("Threadpool created");
 		clientThreadPool.execute(new ClientEngine(clientThreadPool));
-		System.out.println("Client Engine created");	
+		System.out.println("METHOD ClientMain.main: Client started");
+		
+		
 	}
 }
 
