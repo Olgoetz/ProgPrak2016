@@ -18,6 +18,14 @@ import pp2016.team19.shared.Player;
 import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr.: 6002960
+ *
+ */
+
+// panel for the gamefield 
+
 public class GameField extends JPanel {
 
 	private static final long serialVersionUID = 1L;

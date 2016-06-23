@@ -16,13 +16,19 @@ import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
+// statusbar for the game, shown on the right side while playing
+
 public class Statusbar extends JPanel {
 
 private static final long serialVersionUID = 1L;
 	
-	private Image background, key, potion;
-	
-	private Image floor1, wall1, doorOpen1, doorClosed1; // no key, potion;
+	private Image background, key, potion;	
+	private Image floor1, wall1, doorOpen1, doorClosed1; 
 	
 	private GameWindow window;
 	private int miniBox = 8;
@@ -104,7 +110,7 @@ private static final long serialVersionUID = 1L;
 		g.setColor(Color.GREEN);
 		g.fillRect(5, window.BOX * (window.HEIGHT - 9), window.player.getHealth(), 5);
 		
-		// show word minimap on the statusbar
+		// show text "minimap" on the statusbar
 		g.setColor(Color.WHITE);
 		g.drawString( "Minimap  ", 5,  window.BOX * (window.HEIGHT - 7));
 		g.drawLine( 5, window.BOX * (window.HEIGHT - 7) + 10 , 155, window.BOX * (window.HEIGHT - 7) + 10);

@@ -22,21 +22,30 @@ import pp2016.team19.shared.Player;
 import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
+
+// the frame of the whole application
 
 public class GameWindow extends JFrame implements KeyListener, MouseListener, Runnable {
 
 	private static final long serialVersionUID = 1L;
 	
+	
+	private LoginPanel loginpanel;
+	
+	private MenuPanel menupanel;
+	
 	private MenuBar menubar;
 	private GameField gamefield;
 	private Statusbar statusbar;
-	private MenuPanel menupanel;
-	private LoginPanel loginpanel;
 	
 	private Highscore highscore;
 	private Controls controls;
 	
-
 	public LinkedList<Monster> monsterList;
 	public Player player;
 	public GameObject[][] level;
@@ -49,7 +58,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public int neededTime;
 	public boolean mistOn = true;
 	
-
 	private boolean playerInHighscore = false;
 	public boolean highscoreShown = false;
 	public boolean controlsShown = false;
@@ -62,25 +70,27 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
+	// constructor for the Gamewindow, is called in the main
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
-		initializeJFrame(width, height, title);
-		
+		initializeJFrame(width, height, title);	
 	}
-
+	
 	public void initializeJFrame(int width, int height, String title) {
 		// Layout of the window
 		this.setLayout(new BorderLayout());
 		
 		// Create objects of the panels
+		this.loginpanel = new LoginPanel(this);
+		this.menupanel = new MenuPanel(this);
+		
 		this.gamefield = new GameField(this);
 		this.statusbar = new Statusbar(this);
+		this.menubar = new MenuBar(this);
+		
 		this.controls = new Controls();
 		this.highscore = new Highscore();
-		this.menupanel = new MenuPanel(this);
-		this.menubar = new MenuBar(this);
-		this.loginpanel = new LoginPanel(this);
-		
+				
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(width, height));
 		statusbar.setPreferredSize(new Dimension(5* BOX, height));
@@ -89,15 +99,14 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		menupanel.setPreferredSize(new Dimension(width, height));
 		loginpanel.setPreferredSize(new Dimension(width, height));
 		
-		//showGameField();
-		//showMenu();
+		// first the Loginpanel is on screen
 		showLogin();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
 				(int) ((d.getHeight() - this.getHeight()) / 2));
 		// Default setup
-		
+		// add KeyListener and MouseListener for control the game with mouse and buttons
 		this.addKeyListener(this);
 		gamefield.addMouseListener(this);
 		this.setResizable(false);
@@ -105,6 +114,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
+	
 	
 	public void showLogin(){
 		highscoreShown = false;
@@ -197,7 +207,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		controls.repaint();
 	}
 
-	// Getter for gamefield and statusbar
+	// Getter
 	public GameField getGameField() {return gamefield;}
 	public Statusbar getStatusbar() {return statusbar;}
 	public Highscore getHighscore() {return highscore;}

@@ -13,6 +13,13 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
+
+// panel login (later a register panel will be included as well.
 public class LoginPanel extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,9 +28,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private GameWindow window;
 	private JTextField textField_1;
 	private JPasswordField passwordField_1;
-	private JPasswordField passwordField_2;
 	private JButton LogButton;
-	private JButton RegButton;
 	private String username = "";
 
 	
@@ -31,6 +36,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		
 		this.window = window;
 		
+		// the Loginpanel
 		JPanel LoginPanel = new JPanel();
 		LoginPanel.setPreferredSize(new Dimension(400, 500)); 	
 		//LoginPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
