@@ -89,12 +89,25 @@ public class ServerEngine implements Runnable {
 				this.sendToGame(message);
 				System.out.println("Messages forwarded");
 				break;	
+		case 100:
+			this.confirmConnection();
+			break;
 		default:
 			break;
 			}
 		}
 
 	
+	private void confirmConnection() {
+		System.out.println("I am still there");
+		Message answer = (MessPing) new MessPing(100,0);
+		try {
+			this.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/** 
 	 * Forwards player actions to game
 	 * @param message
@@ -120,7 +133,7 @@ public class ServerEngine implements Runnable {
 			this.games.lastElement().run();
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
-				this.messagesToClient.put(new MessSignInAndUpAnswer(true,0,3));
+				this.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -128,7 +141,7 @@ public class ServerEngine implements Runnable {
 		} else {
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
 			try {
-				this.messagesToClient.put(new MessSignInAndUpAnswer(false,0,3));
+				this.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
