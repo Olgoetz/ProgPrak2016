@@ -18,11 +18,11 @@ import pp2016.team19.shared.Wall;
 
 /**
  * 
- * @author Felizia Langsdorf, Matr_Nr: 6002960
+ * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */
-// statusbar for the game, shown on the right side while playing
 
+// statusbar for the game, shown on the right side while playing
 public class Statusbar extends JPanel {
 
 private static final long serialVersionUID = 1L;
