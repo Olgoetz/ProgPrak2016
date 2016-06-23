@@ -54,7 +54,7 @@ public class MessLevelAnswer extends Message implements Serializable{
 	
 	/**
 	 * @author Oliver Goetz, 596134
-	 * @return returns the map
+	 * @return the map
 	 * 
 	 * Method, that returs the Labyrinth.
 	 */
