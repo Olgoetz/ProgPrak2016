@@ -59,7 +59,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		if(ae.getSource()==b1){			//pressing button start game, then game starts 
 			window.showGameField();
 	}else if (ae.getSource() == b2)	{
-		System.exit(0);      // here's going to be a proper method for logging out
+		window.showLogin();      // here's going to be a proper method for logging out
 	}	
 }
 
