@@ -35,7 +35,7 @@ public class ServerEngine implements Runnable {
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
-		//game1 = new Game(this, player, 30, messagesToGames);
+		game1 = new Game(this, player, 30, messagesToGames);
 	}
 /**
  * Keeps processing Messages
@@ -43,7 +43,7 @@ public class ServerEngine implements Runnable {
 	public void run() {
 		System.out.println("runs");
 		player.setPos(3, 3);
-		//this.tick.scheduleAtFixedRate(game1, 0, 50);
+		this.tick.scheduleAtFixedRate(game1, 0, 50);
 		//network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
 		while (true) {
 				Message message = network.getMessageFromClient();
@@ -128,8 +128,8 @@ public class ServerEngine implements Runnable {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
 	//	if(message.getUsername()==this.userName && message.getPassword()==this.password) {
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
-			//this.games.addElement(new Game(this, player, 30, this.messagesToGames));
-			//this.games.lastElement().run();
+			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
+			this.games.lastElement().run();
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
 				this.messagesToClient.put(answer);

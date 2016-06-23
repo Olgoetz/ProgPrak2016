@@ -33,13 +33,14 @@ public class Game extends TimerTask {
 	public void run() {
 		if (tester==true) {
 			System.out.println("Game executed");
+		}
 			/*Message answer = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
 			try {
 				engine.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} */
+			} 
 			tester=false;
 			}
 		Message message = this.messagesFromServer.poll();
@@ -53,7 +54,7 @@ public class Game extends TimerTask {
 				monster.move();
 			}
 			
-		}
+		} */
 	}
 	/**
 	 * Determines action depending on subtype
