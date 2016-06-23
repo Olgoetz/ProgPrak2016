@@ -21,14 +21,17 @@ public class NetworkHandlerC {
 	private Socket server;
 	private NetworkReceiverC receiver;
 	private NetworkTransmitterC transmitter;
+	private Timer pingTimer;
+	private boolean connected;
 
 	public NetworkHandlerC() {
-
+		this.pingTimer = new Timer();
 		while (this.server == null) {
 			try {
 				// this.server = new Socket("62.143.243.85", 33333);
 				System.out.println("NetworkHandlerClient.NetworkHandlerC()");
 				this.server = new Socket("localhost", 44444);
+				this.setConnected(true);
 			} catch (UnknownHostException e) {
 				System.out.println("ERROR: NetworkHandlerClient ");
 				e.printStackTrace();
@@ -50,10 +53,32 @@ public class NetworkHandlerC {
 		receiver = new NetworkReceiverC(server);
 		transmitter.start();
 		receiver.start();
+		this.pingTimer.scheduleAtFixedRate(new NetworkPingCheckC(this), 3000, 3000);
 	}
 	
+	public void close(String errorMessage){
+		try {
+			System.out.println("CLOSED: NetworkHandlerC");
+			this.setConnected(false);
+			this.pingTimer.cancel();
+			this.getServer().close();
+			System.out.println(errorMessage);
+			System.exit(1);
+		} catch (IOException e) {
+			System.out.println("ERROR: NETWORKHANDLERC");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void setConnected(boolean connected){
+		this.connected = connected;
+	}
+	public boolean getConnected(){
+		return this.connected;
+	}
 	public Socket getServer() {
-		return server;
+		return this.server;
 	}
 	public void setServer(Socket server) {
 		this.server = server;
@@ -69,5 +94,14 @@ public class NetworkHandlerC {
 	public LinkedBlockingQueue<Message> getOutputQueue(){
 		return this.outputQueue = transmitter.getQueueMessagesToServer();
 	}
+	
+	public NetworkTransmitterC getTransmitterC(){
+		return this.transmitter;
+	}
+	
+	public NetworkReceiverC getReceiverC(){
+		return this.receiver;
+	}
+	
 
 }

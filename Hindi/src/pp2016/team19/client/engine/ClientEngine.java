@@ -9,9 +9,10 @@ import java.util.concurrent.TimeUnit;
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.NetworkHandlerC;
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.client.gui.LoginBuild;
 import pp2016.team19.server.map.Labyrinth;
 import pp2016.team19.shared.*;
-import pp2016.team19.shared.Character;
+
 
 
 
@@ -28,7 +29,6 @@ import pp2016.team19.shared.Character;
  * 				- Constructor 
  * 				- A thread is initialized
  * 				
- * 
  * Section 2:
  * 				- messageReader-Method to analyze incoming messages
  * 				- several subsections with switch cases statements to call the appropriate method
@@ -46,31 +46,42 @@ import pp2016.team19.shared.Character;
 
 //***** Section 1 *****//
 
-public class Engine implements Runnable {
+public class ClientEngine implements Runnable   {
 
 //	private LinkedBlockingQueue<Message> messagesFromServer;
 //	private LinkedBlockingQueue<Message> messagesToServer;
 	private ExecutorService threadPool;
 
 	private NetworkHandlerC networkHandler;
-	private GameWindow GUI;
+	private GameWindow gamewindow;
+	private LoginBuild loginbuild;
 
 	private int playerID;
 	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
-	private Labyrinth labyrinth;
-
+	private GameObject[][] labyrinth;
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
 	
 	
-	public Engine() {
+	public ClientEngine(ExecutorService clientThreadPool) {
+		System.out.println("Start Constructor");
+		this.setThreadPool(clientThreadPool);
 		this.setNetworkHandler(new NetworkHandlerC());
-	
-		this.setGUI(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+//		this.setLoginBuild(new LoginBuild());
+		
+		// here comes si
+//		this.levelRequest();
+//		this.playerRequest();
+
+		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		this.getThreadPool().execute(this.getGameWindow());
+		
 	}
+	
+	
 
 //	public Engine(ExecutorService pThreadPool) {
 //
@@ -97,19 +108,26 @@ public class Engine implements Runnable {
 	 * @author Oliver Goetz, 5961343
 	 * This method starts a thread.
 	 */
+	
 
 	@Override
 	public void run() {
-		System.out.println("THREAD STARTED: Engine");
-
+		// TODO Auto-generated method stub
+		System.out.println("Engine started");
 		while (true) {
-			Message message = this.networkHandler.getMessageFromServer();
-			if (message != null) {
-			this.messageReader(message);
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			Message message = this.getNetworkHandler().getMessageFromServer();
+			if (message != null) {
+				this.messageReader(message);
+			}		
 		}
-		// System.out.println("THREAD FINISHED: Engine");
 	}
+	
 
 	
 	
@@ -166,6 +184,10 @@ public class Engine implements Runnable {
 
 			case 3:
 				this.attackAnswer(pMessage);
+				break;
+				
+			case 18:
+				System.out.println("Ich bin da");
 				break;
 
 			default:
@@ -272,6 +294,8 @@ public class Engine implements Runnable {
 		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
 
 		if (message.isConfirmed()) {
+			this.levelRequest();
+			this.playerRequest();
 		//	this.setPlayerID(message.getPlayerID());
 		//	this.GUI.getLoginFrame().newStatus("sign in confirmed", Color.BLACK);
 
@@ -322,18 +346,19 @@ public class Engine implements Runnable {
 	
 	// Processes a moveCharacterAnswer Message coming from the server
 	private void moveCharacterAnswer(Message pMessage) {	
-			
+		System.out.println("Message came from server");
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
 			if(message.isConfirmed()) {
 			myPlayer.xPos = message.getX();
 			myPlayer.yPos = message.getY();
+		
 			}
 			
 		}
 	
 	// Sends an attackRequest to the server
 	public void attackRequest(boolean attack) {
-		this.sendToServer(new MessAttackRequest(attack,0,2));
+		this.sendToServer(new MessAttackRequest(attack,1,2));
 	}
 	
 	// Processes an attackAnswer Message coming from the server
@@ -387,7 +412,8 @@ public class Engine implements Runnable {
 	
 	// Sends a levelRequest to the server
 	public void levelRequest() {
-		this.sendToServer(new MessLevelRequest(labyrinth,2,0));
+		int l = 0;
+		this.sendToServer(new MessLevelRequest(0,2,0));
 	}
 	
 	// Processes a levelAnswer Message coming from the server
@@ -437,7 +463,7 @@ public class Engine implements Runnable {
 	 * @param myPlayer
 	 * @param myMonster
 	 * @param networkHandler
-	 * @param GUI
+	 * @param gamewindow
 	 * 
 	 * This block contains helper, getter and setter methods
 	 */
@@ -485,29 +511,45 @@ public class Engine implements Runnable {
 //		this.messagesToServer = messagesToServer;
 //	}
 
-//	private ExecutorService getThreadPool() {
-//		return threadPool;
-//	}
-//
-//	private void setThreadPool(ExecutorService threadPool) {
-//		this.threadPool = threadPool;
-//	}
-//
+	private ExecutorService getThreadPool() {
+		return threadPool;
+	}
+
+	private void setThreadPool(ExecutorService threadPool) {
+		this.threadPool = threadPool;
+	}
+
 	public NetworkHandlerC getNetworkHandler() {
 		return networkHandler;
 	}
 
-	private void setNetworkHandler(NetworkHandlerC networkHandler) {
+	public void setNetworkHandler(NetworkHandlerC networkHandler) {
 		this.networkHandler = networkHandler;
 	}
 
-	private GameWindow getGUI() {
-		return GUI;
+	public GameWindow getGameWindow() {
+		return gamewindow;
 	}
 
-	private void setGUI(GameWindow gUI) {
-		GUI = gUI;
+	public void setGameWindow(GameWindow gamewindow) {
+		this.gamewindow = gamewindow;
 	}
+	
+	public LoginBuild getLoginBuild() {
+		return loginbuild;
+	}
+	
+	public void setLoginBuild(LoginBuild loginbuild) {
+		this.loginbuild = loginbuild;
+	}
+	
+	
+	public GameObject[][] getLabyrinth() {
+		return labyrinth;
+	}
+
+
+
 	
 
 	
