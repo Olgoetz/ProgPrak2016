@@ -1,12 +1,9 @@
 package pp2016.team19.server.engine;
 
 import pp2016.team19.shared.*;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
 import pp2016.team19.server.map.*;
 /**
  * Runs game, holds game data, loads levels
@@ -19,7 +16,6 @@ public class Game extends TimerTask {
 	private int gameSize;
 	Vector<Monster> Monsters = new Vector();
 	int levelNumber=1;
-	private Timer tick = new Timer();
 	ServerEngine engine;
 	boolean tester = true; //Testing
 	Player player;
