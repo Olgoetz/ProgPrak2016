@@ -33,6 +33,13 @@ public class Game extends TimerTask {
 	public void run() {
 		if (tester==true) {
 			System.out.println("Game executed");
+			Message answer = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
+			try {
+				engine.messagesToClient.put(answer);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			tester=false;
 			}
 		Message message = this.messagesFromServer.poll();
@@ -80,7 +87,28 @@ public class Game extends TimerTask {
 		if (player.hasKey()) {
 			levelNumber++;
 			this.newLevel(levelNumber);
-			//Message answer = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1); //Datatype
+			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true,1,9);
+			Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
+			try {
+				engine.messagesToClient.put(answer);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				engine.messagesToClient.put(newLevel);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(false,1,9);
+			try {
+				engine.messagesToClient.put(answer);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -88,7 +116,7 @@ public class Game extends TimerTask {
 		potions = player.getNumberOfPotions();
 		if (potions>0) {
 			player.usePotion();
-			//doSomething, doesn't seem to work yet
+			//Answer
 		}
 	}
 	private void collectItem(Message message) {
@@ -124,6 +152,7 @@ public class Game extends TimerTask {
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize,gameSize);
 		//Monsters = Labyrinth.placeMonsters(gameMap, levelNumber); Needs Input
+		
 	}
 	/**
 	 * Executes player movement command

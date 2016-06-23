@@ -53,7 +53,8 @@ public class Player extends Character {
 	
 	public int usePotion(){
 		setNumberOfPotions(numberOfPotions-1);
-		return potionEffect;
+		health = Math.max(health+potionEffect,getMaxHealth());
+		return health;
 	}
 	
 	public void takePotion(Potion t){
