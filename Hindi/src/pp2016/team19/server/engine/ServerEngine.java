@@ -43,7 +43,7 @@ public class ServerEngine implements Runnable {
 	public void run() {
 		System.out.println("runs");
 		player.setPos(3, 3);
-		this.tick.scheduleAtFixedRate(game1, 0, 50);
+		//this.tick.scheduleAtFixedRate(game1, 0, 50);
 		network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
 		while (true) {
 				Message message = network.getMessageFromClient();
