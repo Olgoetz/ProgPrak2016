@@ -16,7 +16,11 @@ import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
-// author: Felizia Langsdorf, Matr_Nr: 6002960
+/**
+ *  
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
 
 // minimap class, shown at the bottom of statusbar 
 // with mistOn = true; without fireballs, monsters, key, potion 
@@ -27,6 +31,7 @@ public class MiniField extends JPanel {
 
 	private Image floor, wall, doorOpen, doorClosed, key, potion; // fireball; not used anymore 
 	private GameWindow window;
+	public boolean mistOn = false;
 	// use a smaller tile for the minimap
 	private int miniBox = 6;
 	
@@ -122,7 +127,7 @@ public class MiniField extends JPanel {
     
 	private boolean inRange(int i, int j) {
 		return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
-				+ Math.pow(window.player.getYPos() - j, 2)) < 3 || window.mistOn);
+				+ Math.pow(window.player.getYPos() - j, 2)) < 3 || !window.mistOn);
 	}
 	
 }

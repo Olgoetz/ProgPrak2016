@@ -9,15 +9,23 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
+
+
+// panel for explanation of the control, is showing after clicking on MenuItem "show control"
+
 public class Controls extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	// Controls explanation
 
 	public void paint(Graphics g){
 		Image img = null , control = null, arrows = null , right = null, walker = null, q = null , fire = null, leer = null, mouse = null, b = null;
-				
+		
+		// loading the images
 		try{
 			img = ImageIO.read(new File("img//controller.png"));
 			control = ImageIO.read(new File("img//Data-Control.png"));
@@ -31,10 +39,10 @@ public class Controls extends JPanel {
 			mouse = ImageIO.read(new File ("img//mouse.png"));
 		}catch(IOException e){ }
 		
+		// filling the panel with the content, drawing on it, the images, strings, etc.
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
-		
-		
+			
 		g.drawImage(img, 200, 10, null);
 		g.drawImage(control, 205, 15, null);
 		g.setColor(Color.WHITE);

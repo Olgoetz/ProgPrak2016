@@ -8,16 +8,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-
+/**
+ * 
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
 public class MenuBar extends JMenuBar implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
-	
+		
 	// JMenus 
     private JMenu game;
     private JMenu show;
-	//private JMenu help;
 	private JMenu logOut;
 
     //MenuItems 
@@ -27,16 +29,16 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenuItem showMap;
     private JMenuItem controls;
     private JMenuItem LogArrow;
-    private ImageIcon arrow = new ImageIcon ("img//icon-arrow.png");
+    private ImageIcon arrow = new ImageIcon ("img//icon-arrow.png"); // arrow icon for logout
    
     private GameWindow window;
     
 	public MenuBar(GameWindow window){
 		this.window = window;
 		
+		//shown at the bar at the top of the window 
 		game = new JMenu("Game");
 		show = new JMenu("Show");
-		//help = new JMenu("Help");
 		logOut = new JMenu("LogOut");
         
         newGame = new JMenuItem("Start New Game");
@@ -53,14 +55,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
         controls.addActionListener(this);
         LogArrow.addActionListener(this);
         
-        //help.addActionListener(this);
         
         game.add(newGame);
         game.add(quit);
         show.add(highscore);
         show.add(showMap);
         show.add(controls);
-        //help.add(controls);
         logOut.add(LogArrow);   
         
         this.add(game);
@@ -105,7 +105,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			highscore.setText("Show Highscore");
 		}
 		}else if(e.getSource()== LogArrow){
-			window.showLogin();                  // quit game and initiate logout???
+			window.showLogin();                  // shows simply the loginpanel again, method for proper logout is going to implemented
 		}
 	}
 	
