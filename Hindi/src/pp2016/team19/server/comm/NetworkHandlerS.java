@@ -29,7 +29,7 @@ public class NetworkHandlerS {
 	private boolean connected = false;
 
 public NetworkHandlerS() {
-		
+		pingTimer = new Timer();
 		try {
 			server = new ServerSocket(44444);
 			while(!connected){
@@ -39,6 +39,7 @@ public NetworkHandlerS() {
 					transmitter = new NetworkTransmitterS(client);
 					receiver.start();
 					transmitter.start();
+					pingTimer.scheduleAtFixedRate(new NetworkPingCheckS(this), 3000, 3000);
 					connected = true;
 							}
 					
@@ -49,6 +50,12 @@ public NetworkHandlerS() {
 		}
 		
 	}
+public Socket getClient(){
+	return this.client;
+}
+public ServerSocket getServer(){
+	return this.server;
+}
 public void sendMessageToClient(Message message){
 	transmitter.writeMessage(message);
 }
