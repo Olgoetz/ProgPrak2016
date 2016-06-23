@@ -256,9 +256,9 @@ public class ClientEngine implements Runnable   {
 
 		if (pPassword.equals(pPassword2)) {
 			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
-		//	this.GUI.getLoginFrame().newStatus("sign up requested", Color.BLACK);
+			
 		} else {
-		//	this.GUI.getLoginFrame().newStatus("passwords not equal", Color.RED);
+			System.out.println("login failed");
 		}
 	}
 
@@ -283,15 +283,9 @@ public class ClientEngine implements Runnable   {
 //			this.levelRequest();
 //			this.playerRequest();
 			getGameWindow().showMenu();
+			System.out.println("login successful");
 		}else{
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
-		//	this.setPlayerID(message.getPlayerID());
-		//	this.GUI.getLoginFrame().newStatus("sign in confirmed", Color.BLACK);
-
-		//	this.serverPlayerRequest();
-		//	this.GUI.getLoginFrame().newStatus("loading data", Color.BLACK);
-		
-		//	this.GUI.getLoginFrame().newStatus("sign in denied", Color.RED);
 		}
 	}
 
