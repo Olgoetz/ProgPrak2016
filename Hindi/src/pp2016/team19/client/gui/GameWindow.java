@@ -12,6 +12,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+import pp2016.team19.client.engine.ClientEngine;
 import pp2016.team19.shared.Door;
 import pp2016.team19.shared.Floor;
 import pp2016.team19.shared.GameObject;
@@ -22,7 +23,7 @@ import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
 
-public class GameWindow extends JFrame implements KeyListener, MouseListener {
+public class GameWindow extends JFrame implements KeyListener, MouseListener, Runnable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -34,11 +35,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	
 	private Highscore highscore;
 	private Controls controls;
+	
 
 	public LinkedList<Monster> monsterList;
 	public Player player;
 	public GameObject[][] level;
-	public Engine engine;
+	public ClientEngine engine;
 	
 	public int currentLevel = 0;
 	public boolean gameWon = false;
@@ -60,10 +62,10 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
-	public GameWindow(int width, int height, String title) {
-		//this.engine = engine;
+	public GameWindow(ClientEngine engine, int width, int height, String title) {
+		this.engine = engine;
 		initializeJFrame(width, height, title);
-		startNewGame();
+		
 	}
 
 	public void initializeJFrame(int width, int height, String title) {
@@ -253,7 +255,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 		if (!gameWon) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
-					//engine.moveCharacterRequest(0, true);
+					engine.moveCharacterRequest(0, true);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
 					player.moveDown();
@@ -330,7 +332,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener {
 	
 	
 	// Gameloop
-	public void startNewGame() {
+	public void run() {
 		resetGame();
 
 		do {
