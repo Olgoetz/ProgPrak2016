@@ -2,6 +2,7 @@ package pp2016.team19.shared;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
@@ -16,14 +17,14 @@ public class Player extends Character {
 	private int numberOfPotions;
 	private int potionEffect;
 	
+	private int dir;
 	
-	private GameWindow window;
-	
-	public Player() {
-		
+	public Player(){
+		super();
 	}
+	
 	public Player(String imgFile, GameWindow window){
-		this.window = window;
+		super(window);
 		
 		setNumberOfPotions(0);
 		setPos(0,0);		
@@ -40,6 +41,12 @@ public class Player extends Character {
 	}
 	
 
+	public void moveToPos(int xGoal, int yGoal){
+		LinkedList<Node> path = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);
+		while (!path.isEmpty()){
+			changeDir(path);
+		}
+	}
 	
 	// Method to take the key
 	public void takeKey(){
@@ -84,8 +91,8 @@ public class Player extends Character {
 	}
 	
 	public Monster monsterToAttack(){
-		for(int i = 0; i < window.monsterList.size(); i++){
-			Monster m = window.monsterList.get(i);
+		for(int i = 0; i < getWindow().monsterList.size(); i++){
+			Monster m = getWindow().monsterList.get(i);
 						
 			// Is the player able to attack?
 			boolean ableToAttack = false;
