@@ -22,7 +22,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-//	private Image menu;
+	private ImageIcon picture = new ImageIcon("img//labyrinth.png");
+	private JLabel lab;
+	
 	private GameWindow window;
 	public JPanel p;
 	private JButton b1;
@@ -41,9 +43,14 @@ public class MenuPanel extends JPanel implements ActionListener {
 		// create panel, set its color and size, etc.
 		p = new JPanel();
 		p.setBackground(Color.LIGHT_GRAY);
-		p.setPreferredSize(new Dimension(400, 500)); 	
+		p.setPreferredSize(new Dimension(200, 200)); 	
 		p.setLayout( new GridLayout( 2, 0 ));
 		p.setVisible(true);
+		
+//		lab = new JLabel(picture, JLabel.CENTER);
+//		lab.setPreferredSize(new Dimension(500,500));
+		
+		
 		// create the two buttons
 		b1 = new JButton("Start Game");
 		b2 = new JButton("Logout");
@@ -70,9 +77,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 //	public void paint(Graphics g){
 //	//g.setColor(Color.GRAY);
 //	//g.fillRect(0, 300, 300,100);
-//	g.drawImage(menu, this.getWidth()/3, 300, null);	
+//	g.drawImage(menu, this.getWidth()/3, 300, null);		
 //	}
-	
+//	
 // !!! logout button disappears if anything is being painted, after clicking somewhere randomly outside the window(JFrame) button shows up again. magic?? 
 }
 
