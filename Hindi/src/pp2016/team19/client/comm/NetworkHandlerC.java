@@ -113,7 +113,9 @@ public class NetworkHandlerC {
 	 * @author Bulut , Taner , 5298261
 	 */
 	public void sendMessageToServer(Message message) {
+		if (message.getType()!=100) {
 		System.out.println("NetworkHandlerClient.sendMessageToServer()");
+		}
 		transmitter.writeMessage(message);
 	}
 
