@@ -105,6 +105,8 @@ private static final long serialVersionUID = 1L;
 		
 		g.setColor(Color.WHITE);
 		g.drawString("Player's Health: ", 5, window.BOX * (window.HEIGHT - 10) + 20);
+		
+		// players health bar
 		g.setColor(Color.RED);
 		g.fillRect(5,window.BOX * (window.HEIGHT - 9), window.player.getMaxHealth(), 5);
 		g.setColor(Color.GREEN);
@@ -117,7 +119,7 @@ private static final long serialVersionUID = 1L;
 		
 		g.drawLine(2, 0, 2, window.BOX * (window.HEIGHT));
 
-	// draw minimap
+	// draw minimap 
 		
 	int var1=350;
 	int var2 = 10;
