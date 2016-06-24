@@ -25,8 +25,11 @@ public class Game extends TimerTask {
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
+		System.out.println("Error in Map");
 		gameMap = Labyrinth.generate(gameSize,gameSize);
-	}
+		
+		}
+		
 	/**
 	 * Sets Clock for Game Engine, processes messages
 	 */
@@ -34,28 +37,27 @@ public class Game extends TimerTask {
 		if (tester==true) {
 			System.out.println("Game executed");
 			tester=false;
-		}
-			/*Message answer = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
+			Message level = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
 			try {
-				engine.messagesToClient.put(answer);
+				engine.messagesToClient.put(level);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-			}*/
+		}
 		Message message = this.messagesFromServer.poll();
 		if (message != null) {
 			System.out.println("Message received in game");
 			System.out.println(message.toString());
 			this.distributor(message);
 		}
-		/*for(Monster monster: Monsters) {
-			boolean attack = monster.attackPlayer(player.hasKey());
-			if (!attack) {
-				monster.move();
-			}
-			
-		} */
+//		for(Monster monster: Monsters) {
+//			boolean attack = monster.attackPlayer(player.hasKey());
+//			if (!attack) {
+//				monster.move();
+//			}
+//			
+//		} 
 	}
 	/**
 	 * Determines action depending on subtype
@@ -167,7 +169,7 @@ public class Game extends TimerTask {
 		switch(message.getDirection()) {
 		case 0: //MoveUp
 		if (gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
-				player.setPos(player.getXPos(),player.getYPos()+1);
+				player.moveUp();
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
 				System.out.println("Player position test:"+tester.getX());
@@ -191,7 +193,7 @@ public class Game extends TimerTask {
 			}  
 			case 1: //MoveDown
 				if (gameMap[player.getXPos()][player.getYPos()-1].isWalkable()) {
-					player.setPos(player.getXPos(),player.getYPos()-1);
+					player.moveDown();
 					Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 					try {
 						engine.messagesToClient.put(answer);
@@ -210,7 +212,7 @@ public class Game extends TimerTask {
 				}
 				case 2: //MoveLeft
 					if (gameMap[player.getXPos()-1][player.getYPos()].isWalkable()) {
-						player.setPos(player.getXPos()-1,player.getYPos());
+						player.moveLeft();
 						Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 						try {
 							engine.messagesToClient.put(answer);
@@ -229,7 +231,7 @@ public class Game extends TimerTask {
 					}
 					case 3: //MoveRight
 						if (gameMap[player.getXPos()+1][player.getYPos()].isWalkable()) {
-							player.setPos(player.getXPos()+1,player.getYPos());
+							player.moveRight();
 							Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 							try {
 								engine.messagesToClient.put(answer);

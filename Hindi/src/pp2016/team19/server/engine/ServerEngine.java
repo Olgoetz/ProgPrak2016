@@ -20,11 +20,12 @@ public class ServerEngine implements Runnable {
 	private String userName = "user";
 	private String password = "123";
 	private Vector<Player> players;
-	private Vector<Game> games;
+	private Vector<Game> games = new Vector<Game>();
 	private Game game1; //Test
 	private Player player = new Player(); //Test
 	private Timer tick = new Timer();
 	NetworkHandlerS network = new NetworkHandlerS();
+	private boolean playerIsNew;
 	/**
 	 * Constructor sets Message Queues for communication
 	 * @param serverThreadPool
@@ -34,16 +35,12 @@ public class ServerEngine implements Runnable {
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
-		game1 = new Game(this, player, 30, messagesToGames);
 	}
 /**
  * Keeps processing Messages
  */
 	public void run() {
 		System.out.println("runs");
-		player.setPos(3, 3);
-		this.tick.scheduleAtFixedRate(game1, 0, 50);
-		network.addMessage(new TestMessage(1,37,"Server Processing Test")); //test messages
 		while (true) {
 				Message message = network.getMessageFromClient();
 				if (message != null) {
@@ -130,8 +127,8 @@ public class ServerEngine implements Runnable {
 		if(userName.equals(message.getUsername()) && password.equals(message.getPassword())) {
 			System.out.println("did work");
 			this.messagesToGames = new LinkedBlockingQueue<Message>();
-			//this.games.addElement(new Game(this, player, 30, this.messagesToGames));
-			//this.games.lastElement().run();
+			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
+			this.tick.scheduleAtFixedRate(this.games.lastElement(), 0, 50);
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 			try {
 				this.messagesToClient.put(answer);
@@ -160,13 +157,22 @@ public class ServerEngine implements Runnable {
 		
 	}
 
-	private void signUpRequest(Message message) {
-		
-		
+	private void signUpRequest(Message pmessage) {
+		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
+		playerIsNew = true;
+		for(Player player: players) {
+			if(message.getUsername().equals(player.getName())) {
+				//Answer: Player exists
+				playerIsNew = false;
+			}
+		}
+		if(playerIsNew) {
+			players.addElement(new Player());
+			//Answer true
+		}
 	}
 
 	private void ConnectionRequest(Message message) {
-		// TODO Auto-generated method stub
 		System.out.println("Connected");
 		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0, 3);
 		try {
