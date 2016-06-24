@@ -219,24 +219,22 @@ public class Monster extends Character {
 	/**
 	 * Calculates the point, where the monster should flee to.
 	 * 
-	 * @return returns an int-array with the fleeing position
+	 * @return returns a Node with the fleeing position
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public Node getFleePos() {
 
-		if (this.getXPos() < getWindow().WIDTH / 2 || this.getXPos() >= player.getXPos()) {
-			if (this.getYPos() < getWindow().HEIGHT / 2
-					|| this.getYPos() >= player.getYPos()) {
-				// Monster in top left quartal, flee to down right corner
+		if (this.getXPos() >= player.getXPos()) {
+			if (this.getYPos() >= player.getYPos()) {
+				// Monster is under and right of the player, flee to down right corner
 				for (int fleeX = getWindow().WIDTH - 1; fleeX >= getWindow().WIDTH / 2; fleeX--) {
 					for (int fleeY = getWindow().HEIGHT - 1; fleeY >= getWindow().HEIGHT / 2; fleeY--) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
-			} else if (this.getYPos() >= getWindow().HEIGHT / 2
-					|| this.getYPos() < player.getYPos()) {
-				// Monster in down left quartal, flee to top right corner
+			} else if (this.getYPos() < player.getYPos()) {
+				// Monster is above and right of the player, flee to top right corner
 				for (int fleeX = getWindow().WIDTH - 1; fleeX >= getWindow().WIDTH / 2; fleeX--) {
 					for (int fleeY = 0; fleeY < getWindow().HEIGHT / 2; fleeY++) {
 						if (isWalkable(fleeX, fleeY))
@@ -244,20 +242,17 @@ public class Monster extends Character {
 					}
 				}
 			}
-		} else if (this.getXPos() >= getWindow().WIDTH / 2
-				|| this.getXPos() < player.getXPos()) {
-			if (this.getYPos() < getWindow().HEIGHT / 2
-					|| this.getYPos() >= player.getYPos()) {
-				// Monster in top right quartal, flee to down left corner
+		} else if (this.getXPos() < player.getXPos()) {
+			if (this.getYPos() >= player.getYPos()) {
+				// Monster is under and left of the player, flee to down left corner
 				for (int fleeX = 0; fleeX < getWindow().WIDTH / 2; fleeX++) {
 					for (int fleeY = getWindow().HEIGHT - 1; fleeY >= getWindow().HEIGHT / 2; fleeY--) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
-			} else if (this.getYPos() >= getWindow().HEIGHT / 2
-					|| this.getYPos() < player.getYPos()) {
-				// Monster in down right quartal, flee to top left corner
+			} else if (this.getYPos() < player.getYPos()) {
+				// Monster is above and left of the player, flee to top left corner
 				for (int fleeX = 0; fleeX < getWindow().WIDTH / 2; fleeX++) {
 					for (int fleeY = 0; fleeY < getWindow().HEIGHT / 2; fleeY++) {
 						if (isWalkable(fleeX, fleeY))
