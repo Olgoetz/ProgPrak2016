@@ -6,32 +6,50 @@ import java.util.LinkedList;
 
 import pp2016.team19.client.gui.GameWindow;
 
+/**
+ * <h1>Abstract Character Class providing position, image, direction, window,
+ * health & damage.</h1>
+ * 
+ * It contains the constructor, the A-Star-Search algorithm, move methods,
+ * methods to calculate the next steps and whether steps are valid or walkable,
+ * as well as getter and setter methods.
+ * 
+ * @author Strohbuecker, Max, 5960738
+ */
 public abstract class Character {
 
 	public int xPos, yPos;
 	private Image image;
 	private boolean confirmMove;
-	private int dir = -1;  // Running direction: 0 North, 1 East, 2 South, 3 West
-	
+	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
+
 	private GameWindow window;
-	
+
 	public int health;
 	private int damage;
-	
+
 	private int maxHealth;
-		
-	public Character(){
-		
-	}
+
 	/**
-	 * Contructor of class Character
-	 * @param window contains the level/map
+	 * Standard-Contructor of class Character
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public Character(GameWindow window){
+	public Character() {
+
+	}
+
+	/**
+	 * Contructor of class Character
+	 * 
+	 * @param window
+	 *            contains the level/map
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public Character(GameWindow window) {
 		this.window = window;
 	}
-	
+
 	/**
 	 * A-Star-Algorithm to search the shortest path from start to goal.
 	 * 
@@ -46,8 +64,7 @@ public abstract class Character {
 	 * @return returns the calculated path
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public LinkedList<Node> AStarSearch(int xStart, int yStart, int xGoal,
-			int yGoal) {
+	public LinkedList<Node> AStarSearch(int xStart, int yStart, int xGoal, int yGoal) {
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
 		Node start = new Node(xStart, yStart);
@@ -105,48 +122,41 @@ public abstract class Character {
 				// Set neighbors' parents to cheapest
 				neighbors[k].setParent(cheapest);
 
-				if (neighbors[k].getXPos() == xGoal
-						&& neighbors[k].getYPos() == yGoal) {
+				if (neighbors[k].getXPos() == xGoal && neighbors[k].getYPos() == yGoal) {
 					// Current Neighbor is the goal / player
 					goalFound = true;
 					goal = neighbors[k];
 				} else {
 					// Calculate costs of neighbor
-					neighbors[k]
-							.setCostFromStart(cheapest.getCostFromStart() + 1);
+					neighbors[k].setCostFromStart(cheapest.getCostFromStart() + 1);
 					int xDiff = xGoal - neighbors[k].getXPos();
 					int yDiff = yGoal - neighbors[k].getYPos();
-					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff * xDiff
-							+ yDiff * yDiff));
+					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff * xDiff + yDiff * yDiff));
 					neighbors[k].calculateCosts();
 
 					boolean skipNode = false;
 					for (Node checkOpen : openList) {
 						if (checkOpen.getXPos() == neighbors[k].getXPos()
-								&& checkOpen.getYPos() == neighbors[k]
-										.getYPos()) {
+								&& checkOpen.getYPos() == neighbors[k].getYPos()) {
 							// Neighbor already in the openList
-							if (checkOpen.getTotalCosts() <= neighbors[k]
-									.getTotalCosts())
+							if (checkOpen.getTotalCosts() <= neighbors[k].getTotalCosts())
 								skipNode = true;
 						}
 					}
 					for (Node checkClosed : closedList) {
 						if (checkClosed.getXPos() == neighbors[k].getXPos()
-								&& checkClosed.getYPos() == neighbors[k]
-										.getYPos()) {
+								&& checkClosed.getYPos() == neighbors[k].getYPos()) {
 							// Neighbor already in the closedList
-							if (checkClosed.getTotalCosts() <= neighbors[k]
-									.getTotalCosts())
+							if (checkClosed.getTotalCosts() <= neighbors[k].getTotalCosts())
 								skipNode = true;
 						}
 					}
 					if (!skipNode)
 						openList.add(neighbors[k]);
 				}
-			}// end: for-neighbors
+			} // end: for-neighbors
 			closedList.add(cheapest);
-		}// end: while
+		} // end: while
 
 		// Go back path to node which parent is the start node (=monster)
 		LinkedList<Node> path = new LinkedList<Node>();
@@ -158,174 +168,175 @@ public abstract class Character {
 
 		return path;
 	}
-	
+
 	// Move-Methods
 	
-		public void moveUp(){
-			yPos--;
-		}
-		
-		public void moveDown(){
-			yPos++;
-		}
-		
-		public void moveLeft(){
-			xPos--;
-		}
-		
-		public void moveRight(){
-			xPos++;
-		}
-		
-		/**
-		 * Removes the next Step of the AStarPath and changes the running direction
-		 * of the monster
-		 * 
-		 * @param path
-		 *            the path, of which the next step should be calculated
-		 * @author Strohbuecker, Max, 5960738
-		 */
-		public void changeDir(LinkedList<Node> path) {
-			Node nextNode = path.removeFirst();
-			// Node test;
-			// System.out.println("PATH:");
-			// for (int i=0; i<path.size();i++){
-			// test = path.get(i);
-			// System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
-			// }
-			if (nextNode.getXPos() == this.getXPos()
-					&& nextNode.getYPos() == this.getYPos() - 1) {
-				dir = 0;
-			} else if (nextNode.getXPos() == this.getXPos() + 1
-					&& nextNode.getYPos() == this.getYPos()) {
-				dir = 1;
-			} else if (nextNode.getXPos() == this.getXPos()
-					&& nextNode.getYPos() == this.getYPos() + 1) {
-				dir = 2;
-			} else if (nextNode.getXPos() == this.getXPos() - 1
-					&& nextNode.getYPos() == this.getYPos()) {
-				dir = 3;
-			} else {
-				System.out
-						.println("Error while changing direction: Next step is not next to the monster");
-			}
-			if (valid()) {
-				switch (dir) {
-				case 0:
-					moveUp();
-					break;
-				case 1:
-					moveRight();
-					break;
-				case 2:
-					moveDown();
-					break;
-				case 3:
-					moveLeft();
-					break;
-				}
-			}
-		}
-		
-		/**
-		 * Calculates, whether the target position is walkable for a monster.
-		 * 
-		 * @param x
-		 *            x-coordinate of the target
-		 * @param y
-		 *            y-coordinate of the target
-		 * @return returns true if field is free, returns false if field is a wall,
-		 *         key or door
-		 * @author Strohbuecker, Max, 5960738
-		 */
-		public boolean isWalkable(int x, int y) {
-			if (getWindow().level[x][y] instanceof Wall
-					|| getWindow().level[x][y] instanceof Key
-					|| getWindow().level[x][y] instanceof Door) {
-				return false;
-			} else {
-				return true;
-			}
-		}
-		
-		/**
-		 * Checks, whether the next step is valid.
-		 * 
-		 * @return returns false if the next step is blocked by a wall, door or key
-		 * @author Strohbuecker, Max, 5960738
-		 */
-		private boolean valid() {
-			if (dir == -1)
-				return true;
+	/**
+	 * Method to move up the character
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void moveUp() {
+		yPos--;
+	}
 
-			if (dir == 0 && getYPos() - 1 > 0) {
-				return isWalkable(getXPos(), getYPos() - 1);
-			} else if (dir == 1 && getXPos() + 1 < getWindow().WIDTH) {
-				return isWalkable(getXPos() + 1, getYPos());
-			} else if (dir == 2 && getYPos() + 1 < getWindow().HEIGHT) {
-				return isWalkable(getXPos(), getYPos() + 1);
-			} else if (dir == 3 && getXPos() > 0) {
-				return isWalkable(getXPos() - 1, getYPos());
-			} else {
-				System.out
-						.println("Error while validating step: Next step blocked by a wall, door or key.");
-				return false;
+	/**
+	 * Method to move down the character
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void moveDown() {
+		yPos++;
+	}
+
+	public void moveLeft() {
+		xPos--;
+	}
+
+	public void moveRight() {
+		xPos++;
+	}
+
+	/**
+	 * Removes the next Step of the AStarPath and changes the running direction
+	 * of the monster
+	 * 
+	 * @param path
+	 *            the path, of which the next step should be calculated
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void changeDir(LinkedList<Node> path) {
+		Node nextNode = path.removeFirst();
+		// Node test;
+		// System.out.println("PATH:");
+		// for (int i=0; i<path.size();i++){
+		// test = path.get(i);
+		// System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
+		// }
+		if (nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos() - 1) {
+			dir = 0;
+		} else if (nextNode.getXPos() == this.getXPos() + 1 && nextNode.getYPos() == this.getYPos()) {
+			dir = 1;
+		} else if (nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos() + 1) {
+			dir = 2;
+		} else if (nextNode.getXPos() == this.getXPos() - 1 && nextNode.getYPos() == this.getYPos()) {
+			dir = 3;
+		} else {
+			System.out.println("Error while changing direction: Next step is not next to the monster");
+		}
+		if (valid()) {
+			switch (dir) {
+			case 0:
+				moveUp();
+				break;
+			case 1:
+				moveRight();
+				break;
+			case 2:
+				moveDown();
+				break;
+			case 3:
+				moveLeft();
+				break;
 			}
 		}
-	
+	}
+
+	/**
+	 * Calculates, whether the target position is walkable for a monster.
+	 * 
+	 * @param x
+	 *            x-coordinate of the target
+	 * @param y
+	 *            y-coordinate of the target
+	 * @return returns true if field is free, returns false if field is a wall,
+	 *         key or door
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public boolean isWalkable(int x, int y) {
+		if (getWindow().level[x][y] instanceof Wall || getWindow().level[x][y] instanceof Key
+				|| getWindow().level[x][y] instanceof Door) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * Checks, whether the next step is valid.
+	 * 
+	 * @return returns false if the next step is blocked by a wall, door or key
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	private boolean valid() {
+		if (dir == -1)
+			return true;
+
+		if (dir == 0 && getYPos() - 1 > 0) {
+			return isWalkable(getXPos(), getYPos() - 1);
+		} else if (dir == 1 && getXPos() + 1 < getWindow().WIDTH) {
+			return isWalkable(getXPos() + 1, getYPos());
+		} else if (dir == 2 && getYPos() + 1 < getWindow().HEIGHT) {
+			return isWalkable(getXPos(), getYPos() + 1);
+		} else if (dir == 3 && getXPos() > 0) {
+			return isWalkable(getXPos() - 1, getYPos());
+		} else {
+			System.out.println("Error while validating step: Next step blocked by a wall, door or key.");
+			return false;
+		}
+	}
+
 	// Getter and Setter
-	
-	public int getMaxHealth(){
+
+	public int getMaxHealth() {
 		return maxHealth;
 	}
-	
-	public void setMaxHealth(int maxHealth){
+
+	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
-	
-	public void setDamage(int damage){
+
+	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-	
-	public int getDamage(){
+
+	public int getDamage() {
 		return damage;
 	}
-	
-	public void changeHealth(int change){
+
+	public void changeHealth(int change) {
 		health = Math.min(health + change, getMaxHealth());
 	}
-	
-	public void setHealth(int health){
+
+	public void setHealth(int health) {
 		this.health = health;
 	}
-	
-	public int getHealth(){
+
+	public int getHealth() {
 		return health;
 	}
-	
-	public Image getImage(){
+
+	public Image getImage() {
 		return image;
 	}
-	
-	public void setImage(Image img){
+
+	public void setImage(Image img) {
 		image = img;
 	}
-	
-	public void setPos(int xPos, int yPos){
+
+	public void setPos(int xPos, int yPos) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 	}
-	
-	public int getYPos(){
+
+	public int getYPos() {
 		return yPos;
 	}
-	
-	public int getXPos(){
+
+	public int getXPos() {
 		return xPos;
 	}
-	
-	public GameWindow getWindow(){
+
+	public GameWindow getWindow() {
 		return window;
 	}
-	
+
 }
