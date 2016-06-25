@@ -312,8 +312,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			}
 			// Take a potion
 			else if (level[player.getXPos()][player.getYPos()].containsPotion()) {
-//				player.takePotion((Potion) level[player.getXPos()][player.getYPos()]);		// potion? chris???
-				level[player.getXPos()][player.getYPos()].containsPotion = false;
+				player.takePotion((Potion) level[player.getXPos()][player.getYPos()]);		
+				level[player.getXPos()][player.getYPos()].setContainsPotion(false);
 			}
 			// Use the key
 			if (level[player.getXPos()][player.getYPos()].isExit()) {
