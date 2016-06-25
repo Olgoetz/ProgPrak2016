@@ -53,7 +53,7 @@ public class NetworkTransmitterS extends Thread {
 			while (true)
 			{
 				messageTC = messagesToClient.poll(100,TimeUnit.MILLISECONDS);
-				if (messageTC != null)
+				if (messageTC != null && messageTC.getType()!=100)
 				{
 					out.writeObject(messageTC);
 					out.flush();
