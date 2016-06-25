@@ -1,6 +1,4 @@
-package pp2016.team19.server.map;
-
-import java.io.Serializable;
+package pp2016.team19.shared;
 
 /**
  * Generally:
@@ -9,14 +7,14 @@ import java.io.Serializable;
  * 
  * Class Tile contains:
  * 
- * 		4 Attributes called: 	type ("Is the type of the Tile") 									
+ * 		6 Attributes called: 	type ("Is the type of the Tile") 									
  * 								containsKey ("Does the Tile contain a Key?") 
  * 								containsPotion ("Does the Tile contain a Potion?") 
  * 								contains Monster ("Does the Tile contain a Monster?")
  * 
- * 		7 Constants: 			Which represent the types and contants.
+ * 		8 Constants: 			Which represent the types and contants.
  * 
- * 		5 Setter methods: 		They set for example the type of the Tile 
+ * 		6 Setter methods: 		They set for example the type of the Tile 
  * 								or if a Tile contains a Potion.
  * 
  * 		9 Other methods: 		For example, check if a Tile is of the type ROCK. 
@@ -25,14 +23,10 @@ import java.io.Serializable;
  * @author < Czernik, Christof, 5830621 >
  */
 
-public class Tile implements Serializable{
+public class Tile {
 
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 438922018007997120L;
-	/**
-	 * 5 Attributes
+	 * 6 Attributes
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -47,6 +41,8 @@ public class Tile implements Serializable{
 	public boolean containsMonster = false;
 	// Attribute, 	("Does the Tile contain a Player?")
 	public boolean containsPlayer = false;
+	// Attribute,	("Is the Exit unlocked? (:= Player has Key)")
+	public boolean exitUnlocked = false;
 
 	/**
 	 * 8 Constants
@@ -134,9 +130,19 @@ public class Tile implements Serializable{
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Setter method, which sets a Tile to contain a Player or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+
+	public void setExitUnlocked(boolean input) {
+		exitUnlocked = input;
+	}
+	
+	/**
+	 * Setter method, which sets the Exit Unlocked or Locked, if the Player has a key.
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -177,6 +183,16 @@ public class Tile implements Serializable{
 	
 	/**
 	 * Getter Method, which returns a boolean if a Tile contains a Key or not.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public boolean exitUnlocked() {
+		return exitUnlocked;
+	}
+	
+	/**
+	 * Getter Method, which returns a boolean if a Tile contains a key or not.
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */

@@ -1,4 +1,6 @@
-package pp2016.team19.server.map;
+package pp2016.team19.shared;
+
+
 
 /**
  * Generally:
@@ -17,7 +19,7 @@ package pp2016.team19.server.map;
  * 
  * 		1 (2-dim) data structure:	gameMap[][] of type Tile
  * 
- * 		7 constants:				Which represent the types and contants.
+ * 		8 constants:				Which represent the types and contants.
  * 
  *		2 essential method:			Called "generateLabyrinth(gameSize)"
  *									Called "floodFill(1, gameSize-2, gameSize)"
@@ -71,16 +73,16 @@ public class Labyrinth {
 	//private static int gameSize;
 	//private static int monsterNumber;
 	
-	/**public Labyrinth(int gameSize, int monsterNumber){
-		this.gameSize = gameSize;
-		this.monsterNumber = monsterNumber;
-	}
-	*/
+	//public Labyrinth(int gameSize, int monsterNumber){
+	//	this.gameSize = gameSize;
+	//	this.monsterNumber = monsterNumber;
+	//}
+	
 	
 	/**
 	 * "generateLabyrinth()" is an essential method, which gets the gameSize as Input and returns the gameMap.
 	 * 
-	 * @param gameSize Size of the GameMap
+	 * @param gameSize Size of the GameMap, just a Size like 2k+1  (11,13,15,...)
 	 * @param monsterNumber Amount of Monsters that will be created
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -90,11 +92,20 @@ public class Labyrinth {
 		gameMap = new Tile[gameSize][gameSize];
 
 		// Creates a Map of ROCKS.
-		createRockMap(gameSize);
+		
+		
+		restartGenerator(gameSize);
+		
 
 		// Starts to switch Rock-Tiles to Floor-Tiles, to make a maze.
 		floodFill(1, gameSize - 2, gameSize);
-
+		
+		// MazePerfektion
+		if(mazePerfection(gameSize) < ((((gameSize-1)*(gameSize-1))/2)-1)){
+			generate(gameSize,monsterNumber);
+			return null;
+		}
+		
 		// Places an Entry.
 		placeEntry(gameSize);
 
@@ -109,6 +120,11 @@ public class Labyrinth {
 
 		// Places a number of Monster.
 		placeMonster(gameSize,monsterNumber);
+		
+		// Counter:
+		System.out.println("\n\nGameSize: " + ((gameSize-1) * (gameSize-1)));
+		System.out.println("MazeSize Perfect: " +  ((((gameSize-1) * (gameSize-1))/2)-1));
+		System.out.println("MazeSize Generated: " + mazePerfection(gameSize));
 
 		return gameMap;
 	}
@@ -133,6 +149,51 @@ public class Labyrinth {
 	}
 	
 	/**
+	 * Sets the whole map back to Rock.
+	 * 
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static void restartGenerator(int gameSize){
+		
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				gameMap[i][j] = new Tile();
+				gameMap[i][j].setType(ROCK);
+				gameMap[i][j].setContainsPlayer(false);
+				gameMap[i][j].setContainsPotion(false);
+				gameMap[i][j].setContainsMonster(false);
+				gameMap[i][j].setContainsKey(false);
+
+			}
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public static int mazePerfection(int gameSize){
+		
+		int counter = 0;
+		
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				if(gameMap[i][j].isFloor() || gameMap[i][j].isEntry() || gameMap[i][j].isExit()){
+					counter = counter + 1;
+				}
+				
+			}
+		}
+		return counter;
+	}
+	
+	
+	/**
 	 * Checks if we are at the Upper-Edge, returns true when not.
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
@@ -140,10 +201,10 @@ public class Labyrinth {
 	
 	public static boolean edgeCheckUp(int x, int y) {
 
-		if (x - 1 == 0) {
+		if (x - 2 == 0) {
 			return false;
 		}
-		if (x - 1 > 1) {
+		if (x - 2 > 0) {
 			return true;
 		}
 		return false;
@@ -157,10 +218,10 @@ public class Labyrinth {
 	
 	public static boolean edgeCheckRight(int x, int y, int gameSize) {
 
-		if (y + 1 == gameSize - 1) {
+		if (y + 2 == gameSize - 1) {
 			return false;
 		}
-		if (y + 1 < gameSize - 1) {
+		if (y + 2 < gameSize - 1) {
 			return true;
 		}
 		return false;
@@ -174,10 +235,10 @@ public class Labyrinth {
 	
 	public static boolean edgeCheckDown(int x, int y, int gameSize) {
 
-		if (x + 1 == gameSize - 1) {
+		if (x + 2 == gameSize - 1) {
 			return false;
 		}
-		if (x + 1 < gameSize - 1) {
+		if (x + 2 < gameSize - 1) {
 			return true;
 		}
 		return false;
@@ -191,10 +252,10 @@ public class Labyrinth {
 	
 	public static boolean edgeCheckLeft(int x, int y, int gameSize) {
 
-		if (y - 1 == 0) {
+		if (y - 2 == 0) {
 			return false;
 		}
-		if (y - 1 > 0) {
+		if (y - 2 > 0) {
 			return true;
 		}
 		return false;
@@ -384,6 +445,7 @@ public class Labyrinth {
 			if (gameMap[i][j].isFloor()) {
 				if (countNeighbors(i, j, gameSize) < 2) {
 					gameMap[i][j].setType(EXIT);
+					gameMap[i][j].setExitUnlocked(false);
 					br = true;
 					System.out.print("\nExit placed in lower left Corner\n");
 					break;
@@ -408,9 +470,26 @@ public class Labyrinth {
 		gameMap[1][gameSize - 2].setContainsPlayer(true);
 		System.out.print("\nEntry placed in upper right Corner");
 	}
+	
+	/**
+	 * Changes the Exit from locked to unlocked.
+	 * 
+	 * @author < Czernik, Christof, 5830621 >
+	 */
+	
+	public void exitOpen(int gameSize) {
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				if(gameMap[i][j].isExit() && !gameMap[i][j].exitUnlocked()){
+					gameMap[i][j].setExitUnlocked(true);
+				}
+
+			}
+		}
+	}
 
 	/**
-	 * A Random FloodFill Algorithm.
+	 * A Random FloodFill Algorithm, which generates a Way of Floors.
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -420,73 +499,83 @@ public class Labyrinth {
 		int zahl = (int) ((Math.random()) * 4 + 1);
 
 		int counter = 0;
-
-		gameMap[x][y].setType(FLOOR);
-
+		
+		if(gameMap[x][y].isRock()){
+			gameMap[x][y].setType(FLOOR);
+		}
+		
 		switch (zahl) {
 
 		case 1:
 			if (edgeCheckUp(x, y)) {
-				if (gameMap[x - 1][y].isRock()) {
-					if (countNeighbors(x - 1, y, gameSize) < 2) {
+				if (gameMap[x - 2][y].isRock()) {
+					if (countNeighbors(x - 2, y, gameSize) < 2) {
 						// if(diagNeighbours(x-1,y)){
-						floodFill(x - 1, y, gameSize);
+						gameMap[x-1][y].setType(FLOOR);
+						gameMap[x-2][y].setType(FLOOR);
+						floodFill(x - 2, y, gameSize);
 						// }
 
 					}
 				}
-			} else if (counter < 4) {
+			} else if (counter < 5) {
 				counter = counter + 1;
 				zahl = 2;
-			} else if (counter == 4) {
+			} else if (counter == 5) {
 				break;
 			}
 
 		case 2:
 			if (edgeCheckRight(x, y, gameSize)) {
-				if (gameMap[x][y + 1].isRock()) {
-					if (countNeighbors(x, y + 1, gameSize) < 2) {
+				if (gameMap[x][y + 2].isRock()) {
+					if (countNeighbors(x, y + 2, gameSize) < 2) {
 						// if(diagNeighbours(x,y+1)){
-						floodFill(x, y + 1, gameSize);
+						gameMap[x][y+1].setType(FLOOR);
+						gameMap[x][y+2].setType(FLOOR);
+						floodFill(x, y + 2, gameSize);
 						// }
 					}
 				}
-			} else if (counter < 4) {
+			} else if (counter < 5) {
 				counter = counter + 1;
 				zahl = 3;
-			} else if (counter == 4) {
+			} else if (counter == 5) {
 				break;
 			}
 
 		case 3:
 			if (edgeCheckDown(x, y, gameSize)) {
-				if (gameMap[x + 1][y].isRock()) {
-					if (countNeighbors(x + 1, y, gameSize) < 2) {
-						// if(diagNeighbours(x+1,y)){
-						floodFill(x + 1, y, gameSize);
+				if (gameMap[x + 2][y].isRock()) {
+					if (countNeighbors(x + 2, y, gameSize) < 2) {
+						// if(diagNeighbours(x+1, y)){
+						gameMap[x+1][y].setType(FLOOR);
+						gameMap[x+2][y].setType(FLOOR);
+						floodFill(x + 2, y, gameSize);
 						// }
 					}
 				}
-			} else if (counter < 4) {
+			} else if (counter < 5) {
 				counter = counter + 1;
 				zahl = 4;
-			} else if (counter == 4) {
+			} else if (counter == 5) {
 				break;
 			}
 
 		case 4:
 			if (edgeCheckLeft(x, y, gameSize)) {
-				if (gameMap[x][y - 1].isRock()) {
-					if (countNeighbors(x, y - 1, gameSize) < 2) {
+				if (gameMap[x][y - 2].isRock()) {
+					if (countNeighbors(x, y - 2, gameSize) < 2) {
 						// if(diagNeighbours(x,y-1)){
-						floodFill(x, y - 1, gameSize);
+						gameMap[x][y-1].setType(FLOOR);
+						gameMap[x][y-2].setType(FLOOR);
+						floodFill(x, y - 2, gameSize);
 						// }
 					}
 				}
-			} else if (counter < 4) {
+			} else if (counter < 5) {
 				counter = counter + 1;
 				zahl = 1;
-			} else if (counter == 4) {
+			} else if (counter == 5) {
 				break;
 			}
 
