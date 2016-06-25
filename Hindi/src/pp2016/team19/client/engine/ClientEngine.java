@@ -255,12 +255,17 @@ public class ClientEngine implements Runnable   {
 	public void serverSignUpRequest(String pUsername, String pPassword, String pPassword2) {
 		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
 		
-		// check if passwords a equal
+		// check if passwords are equal
+		// if true, the registration is successful and the game menu will be opened
+		// if false, there is an output that the passwords are not equal
 		if (pPassword.equals(pPassword2)) {
 			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
+			getGameWindow().showMenu();
+			System.out.println("Registration successful!");
 			
 		} else {
-			System.out.println("Registration failed");
+			JOptionPane.showMessageDialog(null, "Passwords are not equal!");
+			System.out.println("Registration failed!");
 		}
 	}
 
@@ -279,7 +284,7 @@ public class ClientEngine implements Runnable   {
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
-		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
+		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,4));
 	}
 
 	/**
