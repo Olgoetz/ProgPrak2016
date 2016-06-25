@@ -101,10 +101,10 @@ public class Labyrinth {
 		floodFill(1, gameSize - 2, gameSize);
 		
 		// MazePerfektion
-		if(mazePerfection(gameSize) < ((((gameSize-1)*(gameSize-1))/2)-1)){
-			generate(gameSize,monsterNumber);
-			return null;
-		}
+//		if(mazePerfection(gameSize) < ((((gameSize-1)*(gameSize-1))/2)-1)){
+//			generate(gameSize,monsterNumber);
+//			return null;
+//		}
 		
 		// Places an Entry.
 		placeEntry(gameSize);

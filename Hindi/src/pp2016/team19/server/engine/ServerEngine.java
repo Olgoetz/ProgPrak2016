@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import pp2016.team19.server.comm.NetworkHandlerS;
+import pp2016.team19.shared.Labyrinth;
 import pp2016.team19.shared.*;
 /**
  * Server Engine, distributes messages, administrates players, and starts games
