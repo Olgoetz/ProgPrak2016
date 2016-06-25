@@ -409,8 +409,8 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-		test.setGamemap(this.labyrinth);
-		test.PaintTest(30);
+//		test.setGamemap(this.labyrinth);
+//		test.PaintTest(30);
 	}
 	
 	// Sends a playerRequest to the server
