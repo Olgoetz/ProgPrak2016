@@ -68,6 +68,7 @@ public class NetworkReceiverS extends Thread {
 			System.out.println("ERROR SocketException: NETWORKRECEIVERS");
 			e.printStackTrace();
 		} catch (IOException | ClassNotFoundException | InterruptedException e) {
+			System.out.println("readObjectError");
 			e.printStackTrace();
 		} finally {
 			try {

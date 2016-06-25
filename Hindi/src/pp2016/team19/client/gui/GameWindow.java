@@ -100,8 +100,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		loginpanel.setPreferredSize(new Dimension(width, height));
 		
 		// first the Loginpanel is on screen
-		//showLogin();
-		showMenu();
+		showLogin();
+		//showMenu();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),

@@ -25,7 +25,6 @@ public class Game extends TimerTask {
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
-		System.out.println("Error in Map");
 		gameMap = Labyrinth.generate(gameSize,gameSize);
 		
 		}

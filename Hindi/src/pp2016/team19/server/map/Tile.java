@@ -1,5 +1,7 @@
 package pp2016.team19.server.map;
 
+import java.io.Serializable;
+
 /**
  * Generally:
  * 
@@ -23,8 +25,12 @@ package pp2016.team19.server.map;
  * @author < Czernik, Christof, 5830621 >
  */
 
-public class Tile {
+public class Tile implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 438922018007997120L;
 	/**
 	 * 5 Attributes
 	 * 
