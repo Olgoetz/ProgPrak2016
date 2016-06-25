@@ -71,10 +71,10 @@ public class ServerEngine implements Runnable {
 			case 0: 
 				this.ConnectionRequest(message);
 				break;
-			case 4: 
+			case 2: 
 				this.signUpRequest(message);
 				break;
-			case 2:
+			case 4:
 				this.signInRequest(message);
 				break;
 			case 6: 
@@ -169,7 +169,7 @@ public class ServerEngine implements Runnable {
 		
 	private void startGame(Player player) {
 		this.messagesToGames = new LinkedBlockingQueue<Message>();
-		this.games.addElement(new Game(this, player, 30, this.messagesToGames));
+		this.games.addElement(new Game(this, player, 16, this.messagesToGames));
 		this.tick.scheduleAtFixedRate(this.games.lastElement(), 0, 50);
 		
 	}
