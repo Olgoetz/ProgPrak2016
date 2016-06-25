@@ -5,7 +5,7 @@ package pp2016.team19.shared;
 /**
  * Generally:
  * 		
- * 		A Class, which contains a method called "generateLabyrinth()" which uses the 
+ * 		A Class,. which contains a method called "generateLabyrinth()" which uses the 
  * 		floodFill method to create a Labyrinth, and uses methods to place Potion the Entry 
  * 		or the Exit in the map..
  * 
@@ -396,7 +396,7 @@ public class Labyrinth {
 				x = possibleMonsterPlaces[number - 1];
 			}
 			
-			if(gameMap[x][y].containsMonster){
+			if(gameMap[x][y].containsMonster()){
 				m = m-1;
 				continue;
 			}

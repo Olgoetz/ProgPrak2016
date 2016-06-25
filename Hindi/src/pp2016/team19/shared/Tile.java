@@ -19,7 +19,7 @@ import java.io.Serializable;
  * 		6 Setter methods: 		They set for example the type of the Tile 
  * 								or if a Tile contains a Potion.
  * 
- * 		9 Other methods: 		For example, check if a Tile is of the type ROCK. 
+ * 		9 Other methods: 		For example, chec,k if a Tile is of the type ROCK. 
  * 								Or if a Tile is walkable.
  * 
  * @author < Czernik, Christof, 5830621 >
@@ -38,17 +38,17 @@ public class Tile implements Serializable {
 	 */
 
 	// Attribute, 	("Is the type of the Tile")
-	public int type;
+	private int type;
 	// Attribute,	("Does the Tile contain a Key?")
-	public boolean containsKey = false;
+	private boolean containsKey = false;
 	// Attribute, 	("Does the Tile contain a Potion?")
-	public boolean containsPotion = false;
+	private boolean containsPotion = false;
 	// Attribute,	("Does the Tile contain a Monster?")
-	public boolean containsMonster = false;
+	private boolean containsMonster = false;
 	// Attribute, 	("Does the Tile contain a Player?")
-	public boolean containsPlayer = false;
+	private boolean containsPlayer = false;
 	// Attribute,	("Is the Exit unlocked? (:= Player has Key)")
-	public boolean exitUnlocked = false;
+	private boolean exitUnlocked = false;
 
 	/**
 	 * 8 Constants
