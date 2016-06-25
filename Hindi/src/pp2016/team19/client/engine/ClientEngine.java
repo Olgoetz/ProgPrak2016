@@ -17,43 +17,48 @@ import pp2016.team19.shared.*;
 
 /***
  * 
+ * <h1>This class represents the client-engine together with all its variables and processing
+ * methods.<h1>
  * 
- * @author Oliver Goetz, 5961343
  * 
- * Summary:
- * This class represents the client-engine together with all its variables and processing
- * methods. It consists of several sections:
  * 
  * Section 1:
  * 				- Constructor 
  * 				- A thread is initialized
- * 				
+ * <p>	
  * Section 2:
  * 				- messageReader-Method to analyze incoming messages
  * 				- several subsections with switch cases statements to call the appropriate method
- * 
+ * <p>
  * Section 3:
  * 				- Request Methods to send information to the server
  * 				- Answer Methods to process messages from the sever
- * 
+ * <p>
  * Section 4:
  * 				- Helper methods
  * 				- Getter and Setter methods
+ * <p>
+ * @author Oliver Goetz, 5961343
  * 				
  */
 
 
-//***** Section 1 *****//
+//*************** SECTION 1 ********************//
+
+/**
+ * Class implements Runnable for creating a thread to receive message from the server.
+ * @author Oliver Goetz, 5961343
+ *
+ */
 
 public class ClientEngine implements Runnable   {
 
-
+	// network attributes
 	private ExecutorService threadPool;
-
 	private NetworkHandlerC networkHandler;
 	private GameWindow gamewindow;
 	
-
+	// game attributes
 	private int playerID;
 	private Player myPlayer = new Player();
 	private Monster myMonster;
@@ -61,32 +66,39 @@ public class ClientEngine implements Runnable   {
 	public Tile[][] labyrinth;
 	private Labyrinth test = new Labyrinth();
 	
+	// static attributes
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
 	
-	
+	/**
+	 * @author Oliver Goetz, 5961343
+	 * @param clientThreadPool enables to start a tread
+	 */
 	public ClientEngine(ExecutorService clientThreadPool) {
 		System.out.println("Start Constructor");
 		this.setThreadPool(clientThreadPool);
-		this.setNetworkHandler(new NetworkHandlerC());
-
 		
-		// here comes si
-//		this.levelRequest();
-//		this.playerRequest();
-
+		// creates a new Networkhandler
+		this.setNetworkHandler(new NetworkHandlerC());
+		
+		// creates a new Gamewindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		
+		// initializes the thread
 		this.getThreadPool().execute(this.getGameWindow());
 		
 	}
 	
 	
 	/***
-	 * @author Oliver Goetz, 5961343
+	 * 
 	 * This method starts a thread.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * 
+	 * 
 	 */
 	
-
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -98,6 +110,7 @@ public class ClientEngine implements Runnable   {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			// creates a new message and puts in a queue of the networkandler
 			Message message = this.getNetworkHandler().getMessageFromServer();
 			if (message != null) {
 				this.messageReader(message);
@@ -107,21 +120,27 @@ public class ClientEngine implements Runnable   {
 	
 
 	
-	
-
-//***** Section 2 *****//
+//*************** SECTION 2 ********************//
 	
 	
-	/***
+	/**
+	 * SECTION 2 containts the messageReader identifying the messages coming from the server.
+	 * 
+	 * There are several subsections that call the appropriate method.
+	 * 
+	 * TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS
+	 * 
+	 * TYPE = 1 >> USER TRIGGERED ACTIONS AND METHODS
+	 * 
+	 * TYPE = 2 >> WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * This method analyzes the messages coming from the server and 
-	 * calls for the appropriate processing method.
+	 * @param pMessage message object that has to be read
 	 */
-	
-	
 	private void messageReader(Message pMessage) {
 		System.out.println("METHOD Engine.messageReader() " + pMessage.toString());
 
+		// returns the maintype of the message
 		switch (pMessage.getType()) {
 
 		// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS **********
@@ -200,56 +219,88 @@ public class ClientEngine implements Runnable   {
 
 	
 	
-//***** Section 3 *****//
+//*************** SECTION 3 ********************//
 	
 	/***
-	 * @author Oliver Goetz, 5961343
-	 * @param pMessage
-	 * @param userName
-	 * @param password
-	 * @param password2
 	 * 
-	 * In this section, methods are provided to process requests and answers
+	 * In SECTION 3, methods are provided to process requests and answers
+	 * 
+	 * There are several subsections that call the appropriate method.
+	 * 
+	 * TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS
+	 * 
+	 * TYPE = 1 >> USER TRIGGERED ACTIONS AND METHODS
+	 * 
+	 * TYPE = 2 >> WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * 
+	 * 
 	 */
 	
 	// ********** TYPE = 0 >> SIGN{UP,IN} ACTIONS AND METHODS **********
+	
+	
 
-	// Sends a SignUpRequest to the server
+	/**
+	 * 
+	 * This method sends a SignUpRequest message object to the server.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage message oject coming from the server
+	 * @param userName a userName
+	 * @param password a password
+	 * @param password2 a password that works as consistency check
+	 */
 	public void serverSignUpRequest(String pUsername, String pPassword, String pPassword2) {
 		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
-
+		
+		// check if passwords a equal
 		if (pPassword.equals(pPassword2)) {
 			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
 			
 		} else {
-			System.out.println("login failed");
+			System.out.println("Registration failed");
 		}
 	}
 
+	
+	/**
+	 * 
+	 * This method sends a SignInRequest message object to the server.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage message oject coming from the server
+	 * @param userName a userName
+	 * @param password a password
+	 */
 	
 	// Sends a SignInRequest to the server
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
 		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
-	//	this.levelRequest();
-	//	this.playerRequest();
-		
-	
 	}
 
-	// Processes a SignInAnswer Message coming from the server
+	/**
+	 * This method processes a SignInAndUpAnswer message coming from the server
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage
+	 */
 	private void serverSignInAndUpAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.serverSignInAnswer() " + pMessage.toString());
 
+		// casts the incoming message to usable message object
 		MessSignInAndUpAnswer message = (MessSignInAndUpAnswer) pMessage;
 		System.out.println("Server SignInAnswer received");
+		
+		// checks if the incoming message contains a boolean true
 		if (message.isConfirmed()) {
 			System.out.println("Data correct");
 
-	
+			// opens the game menu
 			getGameWindow().showMenu();
-			
 			System.out.println("login successful");
 		}else{
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
@@ -353,8 +404,8 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-		test.setGameMap(this.labyrinth);
-		test.PaintTest(30);
+//		test.setGameMap(this.labyrinth);
+//		test.PaintTest(30);
 	}
 	
 	// Sends a playerRequest to the server
@@ -365,7 +416,7 @@ public class ClientEngine implements Runnable   {
 	
 	// Processes an levelAnswer Message coming from the server
 	public void playerAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.playerAnswer:" + pMessage.toString());
+		System.out.println("METHOD Engine.playerAnswer: Player received!");
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
 		myPlayer.xPos = message.getX();
 		myPlayer.yPos = message.getY();
