@@ -60,26 +60,29 @@ public class GameField extends JPanel {
 			for (int j = 0; j < window.HEIGHT; j++) {
 				if (inRange(i, j)) {
 
-					if (window.level[i][j] instanceof Wall) {
+					if (window.level[i][j].isRock()) {
 						// Here goes a wall
 						g.drawImage(wall, i * window.BOX, j * window.BOX, null);
-					} else if (window.level[i][j] instanceof Floor) {
+					} else if (window.level[i][j].isFloor()) {
 						// This field is walkable
 						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-					} else if (window.level[i][j] instanceof Key) {
+					} else if (window.level[i][j].containsKey()) {
 						// Here lies the key
 						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
 						g.drawImage(key, i * window.BOX, j * window.BOX, null);
-					} else if (window.level[i][j] instanceof Door) {
+					} else if (window.level[i][j].isEntry()) {
 						// Here is the door
 						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-						if (((Door) window.level[i][j]).isOpen())
+						g.drawImage(doorOpen, i * window.BOX, j
+								* window.BOX, null);
+					} else if (window.level[i][j].isExit()) {							
+						if (window.level[i][j].exitUnlocked())
 							g.drawImage(doorOpen, i * window.BOX, j
 									* window.BOX, null);
 						else
 							g.drawImage(doorClosed, i * window.BOX, j
-									* window.BOX, null);
-					} else if (window.level[i][j] instanceof Potion) {
+									* window.BOX, null);					
+					} else if (window.level[i][j].containsPotion()) {
 						// Here is the door
 						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
 						// Here lies a potion

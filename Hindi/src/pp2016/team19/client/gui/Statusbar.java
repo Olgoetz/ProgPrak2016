@@ -14,6 +14,7 @@ import pp2016.team19.shared.Floor;
 import pp2016.team19.shared.GameObject;
 import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Potion;
+import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
 /**
@@ -87,18 +88,18 @@ private static final long serialVersionUID = 1L;
 		g.drawString(s, 5, window.BOX * (window.HEIGHT - 12));
 		g.drawImage(potion,7,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
 
-		GameObject field = window.level[window.player.getXPos()][window.player.getYPos()];
+		Tile field = window.level[window.player.getXPos()][window.player.getYPos()];
 		
-		if(field instanceof Key){
+		if(field.containsKey()){
 			g.drawString("Press Space to take key", 5, window.BOX * (window.HEIGHT - 11));
-		}else if(field instanceof Door){
-			if(!((Door) field).isOpen()){
+		}else if(field.isExit()){
+			if(!field.exitUnlocked()){
 				if(window.player.hasKey())
 					g.drawString("Press Space: open door", 5, window.BOX * (window.HEIGHT - 11));
 				else
 					g.drawString("Door closed!", 5, window.BOX * (window.HEIGHT - 11));
 			}			
-		}else if(field instanceof Potion){
+		}else if(field.containsPotion()){
 			g.drawString("Press Space: take potion", 5, window.BOX * (window.HEIGHT - 11));
 		}
 		
@@ -127,38 +128,42 @@ private static final long serialVersionUID = 1L;
 	for (int i = 0; i < window.WIDTH ; i++) {
 		for (int j = 0; j < window.HEIGHT; j++) {
 //			if (inRange(i,j)) {
-				if (window.level[i][j] instanceof Wall) {
+				if (window.level[i][j].isRock()) {
 					// Here goes a wall
 					g.drawImage(wall1, (i * miniBox) + var2 , (j * miniBox) + var1 ,null);
-				} else if (window.level[i][j] instanceof Floor) {
+				} else if (window.level[i][j].isFloor()) {
 					// This field is walkable
 					g.drawImage(floor1, (i * miniBox) + var2,
 							(j * miniBox) + var1 , null);
-				} else if (window.level[i][j] instanceof Door) {
-					// Here is the door
-					g.drawImage(floor1, (i * miniBox ) + var2,
-							(j * miniBox) + var1, null);
-					if (((Door) window.level[i][j]).isOpen())
-						g.drawImage(doorOpen1, (i * miniBox) + var2, (j
-								* miniBox) + var1, null);
-					else
-						g.drawImage(doorClosed1, (i * miniBox) + var2, (j
-								* miniBox) + var1, null);
-//				} 
+				
+				}else if (window.level[i][j].isEntry()) {
+						// Here is the door
+						g.drawImage(floor1, i * window.BOX, j * window.BOX, null);
+						g.drawImage(doorOpen1, i * window.BOX, j
+								* window.BOX, null);
+					} else if (window.level[i][j].isExit()) {							
+						if (window.level[i][j].exitUnlocked())
+							g.drawImage(doorOpen1, i * window.BOX, j
+									* window.BOX, null);
+						else
+							g.drawImage(doorClosed1, i * window.BOX, j
+									* window.BOX, null);												
+					} 
+				} 
 				
 		}
-	}	
+	
 		
 				g.drawImage(window.player.getImage().getScaledInstance(6, 6, 0),( window.player.getXPos() //make x and y dynamic
 						* miniBox) + var2, (window.player.getYPos() * miniBox) + var1 ,null);			
 					}
-			}
+
 		
-		private boolean inRange(int i, int j) {
-			return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
-					+ Math.pow(window.player.getYPos() - j, 2)) < 3 || !window.mistOn);
-		}
-	
+//		private boolean inRange(int i, int j) {
+//			return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
+//					+ Math.pow(window.player.getYPos() - j, 2)) < 3 || !window.mistOn);
+//		}
+//	
 	}
 	
 
