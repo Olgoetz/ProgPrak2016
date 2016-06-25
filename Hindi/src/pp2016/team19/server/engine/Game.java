@@ -169,7 +169,7 @@ public class Game extends TimerTask {
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 		switch(message.getDirection()) {
 		case 0: //MoveUp
-		if (gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
+		if (player.getYPos()+1<gameSize && gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
 				player.moveUp();
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
