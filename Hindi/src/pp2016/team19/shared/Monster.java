@@ -30,14 +30,8 @@ public class Monster extends Character {
 	private LinkedList<Node> pathToPlayer;
 	private LinkedList<Node> fleePath;
 
-	private int dir; // Running direction: 0 North, 1 East, 2 South, 3 West
 	private int type; // Present from beginning: 0, Appears later: 1
 
-	private GameWindow window;
-
-	// Spaeter ueber labyrinth abrufbar!
-	private final int HEIGHT = 16;
-	private final int WIDTH = 16;
 	// private Labyrinth labyrinth;
 
 	private Player player;
@@ -58,7 +52,7 @@ public class Monster extends Character {
 	 *            after taking the key)
 	 */
 	public Monster(int x, int y, GameWindow window, int type) {
-		this.window = window;
+		super(window);
 		this.player = window.player;
 		this.type = type;
 		setPos(x, y);
@@ -144,8 +138,8 @@ public class Monster extends Character {
 	public void changeHealth(int change) {
 		super.changeHealth(change);
 		if (getHealth() <= 0) {
-			window.level[getXPos()][getYPos()] = new Potion(30);
-			window.monsterList.remove(this);
+			getWindow().level[getXPos()][getYPos()] = new Potion(30);
+			getWindow().monsterList.remove(this);
 		}
 	}
 
@@ -225,47 +219,42 @@ public class Monster extends Character {
 	/**
 	 * Calculates the point, where the monster should flee to.
 	 * 
-	 * @return returns an int-array with the fleeing position
+	 * @return returns a Node with the fleeing position
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public Node getFleePos() {
 
-		if (this.getXPos() < WIDTH / 2 || this.getXPos() >= player.getXPos()) {
-			if (this.getYPos() < HEIGHT / 2
-					|| this.getYPos() >= player.getYPos()) {
-				// Monster in top left quartal, flee to down right corner
-				for (int fleeX = WIDTH - 1; fleeX >= WIDTH / 2; fleeX--) {
-					for (int fleeY = HEIGHT - 1; fleeY >= HEIGHT / 2; fleeY--) {
+		if (this.getXPos() >= player.getXPos()) {
+			if (this.getYPos() >= player.getYPos()) {
+				// Monster is under and right of the player, flee to down right corner
+				for (int fleeX = getWindow().WIDTH - 1; fleeX >= getWindow().WIDTH / 2; fleeX--) {
+					for (int fleeY = getWindow().HEIGHT - 1; fleeY >= getWindow().HEIGHT / 2; fleeY--) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
-			} else if (this.getYPos() >= HEIGHT / 2
-					|| this.getYPos() < player.getYPos()) {
-				// Monster in down left quartal, flee to top right corner
-				for (int fleeX = WIDTH - 1; fleeX >= WIDTH / 2; fleeX--) {
-					for (int fleeY = 0; fleeY < HEIGHT / 2; fleeY++) {
+			} else if (this.getYPos() < player.getYPos()) {
+				// Monster is above and right of the player, flee to top right corner
+				for (int fleeX = getWindow().WIDTH - 1; fleeX >= getWindow().WIDTH / 2; fleeX--) {
+					for (int fleeY = 0; fleeY < getWindow().HEIGHT / 2; fleeY++) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
 			}
-		} else if (this.getXPos() >= WIDTH / 2
-				|| this.getXPos() < player.getXPos()) {
-			if (this.getYPos() < HEIGHT / 2
-					|| this.getYPos() >= player.getYPos()) {
-				// Monster in top right quartal, flee to down left corner
-				for (int fleeX = 0; fleeX < WIDTH / 2; fleeX++) {
-					for (int fleeY = HEIGHT - 1; fleeY >= HEIGHT / 2; fleeY--) {
+		} else if (this.getXPos() < player.getXPos()) {
+			if (this.getYPos() >= player.getYPos()) {
+				// Monster is under and left of the player, flee to down left corner
+				for (int fleeX = 0; fleeX < getWindow().WIDTH / 2; fleeX++) {
+					for (int fleeY = getWindow().HEIGHT - 1; fleeY >= getWindow().HEIGHT / 2; fleeY--) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
-			} else if (this.getYPos() >= HEIGHT / 2
-					|| this.getYPos() < player.getYPos()) {
-				// Monster in down right quartal, flee to top left corner
-				for (int fleeX = 0; fleeX < WIDTH / 2; fleeX++) {
-					for (int fleeY = 0; fleeY < HEIGHT / 2; fleeY++) {
+			} else if (this.getYPos() < player.getYPos()) {
+				// Monster is above and left of the player, flee to top left corner
+				for (int fleeX = 0; fleeX < getWindow().WIDTH / 2; fleeX++) {
+					for (int fleeY = 0; fleeY < getWindow().HEIGHT / 2; fleeY++) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
@@ -275,154 +264,6 @@ public class Monster extends Character {
 		// An error occured, no flee-position was found.
 		System.out.println("No position found, where monster can flee.");
 		return null;
-	}
-
-	/**
-	 * A-Star-Algorithm to search for the player.
-	 * 
-	 * @param xStart
-	 *            x-coordinate of the starting point
-	 * @param yStart
-	 *            y-coordinate of the starting point
-	 * @param xGoal
-	 *            x-coordinate of the goal
-	 * @param yGoal
-	 *            x-coordinate of the goal
-	 * @return returns the calculated path
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public LinkedList<Node> AStarSearch(int xStart, int yStart, int xGoal,
-			int yGoal) {
-		ArrayList<Node> openList = new ArrayList<Node>();
-		ArrayList<Node> closedList = new ArrayList<Node>();
-		Node start = new Node(xStart, yStart);
-		start.calculateCosts();
-		Node goal = null;
-
-		openList.add(start);
-		Node cheapest = null;
-		boolean goalFound = false;
-		while (!openList.isEmpty() && !goalFound) {
-			// Find the cheapest node in the openList
-			cheapest = openList.get(0);
-			for (Node node : openList) {
-				if (node.getTotalCosts() < cheapest.getTotalCosts()) {
-					cheapest = node;
-				}
-			}
-			openList.remove(cheapest);
-
-			// Create the four neighbors (up,down,left,right)
-			Node[] neighbors = new Node[4];
-			int actX = cheapest.getXPos();
-			int actY = cheapest.getYPos();
-
-			// Up-Neighbor valid?
-			if (!(window.level[actX][actY - 1] instanceof Wall))
-				neighbors[0] = new Node(actX, actY - 1); // up
-			else
-				neighbors[0] = null;
-
-			// Right-Neighbor valid?
-			if (!(window.level[actX + 1][actY] instanceof Wall))
-				neighbors[1] = new Node(actX + 1, actY); // right
-			else
-				neighbors[1] = null;
-
-			// Down-Neighbor valid?
-			if (!(window.level[actX][actY + 1] instanceof Wall))
-				neighbors[2] = new Node(actX, actY + 1); // down
-			else
-				neighbors[2] = null;
-
-			// Left-Neighbor valid?
-			if (!(window.level[actX - 1][actY] instanceof Wall))
-				neighbors[3] = new Node(actX - 1, actY); // left
-			else
-				neighbors[3] = null;
-
-			// Check all Neighbors
-			for (int k = 0; k < 4; k++) {
-
-				if (neighbors[k] == null)
-					continue;
-
-				// Set neighbors' parents to cheapest
-				neighbors[k].setParent(cheapest);
-
-				if (neighbors[k].getXPos() == xGoal
-						&& neighbors[k].getYPos() == yGoal) {
-					// Current Neighbor is the goal / player
-					goalFound = true;
-					goal = neighbors[k];
-				} else {
-					// Calculate costs of neighbor
-					neighbors[k]
-							.setCostFromStart(cheapest.getCostFromStart() + 1);
-					int xDiff = xGoal - neighbors[k].getXPos();
-					int yDiff = yGoal - neighbors[k].getYPos();
-					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff * xDiff
-							+ yDiff * yDiff));
-					neighbors[k].calculateCosts();
-
-					boolean skipNode = false;
-					for (Node checkOpen : openList) {
-						if (checkOpen.getXPos() == neighbors[k].getXPos()
-								&& checkOpen.getYPos() == neighbors[k]
-										.getYPos()) {
-							// Neighbor already in the openList
-							if (checkOpen.getTotalCosts() <= neighbors[k]
-									.getTotalCosts())
-								skipNode = true;
-						}
-					}
-					for (Node checkClosed : closedList) {
-						if (checkClosed.getXPos() == neighbors[k].getXPos()
-								&& checkClosed.getYPos() == neighbors[k]
-										.getYPos()) {
-							// Neighbor already in the closedList
-							if (checkClosed.getTotalCosts() <= neighbors[k]
-									.getTotalCosts())
-								skipNode = true;
-						}
-					}
-					if (!skipNode)
-						openList.add(neighbors[k]);
-				}
-			}// end: for-neighbors
-			closedList.add(cheapest);
-		}// end: while
-
-		// Go back path to node which parent is the start node (=monster)
-		LinkedList<Node> path = new LinkedList<Node>();
-		Node current = goal.getParent();
-		while (current != start && current != null) {
-			path.addFirst(current);
-			current = current.getParent();
-		}
-
-		return path;
-	}
-
-	/**
-	 * Calculates, whether the target position is walkable for a monster.
-	 * 
-	 * @param x
-	 *            x-coordinate of the target
-	 * @param y
-	 *            y-coordinate of the target
-	 * @return returns true if field is free, returns false if field is a wall,
-	 *         key or door
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public boolean isWalkable(int x, int y) {
-		if (window.level[x][y] instanceof Wall
-				|| window.level[x][y] instanceof Key
-				|| window.level[x][y] instanceof Door) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	/**
@@ -442,89 +283,6 @@ public class Monster extends Character {
 			return true;
 		} else
 			return false;
-	}
-
-	/**
-	 * Removes the next Step of the AStarPath and changes the running direction
-	 * of the monster
-	 * 
-	 * @param path
-	 *            the path, of which the next step should be calculated
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public void changeDir(LinkedList<Node> path) {
-		Node nextNode = path.removeFirst();
-		// Node test;
-		// System.out.println("PATH:");
-		// for (int i=0; i<path.size();i++){
-		// test = path.get(i);
-		// System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
-		// }
-		if (nextNode.getXPos() == this.getXPos()
-				&& nextNode.getYPos() == this.getYPos() - 1) {
-			dir = 0;
-		} else if (nextNode.getXPos() == this.getXPos() + 1
-				&& nextNode.getYPos() == this.getYPos()) {
-			dir = 1;
-		} else if (nextNode.getXPos() == this.getXPos()
-				&& nextNode.getYPos() == this.getYPos() + 1) {
-			dir = 2;
-		} else if (nextNode.getXPos() == this.getXPos() - 1
-				&& nextNode.getYPos() == this.getYPos()) {
-			dir = 3;
-		} else {
-			System.out
-					.println("Error while changing direction: Next step is not next to the monster");
-		}
-		if (valid()) {
-			switch (dir) {
-			case 0:
-				moveUp();
-				break;
-			case 1:
-				moveRight();
-				break;
-			case 2:
-				moveDown();
-				break;
-			case 3:
-				moveLeft();
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Checks, whether the next step is valid.
-	 * 
-	 * @return returns false if the next step is blocked by a wall, door or key
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	private boolean valid() {
-		if (dir == -1)
-			return true;
-
-		if (dir == 0 && getYPos() - 1 > 0) {
-			return !(window.level[getXPos()][getYPos() - 1] instanceof Wall)
-					&& !(window.level[getXPos()][getYPos() - 1] instanceof Door)
-					&& !(window.level[getXPos()][getYPos() - 1] instanceof Key);
-		} else if (dir == 1 && getXPos() + 1 < window.WIDTH) {
-			return !(window.level[getXPos() + 1][getYPos()] instanceof Wall)
-					&& !(window.level[getXPos() + 1][getYPos()] instanceof Door)
-					&& !(window.level[getXPos() + 1][getYPos()] instanceof Key);
-		} else if (dir == 2 && getYPos() + 1 < window.HEIGHT) {
-			return !(window.level[getXPos()][getYPos() + 1] instanceof Wall)
-					&& !(window.level[getXPos()][getYPos() + 1] instanceof Door)
-					&& !(window.level[getXPos()][getYPos() + 1] instanceof Key);
-		} else if (dir == 3 && getXPos() > 0) {
-			return !(window.level[getXPos() - 1][getYPos()] instanceof Wall)
-					&& !(window.level[getXPos() - 1][getYPos()] instanceof Door)
-					&& !(window.level[getXPos() - 1][getYPos()] instanceof Key);
-		} else {
-			System.out
-					.println("Error while validating step: Next step blocked by a wall, door or key.");
-			return false;
-		}
 	}
 
 	/**

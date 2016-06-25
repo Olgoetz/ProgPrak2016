@@ -105,6 +105,8 @@ private static final long serialVersionUID = 1L;
 		
 		g.setColor(Color.WHITE);
 		g.drawString("Player's Health: ", 5, window.BOX * (window.HEIGHT - 10) + 20);
+		
+		// players health bar
 		g.setColor(Color.RED);
 		g.fillRect(5,window.BOX * (window.HEIGHT - 9), window.player.getMaxHealth(), 5);
 		g.setColor(Color.GREEN);
@@ -117,14 +119,14 @@ private static final long serialVersionUID = 1L;
 		
 		g.drawLine(2, 0, 2, window.BOX * (window.HEIGHT));
 
-	// draw minimap
-		
+	// draw minimap 
+	// variables to set the map at the bottom of the panel	
 	int var1=350;
 	int var2 = 10;
 	
 	for (int i = 0; i < window.WIDTH ; i++) {
 		for (int j = 0; j < window.HEIGHT; j++) {
-			if (inRange(i,j)) {
+//			if (inRange(i,j)) {
 				if (window.level[i][j] instanceof Wall) {
 					// Here goes a wall
 					g.drawImage(wall1, (i * miniBox) + var2 , (j * miniBox) + var1 ,null);
@@ -142,7 +144,7 @@ private static final long serialVersionUID = 1L;
 					else
 						g.drawImage(doorClosed1, (i * miniBox) + var2, (j
 								* miniBox) + var1, null);
-				} 
+//				} 
 				
 		}
 	}	
