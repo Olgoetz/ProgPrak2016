@@ -7,9 +7,6 @@ import java.util.Date;
 /**
  * <h1>Abstract Message Class providing timestamp, type, subType.</h1>
  * 
- *
- * 
- *
  * 	type = Message types, that belong to a set of actions such as Worldmanagement, or SignI/Out/Up/Off actions.
  * <p>
  * 
