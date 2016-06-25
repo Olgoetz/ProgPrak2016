@@ -197,19 +197,8 @@ public class ClientEngine implements Runnable   {
 	} // end of message-Reader	
 	
 	
-//
-//	
-//	/***
-//	 * 
-//	 * @author Oliver Goetz, 5961343
-//	 * 
-//	 * 
-//	 * 
-//	 * 
-//	 * This section presents the corresponding methods for each received message.
-//	 */
-//
-//	
+
+	
 	
 //***** Section 3 *****//
 	
