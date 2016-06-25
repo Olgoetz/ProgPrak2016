@@ -47,8 +47,7 @@ import pp2016.team19.shared.*;
 
 public class ClientEngine implements Runnable   {
 
-//	private LinkedBlockingQueue<Message> messagesFromServer;
-//	private LinkedBlockingQueue<Message> messagesToServer;
+
 	private ExecutorService threadPool;
 
 	private NetworkHandlerC networkHandler;
@@ -281,7 +280,7 @@ public class ClientEngine implements Runnable   {
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
 	
 	// Sends a moveCharacterRequest to the server
-	public void moveCharacterRequest(int direction, boolean confirmed) {
+	public void moveCharacterRequest(int direction) {
 		
 	this.sendToServer(new MessMoveCharacterRequest(direction, 1, 0));
 //	System.out.println("Message sent");

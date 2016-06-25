@@ -70,7 +70,10 @@ public class ServerEngine implements Runnable {
 				this.ConnectionRequest(message);
 				break;
 			case 2: 
-				this.signInAndUpRequest(message);
+				this.signUpRequest(message);
+				break;
+			case 4:
+				this.signInRequest(message);
 				break;
 			case 6: 
 				this.signOutRequest(message);
@@ -110,7 +113,7 @@ public class ServerEngine implements Runnable {
 	 */
 	private void sendToGame(Message message) {
 		try {
-			game1.messagesFromServer.put(message);
+			games.get(0).messagesFromServer.put(message);
 			System.out.println(game1.messagesFromServer.size());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -122,7 +125,7 @@ public class ServerEngine implements Runnable {
 	 * @param message
 	 */
 	
-	private void signInAndUpRequest(Message pmessage) {
+	private void signInRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
 		System.out.println("Method engaging");
 		if(userName.equals(message.getUsername()) && password.equals(message.getPassword())) {
@@ -175,7 +178,7 @@ public class ServerEngine implements Runnable {
 
 	private void ConnectionRequest(Message message) {
 		System.out.println("Connected");
-		Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0, 3);
+		Message answer =  new TestMessage(0, 5,"");
 		try {
 			this.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
