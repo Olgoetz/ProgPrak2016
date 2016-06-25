@@ -20,6 +20,7 @@ import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Monster;
 import pp2016.team19.shared.Player;
 import pp2016.team19.shared.Potion;
+import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
 /**
@@ -48,7 +49,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	public LinkedList<Monster> monsterList;
 	public Player player;
-	public GameObject[][] level;
+	public Tile[][] level;
 	public ClientEngine engine;
 	
 	public int currentLevel = 0;
@@ -100,8 +101,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		loginpanel.setPreferredSize(new Dimension(width, height));
 		
 		// first the Loginpanel is on screen
-		showLogin();
-		//showMenu();
+		//showLogin();
+		showMenu();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
@@ -233,8 +234,17 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //	 System.out.println("Mouse at: " + mouseX + ", " + mouseY);
 //	 System.out.println("Player at: " + xPos + ", " + yPos);
  if (!gameWon) {
-	if (!(level[mouseX][mouseY] instanceof Wall)){  //if click y is higher than playerposition y and theres no wall, player moveDown()  
-			player.moveToPos(mouseX, mouseY); // player moves to the clicked position with the a* algorithm, method from player
+	if (!level[mouseX][mouseY].isRock()){  //if click y is higher than playerposition y and theres no wall, player moveDown()  
+			while(!player.moveToPos(mouseX, mouseY)){
+//				System.out.println("Step made");
+				
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {}
+				
+				getGameField().repaint();
+				
+			} // player moves to the clicked position with the a* algorithm, method from player
 			
 //		}else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof Wall)) { // if click y is lower than playerposition y and theres no wall, player moveUp()
 //	 				player.moveUp();
@@ -266,16 +276,16 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		// If both is true, walk this next step.
 		if (!gameWon) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				if (yPos > 0 && !(level[xPos][yPos - 1] instanceof Wall))
+				if (yPos > 0 && !(level[xPos][yPos - 1].isRock()))
 					player.moveUp();
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1] instanceof Wall))
+				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1].isRock()))
 					player.moveDown();
 			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				if (xPos > 0 && !(level[xPos - 1][yPos] instanceof Wall))
+				if (xPos > 0 && !(level[xPos - 1][yPos].isRock()))
 					player.moveLeft();
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if (xPos < WIDTH - 1 && !(level[xPos + 1][yPos] instanceof Wall))
+				if (xPos < WIDTH - 1 && !(level[xPos + 1][yPos].isRock()))
 					player.moveRight();
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
 				Monster m = player.monsterToAttack();
@@ -296,19 +306,19 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			// Take the key
-			if (level[player.getXPos()][player.getYPos()] instanceof Key) {
+			if (level[player.getXPos()][player.getYPos()].containsKey()) {
 				player.takeKey();
-				level[player.getXPos()][player.getYPos()] = new Floor();
+				level[player.getXPos()][player.getYPos()].setContainsKey(false);
 			}
 			// Take a potion
-			else if (level[player.getXPos()][player.getYPos()] instanceof Potion) {
-				player.takePotion((Potion) level[player.getXPos()][player.getYPos()]);		
-				level[player.getXPos()][player.getYPos()] = new Floor();
+			else if (level[player.getXPos()][player.getYPos()].containsPotion()) {
+//				player.takePotion((Potion) level[player.getXPos()][player.getYPos()]);		// potion? chris???
+				level[player.getXPos()][player.getYPos()].containsPotion = false;
 			}
 			// Use the key
-			if (level[player.getXPos()][player.getYPos()] instanceof Door) {
-				if (!((Door) level[player.getXPos()][player.getYPos()]).isOpen() && player.hasKey()) {
-					((Door) level[player.getXPos()][player.getYPos()]).setOpen();
+			if (level[player.getXPos()][player.getYPos()].isExit()) {
+				if (! (level[player.getXPos()][player.getYPos()]).exitUnlocked() && player.hasKey()) {
+					level[player.getXPos()][player.getYPos()].setExitUnlocked(true);
 					// After opening the door, the key has to be removed
 					player.removeKey();
 					if (currentLevel < MAXLEVEL)
@@ -330,7 +340,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		player = new Player("img//player.png", this);
 		monsterList = new LinkedList<Monster>();
-		level = new GameObject[WIDTH][HEIGHT];
+		level = new Tile[WIDTH][HEIGHT];
 
 		currentLevel = 0;
 		gameWon = false;
@@ -384,8 +394,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public void nextLevel() {
 		currentLevel++;
 
-		Reader reader = new Reader("lvl//level" + currentLevel + ".txt", this);
-		level = reader.getLevel();
+		level = engine.getLabyrinth();
 
 	}
 
