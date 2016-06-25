@@ -226,21 +226,22 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	public void mouseClicked(MouseEvent m) {
 	 
-	 int xPos = player.getXPos();
-	 int yPos = player.getYPos();
+//	 int xPos = player.getXPos();
+//	 int yPos = player.getYPos();
 	 int mouseX = m.getX()/32;
 	 int mouseY = m.getY()/32;
 //	 System.out.println("Mouse at: " + mouseX + ", " + mouseY);
 //	 System.out.println("Player at: " + xPos + ", " + yPos);
  if (!gameWon) {
-	if (mouseY > yPos &&  !(level[xPos][yPos + 1] instanceof Wall)){  //if click y is higher than playerposition y and theres no wall, player moveDown()  
-			player.moveDown();
-		}else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof Wall)) { // if click y is lower than playerposition y and theres no wall, player moveUp()
-	 				player.moveUp();
-		}else if (mouseX < xPos && !(level[xPos - 1][yPos] instanceof Wall)) { // if click x left from playerposition x and leftside no wall, player moveLeft()
-					player.moveLeft();
-		}else if (mouseX > xPos && !(level[xPos + 1][yPos] instanceof Wall)) { // if click x right from playerposition x and rightside no wall, player moveRight()
-					player.moveRight();
+	if (!(level[mouseX][mouseY] instanceof Wall)){  //if click y is higher than playerposition y and theres no wall, player moveDown()  
+			player.moveToPos(mouseX, mouseY); // player moves to the clicked position with the a* algorithm, method from player
+			
+//		}else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof Wall)) { // if click y is lower than playerposition y and theres no wall, player moveUp()
+//	 				player.moveUp();
+//		}else if (mouseX < xPos && !(level[xPos - 1][yPos] instanceof Wall)) { // if click x left from playerposition x and leftside no wall, player moveLeft()
+//					player.moveLeft();
+//		}else if (mouseX > xPos && !(level[xPos + 1][yPos] instanceof Wall)) { // if click x right from playerposition x and rightside no wall, player moveRight()
+//					player.moveRight();
 		} 
  	}
 }

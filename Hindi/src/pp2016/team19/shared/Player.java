@@ -18,7 +18,7 @@ public class Player extends Character implements Serializable{
 
 
 	private String name;
-
+	private String password;
 
 	private boolean hasKey;
 	private int numberOfPotions;
@@ -97,6 +97,14 @@ public class Player extends Character implements Serializable{
 		this.name = name;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Monster monsterToAttack(){
 		for(int i = 0; i < getWindow().monsterList.size(); i++){
 			Monster m = getWindow().monsterList.get(i);
