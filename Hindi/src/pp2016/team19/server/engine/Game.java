@@ -37,6 +37,7 @@ public class Game extends TimerTask {
 			System.out.println("Game executed");
 			tester=false;
 			Message level = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
+			Message sendPlayer = (MessPlayerAnswer) new MessPlayerAnswer(player,2,5);
 			try {
 				engine.messagesToClient.put(level);
 			} catch (InterruptedException e) {
