@@ -3,7 +3,7 @@ package pp2016.team19.server.map;
 import pp2016.team19.shared.Labyrinth;
 
 /**
- * A test class, for the "komponententest" of the Levelgenerator
+ * A test class, for the "komponententest" of the Levelgenerator.
  * 
  * @author < Czernik, Christof, 5830621 >
  */

@@ -3,7 +3,7 @@ package pp2016.team19.shared;
 /**
  * Generally:
  * 
- * 		Its a data structure called Tile, used in class called Labyrinth.
+ * 		Its a data structure called Tile, used in class called Labyrinth..
  * 
  * Class Tile contains:
  * 

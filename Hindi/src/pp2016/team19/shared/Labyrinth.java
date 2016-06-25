@@ -7,7 +7,7 @@ package pp2016.team19.shared;
  * 		
  * 		A Class, which contains a method called "generateLabyrinth()" which uses the 
  * 		floodFill method to create a Labyrinth, and uses methods to place Potion the Entry 
- * 		or the Exit in the map.
+ * 		or the Exit in the map..
  * 
  * 		It uses a data structure (2d Array) "gameMap" of the data structure "Tile", which will be returned 
  * 		at the end of the method.
