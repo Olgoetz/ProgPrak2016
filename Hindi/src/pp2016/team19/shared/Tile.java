@@ -19,7 +19,7 @@ import java.io.Serializable;
  * 		6 Setter methods: 		They set for example the type of the Tile 
  * 								or if a Tile contains a Potion.
  * 
- * 		9 Other methods: 		For example, check if a Tile is of the type ROCK. 
+ * 		9 Other methods: 		For example, chec,k if a Tile is of the type ROCK. 
  * 								Or if a Tile is walkable.
  * 
  * @author < Czernik, Christof, 5830621 >
