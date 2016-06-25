@@ -56,10 +56,11 @@ public class ClientEngine implements Runnable   {
 	
 
 	private int playerID;
-	private Player myPlayer;
+	private Player myPlayer = new Player();
 	private Monster myMonster;
 	private int direction;
 	public Tile[][] labyrinth;
+	private Labyrinth test = new Labyrinth();
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
@@ -282,7 +283,7 @@ public class ClientEngine implements Runnable   {
 	// Sends a moveCharacterRequest to the server
 	public void moveCharacterRequest(int direction, boolean confirmed) {
 		
-	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 1, 0));
+	this.sendToServer(new MessMoveCharacterRequest(direction, 1, 0));
 //	System.out.println("Message sent");
 	} 
 	
@@ -360,9 +361,12 @@ public class ClientEngine implements Runnable   {
 	
 	// Processes a levelAnswer Message coming from the server
 	public void levelAnswer(Message pMessage) {
-//		MessLevelAnswer message = (MessLevelAnswer) pMessage;
-//		
-//		this.labyrinth = message.getLabyrinth();
+		System.out.println("METHOD Engine.playerAnswer: Level received! ");
+		MessLevelAnswer message = (MessLevelAnswer) pMessage;
+		
+		this.labyrinth = message.getLabyrinth();
+		test.setGameMap(this.labyrinth);
+		test.PaintTest(30);
 	}
 	
 	// Sends a playerRequest to the server
@@ -375,7 +379,8 @@ public class ClientEngine implements Runnable   {
 	public void playerAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.playerAnswer:" + pMessage.toString());
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
-		myPlayer = message.getMyPlayer();	
+		myPlayer.xPos = message.getX();
+		myPlayer.yPos = message.getY();
 		System.out.println(getMyPlayer().getXPos());
 		System.out.println(getMyPlayer().getYPos());
 		
