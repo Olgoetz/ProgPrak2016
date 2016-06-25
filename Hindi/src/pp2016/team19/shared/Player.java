@@ -22,7 +22,7 @@ public class Player extends Character implements Serializable {
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
 
 	private long lastStep = System.currentTimeMillis();
-	private int cooldownWalk = 10;
+	private int cooldownWalk = 500;
 	private boolean calculatePath = true;
 
 	private boolean hasKey;
