@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.server.engine.Game;
 
 /**
  * Class Monster describes every logic of the monsters, how they fight, how they
@@ -32,9 +33,9 @@ public class Monster extends Character {
 
 	private int type; // Present from beginning: 0, Appears later: 1
 
-	// private Labyrinth labyrinth;
-
+	private Tile[][] gameMap;
 	private Player player;
+	private Game game;
 
 	// // PERSOENLICHE NOTIZ: Spaeter statt GameWindow Laybrinth als Input
 	/**
@@ -51,16 +52,17 @@ public class Monster extends Character {
 	 *            Type of the monster (0 = spawns at the beginning, 1 = spawns
 	 *            after taking the key)
 	 */
-	public Monster(int x, int y, GameWindow window, int type) {
-		super(window);
-		this.player = window.player;
+	public Monster(int x, int y, Game game, int type) {
+		this.game = game;
+		this.player = game.getPlayer();
+		this.gameMap = game.getGameMap();
 		this.type = type;
 		setPos(x, y);
 		setHealth(32);
 		setMaxHealth(getHealth());
 		lastAttack = System.currentTimeMillis();
 		lastStep = System.currentTimeMillis();
-		cooldownAttack = 500 - 10 * window.currentLevel; // ms
+		cooldownAttack = 500 - 10 * game.getLevelNumber(); // ms
 		cooldownWalk = 1000;
 		lastPlayerPos = new int[2];
 		lastPlayerPos[0] = -1;
@@ -69,7 +71,7 @@ public class Monster extends Character {
 		fleePath = new LinkedList<Node>();
 		actAction = -1;
 
-		setDamage(5 + window.currentLevel * 2);
+		setDamage(5 + game.getLevelNumber() * 2);
 		Random r = new Random();
 
 		// Load image for monster
@@ -138,8 +140,8 @@ public class Monster extends Character {
 	public void changeHealth(int change) {
 		super.changeHealth(change);
 		if (getHealth() <= 0) {
-			getWindow().level[getXPos()][getYPos()] = new Potion(30);
-			getWindow().monsterList.remove(this);
+			gameMap[getXPos()][getYPos()].setContainsPotion(true);
+			game.getMonsters().remove(this);
 		}
 	}
 
@@ -227,16 +229,16 @@ public class Monster extends Character {
 		if (this.getXPos() >= player.getXPos()) {
 			if (this.getYPos() >= player.getYPos()) {
 				// Monster is under and right of the player, flee to down right corner
-				for (int fleeX = getWindow().WIDTH - 1; fleeX >= getWindow().WIDTH / 2; fleeX--) {
-					for (int fleeY = getWindow().HEIGHT - 1; fleeY >= getWindow().HEIGHT / 2; fleeY--) {
+				for (int fleeX = game.getGameSize() - 1; fleeX >= game.getGameSize() / 2; fleeX--) {
+					for (int fleeY = game.getGameSize() - 1; fleeY >= game.getGameSize() / 2; fleeY--) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
 			} else if (this.getYPos() < player.getYPos()) {
 				// Monster is above and right of the player, flee to top right corner
-				for (int fleeX = getWindow().WIDTH - 1; fleeX >= getWindow().WIDTH / 2; fleeX--) {
-					for (int fleeY = 0; fleeY < getWindow().HEIGHT / 2; fleeY++) {
+				for (int fleeX = game.getGameSize() - 1; fleeX >= game.getGameSize() / 2; fleeX--) {
+					for (int fleeY = 0; fleeY < game.getGameSize() / 2; fleeY++) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
@@ -245,16 +247,16 @@ public class Monster extends Character {
 		} else if (this.getXPos() < player.getXPos()) {
 			if (this.getYPos() >= player.getYPos()) {
 				// Monster is under and left of the player, flee to down left corner
-				for (int fleeX = 0; fleeX < getWindow().WIDTH / 2; fleeX++) {
-					for (int fleeY = getWindow().HEIGHT - 1; fleeY >= getWindow().HEIGHT / 2; fleeY--) {
+				for (int fleeX = 0; fleeX < game.getGameSize() / 2; fleeX++) {
+					for (int fleeY = game.getGameSize() - 1; fleeY >= game.getGameSize() / 2; fleeY--) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
 			} else if (this.getYPos() < player.getYPos()) {
 				// Monster is above and left of the player, flee to top left corner
-				for (int fleeX = 0; fleeX < getWindow().WIDTH / 2; fleeX++) {
-					for (int fleeY = 0; fleeY < getWindow().HEIGHT / 2; fleeY++) {
+				for (int fleeX = 0; fleeX < game.getGameSize() / 2; fleeX++) {
+					for (int fleeY = 0; fleeY < game.getGameSize() / 2; fleeY++) {
 						if (isWalkable(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}

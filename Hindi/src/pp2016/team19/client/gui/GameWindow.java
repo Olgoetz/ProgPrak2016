@@ -338,6 +338,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void resetGame() {
 
+		// TODO: Server Request für GameRestart
 		player = new Player("img//player.png", this);
 		monsterList = new LinkedList<Monster>();
 		level = new Tile[WIDTH][HEIGHT];

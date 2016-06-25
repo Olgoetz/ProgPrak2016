@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.imageio.ImageIO;
 
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.server.engine.Game;
 
 public class Player extends Character implements Serializable{
 
@@ -32,8 +33,8 @@ public class Player extends Character implements Serializable{
 		super();
 	}
 	
-	public Player(String imgFile, GameWindow window){
-		super(window);
+	public Player(String imgFile, Game game){
+		super(game);
 		
 		setNumberOfPotions(0);
 		setPos(0,0);		
@@ -117,8 +118,8 @@ public class Player extends Character implements Serializable{
 	}
 
 	public Monster monsterToAttack(){
-		for(int i = 0; i < getWindow().monsterList.size(); i++){
-			Monster m = getWindow().monsterList.get(i);
+		for(int i = 0; i < getGame().getMonsters().size(); i++){
+			Monster m = getGame().getMonsters().get(i);
 						
 			// Is the player able to attack?
 			boolean ableToAttack = false;

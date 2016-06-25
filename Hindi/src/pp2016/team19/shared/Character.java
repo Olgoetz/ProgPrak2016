@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.server.engine.Game;
 
 /**
  * <h1>Abstract Character Class providing position, image, direction, window,
@@ -20,10 +21,10 @@ public abstract class Character {
 
 	public int xPos, yPos;
 	private Image image;
-	private boolean confirmMove;
 	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
 
-	private GameWindow window;
+	private Game game;
+	private Tile[][] gameMap;
 
 	public int health;
 	private int damage;
@@ -46,8 +47,9 @@ public abstract class Character {
 	 *            contains the level/map
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public Character(GameWindow window) {
-		this.window = window;
+	public Character(Game game) {
+		this.game = game;
+		this.gameMap = game.getGameMap();
 	}
 
 	/**
@@ -90,25 +92,25 @@ public abstract class Character {
 			int actY = cheapest.getYPos();
 
 			// Up-Neighbor valid?
-			if (!(window.level[actX][actY - 1] instanceof Wall))
+			if (!gameMap[actX][actY - 1].isRock())
 				neighbors[0] = new Node(actX, actY - 1); // up
 			else
 				neighbors[0] = null;
 
 			// Right-Neighbor valid?
-			if (!(window.level[actX + 1][actY] instanceof Wall))
+			if (!gameMap[actX + 1][actY].isRock())
 				neighbors[1] = new Node(actX + 1, actY); // right
 			else
 				neighbors[1] = null;
 
 			// Down-Neighbor valid?
-			if (!(window.level[actX][actY + 1] instanceof Wall))
+			if (!gameMap[actX][actY + 1].isRock())
 				neighbors[2] = new Node(actX, actY + 1); // down
 			else
 				neighbors[2] = null;
 
 			// Left-Neighbor valid?
-			if (!(window.level[actX - 1][actY] instanceof Wall))
+			if (!gameMap[actX - 1][actY].isRock())
 				neighbors[3] = new Node(actX - 1, actY); // left
 			else
 				neighbors[3] = null;
@@ -252,8 +254,8 @@ public abstract class Character {
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public boolean isWalkable(int x, int y) {
-		if (getWindow().level[x][y] instanceof Wall || getWindow().level[x][y] instanceof Key
-				|| getWindow().level[x][y] instanceof Door) {
+		if (gameMap[x][y].isRock() || gameMap[x][y].containsKey()
+				|| gameMap[x][y].isEntry() || gameMap[x][y].isExit()) {
 			return false;
 		} else {
 			return true;
@@ -272,9 +274,9 @@ public abstract class Character {
 
 		if (dir == 0 && getYPos() - 1 > 0) {
 			return isWalkable(getXPos(), getYPos() - 1);
-		} else if (dir == 1 && getXPos() + 1 < getWindow().WIDTH) {
+		} else if (dir == 1 && getXPos() + 1 < game.getGameSize()) {
 			return isWalkable(getXPos() + 1, getYPos());
-		} else if (dir == 2 && getYPos() + 1 < getWindow().HEIGHT) {
+		} else if (dir == 2 && getYPos() + 1 < game.getGameSize()) {
 			return isWalkable(getXPos(), getYPos() + 1);
 		} else if (dir == 3 && getXPos() > 0) {
 			return isWalkable(getXPos() - 1, getYPos());
@@ -334,9 +336,9 @@ public abstract class Character {
 	public int getXPos() {
 		return xPos;
 	}
-
-	public GameWindow getWindow() {
-		return window;
+	
+	public Game getGame() {
+		return game;
 	}
 
 }
