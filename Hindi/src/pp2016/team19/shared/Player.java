@@ -2,13 +2,20 @@ package pp2016.team19.shared;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
 import pp2016.team19.client.gui.GameWindow;
 
-public class Player extends Character {
+public class Player extends Character implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3344880853631540753L;
+
 
 	private String name;
 
