@@ -184,7 +184,7 @@ public class Game extends TimerTask {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-			}
+			}		
 			} else {
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
 				System.out.println("Move not allowed");
@@ -194,7 +194,8 @@ public class Game extends TimerTask {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}  
+			} 
+		break;
 			case 1: //MoveDown
 				if (gameMap[player.getXPos()][player.getYPos()-1].isWalkable()) {
 					player.moveDown();
@@ -214,6 +215,7 @@ public class Game extends TimerTask {
 						e.printStackTrace();
 					}
 				}
+				break;
 				case 2: //MoveLeft
 					if (gameMap[player.getXPos()-1][player.getYPos()].isWalkable()) {
 						player.moveLeft();
@@ -233,6 +235,7 @@ public class Game extends TimerTask {
 							e.printStackTrace();
 						}
 					}
+					break;
 					case 3: //MoveRight
 						if (gameMap[player.getXPos()+1][player.getYPos()].isWalkable()) {
 							player.moveRight();
@@ -252,7 +255,7 @@ public class Game extends TimerTask {
 								e.printStackTrace();
 							}
 			}
-				
+			break;	
 		}
 	}
 
