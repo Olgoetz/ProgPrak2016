@@ -116,7 +116,6 @@ public class ServerEngine implements Runnable {
 	private void sendToGame(Message message) {
 		try {
 			games.get(0).messagesFromServer.put(message);
-			System.out.println(game1.messagesFromServer.size());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
