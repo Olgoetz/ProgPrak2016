@@ -187,13 +187,25 @@ public class ServerEngine implements Runnable {
 		playerIsNew = true;
 		for(Player player: players) {
 			if(message.getUsername().equals(player.getName())) {
-				//Answer: Player exists
 				playerIsNew = false;
+				Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+				try {
+					this.messagesToClient.put(answer);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		}
 		if(playerIsNew) {
 			players.addElement(new Player());
-			//Answer true
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+			try {
+				this.messagesToClient.put(answer);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 
