@@ -10,9 +10,6 @@ import javax.swing.JOptionPane;
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.NetworkHandlerC;
 import pp2016.team19.client.gui.GameWindow;
-
-import pp2016.team19.server.map.Labyrinth;
-import pp2016.team19.server.map.Tile;
 import pp2016.team19.shared.*;
 
 

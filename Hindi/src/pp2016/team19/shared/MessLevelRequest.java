@@ -2,8 +2,6 @@ package pp2016.team19.shared;
 
 import java.io.Serializable;
 
-import pp2016.team19.server.map.Labyrinth;
-
 /**
  * <h1>Message to request the level from the server.</h1>
  * 

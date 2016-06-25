@@ -1,8 +1,6 @@
 package pp2016.team19.shared;
 
 import java.io.Serializable;
-import pp2016.team19.server.map.Labyrinth;
-import pp2016.team19.server.map.Tile;
 
 
 /**
