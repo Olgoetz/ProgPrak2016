@@ -284,7 +284,7 @@ public class ClientEngine implements Runnable   {
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
-		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,4));
+		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
 	}
 
 	/**
@@ -409,8 +409,8 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-//		test.setGameMap(this.labyrinth);
-//		test.PaintTest(30);
+		test.setGamemap(this.labyrinth);
+		test.PaintTest(30);
 	}
 	
 	// Sends a playerRequest to the server
