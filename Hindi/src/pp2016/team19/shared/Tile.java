@@ -38,17 +38,17 @@ public class Tile implements Serializable {
 	 */
 
 	// Attribute, 	("Is the type of the Tile")
-	public int type;
+	private int type;
 	// Attribute,	("Does the Tile contain a Key?")
-	public boolean containsKey = false;
+	private boolean containsKey = false;
 	// Attribute, 	("Does the Tile contain a Potion?")
-	public boolean containsPotion = false;
+	private boolean containsPotion = false;
 	// Attribute,	("Does the Tile contain a Monster?")
-	public boolean containsMonster = false;
+	private boolean containsMonster = false;
 	// Attribute, 	("Does the Tile contain a Player?")
-	public boolean containsPlayer = false;
+	private boolean containsPlayer = false;
 	// Attribute,	("Is the Exit unlocked? (:= Player has Key)")
-	public boolean exitUnlocked = false;
+	private boolean exitUnlocked = false;
 
 	/**
 	 * 8 Constants

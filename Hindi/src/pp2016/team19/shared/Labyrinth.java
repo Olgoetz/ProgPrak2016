@@ -396,7 +396,7 @@ public class Labyrinth {
 				x = possibleMonsterPlaces[number - 1];
 			}
 			
-			if(gameMap[x][y].containsMonster){
+			if(gameMap[x][y].containsMonster()){
 				m = m-1;
 				continue;
 			}
