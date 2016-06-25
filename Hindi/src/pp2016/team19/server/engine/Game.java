@@ -28,6 +28,7 @@ public class Game extends TimerTask {
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
 		gameMap = Labyrinth.generate(gameSize,gameSize);
+		player.setPos(1, gameSize-2);
 		
 		}
 		
