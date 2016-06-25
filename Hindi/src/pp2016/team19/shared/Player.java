@@ -23,8 +23,10 @@ public class Player extends Character implements Serializable{
 	private boolean hasKey;
 	private int numberOfPotions;
 	private int potionEffect;
-	
-	private int dir;
+
+	private LinkedList<Node> pathToPos = new LinkedList<Node>();
+	private long lastStep = System.currentTimeMillis();
+	private int cooldownWalk = 500;
 	
 	public Player(){
 		super();
@@ -48,11 +50,20 @@ public class Player extends Character implements Serializable{
 	}
 	
 
-	public void moveToPos(int xGoal, int yGoal){
-		LinkedList<Node> path = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);
-		while (!path.isEmpty()){
-			changeDir(path);
+	public boolean moveToPos(int xGoal, int yGoal) {
+		if (pathToPos.isEmpty()) {
+			pathToPos = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);
+			pathToPos.addLast(new Node(xGoal, yGoal));
 		}
+		
+		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
+		if (nextWalk) {
+			changeDir(pathToPos);
+			System.out.println("Actual Player Position: " + this.getXPos() + ", " + this.getYPos());
+			lastStep = System.currentTimeMillis();
+		}
+		
+		return pathToPos.isEmpty();
 	}
 	
 	// Method to take the key
