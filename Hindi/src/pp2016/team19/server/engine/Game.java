@@ -16,7 +16,7 @@ public class Game extends TimerTask {
 	LinkedBlockingQueue<Message> messagesFromServer;
 	Tile[][] gameMap;
 	private int gameSize;
-	Vector<Monster> Monsters = new Vector();
+	Vector<Monster> Monsters = new Vector<Monster>();
 	int levelNumber=1;
 	ServerEngine engine;
 	boolean tester = true; //Testing
@@ -260,5 +260,21 @@ public class Game extends TimerTask {
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Tile[][] getGameMap() {
+		return gameMap;
+	}
+	
+	public int getGameSize() {
+		return gameSize;
+	}
+	
+	public Vector<Monster> getMonsters() {
+		return Monsters;
+	}
+	
+	public int getLevelNumber() {
+		return levelNumber;
 	}
 }
