@@ -72,7 +72,7 @@ public class ClientEngine implements Runnable   {
 		System.out.println("Start Constructor");
 		this.setThreadPool(clientThreadPool);
 		this.setNetworkHandler(new NetworkHandlerC());
-//		this.setLoginBuild(new LoginBuild());
+
 		
 		// here comes si
 //		this.levelRequest();
@@ -83,28 +83,6 @@ public class ClientEngine implements Runnable   {
 		
 	}
 	
-	
-
-//	public Engine(ExecutorService pThreadPool) {
-//
-//		this.setMessagesFromServer(new LinkedBlockingQueue<Message>());
-//		this.setMessagesToServer(new LinkedBlockingQueue<Message>());
-//		this.setThreadPool(pThreadPool);
-//
-//		this.setNetworkHandler(
-//				new NetworkHandlerC(this.getThreadPool(), this.getMessagesFromServer(), this.getMessagesToServer()));
-//		this.setGUI(new GameWindow(this, 16,16, "Hindi Bones"));
-//
-//		
-//
-//		this.setClientID(this.getNetworkHandler().getClientID());
-//		this.setPlayerID(-1);
-//		this.setMyPlayer(null);
-//
-//		this.getGUI().activateSignInUpFrame();
-//		this.getGUI().getLoginFrame().newStatus("connected to server", Color.BLACK);
-//	}
-
 	
 	/***
 	 * @author Oliver Goetz, 5961343
@@ -268,8 +246,8 @@ public class ClientEngine implements Runnable   {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
 		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
-		this.levelRequest();
-		this.playerRequest();
+	//	this.levelRequest();
+	//	this.playerRequest();
 		
 	
 	}
@@ -294,25 +272,6 @@ public class ClientEngine implements Runnable   {
 
 	
 
-//	// ********** TYPE = 1 : TIME TRIGGERED ACTIONS AND METHODS **********
-//	public void serverPlayerRequest() {
-//		System.out.println("METHOD Engine.serverPlayerRequest()");
-//		this.sendToServer(new MessPlayerReq(this.getPlayerID(), this.getClientID()));
-//	}
-//
-//	private void serverPlayerAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.serverPlayerAnswer() " + pMessage.toString());
-//
-//		MessPlayerAns message = (MessPlayerAns) pMessage;
-//
-//		if (message.getClientID() == this.getClientID() && this.getPlayerID() == message.getPlayerID()) {
-//
-//			this.setMyPlayer(message.getPlayer());
-//			this.getGUI().activateGameFrame();
-//			this.getGUI().getGameFrame().refresh();
-//		}
-//	}
-	
 	
 	/**
 	 * @author Oliver Goetz, 5961343
