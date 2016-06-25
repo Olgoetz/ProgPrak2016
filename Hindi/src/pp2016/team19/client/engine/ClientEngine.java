@@ -62,7 +62,7 @@ public class ClientEngine implements Runnable   {
 	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
-	private Tile[][] labyrinth;
+	public Tile[][] labyrinth;
 	
 	public static final int BOX = 32;
 	public static final int WIDTH = 16, HEIGHT = 16;
@@ -268,7 +268,10 @@ public class ClientEngine implements Runnable   {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
 		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
-		//this.GUI.getLoginFrame().newStatus("sign in requested", Color.BLACK);
+		this.levelRequest();
+		this.playerRequest();
+		
+	
 	}
 
 	// Processes a SignInAnswer Message coming from the server
@@ -279,10 +282,10 @@ public class ClientEngine implements Runnable   {
 		System.out.println("Server SignInAnswer received");
 		if (message.isConfirmed()) {
 			System.out.println("Data correct");
-			
-//			this.levelRequest();
-//			this.playerRequest();
+
+	
 			getGameWindow().showMenu();
+			
 			System.out.println("login successful");
 		}else{
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
@@ -323,7 +326,7 @@ public class ClientEngine implements Runnable   {
 	// Sends a moveCharacterRequest to the server
 	public void moveCharacterRequest(int direction, boolean confirmed) {
 		
-//	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 1, 0));
+	this.sendToServer(new MessMoveCharacterRequest(direction, confirmed , 1, 0));
 //	System.out.println("Message sent");
 	} 
 	
@@ -408,15 +411,17 @@ public class ClientEngine implements Runnable   {
 	
 	// Sends a playerRequest to the server
 	public void playerRequest() {
-//		System.out.println("METHOD Engine.playerRequest: Player requested!" );
-//		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
+		System.out.println("METHOD Engine.playerRequest: Player requested!" );
+		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
 	}
 	
 	// Processes an levelAnswer Message coming from the server
 	public void playerAnswer(Message pMessage) {
-		System.out.println("METHoD Engine.plyerAnswer:" + pMessage.toString());
+		System.out.println("METHOD Engine.playerAnswer:" + pMessage.toString());
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
 		myPlayer = message.getMyPlayer();	
+		System.out.println(getMyPlayer().getXPos());
+		System.out.println(getMyPlayer().getYPos());
 		
 	}
 	
