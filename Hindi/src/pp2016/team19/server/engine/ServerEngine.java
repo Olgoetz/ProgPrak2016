@@ -5,7 +5,6 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import pp2016.team19.server.comm.NetworkHandlerS;
-import pp2016.team19.shared.Labyrinth;
 import pp2016.team19.shared.*;
 /**
  * Server Engine, distributes messages, administrates players, and starts games
@@ -20,13 +19,13 @@ public class ServerEngine implements Runnable {
 	//private LinkedList<Player> players;
 	private String userName = "user";
 	private String password = "123";
-	private Vector<Player> players;
+	private Vector<Player> players = new Vector<Player>();
 	private Vector<Game> games = new Vector<Game>();
 	private Game game1; //Test
-	private Player player = new Player(); //Test
 	private Timer tick = new Timer();
 	NetworkHandlerS network = new NetworkHandlerS();
 	private boolean playerIsNew;
+	private boolean playerFound;
 	/**
 	 * Constructor sets Message Queues for communication
 	 * @param serverThreadPool
@@ -36,6 +35,9 @@ public class ServerEngine implements Runnable {
 			LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
+		players.addElement(new Player());
+		players.get(0).setName("user");
+		players.get(0).setPassword("123");
 	}
 /**
  * Keeps processing Messages
@@ -53,7 +55,7 @@ public class ServerEngine implements Runnable {
 				}
 				if (!this.messagesToClient.isEmpty()) {
 					System.out.println(this.messagesToClient.peek().toString());
-					//System.out.println("Answer came back");
+					System.out.println("Answer came back");
 					network.sendMessageToClient(this.messagesToClient.poll());
 				}
 			}
@@ -69,10 +71,10 @@ public class ServerEngine implements Runnable {
 			case 0: 
 				this.ConnectionRequest(message);
 				break;
-			case 2: 
+			case 4: 
 				this.signUpRequest(message);
 				break;
-			case 4:
+			case 2:
 				this.signInRequest(message);
 				break;
 			case 6: 
@@ -128,28 +130,48 @@ public class ServerEngine implements Runnable {
 	private void signInRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
 		System.out.println("Method engaging");
-		if(userName.equals(message.getUsername()) && password.equals(message.getPassword())) {
-			System.out.println("did work");
-			this.messagesToGames = new LinkedBlockingQueue<Message>();
-			this.games.addElement(new Game(this, player, 30, this.messagesToGames));
-			this.tick.scheduleAtFixedRate(this.games.lastElement(), 0, 50);
-			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
-			try {
-				this.messagesToClient.put(answer);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		playerFound = false;
+		for (Player player: players) {
+			if(player.getName().equals(message.getUsername())) {
+				playerFound = true;
+				if(player.getPassword().equals(message.getPassword())) {
+					System.out.println("Log-In successful");
+					startGame(player);
+					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+					try {
+						this.messagesToClient.put(answer);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					System.out.println("Wrong password");
+					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+					try {
+					this.messagesToClient.put(answer);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-		} else {
-			System.out.println("did not work");
+			}
+		if (!playerFound) {
+			System.out.println("Player doesn't exist"); //Maybe send this as String with Answer message
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
 			try {
-				this.messagesToClient.put(answer);
+			this.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			}
 		} 
+		
+	private void startGame(Player player) {
+		this.messagesToGames = new LinkedBlockingQueue<Message>();
+		this.games.addElement(new Game(this, player, 30, this.messagesToGames));
+		this.tick.scheduleAtFixedRate(this.games.lastElement(), 0, 50);
 		
 	}
 	private void signOffRequest(Message message) {
