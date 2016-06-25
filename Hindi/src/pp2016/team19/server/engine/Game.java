@@ -40,6 +40,7 @@ public class Game extends TimerTask {
 			Message sendPlayer = (MessPlayerAnswer) new MessPlayerAnswer(player,2,5);
 			try {
 				engine.messagesToClient.put(level);
+				engine.messagesToClient.put(sendPlayer);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
