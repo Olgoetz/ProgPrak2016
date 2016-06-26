@@ -48,7 +48,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	private Controls controls;
 	
 	public LinkedList<Monster> monsterList;
-	public Player player;
+	public Player player = new Player();
 	public Tile[][] level;
 	public ClientEngine engine;
 	
@@ -339,17 +339,10 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public void resetGame() {
 
 		// TODO: Server Request für GameRestart
-		player = new Player("img//player.png", this);
-		monsterList = new LinkedList<Monster>();
-		level = new Tile[WIDTH][HEIGHT];
+	//	player = new Player("img//player.png", this);
+		engine.levelRequest();
 
-		currentLevel = 0;
-		gameWon = false;
-		gameLost = false;
-		mistOn = true;
-		nextLevel();
-		playerInHighscore = false;
-		startTime = System.currentTimeMillis();
+	
 	}
 	
 	

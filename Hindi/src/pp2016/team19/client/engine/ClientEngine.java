@@ -284,7 +284,7 @@ public class ClientEngine implements Runnable   {
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
 
-		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,2));
+		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword,0,4));
 	}
 
 	/**
