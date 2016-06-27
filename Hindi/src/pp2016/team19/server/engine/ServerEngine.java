@@ -77,10 +77,12 @@ public class ServerEngine implements Runnable {
 			case 4:
 				this.signInRequest(message);
 				break;
-			case 6: 
+			case 6:
+				this.newGame(message);
+			case 8: 
 				this.signOutRequest(message);
 				break;
-			case 8: 
+			case 10: 
 				this.signOffRequest(message);
 				break;
 			default:
@@ -97,9 +99,11 @@ public class ServerEngine implements Runnable {
 		default:
 			break;
 			}
-		}
-
-	
+	}
+	private void newGame(Message message) {
+		startGame(players.get(0));
+		
+	}
 	private void confirmConnection() {
 		Message answer = (MessPing) new MessPing(100,0);
 		try {
@@ -135,7 +139,6 @@ public class ServerEngine implements Runnable {
 				playerFound = true;
 				if(player.getPassword().equals(message.getPassword())) {
 					System.out.println("Log-In successful");
-					startGame(player);
 					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
 					try {
 						this.messagesToClient.put(answer);
