@@ -100,8 +100,9 @@ public class ServerEngine implements Runnable {
 			break;
 			}
 	}
-	private void newGame(Message message) {
-		startGame(players.get(0));
+	private void newGame(Message pmessage) {
+		MessStartGameRequest message = (MessStartGameRequest) pmessage;
+		this.startGame(players.get(message.getPlayerID()));
 		
 	}
 	private void confirmConnection() {
@@ -139,7 +140,7 @@ public class ServerEngine implements Runnable {
 				playerFound = true;
 				if(player.getPassword().equals(message.getPassword())) {
 					System.out.println("Log-In successful");
-					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,players.indexOf(player),0,3);
 					try {
 						this.messagesToClient.put(answer);
 					} catch (InterruptedException e) {
@@ -148,7 +149,7 @@ public class ServerEngine implements Runnable {
 					}
 				} else {
 					System.out.println("Wrong password");
-					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,-1,0,3);
 					try {
 					this.messagesToClient.put(answer);
 					} catch (InterruptedException e) {
@@ -160,7 +161,7 @@ public class ServerEngine implements Runnable {
 			}
 		if (!playerFound) {
 			System.out.println("Player doesn't exist"); //Maybe send this as String with Answer message
-			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,-1,0,3);
 			try {
 			this.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
@@ -191,7 +192,7 @@ public class ServerEngine implements Runnable {
 		for(Player player: players) {
 			if(message.getUsername().equals(player.getName())) {
 				playerIsNew = false;
-				Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,0,3);
+				Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,-1,0,3);
 				try {
 					this.messagesToClient.put(answer);
 					} catch (InterruptedException e) {
@@ -202,7 +203,7 @@ public class ServerEngine implements Runnable {
 		}
 		if(playerIsNew) {
 			players.addElement(new Player());
-			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,0,3);
+			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true,players.size()-1,0,3);
 			try {
 				this.messagesToClient.put(answer);
 				} catch (InterruptedException e) {

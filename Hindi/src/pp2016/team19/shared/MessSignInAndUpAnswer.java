@@ -15,6 +15,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 
 	private static final long serialVersionUID = -4381984974244494821L;
 	boolean confirmed;
+	private int playerID;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
@@ -23,11 +24,12 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	 * @param subType the subtype of the message
 	 */
 	
-	public MessSignInAndUpAnswer(boolean confirmed, int type, int subType) {
+	public MessSignInAndUpAnswer(boolean confirmed, int playerID, int type, int subType) {
 		super(type,subType);
 		this.confirmed = confirmed;
+		this.setPlayerID(playerID);
 	}
-	
+
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * @return a flag, if the sign IN or UP was confirmed by the server
@@ -45,8 +47,11 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
 	}
-	
-	
-	
 
+	public int getPlayerID() {
+		return playerID;
+	}
+	public void setPlayerID(int playerID) {
+		this.playerID=playerID;
+	}
 }
