@@ -59,7 +59,7 @@ public class ServerConnection extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==b){			
-			window.showMenu();  // olli connect with server !!
+			window.showLogin();  // olli connect with server !!
 	}else{
 		      // here's going to be a proper method or message for server connection failed
 		}	
