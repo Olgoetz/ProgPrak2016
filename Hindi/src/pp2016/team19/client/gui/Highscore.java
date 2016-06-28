@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * 
+ * class for the panel showing the highscore
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
@@ -25,7 +25,7 @@ public class Highscore extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private LinkedList<HighScoreElement> highScore;
 	
-	
+	// ändert sich noch???
 		public Highscore(){
 
 				highScore = new LinkedList<HighScoreElement>();		
@@ -54,15 +54,21 @@ public class Highscore extends JPanel {
 			}
 		}
 		
+		/**
+		 * method for adding a player into the highscore table
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 * @param time actual highscore times
+		 */
+		
 		public void addPlayerToHighScore(int time){
 			String name = JOptionPane.showInputDialog("Please enter your name:");
 			for(int i = 0; i < highScore.size(); i++){
-				if(highScore.get(i).time > time){
+				if(highScore.get(i).time > time){	// if the time of the player is higher than the time at position i in the highscore list, add a new HighScoreElement
 					highScore.add(i, new HighScoreElement(time, name));
 					i = highScore.size();
 				}
 			}
-			
+			//writes the time and name in the file 
 			try {
 				FileWriter writer = new FileWriter(new File("highscore.txt"));
 				for(int i = 0; i < 10; i++){
@@ -77,9 +83,20 @@ public class Highscore extends JPanel {
 			
 		}
 		
+		/**
+		 * getter for the Highscore, 
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 * @return the highscore list 
+		 */
 		public LinkedList<HighScoreElement> getHighScore(){
 			return highScore;
 		}
+		
+		/**
+		 * paint method
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 *
+		 */
 		
 		public void paint(Graphics g){
 			Image img = null; // floor = null;
@@ -110,12 +127,23 @@ public class Highscore extends JPanel {
 			}
 		}
 	}
-
+	
+/**
+ * class for the HighScoreElement
+ * @author Felizia Langsdorf, Matr_Nr: 6002960
+ *
+ */
 	class HighScoreElement {
 		
 		String name;
 		int time;
 		
+		/**
+		 * constructor for the HighScoreElement
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 * @param points the points of the player
+		 * @param name the name of the player
+		 */
 		public HighScoreElement(int points, String name){
 			this.name = name;
 			this.time = points;

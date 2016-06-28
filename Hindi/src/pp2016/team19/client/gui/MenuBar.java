@@ -9,7 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * 
+ * class for the menubar shown atop
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
@@ -32,6 +32,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private ImageIcon arrow = new ImageIcon ("img//icon-arrow.png"); // arrow icon for logout
    
     private GameWindow window;
+    
+    /**
+     *
+     * @author Felizia Langsdorf, Matr_Nr: 6002960
+     * @param window window of the application
+     */
     
 	public MenuBar(GameWindow window){
 		this.window = window;
@@ -65,11 +71,15 @@ public class MenuBar extends JMenuBar implements ActionListener {
         
         this.add(game);
         this.add(show);
-        //this.add(help);
         this.add(logOut);      
 	}
 	
 // events after clicking on the menu items 
+	/**
+	 * actionPerformed method for the menuItems
+	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 *
+	 */
 	
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == newGame){
@@ -109,6 +119,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		}
 	}
 	
+	/**
+	 * 
+	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 * @return highscore !!!!!xxxx ???
+	 */
 	public JMenuItem getHighscore(){
 		return highscore;
 	}

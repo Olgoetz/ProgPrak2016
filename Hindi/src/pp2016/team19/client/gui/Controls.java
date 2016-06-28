@@ -11,8 +11,10 @@ import javax.swing.JPanel;
 
 /**
  * 
+ * class for the panel which shows how to control the game
  * @author Felizia Langsdorf, Matr_Nr: 6002960
- *
+ * @param 
+ * 
  */
 
 
@@ -22,6 +24,12 @@ public class Controls extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * paint method, draws the pictures and strings on the panel
+	 * 
+	 */
+	
 	public void paint(Graphics g){
 		Image img = null , control = null, arrows = null , right = null, walker = null, q = null , fire = null, leer = null, mouse = null, b = null;
 		

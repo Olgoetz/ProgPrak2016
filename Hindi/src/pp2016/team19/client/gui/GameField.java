@@ -19,7 +19,7 @@ import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
 /**
- * 
+ * class for the panel on which the gamefield is drawn 
  * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */
@@ -33,6 +33,12 @@ public class GameField extends JPanel {
 	private Image floor, wall, doorOpen, doorClosed, key, potion, fireball;
 	private GameWindow window;
 
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * @param window the gamewindow JFrame
+	 * 
+	 */
+	
 	public GameField(GameWindow window) {
 		this.window = window;
 		// Load the images
@@ -49,6 +55,12 @@ public class GameField extends JPanel {
 		}
 	}
 
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * paint method, draws the labyrinth, the player, the monsters, etc.
+	 * 
+	 */
+	
 	public void paint(Graphics g) {
 
 		// First, everything is going to be overpainted while repainting
@@ -131,12 +143,14 @@ public class GameField extends JPanel {
 		// Draw the player at its position
 		g.drawImage(window.player.getImage(), window.player.getXPos()
 				* window.BOX, window.player.getYPos() * window.BOX, null);
-
+		
+		// game over is showing up if the game is lost
 		if (window.gameLost) {
 			g.setColor(Color.WHITE);
 			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 			g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
 		} else {
+		// you win is showing up on screen if the game is won
 			if (window.gameWon) {
 				g.setColor(Color.WHITE);
 				g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
@@ -144,7 +158,15 @@ public class GameField extends JPanel {
 			}
 		}
 	}
-
+	
+	/**
+	 * paint method, draws the monsters and their health points
+	 * @author Felizia Langsdorf, 6002960
+	 * @param g 
+	 * @param m monster object?
+	 * 
+	 */
+	
 	private void drawMonster(Graphics g, Monster m) {
 		// Monster Health Points
 		if (inRange(m.getXPos(), m.getYPos())) {
@@ -156,7 +178,13 @@ public class GameField extends JPanel {
 
 		}
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * method need to understand that !!! xxxx
+	 * 
+	 */
+	
 	private boolean inRange(int i, int j) {
 		return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
 				+ Math.pow(window.player.getYPos() - j, 2)) < 4 || !window.mistOn);

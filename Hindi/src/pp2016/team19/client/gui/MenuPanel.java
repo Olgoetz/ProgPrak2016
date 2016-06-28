@@ -10,13 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- *
+ * class for the welcome panel shows up after a successful login
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
-
-// class for the menu, shown after successful login
-// problems occurred with the paint method, read the text below at the end of this class
 
 public class MenuPanel extends JPanel implements ActionListener {
 
@@ -31,16 +28,20 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private JButton b2;
 	private JTextField message;
 	
-	//constructor of the menupanel	
+	/**
+	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 * @param window window of the application
+	 */	
 		public MenuPanel(GameWindow window){
 		
 		this.window = window;		
 		this.setLayout(new FlowLayout());			
 		
+		// add the label (picture) on the panel
 		lab = new JLabel(picture);
 		lab.setPreferredSize(new Dimension(500,500));
 		add(lab);
-		
+		//add the buttons
 		b1 = new JButton("Start Game");
 		b2 = new JButton("Logout");
 		b1.setBounds(150, 150, 200, 80);
@@ -57,13 +58,18 @@ public class MenuPanel extends JPanel implements ActionListener {
 		b1.addActionListener(this); 	
 		b2.addActionListener(this);		
 		
+		//add the texfield for systemmessages
 		message = new JTextField();
 		message.setBounds(10, 470 ,480, 20);
 		lab.add(message);
 	}
 
-	
-	// method of actionlistener; adding the actions after clicking on the buttons
+		/**
+		 * method of the interface actionListener: after clicking the buttons the game starts or logout is initiated
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 *
+		 */
+	 
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==b1){			//pressing button start game, then game starts 
 			window.showGameField();

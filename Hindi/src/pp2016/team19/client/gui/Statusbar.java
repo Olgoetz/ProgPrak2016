@@ -18,12 +18,11 @@ import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
 /**
- * 
+ * class for panel statusbar shown on the right side of the window while playing the game
  * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */
 
-// statusbar for the game, shown on the right side while playing
 public class Statusbar extends JPanel {
 
 private static final long serialVersionUID = 1L;
@@ -34,10 +33,14 @@ private static final long serialVersionUID = 1L;
 	private GameWindow window;
 	private int miniBox = 8;
 	
- 
+	/**
+	 * @author Felizia Langsdorf, Matr_Nr.: 6002960
+	 * @param window window of the application
+	 */
 	public Statusbar(GameWindow window){
 		this.window = window;
 		
+		//loading the images
 		try {
 			background = ImageIO.read(new File("img//status.png"));
 			key = ImageIO.read(new File("img//key.png"));
@@ -53,22 +56,28 @@ private static final long serialVersionUID = 1L;
 			System.err.println("Error while loading the images.");
 		}
 	}
-	
+	/**
+	 * paint method
+	 * @author Felizia Langsdorf, Matr_Nr.: 6002960
+	 *
+	 */
 	public void paint(Graphics g) {
 		
-		// draw statusbar
+		// first draw the panel black
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
 		
 		// 5 is the new width of the statusbar and (window.height-6) is the height , make space for minimap
+		
+		//draws the background with pictures, at the bottom it leaves space for the minimap
 		for(int i = 0; i < 20; i++){
 			for(int j= 0; j < window.HEIGHT- 6; j++){
 			g.drawImage(background, i*window.BOX, j*window.BOX, null);
 			}
 		}		
-
-		g.drawImage(window.player.getImage(), 4, 4, window.BOX - 8, window.BOX - 8, null);
 		
+		g.drawImage(window.player.getImage(), 4, 4, window.BOX - 8, window.BOX - 8, null);
+		// draw the key if the player picked one up
 		if(window.player.hasKey()){
 			g.drawImage(key, 5, window.BOX * (window.HEIGHT - 11), null);
 		}
@@ -90,6 +99,7 @@ private static final long serialVersionUID = 1L;
 
 		Tile field = window.level[window.player.getXPos()][window.player.getYPos()];
 		
+		//draw the instructions
 		if(field.containsKey()){
 			g.drawString("Press Space to take key", 5, window.BOX * (window.HEIGHT - 11));
 		}else if(field.isExit()){
@@ -125,6 +135,7 @@ private static final long serialVersionUID = 1L;
 	int var1=350;
 	int var2 = 10;
 	
+	// draw every single mini tile
 	for (int i = 0; i < window.WIDTH ; i++) {
 		for (int j = 0; j < window.HEIGHT; j++) {
 //			if (inRange(i,j)) {

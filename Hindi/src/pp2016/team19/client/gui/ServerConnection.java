@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**@param
+/**
  * 
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *

@@ -23,13 +23,14 @@ import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
+
 /**
- * 
+ * class for the window of the whole application 
+ * with interfaces: KeyListener, MouseListener, Runnable 
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
 
-// the frame of the whole application
 
 public class GameWindow extends JFrame implements KeyListener, MouseListener, Runnable {
 
@@ -73,11 +74,29 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
 
-	// constructor for the Gamewindow, is called in the main
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 * constructor of the window 
+	 * @param engine engine of the client
+	 * @param width the width of the window 
+	 * @param height the height of the window 
+	 * @param title title of the window 
+	 * width height und title noch notwendig? sind die nciht schon im initializeJFrame drin?
+	 */
+	
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
 		initializeJFrame(width, height, title);	
 	}
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * initializes the Frame
+	 * @param width the width of the window 
+	 * @param height the height of the window 
+	 * @param title title of the window 
+	 */
 	
 	public void initializeJFrame(int width, int height, String title) {
 		// Layout of the window
@@ -122,6 +141,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * sets the serverconnection panel in the window
+	 * 
+	 */
+	
 	public void showConnect(){
 		connectShown = true;
 		highscoreShown = false;
@@ -135,7 +160,11 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		connectpanel.repaint();
 	}
 	
-	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * sets the login panel in the window
+	 * 
+	 */
 	
 	public void showLogin(){
 		highscoreShown = false;
@@ -156,6 +185,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		loginpanel.repaint();			
 	}
 	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * sets the menu panel in the window
+	 * 
+	 */
+	
 	public void showMenu(){
 		highscoreShown = false;
 		controlsShown = false;
@@ -175,6 +210,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		menupanel.repaint();
 	}
 
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * sets the gamefield in the window, which includes the statusbar and the menubar
+	 * 
+	 */
+	
 	public void showGameField() {
 		// Remove everything
 		highscoreShown = false;
@@ -194,6 +235,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.pack();
 	}
 
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * sets the highscore panel in the window
+	 * removes everything else
+	 * 
+	 */
+	
 	public void showHighscore() {
 		// Remove everything
 		highscoreShown = true;
@@ -212,7 +260,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.pack();
 		highscore.repaint();
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * sets the control panel in the window
+	 * removes everything else
+	 */
+	
 	public void showControls() {
 		// Remove everything
 		controlsShown= true;
@@ -229,8 +283,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.pack();
 		controls.repaint();
 	}
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 * getter for the panels: gamefield, statusbar, highscore, control, menu, login
+	 * 
+	 */
 
-	// Getter
 	public GameField getGameField() {return gamefield;}
 	public Statusbar getStatusbar() {return statusbar;}
 	public Highscore getHighscore() {return highscore;}
@@ -246,10 +305,16 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 // if mouseclick lower than player position, player moves down (mouse-y bigger than player-y) 
 // etc.
 	
+	/**
+	 * method for controlling the player with the mouse 
+	 * player moves to clicked position with the A* algorithm
+	 * @author Felizia Langsdorf, 6002960
+	 * @param m mouseevent 
+	 * 
+	 */
+	
 	public void mouseClicked(MouseEvent m) {
 	 
-//	 int xPos = player.getXPos();
-//	 int yPos = player.getYPos();
 	 int mouseX = m.getX()/32;
 	 int mouseY = m.getY()/32;
 //	 System.out.println("Mouse at: " + mouseX + ", " + mouseY);
@@ -265,7 +330,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				
 				getGameField().repaint();
 				
-			} // player moves to the clicked position with the a* algorithm, method from player
+			} 
 			
 //		}else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof Wall)) { // if click y is lower than playerposition y and theres no wall, player moveUp()
 //	 				player.moveUp();
@@ -276,15 +341,23 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		} 
  	}
 }
+	/**
+	 * remaining methods of the MouseListener Interface which have to be implemented but not used 
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 */
 
-// remaining methods of the MouseListener Interface which have to be implemented but not used
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
 	public void mousePressed(MouseEvent arg0) {}
 	public void mouseReleased(MouseEvent arg0) {}
 	
+	/**
+	 * method for controlling the player movements and actions with the keyboard
+	 * @author Felizia Langsdorf, 6002960
+	 * @param e KeyEvent
+	 */
 	
-	// control with arrow keys 
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
 		int xPos = player.getXPos();
@@ -353,20 +426,50 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	}
 
-// remaining methods of the KeyListner interface 
+	/**
+	 * remaining methods of the KeyListener Interface, have to be implemented but not used
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 */
+	
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 
+	/**
+	 * method for reset the game 
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 */
+	
 	public void resetGame() {
 
 		// TODO: Server Request f�r GameRestart
 	//	player = new Player("img//player.png", this);
 		engine.levelRequest();
+		// spiel zurücksetzen, was muss alles ausgeführt werden, welche variablen gesetzt werden :)
 
+		
+		// das war im alten code drin! hier wurde auch das level "übergeben"!!!
+		
+//		spieler = new Spieler("img//warrior.png", this);
+//		monsterListe = new LinkedList<Monster>();
+//		level = new Spielelement[16][16];
+//
+//		currentLevel = 0;
+//		spielende = false;
+//		verloren = false;
+//		nebelAn = true;
+//		nextLevel();
+//		spielerInHighscore = false;
+//		startZeit = System.currentTimeMillis();
 	
 	}
 	
-	
+	/**
+	 * method for starting the game and painting the gamefield every 50ms
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 */
 	
 	// Gameloop
 	public void run() {
@@ -404,7 +507,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	}
 	
-	// is gonna change cause of level generating by chance
+	/**
+	 * method for counting up the level
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 */
+
 	public void nextLevel() {
 		currentLevel++;
 
