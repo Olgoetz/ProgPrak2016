@@ -58,6 +58,8 @@ public class ClientEngine implements Runnable   {
 	private NetworkHandlerC networkHandler;
 	private GameWindow gamewindow;
 	private TestGUI gui;
+	private String serverAdress;
+	private String port;
 	
 	// game attributes
 	private int playerID;
@@ -83,7 +85,7 @@ public class ClientEngine implements Runnable   {
 		this.setNetworkHandler(new NetworkHandlerC());
 		
 		// creates a new Gamewindow
-//		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
 		
 		this.setGUI(new TestGUI(this));
 		// initializes the thread
