@@ -262,6 +262,7 @@ public class ClientEngine implements Runnable   {
 	 * @param password a password
 	 * @param password2 a password that works as consistency check
 	 */
+	
 	public void serverSignUpRequest(String pUsername, String pPassword, String pPassword2) {
 		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
 		
@@ -313,6 +314,7 @@ public class ClientEngine implements Runnable   {
 		// checks if the incoming message contains a boolean true
 		if (message.isConfirmed()) {
 			System.out.println("Data correct");
+			this.myPlayer.ID = message.getPlayerID();
 
 			// opens the game menu
 			getGameWindow().showMenu();
@@ -321,15 +323,6 @@ public class ClientEngine implements Runnable   {
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
 		}
 	}
-
-	
-
-	
-	/**
-	 * @author Oliver Goetz, 5961343
-	 * @param direction
-	 * @param confirmed
-	 */
 
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
@@ -407,6 +400,11 @@ public class ClientEngine implements Runnable   {
 	
 	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS **********
 	
+	
+	public void startGameRequest(int ID) {
+		this.sendToServer(new MessStartGameRequest(this.getPlayerID(),0,6));
+	}
+	
 	// Sends a levelRequest to the server
 	public void levelRequest() {
 //		int l = 0;
@@ -419,8 +417,8 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-//		test.setGamemap(this.labyrinth);
-//		test.PaintTest(30);
+		//test.setGamemap(this.labyrinth);
+		//test.PaintTest(30);
 	}
 	
 	// Sends a playerRequest to the server
@@ -542,6 +540,10 @@ public class ClientEngine implements Runnable   {
 	
 	public Tile[][] getLabyrinth() {
 		return labyrinth;
+	}
+	
+	public int getPlayerID() {
+		return playerID;
 	}
 
 

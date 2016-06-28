@@ -27,6 +27,7 @@ public abstract class Character {
 	private Tile[][] gameMap;
 
 	public int health;
+	public int ID;
 	private int damage;
 
 	private int maxHealth;
