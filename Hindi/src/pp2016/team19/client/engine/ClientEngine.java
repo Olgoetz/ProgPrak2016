@@ -57,6 +57,7 @@ public class ClientEngine implements Runnable   {
 	private ExecutorService threadPool;
 	private NetworkHandlerC networkHandler;
 	private GameWindow gamewindow;
+	private TestGUI gui;
 	
 	// game attributes
 	private int playerID;
@@ -82,13 +83,22 @@ public class ClientEngine implements Runnable   {
 		this.setNetworkHandler(new NetworkHandlerC());
 		
 		// creates a new Gamewindow
-		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+//		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
 		
+		this.setGUI(new TestGUI(this));
 		// initializes the thread
-		this.getThreadPool().execute(this.getGameWindow());
+		this.getThreadPool().execute(this.getGUI());
+		this.getGUI().los();
 		
 	}
 	
+	public void setGUI(TestGUI gui) {
+		this.gui = gui;
+	}
+	
+	public TestGUI getGUI() {
+		return gui;
+	}
 	
 	/***
 	 * 
