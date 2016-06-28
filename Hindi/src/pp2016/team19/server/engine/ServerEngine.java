@@ -101,8 +101,8 @@ public class ServerEngine implements Runnable {
 			}
 	}
 	private void newGame(Message pmessage) {
-		MessStartGameRequest message = (MessStartGameRequest) pmessage;
-		this.startGame(players.get(message.getPlayerID()));
+		//MessStartGameRequest message = (MessStartGameRequest) pmessage;
+		//this.startGame(players.get(message.getPlayerID()));
 		
 	}
 	private void confirmConnection() {
@@ -147,6 +147,7 @@ public class ServerEngine implements Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					startGame(player);
 				} else {
 					System.out.println("Wrong password");
 					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false,-1,0,3);

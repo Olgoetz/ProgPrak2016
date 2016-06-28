@@ -57,7 +57,7 @@ public class ClientEngine implements Runnable   {
 	private ExecutorService threadPool;
 	private NetworkHandlerC networkHandler;
 	private GameWindow gamewindow;
-	private TestGUI gui;
+//	private TestGUI gui;
 	private String serverAdress;
 	private String port;
 	
@@ -87,20 +87,20 @@ public class ClientEngine implements Runnable   {
 		// creates a new Gamewindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
 		
-		this.setGUI(new TestGUI(this));
-		// initializes the thread
-		this.getThreadPool().execute(this.getGUI());
-		this.getGUI().los();
+//		this.setGUI(new TestGUI(this));
+//		// initializes the thread
+//		this.getThreadPool().execute(this.getGUI());
+//		this.getGUI().los();
 		
 	}
 	
-	public void setGUI(TestGUI gui) {
-		this.gui = gui;
-	}
-	
-	public TestGUI getGUI() {
-		return gui;
-	}
+//	public void setGUI(TestGUI gui) {
+//		this.gui = gui;
+//	}
+//	
+//	public TestGUI getGUI() {
+//		return gui;
+//	}
 	
 	/***
 	 * 
@@ -404,6 +404,7 @@ public class ClientEngine implements Runnable   {
 	
 	
 	public void startGameRequest(int ID) {
+		System.out.println("new game requested");
 		this.sendToServer(new MessStartGameRequest(this.getPlayerID(),0,6));
 	}
 	
@@ -419,8 +420,8 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-		//test.setGamemap(this.labyrinth);
-		//test.PaintTest(30);
+		test.setGameMap(this.labyrinth);
+		test.PaintTest(16);
 	}
 	
 	// Sends a playerRequest to the server
