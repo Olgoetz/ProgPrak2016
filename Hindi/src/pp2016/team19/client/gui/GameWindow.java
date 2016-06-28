@@ -35,6 +35,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	private static final long serialVersionUID = 1L;
 	
+	private ServerConnection connectpanel;
 	
 	private LoginPanel loginpanel;
 	
@@ -65,6 +66,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public boolean gamefieldShown = false;
 	public boolean menuShown = false;
 	public boolean loginShown = false;
+	public boolean connectShown = false;
 
 	public final int MAXLEVEL = 5;
 	public final int WIDTH = 16;
@@ -82,6 +84,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setLayout(new BorderLayout());
 		
 		// Create objects of the panels
+		this.connectpanel = new ServerConnection(this);
 		this.loginpanel = new LoginPanel(this);
 		this.menupanel = new MenuPanel(this);
 		
@@ -99,10 +102,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
 		menupanel.setPreferredSize(new Dimension(width, height));
 		loginpanel.setPreferredSize(new Dimension(width, height));
+		connectpanel.setPreferredSize(new Dimension(width, height));
 		
 		// first the Loginpanel is on screen
 		//showLogin();
-		showMenu();
+		//showMenu();
+		showConnect();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
@@ -117,6 +122,20 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	public void showConnect(){
+		connectShown = true;
+		highscoreShown = false;
+		controlsShown = false;
+		gamefieldShown = false;
+		menuShown = false;
+		loginShown = false; 
+		this.add(connectpanel, BorderLayout.CENTER);
+		this.requestFocus();
+		this.pack();
+		connectpanel.repaint();
+	}
+	
+	
 	
 	public void showLogin(){
 		highscoreShown = false;
@@ -130,6 +149,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.remove(menubar);
 		this.remove(statusbar);
 		this.remove(menupanel);
+		this.remove(connectpanel);
 		this.add(loginpanel, BorderLayout.CENTER);
 		this.requestFocus();
 		this.pack();
@@ -148,6 +168,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.remove(menubar);
 		this.remove(statusbar);
 		this.remove(loginpanel);
+		this.remove(connectpanel);
 		this.add(menupanel, BorderLayout.CENTER);
 		this.requestFocus();
 		this.pack();
@@ -338,7 +359,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void resetGame() {
 
-		// TODO: Server Request für GameRestart
+		// TODO: Server Request fï¿½r GameRestart
 	//	player = new Player("img//player.png", this);
 		engine.levelRequest();
 
@@ -360,7 +381,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				} catch (InterruptedException e) {}
 
 				getGameField().repaint();
-				//getMiniField().repaint();
 				getStatusbar().repaint();
 
 				if (player.getHealth() <= 0) {
@@ -376,7 +396,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 					playerInHighscore = true;
 				} else {
 					getGameField().repaint();
-					//getMiniField().repaint();
+					
 				}
 			}
 

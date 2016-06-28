@@ -29,6 +29,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	
 	private JButton b1;
 	private JButton b2;
+	private JTextField message;
 	
 	//constructor of the menupanel	
 		public MenuPanel(GameWindow window){
@@ -55,6 +56,10 @@ public class MenuPanel extends JPanel implements ActionListener {
 		b2.setVisible(true);
 		b1.addActionListener(this); 	
 		b2.addActionListener(this);		
+		
+		message = new JTextField();
+		message.setBounds(10, 470 ,480, 20);
+		lab.add(message);
 	}
 
 	
