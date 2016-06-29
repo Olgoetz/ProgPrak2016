@@ -420,8 +420,8 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-		test.setGameMap(this.labyrinth);
-		test.PaintTest(16);
+	//	test.setGameMap(this.labyrinth);
+		//test.PaintTest(16);
 	}
 	
 	// Sends a playerRequest to the server
@@ -434,10 +434,12 @@ public class ClientEngine implements Runnable   {
 	public void playerAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.playerAnswer: Player received!");
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
-		myPlayer.xPos = message.getX();
-		myPlayer.yPos = message.getY();
+//		myPlayer.xPos = message.getX();
+//		myPlayer.yPos = message.getY();
+		this.myPlayer = message.getMyPlayer();
 		System.out.println(getMyPlayer().getXPos());
 		System.out.println(getMyPlayer().getYPos());
+		
 		
 	}
 	

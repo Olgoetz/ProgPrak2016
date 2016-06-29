@@ -50,7 +50,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	private Controls controls;
 	
 	public LinkedList<Monster> monsterList;
-	public Player player = new Player();
+	public Player player;
 	public Tile[][] level;
 	public ClientEngine engine;
 	
@@ -126,9 +126,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		connectpanel.setPreferredSize(new Dimension(width, height));
 		
 		// first the Loginpanel is on screen
-		//showLogin();
+		showLogin();
 		//showMenu();
-		showConnect();
+//		showConnect();
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2),
@@ -447,7 +447,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		// TODO: Server Request f�r GameRestart
 	//	player = new Player("img//player.png", this);
-		engine.levelRequest();
+		engine.startGameRequest(engine.getPlayerID());;
 		// spiel zurücksetzen, was muss alles ausgeführt werden, welche variablen gesetzt werden :)
 
 		
@@ -456,14 +456,16 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //		spieler = new Spieler("img//warrior.png", this);
 //		monsterListe = new LinkedList<Monster>();
 //		level = new Spielelement[16][16];
-//
-//		currentLevel = 0;
-//		spielende = false;
-//		verloren = false;
-//		nebelAn = true;
-//		nextLevel();
-//		spielerInHighscore = false;
-//		startZeit = System.currentTimeMillis();
+		player = engine.getMyPlayer();
+		level = engine.getLabyrinth();
+
+		currentLevel = 0;
+		gameWon = false;
+		gameLost = false;
+		mistOn = true;
+		nextLevel();
+		playerInHighscore = false;
+		startTime = System.currentTimeMillis();
 	
 	}
 	

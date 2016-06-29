@@ -341,5 +341,10 @@ public abstract class Character {
 	public Game getGame() {
 		return game;
 	}
+	
+	public void setGame(Game game) {
+		this.game = game;
+		this.gameMap = game.getGameMap();
+	}
 
 }

@@ -83,7 +83,7 @@ private static final long serialVersionUID = 1L;
 		}
 		
 		g.setColor(Color.WHITE);	
-		g.drawString(window.player.getName(), window.BOX + 5, 20);
+//		g.drawString(window.player.getName(), window.BOX + 5, 20);
 		g.drawLine( 5, 35, 155, 35);
 		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5,  window.BOX * (window.HEIGHT - 14));
 		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5,  window.BOX * (window.HEIGHT - 13));
@@ -96,7 +96,7 @@ private static final long serialVersionUID = 1L;
 		else s = String.valueOf(numberOfPotions);
 		g.drawString(s, 5, window.BOX * (window.HEIGHT - 12));
 		g.drawImage(potion,7,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
-
+		System.out.println(window.player.getXPos() + " " + window.player.getYPos());
 		Tile field = window.level[window.player.getXPos()][window.player.getYPos()];
 		
 		//draw the instructions

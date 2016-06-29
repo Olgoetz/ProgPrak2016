@@ -31,9 +31,14 @@ public class Player extends Character implements Serializable{
 	
 	public Player(){
 		super();
+		try {
+			setImage(ImageIO.read(new File("img//player.png")));
+		} catch (IOException e) {
+			System.err.print("Error while loading the player image.");
+		}
 	}
 	
-	public Player(String imgFile, Game game){
+	public Player(Game game){
 		super(game);
 		
 		setNumberOfPotions(0);
@@ -44,9 +49,9 @@ public class Player extends Character implements Serializable{
 		
 		// Load the image of the player
 		try {
-			setImage(ImageIO.read(new File(imgFile)));
+			setImage(ImageIO.read(new File("img//player.png")));
 		} catch (IOException e) {
-			System.err.print("Error while loading the image "+ imgFile + ".");
+			System.err.print("Error while loading the player image.");
 		}
 	}
 	
