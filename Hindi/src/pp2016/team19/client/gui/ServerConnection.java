@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * 
+ * frame for the window for connecting with the server
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
@@ -32,7 +32,10 @@ public class ServerConnection extends JFrame implements ActionListener {
 	private JTextField port;
 	private JButton b;
 	
-	
+	/**
+	 * 
+	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 */
 
 		public ServerConnection(){		
 	
@@ -55,7 +58,12 @@ public class ServerConnection extends JFrame implements ActionListener {
 		b.setVisible(true);
 		b.addActionListener(this); 	
 	}
-
+	
+		/**
+		 * method of the ActionListener interface 
+		 * what actions are performed after clicking the button
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 */
 	
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==b){			
