@@ -73,6 +73,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public final int WIDTH = 16;
 	public final int HEIGHT = 16;
 	public final int BOX = 32;
+	
+	public final int SBox = 32;
 
 	/**
 	 * @author Felizia Langsdorf, 6002960
@@ -116,7 +118,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(width, height));
-		statusbar.setPreferredSize(new Dimension(5* BOX, height));
+		statusbar.setPreferredSize(new Dimension(5* SBox, height));
 		controls.setPreferredSize(new Dimension(width, height + BOX));
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
 		menupanel.setPreferredSize(new Dimension(width, height));
