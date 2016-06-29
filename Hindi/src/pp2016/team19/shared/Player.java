@@ -121,6 +121,10 @@ public class Player extends Character implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String toString(){
+		return "Player: " + this.getName() + ", PW: " + this.getPassword() + ", Pos: " + this.getXPos() + ", " + this.getYPos();
+	}
 
 	public Monster monsterToAttack(){
 		for(int i = 0; i < getGame().getMonsters().size(); i++){
