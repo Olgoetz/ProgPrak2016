@@ -12,9 +12,7 @@ import pp2016.team19.server.engine.Game;
 
 public class Player extends Character implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -3344880853631540753L;
 
 
@@ -31,6 +29,10 @@ public class Player extends Character implements Serializable{
 	
 	public Player(){
 		super();
+		setNumberOfPotions(0);
+		setPos(0,0);		
+		setHealth(100);
+		setMaxHealth(getHealth());
 		try {
 			setImage(ImageIO.read(new File("img//player.png")));
 		} catch (IOException e) {

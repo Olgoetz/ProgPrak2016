@@ -1,6 +1,7 @@
 package pp2016.team19.shared;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -17,13 +18,15 @@ import pp2016.team19.server.engine.Game;
  * 
  * @author Strohbuecker, Max, 5960738
  */
-public abstract class Character {
+public abstract class Character implements Serializable{
 
-	public int xPos, yPos;
-	private Image image;
+	
+	private static final long serialVersionUID = -6464021522368997893L;
+	public  int  xPos, yPos;
+	private transient Image image;
 	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
 
-	private Game game;
+	private transient Game game;
 	private Tile[][] gameMap;
 
 	public int health;

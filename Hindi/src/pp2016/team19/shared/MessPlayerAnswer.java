@@ -17,12 +17,11 @@ public class MessPlayerAnswer extends Message implements Serializable {
 
 	private static final long serialVersionUID = 3578181825991876365L;
 	private Player myPlayer;
-	private int x;
-	private int y;
+	private int x,y;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
-	 * @param myPlayer The player
+	 * @param myPlayer the player
 	 * 			
 	 * @param type the maintype of the message
 	 * 			
@@ -33,10 +32,12 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	public MessPlayerAnswer(Player myPlayer, int type, int subType, int x, int y) {
 		
 		super(type, subType);
-		
+		this.x = x;
+		this.y = y;
 		this.myPlayer = myPlayer;
-		this.setX(x);
-		this.setY(y);
+		
+		
+		System.out.println(myPlayer.toString());
 	}
 	
 	/**
@@ -60,6 +61,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	public void setPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
+	
 
 	public int getX() {
 		return x;

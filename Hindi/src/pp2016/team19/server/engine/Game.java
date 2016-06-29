@@ -2,6 +2,7 @@ package pp2016.team19.server.engine;
 
 import pp2016.team19.shared.*;
 
+import java.io.Serializable;
 import java.util.TimerTask;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -13,6 +14,9 @@ import pp2016.team19.server.map.*;
  *
  */
 public class Game extends TimerTask {
+	
+	
+	private static final long serialVersionUID = 358470863151883429L;
 	LinkedBlockingQueue<Message> messagesFromServer;
 	Tile[][] gameMap;
 	private int gameSize;
@@ -39,8 +43,9 @@ public class Game extends TimerTask {
 		if (tester==true) {
 			System.out.println("Game executed");
 			tester=false;
+			System.out.println(player.toString());
 			Message level = (MessLevelAnswer) new MessLevelAnswer(gameMap,2,1);
-			Message sendPlayer = (MessPlayerAnswer) new MessPlayerAnswer(player,2,5,player.getXPos(),player.getYPos());
+			Message sendPlayer = (MessPlayerAnswer) new MessPlayerAnswer(player,2,5, player.getXPos(), player.getYPos());
 			try {
 				engine.messagesToClient.put(level);
 				engine.messagesToClient.put(sendPlayer);

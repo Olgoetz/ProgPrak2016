@@ -2,14 +2,18 @@ package pp2016.team19.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import pp2016.team19.client.engine.ClientEngine;
@@ -50,7 +54,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	private Controls controls;
 	
 	public LinkedList<Monster> monsterList;
-	public Player player;
+	public Player player = new Player();
 	public Tile[][] level;
 	public ClientEngine engine;
 	
@@ -90,6 +94,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
 		initializeJFrame(width, height, title);	
+		resetGame();
 	}
 	
 	/**
@@ -447,7 +452,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		// TODO: Server Request f�r GameRestart
 	//	player = new Player("img//player.png", this);
-		engine.startGameRequest(engine.getPlayerID());;
+		this.engine.startGameRequest(this.engine.getPlayerID());;
 		// spiel zurücksetzen, was muss alles ausgeführt werden, welche variablen gesetzt werden :)
 
 		
@@ -456,8 +461,17 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //		spieler = new Spieler("img//warrior.png", this);
 //		monsterListe = new LinkedList<Monster>();
 //		level = new Spielelement[16][16];
-		player = engine.getMyPlayer();
-		level = engine.getLabyrinth();
+		this.player = this.engine.getMyPlayer();
+		System.out.println(this.player.toString());
+		Image img = null;
+		try {
+			 img = ImageIO.read(new File("img//player.png"));
+		} catch (IOException e1) {
+			System.out.println("File not found");
+			e1.printStackTrace();
+		}
+//		player.setImage(img);
+		level = this.engine.getLabyrinth();
 
 		currentLevel = 0;
 		gameWon = false;

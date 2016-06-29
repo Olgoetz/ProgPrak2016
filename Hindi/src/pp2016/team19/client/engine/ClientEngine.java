@@ -63,7 +63,7 @@ public class ClientEngine implements Runnable   {
 	
 	// game attributes
 	private int playerID;
-	private Player myPlayer = new Player();
+	private Player myPlayer;
 	private Monster myMonster;
 	private int direction;
 	public Tile[][] labyrinth;
@@ -316,7 +316,8 @@ public class ClientEngine implements Runnable   {
 		// checks if the incoming message contains a boolean true
 		if (message.isConfirmed()) {
 			System.out.println("Data correct");
-			this.myPlayer.ID = message.getPlayerID();
+			playerID = message.getPlayerID();
+//			this.myPlayer.ID = message.getPlayerID();
 
 			// opens the game menu
 			getGameWindow().showMenu();
@@ -416,7 +417,7 @@ public class ClientEngine implements Runnable   {
 	
 	// Processes a levelAnswer Message coming from the server
 	public void levelAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.playerAnswer: Level received! ");
+		System.out.println("METHOD Engine.levelAnswer: Level received! ");
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
@@ -430,15 +431,16 @@ public class ClientEngine implements Runnable   {
 		this.sendToServer(new MessPlayerRequest(myPlayer,2,4));
 	}
 	
-	// Processes an levelAnswer Message coming from the server
+	// Processes an playerAnswer Message coming from the server
 	public void playerAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.playerAnswer: Player received!");
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
-//		myPlayer.xPos = message.getX();
-//		myPlayer.yPos = message.getY();
+		
+		
 		this.myPlayer = message.getMyPlayer();
-		System.out.println(getMyPlayer().getXPos());
-		System.out.println(getMyPlayer().getYPos());
+		
+		System.out.println(message.getMyPlayer().toString());
+	
 		
 		
 	}

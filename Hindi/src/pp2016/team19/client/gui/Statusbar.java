@@ -75,7 +75,7 @@ private static final long serialVersionUID = 1L;
 			g.drawImage(background, i*window.BOX, j*window.BOX, null);
 			}
 		}		
-		
+		System.out.println(window.player.toString());
 		g.drawImage(window.player.getImage(), 4, 4, window.BOX - 8, window.BOX - 8, null);
 		// draw the key if the player picked one up
 		if(window.player.hasKey()){
