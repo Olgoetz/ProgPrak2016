@@ -37,7 +37,7 @@ public class Highscore extends JPanel {
 					while((c = reader.read()) != -1){						
 					if(c == '\n'){
 						String[] temp = line.split("\t");
-						highScore.add(new HighScoreElement(Integer.parseInt(temp[0].trim()), temp[1].trim()));					
+//						highScore.add(new HighScoreElement(Integer.parseInt(temp[0].trim()), temp[1].trim()));					
 						line = "";
 					}else{
 						line += (char) c;

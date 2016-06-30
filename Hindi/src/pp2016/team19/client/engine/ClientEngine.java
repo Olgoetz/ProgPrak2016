@@ -80,6 +80,7 @@ public class ClientEngine implements Runnable   {
 		
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
+		this.getThreadPool().execute(this.getGameWindow());
 		
 	}
 	
@@ -433,8 +434,8 @@ public class ClientEngine implements Runnable   {
 		
 		// Sets a new player
 		this.myPlayer = message.getMyPlayer();
+		gamewindow.setTest(true);
 		
-		System.out.println(message.getMyPlayer().toString());
 	
 		
 		

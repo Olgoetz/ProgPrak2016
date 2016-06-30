@@ -63,7 +63,7 @@ public class GameField extends JPanel {
 	 */
 	
 	public void paint(Graphics g) {
-System.out.println("Paint started");
+
 		// First, everything is going to be overpainted while repainting
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -143,9 +143,16 @@ System.out.println("Paint started");
 //		}
 //
 		// Draw the player at its position
-		System.out.println("METHOD GameField: " + window.getEngine().getMyPlayer().toString());
 		g.drawImage(player, window.getEngine().getMyPlayer().getXPos()
 				* window.BOX, window.getEngine().getMyPlayer().getYPos() * window.BOX, null);
+		
+//		try {
+//			Thread.currentThread().sleep(50);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		repaint();
 }
 //		
 //		// game over is showing up if the game is lost
