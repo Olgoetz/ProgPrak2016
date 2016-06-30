@@ -19,26 +19,29 @@ import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Wall;
 
 /**
- * class for the panel on which the gamefield is drawn 
+ * class for the panel on which the gamefield is drawn
+ * 
  * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */
 
-// panel for the gamefield 
+// panel for the gamefield
 
 public class GameField extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private Image floor, wall, doorOpen, doorClosed, key, potion, fireball, player;
+	private Image floor, wall, doorOpen, doorClosed, key, potion, fireball,
+			player;
 	private GameWindow window;
 
 	/**
 	 * @author Felizia Langsdorf, 6002960
-	 * @param window the gamewindow JFrame
+	 * @param window
+	 *            the gamewindow JFrame
 	 * 
 	 */
-	
+
 	public GameField(GameWindow window) {
 		this.window = window;
 		// Load the images
@@ -57,11 +60,11 @@ public class GameField extends JPanel {
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960
-	 * paint method, draws the labyrinth, the player, the monsters, etc.
+	 * @author Felizia Langsdorf, 6002960 paint method, draws the labyrinth, the
+	 *         player, the monsters, etc.
 	 * 
 	 */
-	
+
 	public void paint(Graphics g) {
 
 		// First, everything is going to be overpainted while repainting
@@ -76,108 +79,122 @@ public class GameField extends JPanel {
 					if (window.getEngine().getLabyrinth()[i][j].isRock()) {
 						// Here goes a wall
 						g.drawImage(wall, i * window.BOX, j * window.BOX, null);
-					} else if (window.getEngine().getLabyrinth()[i][j].isFloor()) {
+					} else if (window.getEngine().getLabyrinth()[i][j]
+							.isFloor()) {
 						// This field is walkable
 						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-					} else if (window.getEngine().getLabyrinth()[i][j].containsKey()) {
-						// Here lies the key
-						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-						g.drawImage(key, i * window.BOX, j * window.BOX, null);
-					} else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
+						if (window.getEngine().getLabyrinth()[i][j]
+								.containsKey()) {
+							// Here lies the key
+							System.out.println("Here's the key!");
+							// g.drawImage(floor, i * window.BOX, j *
+							// window.BOX, null);
+							g.drawImage(key, i * window.BOX, j * window.BOX,
+									null);
+						} else if (window.getEngine().getLabyrinth()[i][j]
+								.containsPotion()) {
+							// Here is the door
+							g.drawImage(floor, i * window.BOX, j * window.BOX,
+									null);
+							// Here lies a potion
+							g.drawImage(floor, i * window.BOX, j * window.BOX,
+									null);
+							g.drawImage(potion, i * window.BOX, j * window.BOX,
+									null);
+						}
+					} else if (window.getEngine().getLabyrinth()[i][j]
+							.isEntry()) {
 						// Here is the door
 						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-						g.drawImage(doorOpen, i * window.BOX, j
-								* window.BOX, null);
-					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {							
-						if (window.getEngine().getLabyrinth()[i][j].exitUnlocked())
+						g.drawImage(doorOpen, i * window.BOX, j * window.BOX,
+								null);
+					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {
+						if (window.getEngine().getLabyrinth()[i][j]
+								.exitUnlocked())
 							g.drawImage(doorOpen, i * window.BOX, j
 									* window.BOX, null);
 						else
 							g.drawImage(doorClosed, i * window.BOX, j
-									* window.BOX, null);					
-					} else if (window.getEngine().getLabyrinth()[i][j].containsPotion()) {
-						// Here is the door
-						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-						// Here lies a potion
-						g.drawImage(floor, i * window.BOX, j * window.BOX, null);
-						g.drawImage(potion, i * window.BOX, j * window.BOX,
-								null);
+									* window.BOX, null);
 					}
 				}
 			}
 		}
-	
 
-//		// Draw the monsters at their specific position
-//		for (int i = 0; i < window.monsterList.size(); i++) {
-//			Monster m = window.monsterList.get(i);
-//			boolean event = window.player.hasKey();
-//
-//			// At this point every monster is called. So an
-//			// attacking order is called, if the player is
-//			// in range. Otherwise the fsm is called to decide what the monster
-//			// should do.
-//			if (!m.attackPlayer(event)) {
-//				m.move();
-//			} else {
-//				int box = window.BOX;
-//				Player s = window.player;
-//
-//				double p = m.cooldownRate();
-//				g.setColor(Color.RED);
-//				g.drawImage(
-//						fireball,
-//						(int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box)
-//								+ box / 2, (int) (((1 - p) * m.getYPos() + (p)
-//								* s.getYPos()) * box)
-//								+ box / 2, 8, 8, null);
-//			}
-//
-//			// Draw the monster, if it's present from the beginning on
-//			if (m.getType() == 0)
-//				drawMonster(g, m);
-//			// Draw the monster, if it only appears after the event 'take key'
-//			else if (event && m.getType() == 1)
-//				drawMonster(g, m);
-//
-//		}
-//
+		// // Draw the monsters at their specific position
+		// for (int i = 0; i < window.monsterList.size(); i++) {
+		// Monster m = window.monsterList.get(i);
+		// boolean event = window.player.hasKey();
+		//
+		// // At this point every monster is called. So an
+		// // attacking order is called, if the player is
+		// // in range. Otherwise the fsm is called to decide what the monster
+		// // should do.
+		// if (!m.attackPlayer(event)) {
+		// m.move();
+		// } else {
+		// int box = window.BOX;
+		// Player s = window.player;
+		//
+		// double p = m.cooldownRate();
+		// g.setColor(Color.RED);
+		// g.drawImage(
+		// fireball,
+		// (int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box)
+		// + box / 2, (int) (((1 - p) * m.getYPos() + (p)
+		// * s.getYPos()) * box)
+		// + box / 2, 8, 8, null);
+		// }
+		//
+		// // Draw the monster, if it's present from the beginning on
+		// if (m.getType() == 0)
+		// drawMonster(g, m);
+		// // Draw the monster, if it only appears after the event 'take key'
+		// else if (event && m.getType() == 1)
+		// drawMonster(g, m);
+		//
+		// }
+		//
 		// Draw the player at its position
 		g.drawImage(player, window.getEngine().getMyPlayer().getXPos()
-				* window.BOX, window.getEngine().getMyPlayer().getYPos() * window.BOX, null);
-		
-//		try {
-//			Thread.currentThread().sleep(50);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		repaint();
-}
-//		
-//		// game over is showing up if the game is lost
-//		if (window.gameLost) {
-//			g.setColor(Color.WHITE);
-//			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
-//			g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
-//		} else {
-//		// you win is showing up on screen if the game is won
-//			if (window.gameWon) {
-//				g.setColor(Color.WHITE);
-//				g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
-//				g.drawString("YOU WIN", getWidth() / 2 - 120, getHeight() / 2);
-//			}
-//		}
-//	}
-//	
+				* window.BOX, window.getEngine().getMyPlayer().getYPos()
+				* window.BOX, null);
+
+		// try {
+		// Thread.currentThread().sleep(50);
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// repaint();
+	}
+
+	//
+	// // game over is showing up if the game is lost
+	// if (window.gameLost) {
+	// g.setColor(Color.WHITE);
+	// g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
+	// g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
+	// } else {
+	// // you win is showing up on screen if the game is won
+	// if (window.gameWon) {
+	// g.setColor(Color.WHITE);
+	// g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
+	// g.drawString("YOU WIN", getWidth() / 2 - 120, getHeight() / 2);
+	// }
+	// }
+	// }
+	//
 	/**
 	 * paint method, draws the monsters and their health points
+	 * 
 	 * @author Felizia Langsdorf, 6002960
-	 * @param g 
-	 * @param m monster object?
+	 * @param g
+	 * @param m
+	 *            monster object?
 	 * 
 	 */
-	
+
 	private void drawMonster(Graphics g, Monster m) {
 		// Monster Health Points
 		if (inRange(m.getXPos(), m.getYPos())) {
@@ -189,15 +206,16 @@ public class GameField extends JPanel {
 
 		}
 	}
-	
+
 	/**
-	 * @author Felizia Langsdorf, 6002960
-	 * method need to understand that !!! xxxx
+	 * @author Felizia Langsdorf, 6002960 method need to understand that !!!
+	 *         xxxx
 	 * 
 	 */
-	
+
 	private boolean inRange(int i, int j) {
-		return (Math.sqrt(Math.pow(window.getEngine().getMyPlayer().getXPos() - i, 2)
+		return (Math.sqrt(Math.pow(window.getEngine().getMyPlayer().getXPos()
+				- i, 2)
 				+ Math.pow(window.getEngine().getMyPlayer().getYPos() - j, 2)) < 4 || !window.mistOn);
 	}
 
