@@ -50,7 +50,7 @@ public class GameField extends JPanel {
 			key = ImageIO.read(new File("img//key.png"));
 			potion = ImageIO.read(new File("img//potion.png"));
 			fireball = ImageIO.read(new File("img//fireball.png"));
-			player = ImageIO.read(new File("img/player.png"));
+			player = ImageIO.read(new File("img//player.png"));
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
 		}
@@ -63,7 +63,7 @@ public class GameField extends JPanel {
 	 */
 	
 	public void paint(Graphics g) {
-
+System.out.println("Paint started");
 		// First, everything is going to be overpainted while repainting
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -143,7 +143,8 @@ public class GameField extends JPanel {
 //		}
 //
 		// Draw the player at its position
-		g.drawImage(window.getEngine().getMyPlayer().getImage(), window.getEngine().getMyPlayer().getXPos()
+		System.out.println("METHOD GameField: " + window.getEngine().getMyPlayer().toString());
+		g.drawImage(player, window.getEngine().getMyPlayer().getXPos()
 				* window.BOX, window.getEngine().getMyPlayer().getYPos() * window.BOX, null);
 }
 //		

@@ -73,6 +73,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==b1){			//pressing button start game, then game starts 
 			window.showGameField();
+		
 	}else if (ae.getSource() == b2)	{
 		window.showLogin();      // here's going to be a proper method for logging out
 		}	

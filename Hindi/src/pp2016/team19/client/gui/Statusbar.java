@@ -28,7 +28,7 @@ public class Statusbar extends JPanel {
 private static final long serialVersionUID = 1L;
 	
 	private Image background, key, potion;	
-	private Image floor1, wall1, doorOpen1, doorClosed1; 
+	private Image floor1, wall1, doorOpen1, doorClosed1, playerImg; 
 	
 	private GameWindow window;
 	private int miniBox = 8;
@@ -51,6 +51,7 @@ private static final long serialVersionUID = 1L;
 			wall1 = ImageIO.read(new File("img//wallKopie.png"));
 			doorClosed1 = ImageIO.read(new File("img//doorClosedKopie.png"));
 			doorOpen1 = ImageIO.read(new File("img//dooropenKopie.png"));
+			playerImg = ImageIO.read(new File("img//player.png"));
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
@@ -75,8 +76,8 @@ private static final long serialVersionUID = 1L;
 			g.drawImage(background, i*window.BOX, j*window.BOX, null);
 			}
 		}		
-		System.out.println(window.getEngine().getMyPlayer().toString());
-		g.drawImage(window.getEngine().getMyPlayer().getImage(), 4, 4, window.BOX - 8, window.BOX - 8, null);
+		System.out.println(this.window.getEngine().getMyPlayer().toString());
+		g.drawImage(playerImg, 4, 4, window.BOX - 8, window.BOX - 8, null);
 		// draw the key if the player picked one up
 		if(window.getEngine().getMyPlayer().hasKey()){
 			g.drawImage(key, 5, window.BOX * (window.HEIGHT - 11), null);
@@ -165,8 +166,8 @@ private static final long serialVersionUID = 1L;
 		}
 	
 		
-//				g.drawImage(window.getEngine().getMyPlayer().getImage().getScaledInstance(6, 6, 0),( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
-//						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
+				g.drawImage(playerImg.getScaledInstance(6, 6, 0),( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
+						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
 
 		

@@ -94,8 +94,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
 		this.engine.startGameRequest(this.engine.getPlayerID());
-	
 		this.player = this.engine.getMyPlayer();
+		
+//		try {
+//			this.player.setImage(ImageIO.read(new File("img//player.png")));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		
 		initializeJFrame(width, height, title);	
@@ -489,14 +494,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //		level = new Spielelement[16][16];
 		this.player = this.engine.getMyPlayer();
 		System.out.println("METHOD GameWindow.resetGame:" + this.player.toString());
-		Image img = null;
-		try {
-			 img = ImageIO.read(new File("img//player.png"));
-		} catch (IOException e1) {
-			System.out.println("File not found");
-			e1.printStackTrace();
-		}
-		player.setImage(img);
+
 		level = this.engine.getLabyrinth();
 
 		currentLevel = 0;
@@ -517,11 +515,14 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	// Gameloop
 	public void run() {
+		System.out.println("METHOD GameWindow.run: Run started!");
 		resetGame();
-
+		System.out.println("METHOD GameWindow.run: ResetGame started!");
+		System.out.println("Current level: " + currentLevel);
 		do {
-
+			
 			if (!gameWon) {
+				System.out.println("METHOD GameWindow.run: In WHILE Schleife!");
 				// Every 50ms the map is repainted
 				try {
 					Thread.sleep(50);
@@ -566,6 +567,14 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	public ClientEngine getEngine() {
 		return engine;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public Tile[][] getLevel() {
+		return level;
 	}
 
 
