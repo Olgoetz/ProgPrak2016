@@ -60,8 +60,8 @@ import pp2016.team19.shared.*;
 				}
 			}
 			if (!this.messagesToClient.isEmpty()) {
-				System.out.println("METHOD SendMessageToClient:" + this.messagesToClient.peek().toString());
-				System.out.println("METHOD SendMessageToClient: Answer came back");
+				System.out.println("METHOD ServerEngine.SendMessageToClient:" + this.messagesToClient.peek().toString());
+				System.out.println("METHOD ServerEngine.SendMessageToClient: Answer came back");
 				network.sendMessageToClient(this.messagesToClient.poll());
 			}
 		}
@@ -99,7 +99,7 @@ import pp2016.team19.shared.*;
 			break;
 		case 1:
 			this.sendToGame(message);
-			System.out.println("METHOD sendToGame: Messages forwarded");
+			System.out.println("METHOD ServerEngine.sendToGame: Messages forwarded");
 			break;
 		case 100:
 			this.confirmConnection();
@@ -147,13 +147,13 @@ import pp2016.team19.shared.*;
 
 	private void signInRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
-		System.out.println("METHOD SignInRequest: Method engaging");
+		System.out.println("METHOD ServerEngine.SignInRequest: Method engaging");
 		playerFound = false;
 		for (Player player : players) {
 			if (player.getName().equals(message.getUsername())) {
 				playerFound = true;
 				if (player.getPassword().equals(message.getPassword())) {
-					System.out.println("Log-In successful");
+					System.out.println("METHOD ServerEngine.SignInRequest: Log-In successful");
 					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.indexOf(player), 0,
 							3);
 					try {
@@ -164,7 +164,7 @@ import pp2016.team19.shared.*;
 					}
 					startGame(player);
 				} else {
-					System.out.println("Wrong password");
+					System.out.println("METHOD ServerEngine.SignInRequest: Wrong password");
 					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false, -1, 0, 3);
 					try {
 						this.messagesToClient.put(answer);
@@ -176,7 +176,7 @@ import pp2016.team19.shared.*;
 			}
 		}
 		if (!playerFound) {
-			System.out.println("Player doesn't exist"); // Maybe send this as
+			System.out.println("METHOD ServerEngine.SignInRequest: Player doesn't exist"); // Maybe send this as
 														// String with Answer
 														// message
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false, -1, 0, 3);
