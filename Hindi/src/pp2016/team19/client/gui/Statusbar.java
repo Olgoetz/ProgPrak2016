@@ -76,7 +76,7 @@ private static final long serialVersionUID = 1L;
 			g.drawImage(background, i*window.BOX, j*window.BOX, null);
 			}
 		}		
-		System.out.println(this.window.getEngine().getMyPlayer().toString());
+	
 		g.drawImage(playerImg, 4, 4, window.BOX - 8, window.BOX - 8, null);
 		// draw the key if the player picked one up
 		if(window.getEngine().getMyPlayer().hasKey()){
@@ -97,7 +97,7 @@ private static final long serialVersionUID = 1L;
 		else s = String.valueOf(numberOfPotions);
 		g.drawString(s, 5, window.BOX * (window.HEIGHT - 12));
 		g.drawImage(potion,7,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
-		System.out.println(window.getEngine().getMyPlayer().getXPos() + " " + window.getEngine().getMyPlayer().getYPos());
+	
 		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine().getMyPlayer().getYPos()];
 		
 		//draw the instructions

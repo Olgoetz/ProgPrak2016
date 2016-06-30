@@ -37,7 +37,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 		this.myPlayer = myPlayer;
 		
 		
-		System.out.println(myPlayer.toString());
+
 	}
 	
 	/**
