@@ -491,8 +491,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //				player.takePotion(new Potion(20));
 //				level[player.getXPos()][player.getYPos()].setContainsPotion(false);
 //			}
-			if (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].containsKey() ||
-					this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].containsPotion()) {
+			if (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isFloor()) {
 				this.engine.collectItemRequest();
 			} else if  (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isExit()) {
 				this.engine.openDoorRequest();
