@@ -18,15 +18,15 @@ import pp2016.team19.server.map.*;
  * @author Tobias Schrader
  *
  */
-public class Game extends TimerTask {
+public class Game extends TimerTask implements Serializable {
 
 	private static final long serialVersionUID = 358470863151883429L;
 	LinkedBlockingQueue<Message> messagesFromServer;
 	Tile[][] gameMap;
 	private int gameSize;
-	LinkedList<Monster> Monsters = new LinkedList<Monster>();
+	transient LinkedList<Monster> Monsters = new LinkedList<Monster>();
 	int levelNumber = 1;
-	ServerEngine engine;
+	transient ServerEngine engine;
 	boolean tester = true; // Testing
 	Player player;
 	int potions;

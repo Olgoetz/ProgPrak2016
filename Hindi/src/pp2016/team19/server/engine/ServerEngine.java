@@ -15,7 +15,7 @@ import pp2016.team19.shared.*;
  * @author Tobias Schrader
  *
  */
-public class ServerEngine implements Runnable {
+ public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
 	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 
@@ -25,7 +25,7 @@ public class ServerEngine implements Runnable {
 	private String password = "123";
 	private Vector<Player> players = new Vector<Player>();
 	private Vector<Game> games = new Vector<Game>();
-	private Game game1; // Test
+	transient private Game game1; // Test
 	private Timer tick = new Timer();
 	HandlerServer network = new HandlerServer();
 	private boolean playerIsNew;
