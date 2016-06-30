@@ -106,7 +106,7 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void openDoor() {
-		if (player.hasKey()) {
+		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) {
 			levelNumber++;
 			this.newLevel(levelNumber);
 			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
@@ -148,9 +148,11 @@ public class Game extends TimerTask implements Serializable {
 		System.out.println("METHOD Game.collectItem: executed");
 		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
 			player.takePotion();
+			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
 		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
 			player.takeKey();
+			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
 		} else {
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(-1, 1, 5);
