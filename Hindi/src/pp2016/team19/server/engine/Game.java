@@ -111,6 +111,7 @@ public class Game extends TimerTask implements Serializable {
 			this.newLevel(levelNumber);
 			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
 			Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
+			System.out.println("METHOD Game.openDoor: Door opened");
 			try {
 				engine.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
@@ -159,7 +160,7 @@ public class Game extends TimerTask implements Serializable {
 		}
 		try {
 			engine.messagesToClient.put(answer);
-			System.out.println("METHOD Game.collectItem:"+answer.toString());
+			System.out.println("METHOD Game.collectItem:" + answer.toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -199,10 +200,10 @@ public class Game extends TimerTask implements Serializable {
 		LinkedList<Monster> Monsters = new LinkedList<Monster>();
 		for (int i = 0; i < gameMap2.length; i++) {
 			for (int j = 0; j < gameMap2.length; j++) {
-				if(gameMap[i][j].containsMonster()){
-					Monsters.add(new Monster(i,j,this,1));
+				if (gameMap[i][j].containsMonster()) {
+					Monsters.add(new Monster(i, j, this, 1));
 				}
-				
+
 			}
 		}
 		return Monsters;
@@ -343,7 +344,7 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	public LinkedList<Monster> getMonsters() {
-		
+
 		return Monsters;
 	}
 }

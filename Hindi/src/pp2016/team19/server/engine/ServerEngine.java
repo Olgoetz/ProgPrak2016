@@ -15,7 +15,7 @@ import pp2016.team19.shared.*;
  * @author Tobias Schrader
  *
  */
- public class ServerEngine implements Runnable {
+public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
 	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 
@@ -60,7 +60,8 @@ import pp2016.team19.shared.*;
 				}
 			}
 			if (!this.messagesToClient.isEmpty()) {
-				System.out.println("METHOD ServerEngine.SendMessageToClient:" + this.messagesToClient.peek().toString());
+				System.out
+						.println("METHOD ServerEngine.SendMessageToClient:" + this.messagesToClient.peek().toString());
 				System.out.println("METHOD ServerEngine.SendMessageToClient: Answer came back");
 				network.sendMessageToClient(this.messagesToClient.poll());
 			}
@@ -176,9 +177,12 @@ import pp2016.team19.shared.*;
 			}
 		}
 		if (!playerFound) {
-			System.out.println("METHOD ServerEngine.SignInRequest: Player doesn't exist"); // Maybe send this as
-														// String with Answer
-														// message
+			System.out.println("METHOD ServerEngine.SignInRequest: Player doesn't exist"); // Maybe
+																							// send
+																							// this
+																							// as
+			// String with Answer
+			// message
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false, -1, 0, 3);
 			try {
 				this.messagesToClient.put(answer);
