@@ -12,7 +12,9 @@ import pp2016.team19.shared.Message;
 import pp2016.team19.shared.ThreadWaitForMessage;
 
 /**
- * The NetworkReceiverS Class builds the Thread for receiving Messages from the
+ * <h1>Builds the Thread for receiving Message-objects from the Client.</h1>
+ * 
+ * The ReceiverServer Class builds the Thread for receiving Messages from the
  * Client. The Thread allows to save the Data of the InputStream. The saved
  * messages are going to be gathered by a LinkedBlockingQueue and a loop allows
  * to read these messages from the InputStream repetetively and eventually save
@@ -21,9 +23,9 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  * @author Bulut , Taner , 5298261
  * 
  */
-public class NetworkReceiverS extends Thread {
+public class ReceiverServer extends Thread {
 
-	private NetworkHandlerS networkHandler;
+	private HandlerServer networkHandler;
 	private Socket client;
 	private ObjectInputStream in;
 	LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<>();
@@ -31,12 +33,17 @@ public class NetworkReceiverS extends Thread {
 
 	/**
 	 * Initializes the Socket 'client' variable so that the InputStream can be
-	 * operated assigned to the Socket and initializes the NetworkHandlerS
+	 * operated assigned to the Socket and initializes the HandlerServer
 	 * 'networkHandler'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param client
+	 *            defines the Socket from the Client-Side
+	 * @param networkHandler
+	 *            specifies the HandlerServer that starts the Thread and works
+	 *            with the Server-Engine
 	 */
-	public NetworkReceiverS(Socket client, NetworkHandlerS networHandler) {
+	public ReceiverServer(Socket client, HandlerServer networHandler) {
 		this.client = client;
 		this.networkHandler = networHandler;
 	}
@@ -57,25 +64,27 @@ public class NetworkReceiverS extends Thread {
 				messageFC = (Message) in.readObject();
 				this.networkHandler.setConnectedState1(true);
 				this.networkHandler.setConnectedState2(true);
+				// System.out.println(messageFC.toString());
 				if (messageFC != null) {
 					messagesFromClient.put(messageFC);
 				}
 			}
 		} catch (EOFException e) {
-			System.out.println("ERROR ObjectInputStream: NETWORKRECEiVERS");
+			System.out.println("ERROR ObjectInputStream: RECEIVERSERVER");
+			e.printStackTrace();
 		} catch (SocketException e) {
 			this.networkHandler.close();
-			System.out.println("ERROR SocketException: NETWORKRECEIVERS");
+			System.out.println("ERROR SocketException: RECEIVERSERVER");
 			e.printStackTrace();
 		} catch (IOException | ClassNotFoundException | InterruptedException e) {
-			System.out.println("readObjectError");
+			System.out.println("readObject() ERROR in RECEIVERSERVER.receiveMessage()");
 			e.printStackTrace();
 		} finally {
 			try {
-				System.out.println("InputStream is closed: NETWORKRECEiVERS");
+				System.out.println("InputStream is closed: RECEIVERSERVER");
 				this.in.close();
 			} catch (IOException e) {
-				System.out.println("ERROR: NETWORKRECEIVERS");
+				System.out.println("ERROR: RECEIVERSERVER");
 				e.printStackTrace();
 			}
 			System.exit(1);
@@ -97,6 +106,8 @@ public class NetworkReceiverS extends Thread {
 	 * Returns the LinkedBlockingQueue 'messagesFromClient'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @return the LinkedBlockingQueue<Message> that gathers the Message-objects
+	 *         from the Client
 	 */
 	public LinkedBlockingQueue<Message> getMessagesFromClient() {
 		return messagesFromClient;
@@ -106,6 +117,8 @@ public class NetworkReceiverS extends Thread {
 	 * Returns the Message that is polled from the Queue 'messagesFromClient'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @return the Message-object from the LinkedBlockingQueue
+	 *         'messagesFromClient'
 	 */
 	public Message getMessage() {
 		return messagesFromClient.poll();

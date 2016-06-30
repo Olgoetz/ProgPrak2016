@@ -12,7 +12,9 @@ import pp2016.team19.shared.Message;
 import pp2016.team19.shared.ThreadWaitForMessage;
 
 /**
- * The NetworkReceiverC Class builds the Thread for receiving Messages from the
+ * <h1>Builds the Thread for receiving Message-objects from the Server.</h1>
+ * 
+ * The ReceiverClient Class builds the Thread for receiving Messages from the
  * Server. The Thread allows to save the Data of the InputStream. The saved
  * messages are going to be gathered by a LinkedBlockingQueue and a loop allows
  * to read these messages from the InputStream repetetively and eventually save
@@ -21,9 +23,9 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  * @author Bulut , Taner , 5298261
  * 
  */
-public class NetworkReceiverC extends Thread {
+public class ReceiverClient extends Thread {
 
-	private NetworkHandlerC networkHandler;
+	private HandlerClient networkHandler;
 	private LinkedBlockingQueue<Message> messagesFromServer = new LinkedBlockingQueue<>();
 	private Socket server;
 	private ObjectInputStream in;
@@ -31,12 +33,17 @@ public class NetworkReceiverC extends Thread {
 
 	/**
 	 * Initializes the Socket 'server' variable so that the InputStream can be
-	 * operated assigned to the Socket and initializes the NetworkHandlerC
+	 * operated assigned to the Socket and initializes the HandlerClient
 	 * 'networkHandler'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param server
+	 *            defines the Socket for the Client-Side
+	 * @param networkHandler
+	 *            specifies the HandlerClient that starts the Thread and works
+	 *            with the Client-Engine
 	 */
-	public NetworkReceiverC(Socket server, NetworkHandlerC networkHandler) {
+	public ReceiverClient(Socket server, HandlerClient networkHandler) {
 		this.server = server;
 		this.networkHandler = networkHandler;
 	}
@@ -66,10 +73,11 @@ public class NetworkReceiverC extends Thread {
 				ThreadWaitForMessage.waitFor(100L);
 				// The read argument has to be parsed into a Message-Type
 				messageFS = (Message) in.readObject();
+				// System.out.println(messageFS.toString());
 				/*
 				 * Sets the variables connectedState1 and connectedState2 to
 				 * true, so that the connection between the Server and the
-				 * Client is proofed. The NetworkPingCheckC then tries the first
+				 * Client is proofed. The PingCheckClient then tries the first
 				 * attempt again to check if the InputStream is readable.
 				 */
 				networkHandler.setConnectedState1(true);
@@ -80,19 +88,20 @@ public class NetworkReceiverC extends Thread {
 				}
 			}
 		} catch (EOFException e) {
-			System.out.println("ERROR ObjectInputStream: NETWORKRECEiVERC");
+			System.out.println("ERROR ObjectInputStream: RECEIVERCLIENT");
+			e.printStackTrace();
 		} catch (SocketException e) {
 			this.networkHandler.close("Connection to the Server lost!");
-			System.out.println("ERROR SocketException: NETWORKRECEIVERC");
+			System.out.println("ERROR SocketException: RECEIVERCLIENT");
 			e.printStackTrace();
 		} catch (IOException | ClassNotFoundException | InterruptedException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				System.out.println("InputStream is closed: NETWORKRECEiVERC");
+				System.out.println("InputStream is closed: RECEIVERCLIENT");
 				this.in.close();
 			} catch (IOException e) {
-				System.out.println("ERROR: NETWORKRECEIVER");
+				System.out.println("ERROR: RECEIVERCLIENT");
 				e.printStackTrace();
 			}
 			System.exit(1);
@@ -114,6 +123,8 @@ public class NetworkReceiverC extends Thread {
 	 * Returns the LinkedBlockingQueue 'messagesFromServer'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @return the LinkedBlockingQueue<Message> that gathers the Message-objects
+	 *         from the Server
 	 */
 	public LinkedBlockingQueue<Message> getMessagesFromServer() {
 		return messagesFromServer;
@@ -123,6 +134,8 @@ public class NetworkReceiverC extends Thread {
 	 * Returns the Message that is polled from the Queue 'messagesFromServer'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @return the Message-object from the LinkedBlockingQueue
+	 *         'messagesFromServer'
 	 */
 	public Message getMessage() {
 		return messagesFromServer.poll();
