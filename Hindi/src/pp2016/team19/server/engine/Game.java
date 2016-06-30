@@ -111,9 +111,9 @@ public class Game extends TimerTask implements Serializable {
 			this.newLevel(levelNumber);
 			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
 			Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
+			System.out.println("METHOD Game.openDoor: Door opened");
 			try {
 				engine.messagesToClient.put(answer);
-				engine.messagesToClient.put(newLevel);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
