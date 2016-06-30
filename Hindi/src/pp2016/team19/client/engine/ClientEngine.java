@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 
 import pp2016.team19.client.*;
-import pp2016.team19.client.comm.NetworkHandlerC;
+import pp2016.team19.client.comm.HandlerClient;
 import pp2016.team19.client.gui.GameWindow;
 import pp2016.team19.shared.*;
 
@@ -50,7 +50,7 @@ public class ClientEngine implements Runnable   {
 
 	// network attributes
 	private ExecutorService threadPool;
-	private NetworkHandlerC networkHandler;
+	private HandlerClient networkHandler;
 	private GameWindow gamewindow;
 	private String serverAdress;
 	private String port;
@@ -76,7 +76,7 @@ public class ClientEngine implements Runnable   {
 		this.setThreadPool(clientThreadPool);
 		
 		// creates a new Networkhandler
-		this.setNetworkHandler(new NetworkHandlerC());
+		this.setNetworkHandler(new HandlerClient());
 		
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
@@ -548,11 +548,11 @@ public class ClientEngine implements Runnable   {
 		this.threadPool = threadPool;
 	}
 
-	public NetworkHandlerC getNetworkHandler() {
+	public HandlerClient getNetworkHandler() {
 		return networkHandler;
 	}
 
-	public void setNetworkHandler(NetworkHandlerC networkHandler) {
+	public void setNetworkHandler(HandlerClient networkHandler) {
 		this.networkHandler = networkHandler;
 	}
 
