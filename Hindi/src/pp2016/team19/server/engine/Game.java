@@ -111,6 +111,8 @@ public class Game extends TimerTask implements Serializable {
 			this.newLevel(levelNumber);
 			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
 			Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
+			Message playerUpdate = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
+					player.getYPos());
 			System.out.println("METHOD Game.openDoor: Door opened");
 			try {
 				engine.messagesToClient.put(answer);
@@ -120,6 +122,7 @@ public class Game extends TimerTask implements Serializable {
 			}
 			try {
 				engine.messagesToClient.put(newLevel);
+				engine.messagesToClient.put(playerUpdate);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -193,6 +196,8 @@ public class Game extends TimerTask implements Serializable {
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, gameSize);
 		Monsters = createMonsters(gameMap);
+		player.setPos(1, gameSize - 2);
+		player.removeKey();
 
 	}
 
