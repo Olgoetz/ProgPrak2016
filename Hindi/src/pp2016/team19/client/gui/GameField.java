@@ -86,9 +86,8 @@ public class GameField extends JPanel {
 						if (window.getEngine().getLabyrinth()[i][j]
 								.containsKey()) {
 							// Here lies the key
-							System.out.println("Here's the key!");
-							// g.drawImage(floor, i * window.BOX, j *
-							// window.BOX, null);
+							g.drawImage(floor, i * window.BOX, j * window.BOX,
+									null);
 							g.drawImage(key, i * window.BOX, j * window.BOX,
 									null);
 						} else if (window.getEngine().getLabyrinth()[i][j]

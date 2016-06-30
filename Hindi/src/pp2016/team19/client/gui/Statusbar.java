@@ -84,7 +84,7 @@ private static final long serialVersionUID = 1L;
 		}
 		
 		g.setColor(Color.WHITE);	
-//		g.drawString(window.getEngine().getMyPlayer().getName(), window.BOX + 5, 20);
+		g.drawString(window.getEngine().getMyPlayer().getName(), window.BOX + 5, 20);
 		g.drawLine( 5, 35, 155, 35);
 		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5,  window.BOX * (window.HEIGHT - 14));
 		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5,  window.BOX * (window.HEIGHT - 13));
