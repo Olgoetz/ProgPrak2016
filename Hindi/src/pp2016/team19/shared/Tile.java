@@ -3,24 +3,24 @@ package pp2016.team19.shared;
 import java.io.Serializable;
 
 /**
- * Generally:
+ *	<h1>A data structure called Tile, used in class called Labyrinth to generate Tile-Objects.</h1>
  * 
- * 		Its a data structure called Tile, used in class called Labyrinth..
+ * 	<p>
+ * 	type = Tile type, for example "floor", "rock", "exit", "entry".
+ * 	<p>							
+ * 	containsKey = Does the Tile contain a Key?
+ * 	<p>
+ * 	containsPotion = Does the Tile contain a Potion? 
+ * 	<p>
+ * 	containsMonster = Does the Tile contain a Monster?
+ * 	<p>
+ * 	containsPlayer = Does the Tile contain the Player?
+ * 	<p>
+ * 	exitUnlocked = Is the exit already unlocked?
+ * 	<p>
  * 
- * Class Tile contains:
+ * 	It contains for every attribut Getter and Setter and also a few other helpful methods.
  * 
- * 		6 Attributes called: 	type ("Is the type of the Tile") 									
- * 								containsKey ("Does the Tile contain a Key?") 
- * 								containsPotion ("Does the Tile contain a Potion?") 
- * 								contains Monster ("Does the Tile contain a Monster?")
- * 
- * 		8 Constants: 			Which represent the types and contants.
- * 
- * 		6 Setter methods: 		They set for example the type of the Tile 
- * 								or if a Tile contains a Potion.
- * 
- * 		9 Other methods: 		For example, chec,k if a Tile is of the type ROCK. 
- * 								Or if a Tile is walkable.
  * 
  * @author < Czernik, Christof, 5830621 >
  */
@@ -70,7 +70,7 @@ public class Tile implements Serializable {
 	
 	/**
 	 * Setter method, which sets the type of Tile
-	 * 
+	 * @param input type your Tile must become, example: "FLOOR".
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -83,6 +83,7 @@ public class Tile implements Serializable {
 	/**
 	 * Method, which returns a boolean, if a Tile is of type ROCK or not.
 	 * 
+	 * @return returns true, if the Tile is of Type Rock.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -97,6 +98,7 @@ public class Tile implements Serializable {
 	/**
 	 * Method, which returns a boolean, if a Tile is of type FLOOR or not.
 	 * 
+	 * @return returns true, if the Tile is of Type Floor.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 
@@ -112,6 +114,7 @@ public class Tile implements Serializable {
 	/**
 	 * Method, which returns a boolean, if a Tile is of type ENTRY or not.
 	 * 
+	 * @return returns true, if the Tile is of Type Entry.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -126,6 +129,7 @@ public class Tile implements Serializable {
 	/**
 	 * Method, which returns a boolean, if a Tile is of type EXIT or not.
 	 * 
+	 * @return returns true, if the Tile is of Type Exit.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 
@@ -137,19 +141,22 @@ public class Tile implements Serializable {
 		return false;
 	}
 	
+	
 	/**
-	 * Setter method, which sets a Tile to contain a Player or not.
+	 * Setter method, which sets the Exit Unlocked or Locked, if the Player has a key.
 	 * 
+	 * @param input set input false or true, for unlocking exit.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
-
+	
 	public void setExitUnlocked(boolean input) {
 		exitUnlocked = input;
 	}
 	
 	/**
-	 * Setter method, which sets the Exit Unlocked or Locked, if the Player has a key.
+	 * Setter method, which sets a Tile to contain a Player or not.
 	 * 
+	 * @param input set input false or true, for setting player on Tile.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -160,6 +167,7 @@ public class Tile implements Serializable {
 	/**
 	 * Setter method, which sets a Tile to contain a Key or not.
 	 * 
+	 * @param input set input false or true, for setting Key on Tile.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -170,6 +178,7 @@ public class Tile implements Serializable {
 	/**
 	 * Setter method, which sets a Tile to contain a Potion or not.
 	 * 
+	 * @param input set input false or true, for setting Potion on Tile.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -180,6 +189,7 @@ public class Tile implements Serializable {
 	/**
 	 * Setter method, which sets a Tile to contain a Monster or not.
 	 * 
+	 * @param input set input false or true, for setting Monster on Tile.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -188,8 +198,9 @@ public class Tile implements Serializable {
 	}
 	
 	/**
-	 * Getter Method, which returns a boolean if a Tile contains a Key or not.
+	 * Getter Method, which returns a boolean if a the exit is unlocked or not.
 	 * 
+	 * @return returns true, when exit unlocked.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -198,8 +209,9 @@ public class Tile implements Serializable {
 	}
 	
 	/**
-	 * Getter Method, which returns a boolean if a Tile contains a key or not.
+	 * Getter Method, which returns a boolean if a Tile contains the Player or not.
 	 * 
+	 * @return returns true, when Tile contains player.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -210,6 +222,7 @@ public class Tile implements Serializable {
 	/**
 	 * Getter Method, which returns a boolean if a Tile contains a Key or not.
 	 * 
+	 * @return returns true, when Tile contains key.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -220,6 +233,7 @@ public class Tile implements Serializable {
 	/**
 	 * Getter Method, which returns a boolean if a Tile contains a Potion or not.
 	 * 
+	 * @return returns true, when Tile contains a potion.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -230,6 +244,7 @@ public class Tile implements Serializable {
 	/**
 	 * Getter Method, which returns a boolean if a Tile contains a Monster or not.
 	 * 
+	 * @return returns true, when Tile contains monster.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -241,6 +256,7 @@ public class Tile implements Serializable {
 	/**
 	 * Getter Method, which returns a boolean if a Tile is walkable or not.
 	 * 
+	 * @return returns true, when Tile is walkable.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 

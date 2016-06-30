@@ -1,5 +1,6 @@
 package pp2016.team19.client.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -8,37 +9,39 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * 
+ * frame for the window for connecting with the server
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
 
-public class ServerConnection extends JPanel implements ActionListener {
+public class ServerConnection extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
 	private ImageIcon pic = new ImageIcon("img//Slide2.png");
 	private JLabel server;
 	
-	private GameWindow window;
  
 	private JTextField servername;
 	private JTextField port;
 	private JButton b;
 	
-	
+	/**
+	 * 
+	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 */
 
-		public ServerConnection(GameWindow window){		
-		this.window = window;					
-		
+		public ServerConnection(){		
+	
 		server = new JLabel(pic);
-		server.setBounds(0, 0, 500, 500); 
-		add(server);
+		server.setBounds(0, 0, 500, 440); 
+		add(server, BorderLayout.CENTER);
 		
 		servername = new JTextField();
 		servername.setBounds(250, 130, 100, 25);
@@ -55,14 +58,30 @@ public class ServerConnection extends JPanel implements ActionListener {
 		b.setVisible(true);
 		b.addActionListener(this); 	
 	}
-
+	
+		/**
+		 * method of the ActionListener interface 
+		 * what actions are performed after clicking the button
+		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 */
 	
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==b){			
-			window.showLogin();  // olli connect with server !!
+			System.out.println("huhuu");;  // olli connect with server !!
 	}else{
 		      // here's going to be a proper method or message for server connection failed
 		}	
+	}
+	
+	public static void main (String[] args){
+		ServerConnection frame = new ServerConnection();
+		frame.setTitle("Connect with Server");
+		frame.setSize(500,440);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		
+		
 	}
 
 }
