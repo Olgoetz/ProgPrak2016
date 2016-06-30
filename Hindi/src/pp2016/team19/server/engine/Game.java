@@ -67,13 +67,13 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println(message.toString());
 			this.distributor(message);
 		}
-		// for(Monster monster: Monsters) {
-		// boolean attack = monster.attackPlayer(player.hasKey());
-		// if (!attack) {
-		// monster.move();
-		// }
-		//
-		// }
+		 for(Monster monster: Monsters) {
+		 boolean attack = monster.attackPlayer(player.hasKey());
+		 if (!attack) {
+		 monster.move();
+		 }
+		
+		 }
 	}
 
 	/**

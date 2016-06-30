@@ -53,6 +53,7 @@ public class Monster extends Character {
 	 *            after taking the key)
 	 */
 	public Monster(int x, int y, Game game, int type) {
+		super(game);
 		this.game = game;
 		this.player = game.getPlayer();
 		this.gameMap = game.getGameMap();
