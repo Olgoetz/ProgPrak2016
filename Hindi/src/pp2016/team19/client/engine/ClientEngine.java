@@ -181,6 +181,10 @@ public class ClientEngine implements Runnable   {
 			case 5:
 				this.collectItemAnswer(pMessage);
 				break;
+				
+			case 9:
+				this.openDoorAnswer(pMessage);
+				break;
 			// test case to see if messages are coming form the server	
 			case 18:
 				System.out.println("Message received");
@@ -380,10 +384,12 @@ public class ClientEngine implements Runnable   {
 		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
 		if (message.getID() == 0) {
 			this.getMyPlayer().takeKey();
+			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsKey(false); 
 		} else if (message.getID() == 1) {
 			this.getMyPlayer().takePotion();
+			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsPotion(false); 
 					
-		} else {
+		} else if(message.getID() == -1) {
 			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
 		}
 	}
@@ -395,16 +401,23 @@ public class ClientEngine implements Runnable   {
 //	public void usePotionAnswer(Message pMessage) {
 //		System.out.println("METHOD Egnine.usePotionAnswer:" + pMessage.toString());
 //	}
-//	
-//	public void openDoorRequest(Message pMessage) {
-//		System.out.println("METHOD Egnine.openDoorRequest:" + pMessage.toString());
-//	}
-//	
-//	public void openDoorAnswer(Message pMessage){
-//		System.out.println("METHOD Egnine.openDoorAnswer:" + pMessage.toString());
-//	}
-//	
-//	
+	
+	public void openDoorRequest(boolean yes) {
+		
+		this.sendToServer(new MessOpenDoorRequest(yes,1,8));
+		System.out.println("METHOD Engine.openDoorRequest: OpenDoorRequest sent!");
+	}
+	
+	public void openDoorAnswer(Message pMessage){
+		
+		MessOpenDoorAnswer message = (MessOpenDoorAnswer) pMessage;
+		if (message.getOpenDoor() == true) {
+			System.out.println("METHOD Engine.openDoorAnswer: OpenDoorAnswer received!");
+		}
+		
+	}
+	
+	
 	
 	/**
 	 * @author Oliver Goetz, 5961343
