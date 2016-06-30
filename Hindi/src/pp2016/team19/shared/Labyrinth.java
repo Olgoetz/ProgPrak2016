@@ -3,44 +3,13 @@ package pp2016.team19.shared;
 
 
 /**
- * Generally:
- * 		
- * 		A Class,. which contains a method called "generateLabyrinth()" which uses the 
- * 		floodFill method to create a Labyrinth, and uses methods to place Potion the Entry 
- * 		or the Exit in the map..
- * 
- * 		It uses a data structure (2d Array) "gameMap" of the data structure "Tile", which will be returned 
- * 		at the end of the method.
- * 
- * 		For a short time, it contains a method "paintTest()", to check if the Labyrinth 
- * 		will be generated correct, and puts the Labyrinth on the console.
- * 
- * Contains:
- * 
- * 		1 (2-dim) data structure:	gameMap[][] of type Tile
- * 
- * 		8 constants:				Which represent the types and contants.
- * 
- *		2 essential method:			Called "generateLabyrinth(gameSize)"
- *									Called "floodFill(1, gameSize-2, gameSize)"
- *
- *		A few helpful methods:		"createRockMap(gameSize)" 		= "Creates an Object Array, sets every Tile to ROCK."
- *									
- *									"edgeCheckUp(x, y, gameSize)" 	= "Check if there is an edge."
- *									"edgeCheckDown(..)"
- *									"edgeCheckLeft(..)"
- *									"edgeCheckRight(..)"
- *									
- *									"countNeighbors(x, y)"			= "returns amount of neighbors of a Tile (up,down,left,right)."
- *									"diagNeighbors(x, y)"			= "returns amount of neighbors of a Tile (diagonal)."
- *									
- *									"placeKey(1, gameSize)"			= "places a key in a quadrant of the gameMap."
- *									"placeExit(..)"		
- *									"placeEntry(gameSize)"
- *									"placePotion(..)"
- *									"placeMonster(..)"
- *
- *									"paintTest(gameSize)"			= "returns the Labyrinth in the console.
+ * 	<h1>A class, that generates the random Labyrinth with Tile-Objects, and sets a choosen number of Monster randomly on the gameMap, also 
+ * 	Potions, Exit, Entry and the Key.</h1>
+ * 	<p>
+ * 	It contains the Floodfill algorithm, and also a lot of helpful other methods.
+ * 	<p>
+ * 	It has a fundamental method called "generate()", which generates the Labyrinth with the help of all methods.
+ * 	<p>
  *
  * @author < Czernik, Christof Martin, 5830621 >
  */
@@ -80,10 +49,10 @@ public class Labyrinth {
 	
 	
 	/**
-	 * "generateLabyrinth()" is an essential method, which gets the gameSize as Input and returns the gameMap.
+	 * Is an essential method, which gets the gameSize as Input and returns the gameMap.
 	 * 
-	 * @param gameSize Size of the GameMap, just a Size like 2k+1  (11,13,15,...)
-	 * @param monsterNumber Amount of Monsters that will be created
+	 * @param gameSize Size of the GameMap, just a Size like 2k+1  (11,13,15,...).
+	 * @param monsterNumber Amount of Monsters that will be created.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -132,7 +101,7 @@ public class Labyrinth {
 	/**
 	 * Creates an Object for every index, and sets the type to ROCK.
 	 * 
-	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -151,7 +120,7 @@ public class Labyrinth {
 	/**
 	 * Sets the whole map back to Rock.
 	 * 
-	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -172,8 +141,9 @@ public class Labyrinth {
 	}
 	
 	/**
+	 * A method, which helps to analyse the Labyrinth-Perfection.
 	 * 
-	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -196,6 +166,8 @@ public class Labyrinth {
 	/**
 	 * Checks if we are at the Upper-Edge, returns true when not.
 	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordinate of Tile.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -213,6 +185,9 @@ public class Labyrinth {
 	/**
 	 * Checks if we are at the Right-Edge, returns true when not.
 	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordiante of Tile.
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -230,6 +205,9 @@ public class Labyrinth {
 	/**
 	 * Checks if we are at the Lower-Edge, returns true when not.
 	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordiante of Tile.
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -247,6 +225,10 @@ public class Labyrinth {
 	/**
 	 * Checks if we are at the Left-Edge, returns true when not.
 	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordiante of Tile.
+	 * @param gameSize is the Size of the gameMap.
+	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -263,6 +245,10 @@ public class Labyrinth {
 
 	/**
 	 * Counts the Neighbors of a Tile in the directions: (left, right, up, down)
+	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordiante of Tile.
+	 * @param gameSize is the Size of the gameMap.
 	 * 
 	 * @author < Czernik, Christof, 5830621 >
 	 */
@@ -290,6 +276,8 @@ public class Labyrinth {
 	/**
 	 * Checks if the diagonal Tile is connected with our current tile.
 	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordiante of Tile.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -321,6 +309,7 @@ public class Labyrinth {
 	/**
 	 * Searches for a Tile = Floor in a quadrant, to put a Potion at this Tile. (Recursiv)
 	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -410,6 +399,7 @@ public class Labyrinth {
 	/**
 	 * Searches for a blind alley in a quadrant, to put a Key at this blind alley. (Recursiv)
 	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -436,6 +426,7 @@ public class Labyrinth {
 	/**
 	 * Searches for a blind alley in the lower-Left quadrant, to put an exit at this blind alley. (Recursiv)
 	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -462,6 +453,7 @@ public class Labyrinth {
 	/**
 	 * Places an entry at the beginning Spot of floodFill.
 	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -474,6 +466,7 @@ public class Labyrinth {
 	/**
 	 * Changes the Exit from locked to unlocked.
 	 * 
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -491,6 +484,9 @@ public class Labyrinth {
 	/**
 	 * A Random FloodFill Algorithm, which generates a Way of Floors.
 	 * 
+	 * @param x the x coordinate of Tile.
+	 * @param y the y coordinate of Tile.
+	 * @param gameSize is the Size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
@@ -585,6 +581,7 @@ public class Labyrinth {
 	/**
 	 * Checks every Tile in the Array, and prints it on the console.
 	 * 
+	 * @param gameSize size of the gameMap.
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
