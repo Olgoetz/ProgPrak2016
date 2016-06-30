@@ -386,11 +386,11 @@ public class ClientEngine implements Runnable   {
 		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
 		if (message.getID() == 0) {
 			this.getMyPlayer().takeKey();
-			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsKey(false);
+			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsKey(false);
 			
 		} else if (message.getID() == 1) {
 			this.getMyPlayer().takePotion();
-			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsPotion(false);		
+			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsPotion(false);		
 		} else if(message.getID() == -1) {
 			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
 		}
@@ -404,9 +404,9 @@ public class ClientEngine implements Runnable   {
 //		System.out.println("METHOD Egnine.usePotionAnswer:" + pMessage.toString());
 //	}
 	
-	public void openDoorRequest(boolean yes) {
+	public void openDoorRequest() {
 		
-		this.sendToServer(new MessOpenDoorRequest(yes,1,8));
+		this.sendToServer(new MessOpenDoorRequest(true,1,8));
 		System.out.println("METHOD Engine.openDoorRequest: OpenDoorRequest sent!");
 	}
 	
