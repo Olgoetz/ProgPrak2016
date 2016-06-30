@@ -177,6 +177,10 @@ public class ClientEngine implements Runnable   {
 			case 3:
 				this.attackAnswer(pMessage);
 				break;
+				
+			case 5:
+				this.collectItemAnswer(pMessage);
+				break;
 			// test case to see if messages are coming form the server	
 			case 18:
 				System.out.println("Message received");
@@ -364,13 +368,25 @@ public class ClientEngine implements Runnable   {
 	
 	
 	
-//	public void collectItemRequest(Message pMessage) {
-//		System.out.println("METHOD Engine.collectItemRequest:" + pMessage.toString());
-//	}
-//	
-//	public void collectItemAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.collectItemAnswer:" + pMessage.toString());
-//	}
+	public void collectItemRequest() {
+		
+		this.sendToServer(new MessCollectItemRequest(1,4));
+		System.out.println("METHOD Engine.collectItemRequest: CollectItemRequest sent! ");
+	}
+	
+	public void collectItemAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.collectItemAnswer: collectItemAnswer received!");
+		
+		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
+		if (message.getID() == 0) {
+			this.getMyPlayer().takeKey();
+		} else if (message.getID() == 1) {
+			this.getMyPlayer().takePotion();
+					
+		} else {
+			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
+		}
+	}
 //	
 //	public void usePotionRequest(Message pMessage) {
 //		System.out.println("METHOD Engine.usePotionRequest:" + pMessage.toString());

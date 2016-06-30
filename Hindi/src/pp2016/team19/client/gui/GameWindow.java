@@ -482,15 +482,17 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			// Take the key
-			if (level[player.getXPos()][player.getYPos()].containsKey()) {
-				player.takeKey();
-				level[player.getXPos()][player.getYPos()].setContainsKey(false);
-			}
-			// Take a potion
-			else if (level[player.getXPos()][player.getYPos()].containsPotion()) {
-				player.takePotion(new Potion(20));
-				level[player.getXPos()][player.getYPos()].setContainsPotion(false);
-			}
+//			if (level[player.getXPos()][player.getYPos()].containsKey()) {
+//				player.takeKey();
+//				level[player.getXPos()][player.getYPos()].setContainsKey(false);
+//			}
+//			// Take a potion
+//			else if (level[player.getXPos()][player.getYPos()].containsPotion()) {
+//				player.takePotion(new Potion(20));
+//				level[player.getXPos()][player.getYPos()].setContainsPotion(false);
+//			}
+			this.engine.collectItemRequest();
+			
 			// Use the key
 			if (level[player.getXPos()][player.getYPos()].isExit()) {
 				if (!(level[player.getXPos()][player.getYPos()]).exitUnlocked() && player.hasKey()) {
