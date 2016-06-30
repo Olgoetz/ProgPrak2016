@@ -90,6 +90,7 @@ public class Labyrinth {
 		// Places a number of Monster.
 		placeMonster(gameSize,monsterNumber);
 		
+		
 		// Counter:
 		System.out.println("\n\nGameSize: " + ((gameSize-1) * (gameSize-1)));
 		System.out.println("MazeSize Perfect: " +  ((((gameSize-1) * (gameSize-1))/2)-1));
@@ -395,6 +396,48 @@ public class Labyrinth {
 		}
 		System.out.print("\n" + monsterNumber + " Monster placed randomly over the map.");
 	}
+	
+	// NEU kommentieren!
+	
+	public static int monsterList_x(int gameSize, int monsterNumber, int monsterIndex){
+		
+		int [] x_cord = new int [monsterNumber];
+		
+		
+		int counter = 0;
+		
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				if(gameMap[i][j].containsMonster()){
+					x_cord[counter] = j;
+					counter = counter + 1;
+				}
+				
+			}
+		}
+		return (x_cord[monsterIndex]);
+	}
+	
+	// NEU kommentieren!
+	
+	public static int monsterList_y(int gameSize, int monsterNumber, int monsterIndex){
+		
+		int [] y_cord = new int [monsterNumber];
+		
+		
+		int counter = 0;
+		
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				if(gameMap[i][j].containsMonster()){
+					y_cord[counter] = i;
+					counter = counter + 1;
+				}
+				
+			}
+		}
+		return (y_cord[monsterIndex]);
+	}
 
 	/**
 	 * Searches for a blind alley in a quadrant, to put a Key at this blind alley. (Recursiv)
@@ -585,7 +628,7 @@ public class Labyrinth {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void PaintTest(int gameSize) {
+	public static void PaintTest(int gameSize, int monsterNumber) {
 		System.out.println("\n");
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
@@ -612,9 +655,18 @@ public class Labyrinth {
 					System.out.print("o ");
 
 				}
+				
+			
+
 
 			}
 			System.out.println("");
 		}
+		
+		// Monster Coordinates:
+		System.out.println("\n X Koordinate des 1 Monsters: " + monsterList_x(gameSize, monsterNumber, 0));
+		System.out.println("\n Y Koordinate des 1 Monsters: " + monsterList_y(gameSize, monsterNumber, 0));
+		System.out.println("\n X Koordinate des 2 Monsters: " + monsterList_x(gameSize, monsterNumber, 1));
+		System.out.println("\n Y Koordinate des 2 Monsters: " + monsterList_y(gameSize, monsterNumber, 1));
 	}
 }

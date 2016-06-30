@@ -19,7 +19,9 @@ public class Levelgenerator_Test{
 		Labyrinth.generate(19,2);
 		
 		// Prints the labyrinth on the console, to check if the method works well.
-		Labyrinth.PaintTest(19);
+		Labyrinth.PaintTest(19,2);
+		
+		
 	
 	}
 
