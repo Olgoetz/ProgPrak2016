@@ -85,7 +85,7 @@ public class Game extends TimerTask {
 		switch (message.getSubType()) {
 		case 0:
 			this.playerMove(message);
-			System.out.println("playerMove executed");
+			System.out.println("METHOD Distributor: playerMove executed");
 			break;
 		case 2:
 			this.playerAttack(message);
@@ -100,7 +100,6 @@ public class Game extends TimerTask {
 			this.openDoor();
 		case 37: // Testing
 			this.messageTester(message);
-			System.out.println("In game");
 			break;
 		}
 
@@ -146,6 +145,7 @@ public class Game extends TimerTask {
 
 	private void collectItem(Message message) {
 		Message answer;
+		System.out.println("METHOD Game.collectItem: executed");
 		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
 			player.takePotion();
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
@@ -157,6 +157,7 @@ public class Game extends TimerTask {
 		}
 		try {
 			engine.messagesToClient.put(answer);
+			System.out.println("METHOD Game.collectItem:"+answer.toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

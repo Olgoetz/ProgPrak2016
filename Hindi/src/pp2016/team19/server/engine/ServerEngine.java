@@ -5,7 +5,8 @@ import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
-import pp2016.team19.server.comm.NetworkHandlerS;
+
+import pp2016.team19.server.comm.HandlerServer;
 import pp2016.team19.shared.*;
 
 /**
@@ -26,7 +27,7 @@ public class ServerEngine implements Runnable {
 	private Vector<Game> games = new Vector<Game>();
 	private Game game1; // Test
 	private Timer tick = new Timer();
-	NetworkHandlerS network = new NetworkHandlerS();
+	HandlerServer network = new HandlerServer();
 	private boolean playerIsNew;
 	private boolean playerFound;
 
@@ -48,7 +49,7 @@ public class ServerEngine implements Runnable {
 	 * Keeps processing Messages
 	 */
 	public void run() {
-		System.out.println("runs");
+		System.out.println("METHOD ServerEngine.run: Started");
 		while (true) {
 			Message message = network.getMessageFromClient();
 			if (message != null) {
@@ -59,8 +60,8 @@ public class ServerEngine implements Runnable {
 				}
 			}
 			if (!this.messagesToClient.isEmpty()) {
-				System.out.println(this.messagesToClient.peek().toString());
-				System.out.println("Answer came back");
+				System.out.println("METHOD SendMessageToClient:" + this.messagesToClient.peek().toString());
+				System.out.println("METHOD SendMessageToClient: Answer came back");
 				network.sendMessageToClient(this.messagesToClient.poll());
 			}
 		}
@@ -98,7 +99,7 @@ public class ServerEngine implements Runnable {
 			break;
 		case 1:
 			this.sendToGame(message);
-			System.out.println("Messages forwarded");
+			System.out.println("METHOD sendToGame: Messages forwarded");
 			break;
 		case 100:
 			this.confirmConnection();
@@ -146,7 +147,7 @@ public class ServerEngine implements Runnable {
 
 	private void signInRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
-		System.out.println("Method engaging");
+		System.out.println("METHOD SignInRequest: Method engaging");
 		playerFound = false;
 		for (Player player : players) {
 			if (player.getName().equals(message.getUsername())) {
