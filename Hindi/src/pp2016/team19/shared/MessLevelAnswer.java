@@ -1,6 +1,7 @@
 package pp2016.team19.shared;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 
 /**
@@ -21,10 +22,12 @@ public class MessLevelAnswer extends Message implements Serializable{
 	private static final long serialVersionUID = -7110582956443760665L;
 	
 	private Tile[][] labyrinth;
+	private LinkedList<Monster> Monsters;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * @param labyrinth the array for the map
+	 * @param monsters 
 	 * @param type the maintype of the message
 	 * @param subType the subtype of the message
 	 * 
@@ -32,9 +35,10 @@ public class MessLevelAnswer extends Message implements Serializable{
 	 * 
 	 */
 	
-	public MessLevelAnswer(Tile[][] labyrinth, int type, int subType) {
+	public MessLevelAnswer(Tile[][] labyrinth, LinkedList<Monster> monsters, int type, int subType) {
 		super(type,subType);
 		this.labyrinth = labyrinth;
+		this.Monsters = monsters;
 	}
 	
 	
@@ -59,6 +63,16 @@ public class MessLevelAnswer extends Message implements Serializable{
 	
 	public Tile[][] getLabyrinth() {
 		return labyrinth;
+	}
+
+
+	public LinkedList<Monster> getMonsters() {
+		return Monsters;
+	}
+
+
+	public void setMonsters(LinkedList<Monster> monsters) {
+		Monsters = monsters;
 	}
 	
 

@@ -21,7 +21,7 @@ public class Player extends Character implements Serializable{
 
 	private boolean hasKey;
 	private int numberOfPotions;
-	private int potionEffect;
+	private int potionEffect=40;
 
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
 	private long lastStep = System.currentTimeMillis();
@@ -90,9 +90,8 @@ public class Player extends Character implements Serializable{
 		return health;
 	}
 	
-	public void takePotion(Potion t){
+	public void takePotion(){
 		numberOfPotions++;
-		potionEffect = t.getEffect();
 	}
 	
 	public void setNumberOfPotions(int quantity){
