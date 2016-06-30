@@ -375,6 +375,8 @@ public class ClientEngine implements Runnable   {
 	public void collectItemRequest() {
 		
 		this.sendToServer(new MessCollectItemRequest(1,4));
+ 
+		
 		System.out.println("METHOD Engine.collectItemRequest: CollectItemRequest sent! ");
 	}
 	
@@ -384,11 +386,11 @@ public class ClientEngine implements Runnable   {
 		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
 		if (message.getID() == 0) {
 			this.getMyPlayer().takeKey();
-			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsKey(false); 
+			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsKey(false);
+			
 		} else if (message.getID() == 1) {
 			this.getMyPlayer().takePotion();
-			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsPotion(false); 
-					
+			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getXPos()].setContainsPotion(false);		
 		} else if(message.getID() == -1) {
 			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
 		}
@@ -412,7 +414,9 @@ public class ClientEngine implements Runnable   {
 		
 		MessOpenDoorAnswer message = (MessOpenDoorAnswer) pMessage;
 		if (message.getOpenDoor() == true) {
-			System.out.println("METHOD Engine.openDoorAnswer: OpenDoorAnswer received!");
+			System.out.println("METHOD Engine.openDoorAnswer: Level completed!");
+		} else {
+			System.out.println("METHOD Engine.openDoorAnswer: No key available!");
 		}
 		
 	}
@@ -465,9 +469,6 @@ public class ClientEngine implements Runnable   {
 		this.myPlayer = message.getMyPlayer();
 		gamewindow.setTest(true);
 		
-	
-		
-		
 	}
 	
 	
@@ -513,7 +514,7 @@ public class ClientEngine implements Runnable   {
 	// ********* HELPERS and GETTERS'n'SETTERS **********
 	
 	/**
-	 * This methods calls the newtorkhandler a puts a message in queue.
+	 * This methods calls the newtorkhandler and puts a message in queue.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param pMessage
