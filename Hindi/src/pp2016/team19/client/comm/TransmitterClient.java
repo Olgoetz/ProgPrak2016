@@ -1,7 +1,7 @@
 package pp2016.team19.client.comm;
 
 import java.io.BufferedOutputStream;
-
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -10,10 +10,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import pp2016.team19.shared.Message;
-import pp2016.team19.shared.ThreadWaitForMessage;
 
 /**
- * The NetworkTransmitterC Class builds the Thread for sending Messages from the
+ * <h1>Builds the Thread for transmitting Message-objects from the Client to the
+ * Server.</h1>
+ * 
+ * The TransmitterClient Class builds the Thread for sending Messages from the
  * Client to the Server. The Thread allows to write Data into the existing
  * OutputStream. The messages are going to be collected through a
  * LinkedBlockingQueue and a loop allows to poll these messages from the Queue
@@ -22,7 +24,7 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  * @author Bulut , Taner , 5298261
  * 
  */
-public class NetworkTransmitterC extends Thread {
+public class TransmitterClient extends Thread {
 
 	private Socket server;
 	private ObjectOutputStream out;
@@ -34,8 +36,10 @@ public class NetworkTransmitterC extends Thread {
 	 * operated assigned to the Socket
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param server
+	 *            defines the Socket for the Client-Side
 	 */
-	public NetworkTransmitterC(Socket server) {
+	public TransmitterClient(Socket server) {
 		this.server = server;
 	}
 
@@ -78,13 +82,24 @@ public class NetworkTransmitterC extends Thread {
 					out.reset();
 				}
 			}
+		} catch (EOFException e) {
+			System.out.println("ERROR ObjectOutputStream: TRANSMITTERCLIENT");
+			e.printStackTrace();
 		} catch (SocketException e) {
-
-		} catch (IOException e) {
+			System.out.println("ERROR SocketException: TRANSMITTERCLIENT");
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException | InterruptedException e) {
+			System.out.println("ERROR: TRANSMITTERCLIENT resulting in transmitMessage()");
 			e.printStackTrace();
+		} finally {
+			try {
+				System.out.println("OutputStream is closed: TRANSMITTERCLIENT");
+				this.out.close();
+			} catch (IOException e) {
+				System.out.println("ERROR: TRANSMITTERCLIENT in transmitMessage()");
+				e.printStackTrace();
+			}
+			System.exit(1);
 		}
 	}
 
@@ -104,12 +119,15 @@ public class NetworkTransmitterC extends Thread {
 	 * they can be sent to the Server afterwards by the transmitMessage() method
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param message
+	 *            defines the Message-object that is saved in the
+	 *            LinkedBlockingQueue and ultimately sent to the Server
 	 */
 	public void writeMessage(Message message) {
 		try {
 			this.messagesToServer.put(message);
 		} catch (InterruptedException e) {
-			System.out.println("ERROR: NETWORKTRANSMITTERC.writeMessage(Message message)");
+			System.out.println("ERROR: TRANSMITTERCLIENT.writeMessage(Message message)");
 			e.printStackTrace();
 		}
 	}
@@ -119,6 +137,8 @@ public class NetworkTransmitterC extends Thread {
 	 * messages that are going to be sent to the Server
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @return the LinkedBlockingQueue<Message> that gathers the Message-objects
+	 *         that are going to be sent to the Server 
 	 */
 	public LinkedBlockingQueue<Message> getQueueMessagesToServer() {
 		return messagesToServer;

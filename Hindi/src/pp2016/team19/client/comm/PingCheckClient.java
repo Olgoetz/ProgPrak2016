@@ -7,25 +7,28 @@ import java.util.TimerTask;
 import pp2016.team19.shared.MessPing;
 
 /**
- * The NetworkPingCheckC Class builds the TimerTask for sending a Message within
+ * <h1>Checking the connection between Client and Server via Ping-Messages</h1>
+ * 
+ * The PingCheckClient Class builds the TimerTask for sending a Message within
  * a certain interval to the Server. The connection between Server and Client is
  * going to be checked by sending these Messages to the Server repetetively. In
- * case that the messages from the Server cannot be read, the NetworkPingCheckC
+ * case that the messages from the Server cannot be read, the PingCheckClient
  * is going to close the connection to the Server after a certain time.
  * 
  * @author Bulut , Taner , 5298261
  */
-public class NetworkPingCheckC extends TimerTask {
+public class PingCheckClient extends TimerTask {
 
-	private NetworkHandlerC networkHandler;
+	private HandlerClient networkHandler;
 	private int pingIteration = 0;
 
 	/**
-	 * Initializes the instance of the NetworkHandlerC 'networkHandler'
+	 * Initializes the instance of the HandlerClient 'networkHandler'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param networkHandler defines the HandlerClient that executes the TimerTask
 	 */
-	public NetworkPingCheckC(NetworkHandlerC networkHandler) {
+	public PingCheckClient(HandlerClient networkHandler) {
 		this.networkHandler = networkHandler;
 	}
 
@@ -52,10 +55,10 @@ public class NetworkPingCheckC extends TimerTask {
 
 	/**
 	 * Sends a MessPing-Message to the Server. Sets the variable 'connectedState1' of
-	 * the NetworkHandlerC to false, in order to check if the NetworkReceiverC
+	 * the HandlerClient to false, in order to check if the ReceiverClient
 	 * reads a message from the InputStream and then changes the value of
 	 * 'connectedState1' back to true. This means that the Connection between Server
-	 * and Client is alive otherwise pingTwo() is started.Therefore pingOne() is
+	 * and Client is alive otherwise pingTwo() is started. Therefore pingOne() is
 	 * the first attempt to check the reading of the InputStream.
 	 * 
 	 * @author Bulut , Taner , 5298261
@@ -68,7 +71,7 @@ public class NetworkPingCheckC extends TimerTask {
 
 	/**
 	 * Sends a MessPing-Message to the Server. Sets the variable 'connectedState2' of
-	 * the NetworkHandlerC to false, in order to check if the NetworkReceiverC
+	 * the HandlerClient to false, in order to check if the ReceiverClient
 	 * reads a message from the InputStream and then changes the value of
 	 * 'connectedState2' back to true. This means that the Connection between Server
 	 * and Client is alive otherwise stopConnection() is started.Therefore
@@ -92,7 +95,7 @@ public class NetworkPingCheckC extends TimerTask {
 	 */
 	private void stopConnection() {
 
-		this.networkHandler.close("NetworkPingCheckC STOPTHREADS for Client after " + pingIteration + " Pings");
+		this.networkHandler.close("PingCheckClient STOPTHREADS for Client after " + pingIteration + " Pings");
 		this.networkHandler.setCloseNetwork(true);
 		this.cancel();
 		try {
@@ -100,13 +103,13 @@ public class NetworkPingCheckC extends TimerTask {
 					"Connection to Server lost (PINGCHECK)! \n\n Please insure, that the server was not stopped! \n Start the game again afterwards!");
 			this.networkHandler.getServer().close();
 		} catch (SocketException e) {
-			System.out.println("CLIENT SOCKET CLOSED IN NETWORKPINGCHECKC");
+			System.out.println("CLIENT SOCKET CLOSED IN PINGCHECKCLIENT");
 		} catch (IOException e) {
-			System.out.println("ERROR: NETWORKPINGCHECKC");
-			System.out.println("Socket ERROR: NetworkHandlerC resulting in NetworkPingCheckC");
+			System.out.println("ERROR: PINGCHECKCLIENT");
+			System.out.println("Socket ERROR for HANDLERCLIENT resulting in PingCheckClient");
 			e.printStackTrace();
 		} finally {
-			System.out.println("NETWORKPINGCHECKC closed the game!");
+			System.out.println("PINGCHECKCLIENT closed the game!");
 			System.exit(1);
 		}
 	}

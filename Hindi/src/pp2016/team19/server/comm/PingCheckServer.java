@@ -6,25 +6,29 @@ import java.util.TimerTask;
 import pp2016.team19.shared.MessPing;
 
 /**
- * The NetworkPingCheckS Class builds the TimerTask for sending a Message within
- * a certain interval to the Client. The connection between Server and Client is
+ * <h1>Checking the connection between Server and Client via Ping-Messages</h1>
+ * 
+ * The PingCheckServer Class builds the TimerTask for sending a Message within a
+ * certain interval to the Client. The connection between Server and Client is
  * going to be checked by sending these Messages to the Client repetetively. In
- * case that the messages from the Client cannot be read, the NetworkPingCheckS
- * is going to close the connection to the Client after a certain time.
+ * case that the messages from the Client cannot be read, the PingCheckServer is
+ * going to close the connection to the Client after a certain time.
  * 
  * @author Bulut , Taner , 5298261
  */
-public class NetworkPingCheckS extends TimerTask {
+public class PingCheckServer extends TimerTask {
 
 	private int pingIteration = 0;
-	private NetworkHandlerS networkHandler;
+	private HandlerServer networkHandler;
 
 	/**
-	 * Initializes the instance of the NetworkHandlerS 'networkHandler'
+	 * Initializes the instance of the HandlerServer 'networkHandler'
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param networkHandler
+	 *            defines the HandlerServer that executes the TimerTask
 	 */
-	public NetworkPingCheckS(NetworkHandlerS networkhandler) {
+	public PingCheckServer(HandlerServer networkhandler) {
 		this.networkHandler = networkhandler;
 	}
 
@@ -50,8 +54,8 @@ public class NetworkPingCheckS extends TimerTask {
 
 	/**
 	 * Sends a MessPing-Message to the Server. Sets the variable
-	 * 'connectedState2' of the NetworkHandlerS to false, in order to check if
-	 * the NetworkReceiverS reads a message from the InputStream.
+	 * 'connectedState2' of the HandlerServer to false, in order to check if the
+	 * ReceiverServer reads a message from the InputStream.
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
@@ -64,8 +68,8 @@ public class NetworkPingCheckS extends TimerTask {
 
 	/**
 	 * Sends a MessPing-Message to the Server. Sets the variable
-	 * 'connectedState1' of the NetworkHandlerS to false, in order to check if
-	 * the NetworkReceiverS reads a message from the InputStream.
+	 * 'connectedState1' of the HandlerServer to false, in order to check if the
+	 * ReceiverServer reads a message from the InputStream.
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
@@ -83,18 +87,18 @@ public class NetworkPingCheckS extends TimerTask {
 	 */
 	private void stopConnection() {
 
-		System.out.println("NetworkPingCheckS STOPTHREADS for Server after " + pingIteration + " Pings");
+		System.out.println("PingCheckServer STOPTHREADS for Server after " + pingIteration + " Pings");
 		this.cancel();
 		try {
 			System.out.println(
 					"Connection to Client lost (PINGCHECK)! \n\n Please insure, that the Client was not stopped! \n Start the game again afterwards!");
 			this.networkHandler.getClient().close();
-			System.out.println("NETWORKPINGCHECKS: CLIENT CLOSED");
+			System.out.println("PINGCHECKSERVER: CLIENT CLOSED");
 			this.networkHandler.getServer().close();
-			System.out.println("NETWORKPINGCHECKS: SERVER CLOSED");
+			System.out.println("PINGCHECKSERVER: SERVER CLOSED");
 		} catch (IOException e) {
-			System.out.println("ERROR: NETWORKPINGCHECKS");
-			System.out.println("Socket ERROR: NetworkHandlerS resulting in NetworkPingCheckS");
+			System.out.println("ERROR: PINGCHECKSERVER");
+			System.out.println("Socket ERROR for HandlerServer resulting in PingCheckServer");
 			e.printStackTrace();
 		}
 	}
