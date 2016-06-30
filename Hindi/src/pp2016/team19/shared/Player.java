@@ -86,7 +86,7 @@ public class Player extends Character implements Serializable{
 	
 	public int usePotion(){
 		setNumberOfPotions(numberOfPotions-1);
-		health = Math.max(health+potionEffect,getMaxHealth());
+		health = Math.min(health+potionEffect,getMaxHealth());
 		return health;
 	}
 	

@@ -68,8 +68,7 @@ public class Game extends TimerTask implements Serializable {
 			this.distributor(message);
 		}
 		 for(Monster monster: Monsters) {
-		 boolean attack = monster.attackPlayer(player.hasKey());
-		 if (!attack) {
+		 if (!monster.attackPlayer(player.hasKey())) {
 		 monster.move();
 		 }
 		
@@ -195,14 +194,14 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, levelNumber);
-		Monsters = createMonsters(gameMap);
+		Monsters.clear();
+		createMonsters(gameMap);
 		player.setPos(1, gameSize - 2);
 		player.removeKey();
 
 	}
 
 	private LinkedList<Monster> createMonsters(Tile[][] gameMap2) {
-		LinkedList<Monster> Monsters = new LinkedList<Monster>();
 		for (int i = 0; i < gameMap2.length; i++) {
 			for (int j = 0; j < gameMap2.length; j++) {
 				if (gameMap[i][j].containsMonster()) {
