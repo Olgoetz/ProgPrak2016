@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 
 import pp2016.team19.client.*;
-import pp2016.team19.client.comm.NetworkHandlerC;
+import pp2016.team19.client.comm.HandlerClient;
 import pp2016.team19.client.gui.GameWindow;
 import pp2016.team19.shared.*;
 
@@ -50,7 +50,7 @@ public class ClientEngine implements Runnable   {
 
 	// network attributes
 	private ExecutorService threadPool;
-	private NetworkHandlerC networkHandler;
+	private HandlerClient networkHandler;
 	private GameWindow gamewindow;
 	private String serverAdress;
 	private String port;
@@ -76,7 +76,7 @@ public class ClientEngine implements Runnable   {
 		this.setThreadPool(clientThreadPool);
 		
 		// creates a new Networkhandler
-		this.setNetworkHandler(new NetworkHandlerC());
+		this.setNetworkHandler(new HandlerClient());
 		
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
@@ -176,6 +176,10 @@ public class ClientEngine implements Runnable   {
 
 			case 3:
 				this.attackAnswer(pMessage);
+				break;
+				
+			case 5:
+				this.collectItemAnswer(pMessage);
 				break;
 			// test case to see if messages are coming form the server	
 			case 18:
@@ -364,13 +368,25 @@ public class ClientEngine implements Runnable   {
 	
 	
 	
-//	public void collectItemRequest(Message pMessage) {
-//		System.out.println("METHOD Engine.collectItemRequest:" + pMessage.toString());
-//	}
-//	
-//	public void collectItemAnswer(Message pMessage) {
-//		System.out.println("METHOD Engine.collectItemAnswer:" + pMessage.toString());
-//	}
+	public void collectItemRequest() {
+		
+		this.sendToServer(new MessCollectItemRequest(1,4));
+		System.out.println("METHOD Engine.collectItemRequest: CollectItemRequest sent! ");
+	}
+	
+	public void collectItemAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.collectItemAnswer: collectItemAnswer received!");
+		
+		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
+		if (message.getID() == 0) {
+			this.getMyPlayer().takeKey();
+		} else if (message.getID() == 1) {
+			this.getMyPlayer().takePotion();
+					
+		} else {
+			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
+		}
+	}
 //	
 //	public void usePotionRequest(Message pMessage) {
 //		System.out.println("METHOD Engine.usePotionRequest:" + pMessage.toString());
@@ -532,11 +548,11 @@ public class ClientEngine implements Runnable   {
 		this.threadPool = threadPool;
 	}
 
-	public NetworkHandlerC getNetworkHandler() {
+	public HandlerClient getNetworkHandler() {
 		return networkHandler;
 	}
 
-	public void setNetworkHandler(NetworkHandlerC networkHandler) {
+	public void setNetworkHandler(HandlerClient networkHandler) {
 		this.networkHandler = networkHandler;
 	}
 
