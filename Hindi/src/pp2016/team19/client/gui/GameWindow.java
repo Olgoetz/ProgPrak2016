@@ -497,19 +497,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			} else if  (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isExit()) {
 				this.engine.openDoorRequest();
 			}
-			// Use the key
-			if (level[player.getXPos()][player.getYPos()].isExit()) {
-				if (!(level[player.getXPos()][player.getYPos()]).exitUnlocked() && player.hasKey()) {
-					level[player.getXPos()][player.getYPos()].setExitUnlocked(true);
-					// After opening the door, the key has to be removed
-					player.removeKey();
-					if (currentLevel < MAXLEVEL)
-						nextLevel();
-					else {
-						gameWon = true;
-					}
-				}
-			}
+			
 		}
 
 	}
