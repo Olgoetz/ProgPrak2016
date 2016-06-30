@@ -36,7 +36,7 @@ public class Game extends TimerTask implements Serializable {
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
-		gameMap = Labyrinth.generate(gameSize, gameSize);
+		gameMap = Labyrinth.generate(gameSize, 1);
 		Monsters = createMonsters(gameMap);
 		player.setPos(1, gameSize - 2);
 		player.setGame(this);
@@ -194,7 +194,7 @@ public class Game extends TimerTask implements Serializable {
 	 * @param levelNumber
 	 */
 	public void newLevel(int levelNumber) {
-		gameMap = Labyrinth.generate(gameSize, gameSize);
+		gameMap = Labyrinth.generate(gameSize, levelNumber);
 		Monsters = createMonsters(gameMap);
 		player.setPos(1, gameSize - 2);
 		player.removeKey();
