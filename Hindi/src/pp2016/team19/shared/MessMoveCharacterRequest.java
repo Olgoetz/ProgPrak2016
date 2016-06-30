@@ -15,7 +15,8 @@ public class MessMoveCharacterRequest extends Message implements Serializable {
 
 
 	private static final long serialVersionUID = -3530360293429750272L;
-	int direction;
+	private int direction;
+	private int x,y;
 	
 	
 	/**
@@ -27,12 +28,21 @@ public class MessMoveCharacterRequest extends Message implements Serializable {
 	 * 
 	 */
 	
-	public MessMoveCharacterRequest(int direction, int type, int subType) {
+
+	public MessMoveCharacterRequest(int x, int y, int direction, int type, int subType) {
 		super(type, subType);
+		this.x = x;
+		this.y = y;
 		this.direction = direction;
 	
 	}
+	public int getX() {
+		return x;
+	}
 	
+	public int getY() {
+		return y;
+	}
 	/**
 	 * 
 	 *  Method, that sets an int, in which direction the player wants to move

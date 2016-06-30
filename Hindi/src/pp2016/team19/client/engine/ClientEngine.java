@@ -18,7 +18,7 @@ import pp2016.team19.shared.*;
 /***
  * 
  * <h1>This class represents the client-engine together with all its variables and processing
- * methods.<h1>
+ * methods.</h1>
  * 
  * 
  * 
@@ -27,8 +27,8 @@ import pp2016.team19.shared.*;
  * 				- A thread is initialized
  * <p>	
  * Section 2:
- * 				- messageReader-Method to analyze incoming messages
- * 				- several subsections with switch cases statements to call the appropriate method
+ * 				- MessageReader-Method to analyze incoming messages
+ * 				- Several subsections with switch cases statements to call the appropriate method
  * <p>
  * Section 3:
  * 				- Request Methods to send information to the server
@@ -45,11 +45,6 @@ import pp2016.team19.shared.*;
 
 //*************** SECTION 1 ********************//
 
-/**
- * Class implements Runnable for creating a thread to receive message from the server.
- * @author Oliver Goetz, 5961343
- *
- */
 
 public class ClientEngine implements Runnable   {
 
@@ -57,7 +52,6 @@ public class ClientEngine implements Runnable   {
 	private ExecutorService threadPool;
 	private NetworkHandlerC networkHandler;
 	private GameWindow gamewindow;
-//	private TestGUI gui;
 	private String serverAdress;
 	private String port;
 	
@@ -84,23 +78,11 @@ public class ClientEngine implements Runnable   {
 		// creates a new Networkhandler
 		this.setNetworkHandler(new NetworkHandlerC());
 		
-		// creates a new Gamewindow
+		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));
-		
-//		this.setGUI(new TestGUI(this));
-//		// initializes the thread
-//		this.getThreadPool().execute(this.getGUI());
-//		this.getGUI().los();
 		
 	}
 	
-//	public void setGUI(TestGUI gui) {
-//		this.gui = gui;
-//	}
-//	
-//	public TestGUI getGUI() {
-//		return gui;
-//	}
 	
 	/***
 	 * 
@@ -136,7 +118,7 @@ public class ClientEngine implements Runnable   {
 	
 	
 	/**
-	 * SECTION 2 containts the messageReader identifying the messages coming from the server.
+	 * SECTION 2 contains the messageReader identifying the messages coming from the server.
 	 * 
 	 * There are several subsections that call the appropriate method.
 	 * 
@@ -149,17 +131,19 @@ public class ClientEngine implements Runnable   {
 	 * @author Oliver Goetz, 5961343
 	 * @param pMessage message object that has to be read
 	 */
+	
+
 	private void messageReader(Message pMessage) {
-		System.out.println("METHOD Engine.messageReader() " + pMessage.toString());
 
 		// returns the maintype of the message
 		switch (pMessage.getType()) {
 
 		// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS **********
 		case 0:
-
+			// analyzes the subtype of the message
 			switch (pMessage.getSubType()) {
 			case 3:
+				// processes a serverSignInAndUpAnswer see SECTION 3
 				this.serverSignInAndUpAnswer(pMessage);
 				break;
 
@@ -182,16 +166,17 @@ public class ClientEngine implements Runnable   {
 	
 		// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
 		case 1:
-
+			// analyzes the subtype of the message
 			switch (pMessage.getSubType()) {
 			case 1:
+				// processes a serverSignInAndUpAnswer see SECTION 3
 				this.moveCharacterAnswer(pMessage);
 				break;
 
 			case 3:
 				this.attackAnswer(pMessage);
 				break;
-				
+			// test case to see if messages are coming form the server	
 			case 18:
 				System.out.println("Message received");
 				break;
@@ -331,20 +316,29 @@ public class ClientEngine implements Runnable   {
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
 	
 	// Sends a moveCharacterRequest to the server
-	public void moveCharacterRequest(int direction) {
+	public void moveCharacterRequest(int x, int y,int direction) {
 		
-	this.sendToServer(new MessMoveCharacterRequest(direction, 1, 0));
-//	System.out.println("Message sent");
+	this.sendToServer(new MessMoveCharacterRequest(x,y,direction, 1, 0));
+	System.out.println("METHOD Engine.MoveCharacterRequest: MovementRequest sent!");
 	} 
 	
 	// Processes a moveCharacterAnswer Message coming from the server
 	private void moveCharacterAnswer(Message pMessage) {	
-		System.out.println("Message came from server");
+		System.out.println("METHOD ClientEngine.moveCharacterAnswer: Message came from server");
+		
+			// Casts the message
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
+			
+			// Checks if the boolean in message is true
 			if(message.isConfirmed()) {
+			System.out.println("METHOD ClientEngine.moveCharacterAnswer: Movement allowed");
+			
+			// Sets new position of the player
 			myPlayer.xPos = message.getX();
 			myPlayer.yPos = message.getY();
 		
+			} else {
+				System.out.println("METHOD ClientEngine.moveCharacterAnswer: Movement NOT allowed");
 			}
 			
 		}
@@ -405,7 +399,7 @@ public class ClientEngine implements Runnable   {
 	
 	
 	public void startGameRequest(int ID) {
-		System.out.println("new game requested");
+		System.out.println("METHOD ClientEngine.startGameRequest: New game requested");
 		this.sendToServer(new MessStartGameRequest(this.getPlayerID(),0,6));
 	}
 	
@@ -421,8 +415,7 @@ public class ClientEngine implements Runnable   {
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		
 		this.labyrinth = message.getLabyrinth();
-	//	test.setGameMap(this.labyrinth);
-		//test.PaintTest(16);
+	
 	}
 	
 	// Sends a playerRequest to the server
@@ -434,9 +427,11 @@ public class ClientEngine implements Runnable   {
 	// Processes an playerAnswer Message coming from the server
 	public void playerAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.playerAnswer: Player received!");
+		
+		// Casts the incoming MessPlayerAnswer
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
 		
-		
+		// Sets a new player
 		this.myPlayer = message.getMyPlayer();
 		
 		System.out.println(message.getMyPlayer().toString());
@@ -477,19 +472,43 @@ public class ClientEngine implements Runnable   {
 	 */
 
 
+	
+	/**
+	 * SECTION xx contains helper methods as well Getter and Setter
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 
+	 */
 
 	// ********* HELPERS and GETTERS'n'SETTERS **********
 	
-	// Calls the networkHandler a puts the message in a queue
+	/**
+	 * This methods calls the newtorkhandler a puts a message in queue.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage
+	 */
+	
 	private void sendToServer(Message pMessage) {
 		this.networkHandler.sendMessageToServer(pMessage);
 	}
 
-
+	/**
+	 * The getter Method for the player.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return a player
+	 */
 	public Player getMyPlayer() {
 		return myPlayer;
 	}
 
+	/**
+	 * Setter Method for the player.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param myPlayer the player
+	 */
 	private void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
@@ -503,21 +522,6 @@ public class ClientEngine implements Runnable   {
 	}
 	
 
-//	private LinkedBlockingQueue<Message> getMessagesFromServer() {
-//		return messagesFromServer;
-//	}
-//
-//	private void setMessagesFromServer(LinkedBlockingQueue<Message> messagesFromServer) {
-//		this.messagesFromServer = messagesFromServer;
-//	}
-//
-//	private LinkedBlockingQueue<Message> getMessagesToServer() {
-//		return messagesToServer;
-//	}
-//
-//	private void setMessagesToServer(LinkedBlockingQueue<Message> messagesToServer) {
-//		this.messagesToServer = messagesToServer;
-//	}
 
 	private ExecutorService getThreadPool() {
 		return threadPool;
@@ -552,6 +556,7 @@ public class ClientEngine implements Runnable   {
 	public int getPlayerID() {
 		return playerID;
 	}
+
 
 
 

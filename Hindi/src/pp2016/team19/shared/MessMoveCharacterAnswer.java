@@ -27,7 +27,7 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	private static final long serialVersionUID = -7005346683609579242L;
 	private int posX;
 	private int posY;
-	boolean confirmed;
+	private boolean confirmed;
 	
 	/**
 	 * @author Oliver Goetz, 5961343

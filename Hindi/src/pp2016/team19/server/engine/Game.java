@@ -175,10 +175,16 @@ public class Game extends TimerTask {
 	 */
 	private void playerMove(Message pmessage) {
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
+		player.xPos = message.getX();
+		player.yPos = message.getY();
+		System.out.println("METHOD ServerEngine.playerMove: " +player.toString());
+		System.out.println("METHOD ServerEngine.playerMove: " + message.getDirection());
+		
 		switch(message.getDirection()) {
 		case 0: //MoveUp
-		if (player.getYPos()+1<gameSize && gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
-				player.moveUp();
+		if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos()+1].isWalkable()) {
+				player.moveDown();
+				System.out.println("DOWN:" + player.getXPos() + " " + player.getYPos());
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
 				System.out.println("Player position test:"+tester.getX());
@@ -192,7 +198,7 @@ public class Game extends TimerTask {
 			}		
 			} else {
 				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
-				System.out.println("Move not allowed");
+				System.out.println("UP Move not allowed");
 				try {
 					engine.messagesToClient.put(answer);
 				} catch (InterruptedException e) {
@@ -202,8 +208,9 @@ public class Game extends TimerTask {
 			} 
 		break;
 			case 1: //MoveDown
-				if (gameMap[player.getXPos()][player.getYPos()-1].isWalkable()) {
-					player.moveDown();
+				if (player.getYPos() < 16 - 1 && gameMap[player.getXPos()][player.getYPos()-1].isWalkable()) {
+					player.moveUp();
+					System.out.println("UP:" + player.getXPos() + " " + player.getYPos());
 					Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 					try {
 						engine.messagesToClient.put(answer);
@@ -213,6 +220,7 @@ public class Game extends TimerTask {
 					}
 				} else {
 					Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+					System.out.println("DOWN Move not allowed");
 					try {
 						engine.messagesToClient.put(answer);
 					} catch (InterruptedException e) {
@@ -222,8 +230,9 @@ public class Game extends TimerTask {
 				}
 				break;
 				case 2: //MoveLeft
-					if (gameMap[player.getXPos()-1][player.getYPos()].isWalkable()) {
+					if (player.getXPos() > 0 && gameMap[player.getXPos()-1][player.getYPos()].isWalkable()) {
 						player.moveLeft();
+						System.out.println("LEFT:" + player.getXPos() + " " + player.getYPos());
 						Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 						try {
 							engine.messagesToClient.put(answer);
@@ -233,6 +242,7 @@ public class Game extends TimerTask {
 						}
 					} else {
 						Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+						System.out.println("LEFT Move not allowed");
 						try {
 							engine.messagesToClient.put(answer);
 						} catch (InterruptedException e) {
@@ -242,8 +252,9 @@ public class Game extends TimerTask {
 					}
 					break;
 					case 3: //MoveRight
-						if (gameMap[player.getXPos()+1][player.getYPos()].isWalkable()) {
+						if (player.getXPos() < 16 - 1 && gameMap[player.getXPos()+1][player.getYPos()].isWalkable()) {
 							player.moveRight();
+							System.out.println("RIGHT:" + player.getXPos() + " " + player.getYPos());
 							Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,true);
 							try {
 								engine.messagesToClient.put(answer);
@@ -253,6 +264,7 @@ public class Game extends TimerTask {
 							}
 						} else {
 							Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),player.getYPos(),1,1,false);
+							System.out.println("RIGHT Move not allowed");
 							try {
 								engine.messagesToClient.put(answer);
 							} catch (InterruptedException e) {
@@ -260,7 +272,7 @@ public class Game extends TimerTask {
 								e.printStackTrace();
 							}
 			}
-			break;	
+			
 		}
 	}
 

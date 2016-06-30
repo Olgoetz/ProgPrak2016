@@ -75,36 +75,36 @@ private static final long serialVersionUID = 1L;
 			g.drawImage(background, i*window.BOX, j*window.BOX, null);
 			}
 		}		
-		System.out.println(window.player.toString());
-		g.drawImage(window.player.getImage(), 4, 4, window.BOX - 8, window.BOX - 8, null);
+		System.out.println(window.getEngine().getMyPlayer().toString());
+		g.drawImage(window.getEngine().getMyPlayer().getImage(), 4, 4, window.BOX - 8, window.BOX - 8, null);
 		// draw the key if the player picked one up
-		if(window.player.hasKey()){
+		if(window.getEngine().getMyPlayer().hasKey()){
 			g.drawImage(key, 5, window.BOX * (window.HEIGHT - 11), null);
 		}
 		
 		g.setColor(Color.WHITE);	
-//		g.drawString(window.player.getName(), window.BOX + 5, 20);
+//		g.drawString(window.getEngine().getMyPlayer().getName(), window.BOX + 5, 20);
 		g.drawLine( 5, 35, 155, 35);
 		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5,  window.BOX * (window.HEIGHT - 14));
 		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5,  window.BOX * (window.HEIGHT - 13));
 		
 		
 		// Display of the potions
-		int numberOfPotions = window.player.getNumberOfPotions();
+		int numberOfPotions = window.getEngine().getMyPlayer().getNumberOfPotions();
 		String s;
 		if (numberOfPotions < 10) s ="" +numberOfPotions;
 		else s = String.valueOf(numberOfPotions);
 		g.drawString(s, 5, window.BOX * (window.HEIGHT - 12));
 		g.drawImage(potion,7,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
-		System.out.println(window.player.getXPos() + " " + window.player.getYPos());
-		Tile field = window.level[window.player.getXPos()][window.player.getYPos()];
+		System.out.println(window.getEngine().getMyPlayer().getXPos() + " " + window.getEngine().getMyPlayer().getYPos());
+		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine().getMyPlayer().getYPos()];
 		
 		//draw the instructions
 		if(field.containsKey()){
 			g.drawString("Press Space to take key", 5, window.BOX * (window.HEIGHT - 11));
 		}else if(field.isExit()){
 			if(!field.exitUnlocked()){
-				if(window.player.hasKey())
+				if(window.getEngine().getMyPlayer().hasKey())
 					g.drawString("Press Space: open door", 5, window.BOX * (window.HEIGHT - 11));
 				else
 					g.drawString("Door closed!", 5, window.BOX * (window.HEIGHT - 11));
@@ -117,11 +117,11 @@ private static final long serialVersionUID = 1L;
 		g.setColor(Color.WHITE);
 		g.drawString("Player's Health: ", 5, window.BOX * (window.HEIGHT - 10) + 20);
 		
-		// players health bar
+		// getEngine().getMyPlayer()s health bar
 		g.setColor(Color.RED);
-		g.fillRect(5,window.BOX * (window.HEIGHT - 9), window.player.getMaxHealth(), 5);
+		g.fillRect(5,window.BOX * (window.HEIGHT - 9), window.getEngine().getMyPlayer().getMaxHealth(), 5);
 		g.setColor(Color.GREEN);
-		g.fillRect(5, window.BOX * (window.HEIGHT - 9), window.player.getHealth(), 5);
+		g.fillRect(5, window.BOX * (window.HEIGHT - 9), window.getEngine().getMyPlayer().getHealth(), 5);
 		
 		// show text "minimap" on the statusbar
 		g.setColor(Color.WHITE);
@@ -139,21 +139,21 @@ private static final long serialVersionUID = 1L;
 	for (int i = 0; i < window.WIDTH ; i++) {
 		for (int j = 0; j < window.HEIGHT; j++) {
 //			if (inRange(i,j)) {
-				if (window.level[i][j].isRock()) {
+				if (window.getEngine().getLabyrinth()[i][j].isRock()) {
 					// Here goes a wall
 					g.drawImage(wall1, (i * miniBox) + var2 , (j * miniBox) + var1 ,null);
-				} else if (window.level[i][j].isFloor()) {
+				} else if (window.getEngine().getLabyrinth()[i][j].isFloor()) {
 					// This field is walkable
 					g.drawImage(floor1, (i * miniBox) + var2,
 							(j * miniBox) + var1 , null);
 				
-				}else if (window.level[i][j].isEntry()) {
+				}else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
 						// Here is the door
 						g.drawImage(floor1, i * window.BOX, j * window.BOX, null);
 						g.drawImage(doorOpen1, i * window.BOX, j
 								* window.BOX, null);
-					} else if (window.level[i][j].isExit()) {							
-						if (window.level[i][j].exitUnlocked())
+					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {							
+						if (window.getEngine().getLabyrinth()[i][j].exitUnlocked())
 							g.drawImage(doorOpen1, i * window.BOX, j
 									* window.BOX, null);
 						else
@@ -165,8 +165,8 @@ private static final long serialVersionUID = 1L;
 		}
 	
 		
-				g.drawImage(window.player.getImage().getScaledInstance(6, 6, 0),( window.player.getXPos() //make x and y dynamic
-						* miniBox) + var2, (window.player.getYPos() * miniBox) + var1 ,null);			
+//				g.drawImage(window.getEngine().getMyPlayer().getImage().getScaledInstance(6, 6, 0),( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
+//						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
 
 		

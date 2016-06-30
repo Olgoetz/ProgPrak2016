@@ -93,9 +93,16 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
+		this.engine.startGameRequest(this.engine.getPlayerID());
+	
+		this.player = this.engine.getMyPlayer();
+		
+		
 		initializeJFrame(width, height, title);	
-		resetGame();
+		
 	}
+	
+
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960
@@ -132,6 +139,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		
 		// first the Loginpanel is on screen
 		showLogin();
+		
 		//showMenu();
 //		showConnect();
 		// Center the window on the screen
@@ -367,27 +375,47 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
-		int xPos = player.getXPos();
-		int yPos = player.getYPos();
-
+		int xPos = this.engine.getMyPlayer().getXPos();
+		int yPos = this.engine.getMyPlayer().getYPos();
+		System.out.println("OLDPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " " + this.engine.getMyPlayer().getYPos());
 		// Ask for the keyboard entrys of the arrow keys.
 		// It is checked whether the next step is valid.
 		// Does the character stay within the borders of
 		// the arrays? If so: Is the following field walkable?
 		// If both is true, walk this next step.
 		if (!gameWon) {
-			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				if (yPos > 0 && !(level[xPos][yPos - 1].isRock()))
-					player.moveUp();
-			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				if (yPos < HEIGHT - 1 && !(level[xPos][yPos + 1].isRock()))
-					player.moveDown();
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+//				if (yPos > 0 && (this.engine.getLabyrinth()[xPos][yPos - 1].isWalkable()))
+				
+					this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(), this.engine.getMyPlayer().getYPos(),0);
+				
+				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " " + this.engine.getMyPlayer().getYPos());
+			
+			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+//				if (yPos < HEIGHT - 1 && (this.engine.getLabyrinth()[xPos][yPos + 1].isWalkable()))
+					
+					this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(), this.engine.getMyPlayer().getYPos(),1);
+				
+				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " " + this.engine.getMyPlayer().getYPos());
+				
 			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				if (xPos > 0 && !(level[xPos - 1][yPos].isRock()))
-					player.moveLeft();
+//				if (xPos > 0 && (this.engine.getLabyrinth()[xPos - 1][yPos].isWalkable()))
+					
+					
+					this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(), this.engine.getMyPlayer().getYPos(),2);
+				
+				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " " + this.engine.getMyPlayer().getYPos());
+				
+					
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if (xPos < WIDTH - 1 && !(level[xPos + 1][yPos].isRock()))
-					player.moveRight();
+//				if (xPos < WIDTH - 1 && (this.engine.getLabyrinth()[xPos + 1][yPos].isRock()))
+					
+					
+					this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(), this.engine.getMyPlayer().getYPos(),3);
+				
+				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " " + this.engine.getMyPlayer().getYPos());
+				
+					
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
 				Monster m = player.monsterToAttack();
 				if (m != null)
@@ -462,7 +490,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //		monsterListe = new LinkedList<Monster>();
 //		level = new Spielelement[16][16];
 		this.player = this.engine.getMyPlayer();
-		System.out.println(this.player.toString());
+		System.out.println("METHOD GameWindow.resetGame:" + this.player.toString());
 		Image img = null;
 		try {
 			 img = ImageIO.read(new File("img//player.png"));
@@ -470,7 +498,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			System.out.println("File not found");
 			e1.printStackTrace();
 		}
-//		player.setImage(img);
+		player.setImage(img);
 		level = this.engine.getLabyrinth();
 
 		currentLevel = 0;
@@ -536,6 +564,10 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		level = engine.getLabyrinth();
 
+	}
+	
+	public ClientEngine getEngine() {
+		return engine;
 	}
 
 

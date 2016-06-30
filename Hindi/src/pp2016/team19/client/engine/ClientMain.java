@@ -18,8 +18,8 @@ public class ClientMain {
 
 
 	/**
-	 * The main method start the client engine. It initializes a new client together with
-	 * a thread.
+	 * <h1>The main method starts the client engine. It initializes a new client together with
+	 * a thread.</h1>
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param args the arguments

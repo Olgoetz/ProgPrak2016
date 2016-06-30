@@ -181,7 +181,7 @@ public abstract class Character implements Serializable{
 	 * Method to move up the character
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public void moveUp() {
+	public synchronized void moveUp() {
 		yPos--;
 	}
 
@@ -189,15 +189,15 @@ public abstract class Character implements Serializable{
 	 * Method to move down the character
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public void moveDown() {
+	public synchronized void moveDown() {
 		yPos++;
 	}
 
-	public void moveLeft() {
+	public synchronized void moveLeft() {
 		xPos--;
 	}
 
-	public void moveRight() {
+	public synchronized void moveRight() {
 		xPos++;
 	}
 
