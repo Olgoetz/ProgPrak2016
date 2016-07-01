@@ -61,8 +61,6 @@ public class Labyrinth {
 		gameMap = new Tile[gameSize][gameSize];
 
 		// Creates a Map of ROCKS.
-		
-		
 		restartGenerator(gameSize);
 		
 
@@ -475,7 +473,8 @@ public class Labyrinth {
 	
 	public static void placeExit(int j, int gameSize) {
 		boolean br = false;
-		for (int i = (gameSize - 2); i > (gameSize / 2 + 1); --i) {
+		
+		for (int i = (gameSize - 2); i > (gameSize/2 + 2); --i) {
 			if (gameMap[i][j].isFloor()) {
 				if (countNeighbors(i, j, gameSize) < 2) {
 					gameMap[i][j].setType(EXIT);
@@ -489,8 +488,12 @@ public class Labyrinth {
 		}
 
 		if (br == false) {
-			placeExit((j + 1), gameSize);
+			
+				placeExit(j+1, gameSize);
+			
 		}
+			
+		
 	}
 
 	/**
@@ -557,11 +560,8 @@ public class Labyrinth {
 
 					}
 				}
-			} else if (counter < 5) {
-				counter = counter + 1;
+			} else {
 				zahl = 2;
-			} else if (counter == 5) {
-				break;
 			}
 
 		case 2:
@@ -575,11 +575,8 @@ public class Labyrinth {
 						// }
 					}
 				}
-			} else if (counter < 5) {
-				counter = counter + 1;
+			} else {
 				zahl = 3;
-			} else if (counter == 5) {
-				break;
 			}
 
 		case 3:
@@ -593,11 +590,8 @@ public class Labyrinth {
 						// }
 					}
 				}
-			} else if (counter < 5) {
-				counter = counter + 1;
+			} else{
 				zahl = 4;
-			} else if (counter == 5) {
-				break;
 			}
 
 		case 4:
@@ -611,11 +605,70 @@ public class Labyrinth {
 						// }
 					}
 				}
-			} else if (counter < 5) {
-				counter = counter + 1;
+			} else{
+				zahl = 5;
+			}
+
+			
+		case 5:
+			if (edgeCheckUp(x, y)) {
+				if (gameMap[x - 2][y].isRock()) {
+					if (countNeighbors(x - 2, y, gameSize) < 2) {
+						// if(diagNeighbours(x-1,y)){
+						gameMap[x-1][y].setType(FLOOR);
+						gameMap[x-2][y].setType(FLOOR);
+						floodFill(x - 2, y, gameSize);
+						// }
+
+					}
+				}
+			} else {
+				zahl = 6;
+			}
+			
+		case 6:
+			if (edgeCheckRight(x, y, gameSize)) {
+				if (gameMap[x][y + 2].isRock()) {
+					if (countNeighbors(x, y + 2, gameSize) < 2) {
+						// if(diagNeighbours(x,y+1)){
+						gameMap[x][y+1].setType(FLOOR);
+						gameMap[x][y+2].setType(FLOOR);
+						floodFill(x, y + 2, gameSize);
+						// }
+					}
+				}
+			} else {
+				zahl = 7;
+			}
+			
+		case 7:
+			if (edgeCheckDown(x, y, gameSize)) {
+				if (gameMap[x + 2][y].isRock()) {
+					if (countNeighbors(x + 2, y, gameSize) < 2) {
+						// if(diagNeighbours(x+1, y)){
+						gameMap[x+1][y].setType(FLOOR);
+						gameMap[x+2][y].setType(FLOOR);
+						floodFill(x + 2, y, gameSize);
+						// }
+					}
+				}
+			} else{
+				zahl = 8;
+			}
+
+		case 8:
+			if (edgeCheckLeft(x, y, gameSize)) {
+				if (gameMap[x][y - 2].isRock()) {
+					if (countNeighbors(x, y - 2, gameSize) < 2) {
+						// if(diagNeighbours(x,y-1)){
+						gameMap[x][y-1].setType(FLOOR);
+						gameMap[x][y-2].setType(FLOOR);
+						floodFill(x, y - 2, gameSize);
+						// }
+					}
+				}
+			} else{
 				zahl = 1;
-			} else if (counter == 5) {
-				break;
 			}
 
 		}
