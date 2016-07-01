@@ -11,11 +11,6 @@ import java.util.concurrent.Executors;
  */
 
 public class ClientMain {
-	
-	public final static int WIDTH = 16;
-	public final static int HEIGHT = 16;
-	public final static int BOX = 32;
-
 
 	/**
 	 * <h1>The main method starts the client engine. It initializes a new client together with

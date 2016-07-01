@@ -1,15 +1,18 @@
 package pp2016.team19.client.engine;
 
 import java.awt.Color;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import pp2016.team19.client.*;
 import pp2016.team19.client.comm.HandlerClient;
 import pp2016.team19.client.gui.GameWindow;
+import pp2016.team19.client.gui.ServerConnection;
 import pp2016.team19.shared.*;
 
 
@@ -54,6 +57,7 @@ public class ClientEngine implements Runnable   {
 	private GameWindow gamewindow;
 	private String serverAdress;
 	private String port;
+	private ServerConnection sercon;
 	
 	// game attributes
 	private int playerID;
@@ -71,12 +75,20 @@ public class ClientEngine implements Runnable   {
 	 * @author Oliver Goetz, 5961343
 	 * @param clientThreadPool enables to start a tread
 	 */
+
+	
 	public ClientEngine(ExecutorService clientThreadPool) {
-		System.out.println("Start Constructor");
+		
+		// opens a dialog window to type in a value for the server adress
+		JOptionPane.setDefaultLocale(Locale.ENGLISH);
+		JFrame input = new JFrame();
+		String adresse= JOptionPane.showInputDialog(input,"Serveradress", "localhost");
+	
+		// sets the thread
 		this.setThreadPool(clientThreadPool);
 		
 		// creates a new Networkhandler
-		this.setNetworkHandler(new HandlerClient());
+		this.setNetworkHandler(new HandlerClient(adresse));
 		
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this,BOX*WIDTH, BOX*HEIGHT, "Hindi Bones"));

@@ -40,13 +40,13 @@ public class HandlerClient {
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
-	public HandlerClient() {
+	public HandlerClient(String adresse) {
 		this.pingTimer = new Timer();
 		this.closeNetwork = false;
 		while (this.server == null) {
 			try {
 				// this.server = new Socket("62.143.243.85", 33333);
-				this.server = new Socket("localhost", 44444);
+				this.server = new Socket(adresse, 44444);
 				this.connectedState1 = true;
 				this.connectedState2 = true;
 			} catch (UnknownHostException e) {
