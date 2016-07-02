@@ -97,6 +97,7 @@ public class Game extends TimerTask implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		playerAttacked = false;
 		}
 		lastSent = System.currentTimeMillis();
 		}
