@@ -7,7 +7,6 @@ import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
-import pp2016.team19.client.gui.GameWindow;
 import pp2016.team19.server.engine.Game;
 
 public class Player extends Character implements Serializable{
@@ -24,8 +23,6 @@ public class Player extends Character implements Serializable{
 	private int potionEffect=40;
 
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
-	private long lastStep = System.currentTimeMillis();
-	private int cooldownWalk = 500;
 	
 	public Player(){
 		super();
