@@ -298,5 +298,9 @@ public class Monster extends Character {
 	public int getType() {
 		return type;
 	}
+	
+	public String toString() {
+		return "Monster: " + this.getXPos() + ", " + this.getYPos() + " | Health: " + this.getHealth();
+	}
 
 }
