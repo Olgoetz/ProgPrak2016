@@ -305,6 +305,10 @@ public class Monster extends Character {
 		return this.justAttacked;
 	}
 	
+	public void setJustAttacked(boolean attack){
+		this.justAttacked = attack;
+	}
+	
 	public String toString() {
 		return "Monster: " + this.getXPos() + ", " + this.getYPos() + " | Health: " + this.getHealth();
 	}
