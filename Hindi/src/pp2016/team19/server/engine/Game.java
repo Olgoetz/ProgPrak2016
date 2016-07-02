@@ -99,6 +99,7 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 4:
 			this.collectItem(message);
+			break;
 		case 6:
 			this.usePotion(message);
 		default:
