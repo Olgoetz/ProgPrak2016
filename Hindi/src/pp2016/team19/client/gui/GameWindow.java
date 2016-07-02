@@ -332,13 +332,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		return loginpanel;
 	}
 
-	// control with mouse
-	// compares the coordinates of the mouseclick with the player positon
-	// if mouseclick higher than player position, player moves up (mouse-y
-	// smaller than player-y)
-	// if mouseclick lower than player position, player moves down (mouse-y
-	// bigger than player-y)
-	// etc.
 
 	/**
 	 * method for controlling the player with the mouse player moves to clicked
@@ -361,24 +354,11 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 													// playerposition y and
 													// theres no wall, player
 													// moveDown()
-				this.getEngine().aStarRequest();
+				this.getEngine().aStarRequest(mouseX, mouseY);
 				
 			} else {
 				System.out.println("METOD GameWindow.mouseClicekd: Tile is NOT walkable!");
-		
-
-				// }else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof
-				// Wall)) { // if click y is lower than playerposition y and
-				// theres no wall, player moveUp()
-				// player.moveUp();
-				// }else if (mouseX < xPos && !(level[xPos - 1][yPos] instanceof
-				// Wall)) { // if click x left from playerposition x and
-				// leftside no wall, player moveLeft()
-				// player.moveLeft();
-				// }else if (mouseX > xPos && !(level[xPos + 1][yPos] instanceof
-				// Wall)) { // if click x right from playerposition x and
-				// rightside no wall, player moveRight()
-				// player.moveRight();
+	
 			}
 		}
 	}
@@ -413,8 +393,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
-//		int xPos = this.engine.getMyPlayer().getXPos();
-//		int yPos = this.engine.getMyPlayer().getYPos();
+
 		// System.out.println("OLDPosition of Player in game:" +
 		// this.engine.getMyPlayer().getXPos() + " " +
 		// this.engine.getMyPlayer().getYPos());

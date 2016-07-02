@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class MessAstarRequest extends Message implements Serializable{
 
 	private static final long serialVersionUID = -3182834598358521775L;
+	private int mouseX, mouseY;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
@@ -20,9 +21,20 @@ public class MessAstarRequest extends Message implements Serializable{
 	 * @param subType the subtype (=10) of the message
 	 * 
 	 */
-	public MessAstarRequest(int type, int subType) {
+	public MessAstarRequest(int mouseX, int mouseY, int type, int subType) {
 		super(type, subType);
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 		
 	}
+	
+	public int getMouseX() {
+		return mouseX;
+	}
+	
+	public int getMouseY() {
+		return mouseY;
+	}
+	
 
 }

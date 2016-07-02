@@ -36,8 +36,6 @@ public class MessPlayerAnswer extends Message implements Serializable {
 		this.y = y;
 		this.myPlayer = myPlayer;
 		
-		
-
 	}
 	
 	/**
