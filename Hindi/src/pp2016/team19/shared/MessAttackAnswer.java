@@ -1,6 +1,7 @@
 package pp2016.team19.shared;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 public class MessAttackAnswer extends Message implements Serializable {
 
@@ -13,13 +14,19 @@ public class MessAttackAnswer extends Message implements Serializable {
 	private static final long serialVersionUID = -7005346683609579242L;
 	boolean killed;
 	boolean confirmed;
-	int monsterHealth;
+	private LinkedList<Monster> monster;
 	
-	public MessAttackAnswer(boolean confirmed, boolean killed, int monsterHealth, int type, int subType, boolean pConfirmed) {
+	public MessAttackAnswer(LinkedList<Monster> monster, int type, int subType) {
 		super(type, subType);
-		this.monsterHealth = monsterHealth;
-		this.confirmed = pConfirmed;
-		this.killed = killed;
+		this.monster = monster;
+	}
+	
+	public void setMonsterList(LinkedList<Monster> monster) {
+		this.monster = monster;
+	}
+	
+	public LinkedList<Monster> getMonster() {
+		return monster;
 	}
 	
 	public void setConfirmed (boolean pConfirmed) {
@@ -36,10 +43,6 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	public boolean isKilled() {
 		return killed;
-	}
-	
-	public int getHealth() {
-		return monsterHealth;
 	}
 	
 	

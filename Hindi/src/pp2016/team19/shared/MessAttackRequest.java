@@ -23,10 +23,9 @@ public class MessAttackRequest extends Message implements Serializable {
 	 * Constructor for the MessAttackRequest
 	 * 
 	 */
-	public MessAttackRequest(boolean attack, int type, int subType) {
+	public MessAttackRequest(int type, int subType) {
 		super(type, subType);
-		this.attack = attack;
-		
+	
 	}
 
 }

@@ -1,6 +1,7 @@
 package pp2016.team19.client.engine;
 
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -62,7 +63,7 @@ public class ClientEngine implements Runnable   {
 	// game attributes
 	private int playerID;
 	private Player myPlayer;
-	private Monster myMonster;
+	private LinkedList<Monster> myMonster;
 	private int direction;
 	public Tile[][] labyrinth;
 	private Labyrinth test = new Labyrinth();
@@ -369,21 +370,17 @@ public class ClientEngine implements Runnable   {
 		}
 	
 	// Sends an attackRequest to the server
-	public void attackRequest(boolean attack) {
-//		this.sendToServer(new MessAttackRequest(attack,1,2));
+	public void attackRequest() {
+		System.out.println("METHOD ClientEngine.attaRequest: AttackRequest sent!");
+		this.sendToServer(new MessAttackRequest(1,2));
 	}
 	
-	// Processes an attackAnswer Message coming from the server
+//	 Processes an attackAnswer Message coming from the server
 	public void attackAnswer(Message pMessage) {
+		System.out.println("METHOD ClientEngine.attaRequest: AttackRequest received!");
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
 		
-		if (message.isConfirmed()) {
-			myMonster.health = message.getHealth();
-		}
-		
-		if (message.isKilled()) {
-			// still to do
-		}
+		this.myMonster = message.getMonster();
 	}
 	
 	
@@ -468,7 +465,7 @@ public class ClientEngine implements Runnable   {
 	public void levelAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.levelAnswer: Level received! ");
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
-		
+		this.myMonster = message.getMonsters();
 		this.labyrinth = message.getLabyrinth();
 	
 	}
@@ -561,25 +558,25 @@ public class ClientEngine implements Runnable   {
 	 * @author Oliver Goetz, 5961343
 	 * @param myPlayer the player
 	 */
-	private void setMyPlayer(Player myPlayer) {
+	public void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
 	
-	private Monster getMyMonster() {
+	public LinkedList<Monster> getMyMonster() {
 		return myMonster;
 	}
 	
-	private void setMyMonster(Monster myMonster) {
+	public void setMyMonster(LinkedList<Monster> myMonster) {
 		this.myMonster= myMonster;
 	}
 	
 
 
-	private ExecutorService getThreadPool() {
+	public ExecutorService getThreadPool() {
 		return threadPool;
 	}
 
-	private void setThreadPool(ExecutorService threadPool) {
+	public void setThreadPool(ExecutorService threadPool) {
 		this.threadPool = threadPool;
 	}
 
