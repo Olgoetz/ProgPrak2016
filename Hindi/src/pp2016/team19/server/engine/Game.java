@@ -148,12 +148,12 @@ public class Game extends TimerTask implements Serializable {
 			player.changeDir(path);
 			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 					true);
-		}
 		try {
 			engine.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
 		}
 	}
 
