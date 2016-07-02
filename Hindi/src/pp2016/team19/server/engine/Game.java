@@ -32,6 +32,10 @@ public class Game extends TimerTask implements Serializable {
 	boolean playerAttacked = false;
 	Labyrinth TestLabyrinth = new Labyrinth();
 	Message updateMonster;
+	Message updatePlayer;
+	long lastSent;
+	int cooldown = 500;
+	boolean nextSend;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
@@ -67,21 +71,37 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println(message.toString());
 			this.distributor(message);
 		}
+		nextSend =  ((System.currentTimeMillis() - lastSent) >= cooldown);
+		if(nextSend) {
 		for (Monster monster : Monsters) {
 			if (monster.attackPlayer(player.hasKey())) {
+				monster.setJustAttacked(false);
+				playerAttacked = true;
 			} else {
+				monster.setJustAttacked(false);
 				monster.move();
 			}
 		}
-			updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
-			try {
-				engine.messagesToClient.put(updateMonster);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
+		try {
+			engine.messagesToClient.put(updateMonster);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		if (playerAttacked) {
+		updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(), player.getYPos());
+		try {
+			engine.messagesToClient.put(updatePlayer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		lastSent = System.currentTimeMillis();
+		}
+
+	}
 
 	/**
 	 * Determines action depending on subtype
@@ -156,7 +176,8 @@ public class Game extends TimerTask implements Serializable {
 			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, true, 1, 7);
 		} else {
 			System.out.println("METHOD game.usePotion: No Potion");
-			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);;
+			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);
+			;
 		}
 		try {
 			engine.messagesToClient.put(answer);
@@ -194,7 +215,7 @@ public class Game extends TimerTask implements Serializable {
 		if (player.monsterToAttack() != null) {
 			player.monsterToAttack().changeHealth(-8);
 		}
-		//answer
+		// answer
 	}
 
 	private void messageTester(Message message) { // Testing
@@ -216,8 +237,8 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, levelNumber);
-		//TestLabyrinth.setGameMap(gameMap);
-		
+		// TestLabyrinth.setGameMap(gameMap);
+
 		Monsters.clear();
 		createMonsters(gameMap);
 		player.setPos(1, gameSize - 2);
@@ -303,7 +324,8 @@ public class Game extends TimerTask implements Serializable {
 			}
 			break;
 		default:
-			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1, false);
+			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+					false);
 			break;
 		}
 		try {
