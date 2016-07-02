@@ -479,10 +479,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //				System.exit(0);
 //			}
 				this.getEngine().usePotionRequest();
-			}
-		}
-
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				
+			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			// Take the key
 //			if (level[player.getXPos()][player.getYPos()].containsKey()) {
 //				player.takeKey();
@@ -500,7 +498,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			}
 			
 		}
-
+		} // end if gamewon
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package pp2016.team19.shared;
 
-
+import java.io.Serializable;
 
 /**
  * 	<h1>A class, that generates the random Labyrinth with Tile-Objects, and sets a choosen number of Monster randomly on the gameMap, also 
@@ -14,8 +14,10 @@ package pp2016.team19.shared;
  * @author < Czernik, Christof Martin, 5830621 >
  */
 
-public class Labyrinth {
+public class Labyrinth implements Serializable {
 
+
+	private static final long serialVersionUID = 5322398047502146239L;
 	/**
 	 * 7 Constants
 	 * 

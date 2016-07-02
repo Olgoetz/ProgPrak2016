@@ -501,7 +501,9 @@ public class ClientEngine implements Runnable   {
 	}
 	
 	public void updateMonsterAnswer(Message pMessage) {
-		System.out.println("METHOD ClientEngine.updateMonserAnswer: UpdateMonsterAnswer received!");
+		
+		MessUpdateMonsterAnswer message = (MessUpdateMonsterAnswer) pMessage;
+		this.myMonster = message.getMonsterList();
 	}
 	
 	
