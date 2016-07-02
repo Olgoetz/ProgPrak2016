@@ -131,6 +131,7 @@ public class Game extends TimerTask implements Serializable {
 			this.usePotion(message);
 		case 8: // OpenDoorRequest
 			this.openDoor();
+			break;
 		case 10:
 			this.aStarMove(message);
 		case 37: // Testing
