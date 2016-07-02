@@ -122,7 +122,7 @@ public class GameField extends JPanel {
 		}
 
 		 // Draw the monsters at their specific position
-		System.out.println("METHOD GameField.paint: Monster Größe" + window.getEngine().getMyMonster().size()); 
+//		System.out.println("METHOD GameField.paint: Monster Größe" + window.getEngine().getMyMonster().size()); 
 		for (int i = 0; i < window.getEngine().getMyMonster().size(); i++) {
 		 Monster m = window.getEngine().getMyMonster().get(i);
 		 boolean event = window.getEngine().getMyPlayer().hasKey();
