@@ -223,6 +223,10 @@ public class ClientEngine implements Runnable   {
 				this.levelAnswer(pMessage);
 				break;
 				
+			case 3:
+				this.updateMonsterAnswer(pMessage);
+				break;
+				
 			case 5:
 				this.playerAnswer(pMessage);
 				break;
@@ -466,6 +470,7 @@ public class ClientEngine implements Runnable   {
 		System.out.println("METHOD Engine.levelAnswer: Level received! ");
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		this.myMonster = message.getMonsters();
+		System.out.println("METHOD ClientEngine.levelAnswer: Monstergröße " + this.myMonster.size());
 		this.labyrinth = message.getLabyrinth();
 	
 	}
@@ -496,7 +501,7 @@ public class ClientEngine implements Runnable   {
 	}
 	
 	public void updateMonsterAnswer(Message pMessage) {
-		System.out.println("METHOD Egnine.updateMonserAnswer:" + pMessage.toString());
+		System.out.println("METHOD ClientEngine.updateMonserAnswer: UpdateMonsterAnswer received!");
 	}
 	
 	

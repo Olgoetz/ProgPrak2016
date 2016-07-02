@@ -122,10 +122,11 @@ public class GameField extends JPanel {
 		}
 
 		 // Draw the monsters at their specific position
-		 for (int i = 0; i < window.getEngine().getMyMonster().size(); i++) {
+		System.out.println("METHOD GameField.paint: Monster Größe" + window.getEngine().getMyMonster().size()); 
+		for (int i = 0; i < window.getEngine().getMyMonster().size(); i++) {
 		 Monster m = window.getEngine().getMyMonster().get(i);
 		 boolean event = window.getEngine().getMyPlayer().hasKey();
-		
+	
 		 // At this point every monster is called. So an
 		 // attacking order is called, if the player is
 		 // in range. Otherwise the fsm is called to decide what the monster
@@ -167,24 +168,27 @@ public class GameField extends JPanel {
 		// e.printStackTrace();
 		// }
 		// repaint();
-	}
+	
 
 	//
 	// // game over is showing up if the game is lost
-	// if (window.gameLost) {
-	// g.setColor(Color.WHITE);
-	// g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
-	// g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
-	// } else {
-	// // you win is showing up on screen if the game is won
-	// if (window.gameWon) {
-	// g.setColor(Color.WHITE);
-	// g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
-	// g.drawString("YOU WIN", getWidth() / 2 - 120, getHeight() / 2);
-	// }
-	// }
-	// }
-	//
+	if(window.gameLost)
+
+	{
+		g.setColor(Color.WHITE);
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
+		g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
+	}else
+	{
+		// you win is showing up on screen if the game is won
+		if (window.gameWon) {
+			g.setColor(Color.WHITE);
+			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
+			g.drawString("YOU WIN", getWidth() / 2 - 120, getHeight() / 2);
+		}
+	}
+	}
+
 	/**
 	 * paint method, draws the monsters and their health points
 	 * 
@@ -196,10 +200,12 @@ public class GameField extends JPanel {
 	 */
 
 	private void drawMonster(Graphics g, Monster m) {
-		// Monster Health Points
+		
 		if (inRange(m.getXPos(), m.getYPos())) {
 			g.drawImage(monster, m.getXPos() * window.BOX, m.getYPos()
 					* window.BOX, null);
+			
+			// Monster Health Points
 			g.setColor(Color.GREEN);
 			g.fillRect(m.getXPos() * window.BOX, m.getYPos() * window.BOX - 2,
 					m.getHealth(), 2);
