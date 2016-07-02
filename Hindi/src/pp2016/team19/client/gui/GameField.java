@@ -32,7 +32,7 @@ public class GameField extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Image floor, wall, doorOpen, doorClosed, key, potion, fireball,
-			player;
+			player, monster;
 	private GameWindow window;
 
 	/**
@@ -54,6 +54,7 @@ public class GameField extends JPanel {
 			potion = ImageIO.read(new File("img//potion.png"));
 			fireball = ImageIO.read(new File("img//fireball.png"));
 			player = ImageIO.read(new File("img//player.png"));
+			monster = ImageIO.read(new File("img//dragon1.png"));
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
 		}
@@ -120,40 +121,40 @@ public class GameField extends JPanel {
 			}
 		}
 
-		// // Draw the monsters at their specific position
-		// for (int i = 0; i < window.monsterList.size(); i++) {
-		// Monster m = window.monsterList.get(i);
-		// boolean event = window.player.hasKey();
-		//
-		// // At this point every monster is called. So an
-		// // attacking order is called, if the player is
-		// // in range. Otherwise the fsm is called to decide what the monster
-		// // should do.
-		// if (!m.attackPlayer(event)) {
-		// m.move();
-		// } else {
-		// int box = window.BOX;
-		// Player s = window.player;
-		//
-		// double p = m.cooldownRate();
-		// g.setColor(Color.RED);
-		// g.drawImage(
-		// fireball,
-		// (int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box)
-		// + box / 2, (int) (((1 - p) * m.getYPos() + (p)
-		// * s.getYPos()) * box)
-		// + box / 2, 8, 8, null);
-		// }
-		//
-		// // Draw the monster, if it's present from the beginning on
-		// if (m.getType() == 0)
-		// drawMonster(g, m);
-		// // Draw the monster, if it only appears after the event 'take key'
-		// else if (event && m.getType() == 1)
-		// drawMonster(g, m);
-		//
-		// }
-		//
+		 // Draw the monsters at their specific position
+		 for (int i = 0; i < window.getEngine().getMyMonster().size(); i++) {
+		 Monster m = window.getEngine().getMyMonster().get(i);
+		 boolean event = window.getEngine().getMyPlayer().hasKey();
+		
+		 // At this point every monster is called. So an
+		 // attacking order is called, if the player is
+		 // in range. Otherwise the fsm is called to decide what the monster
+		 // should do.
+//		 if (!m.attackPlayer(event)) {
+//		 m.move();
+//		 } else {
+//		 int box = window.BOX;
+//		 Player s = window.player;
+//		
+//		 double p = m.cooldownRate();
+//		 g.setColor(Color.RED);
+//		 g.drawImage(
+//		 fireball,
+//		 (int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box)
+//		 + box / 2, (int) (((1 - p) * m.getYPos() + (p)
+//		 * s.getYPos()) * box)
+//		 + box / 2, 8, 8, null);
+//		 }
+		
+		 // Draw the monster, if it's present from the beginning on
+		 if (m.getType() == 0)
+		 drawMonster(g, m);
+		 // Draw the monster, if it only appears after the event 'take key'
+		 else if (event && m.getType() == 1)
+		 drawMonster(g, m);
+		
+		 }
+		
 		// Draw the player at its position
 		g.drawImage(player, window.getEngine().getMyPlayer().getXPos()
 				* window.BOX, window.getEngine().getMyPlayer().getYPos()
@@ -197,7 +198,7 @@ public class GameField extends JPanel {
 	private void drawMonster(Graphics g, Monster m) {
 		// Monster Health Points
 		if (inRange(m.getXPos(), m.getYPos())) {
-			g.drawImage(m.getImage(), m.getXPos() * window.BOX, m.getYPos()
+			g.drawImage(monster, m.getXPos() * window.BOX, m.getYPos()
 					* window.BOX, null);
 			g.setColor(Color.GREEN);
 			g.fillRect(m.getXPos() * window.BOX, m.getYPos() * window.BOX - 2,
