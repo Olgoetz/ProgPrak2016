@@ -408,33 +408,23 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 0);
 
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
-
 			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 1);
-
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
 
 			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 2);
 
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
-
+			
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 3);
 
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
-
+			
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
 				this.engine.attackRequest();
 				
