@@ -8,17 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import pp2016.team19.shared.Door;
-import pp2016.team19.shared.Floor;
-import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Monster;
 import pp2016.team19.shared.Player;
-import pp2016.team19.shared.Potion;
-import pp2016.team19.shared.Wall;
+
 
 /**
  * class for the panel on which the gamefield is drawn

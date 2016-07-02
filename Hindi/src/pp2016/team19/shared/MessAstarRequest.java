@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  */
 
-public class MessAsternRequest extends Message implements Serializable{
+public class MessAstarRequest extends Message implements Serializable{
 
 	private static final long serialVersionUID = -3182834598358521775L;
 	
@@ -20,7 +20,7 @@ public class MessAsternRequest extends Message implements Serializable{
 	 * @param subType the subtype (=10) of the message
 	 * 
 	 */
-	public MessAsternRequest(int type, int subType) {
+	public MessAstarRequest(int type, int subType) {
 		super(type, subType);
 		
 	}

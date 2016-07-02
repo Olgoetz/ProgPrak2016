@@ -357,21 +357,15 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		// System.out.println("Mouse at: " + mouseX + ", " + mouseY);
 		// System.out.println("Player at: " + xPos + ", " + yPos);
 		if (!gameWon) {
-			if (!level[mouseX][mouseY].isRock()) { // if click y is higher than
+			if (!this.getEngine().getLabyrinth()[mouseX][mouseY].isRock()) { // if click y is higher than
 													// playerposition y and
 													// theres no wall, player
 													// moveDown()
-				while (!player.moveToPos(mouseX, mouseY)) {
-					// System.out.println("Step made");
-
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-					}
-
-					getGameField().repaint();
-
-				}
+				this.getEngine().aStarRequest();
+				
+			} else {
+				System.out.println("METOD GameWindow.mouseClicekd: Tile is NOT walkable!");
+		
 
 				// }else if (mouseY < yPos && !(level[xPos][yPos - 1] instanceof
 				// Wall)) { // if click y is lower than playerposition y and
@@ -591,9 +585,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void nextLevel() {
 		currentLevel++;
-
-		level = engine.getLabyrinth();
-
 	}
 
 	public ClientEngine getEngine() {

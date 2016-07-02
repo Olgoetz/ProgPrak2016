@@ -367,7 +367,11 @@ public class ClientEngine implements Runnable   {
 	public void attackAnswer(Message pMessage) {
 		System.out.println("METHOD ClientEngine.attaRequest: AttackRequest received!");
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
+		if(message.isConfirmed()) {
+			
+		
 		this.myMonsterList = message.getMonster();
+		}
 	}
 	
 	
@@ -375,13 +379,9 @@ public class ClientEngine implements Runnable   {
 	public void collectItemRequest() {
 		
 		this.sendToServer(new MessCollectItemRequest(1,4));
- 
-		
-		System.out.println("METHOD Engine.collectItemRequest: CollectItemRequest sent! ");
 	}
 	
 	public void collectItemAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.collectItemAnswer: collectItemAnswer received!");
 		
 		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
 		if (message.getID() == 0) {
@@ -392,17 +392,18 @@ public class ClientEngine implements Runnable   {
 			this.getMyPlayer().takePotion();
 			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsPotion(false);		
 		} else if(message.getID() == -1) {
-			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
+	
 		}
 	}
 	
 	public void usePotionRequest() {
-		System.out.println("METHOD Engine.usePotionRequest: PotionRequest sent!");
+
 		this.sendToServer(new MessUsePotionRequest(1,6));
+		
 	}
 	
 	public void usePotionAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.usePotionAnswer: PotionAnswer received!");
+	
 		MessUsePotionAnswer message = (MessUsePotionAnswer) pMessage;
 		if (message.isConfirmed()) {
 			this.myPlayer = message.getPlayer();
@@ -419,6 +420,8 @@ public class ClientEngine implements Runnable   {
 		
 		MessOpenDoorAnswer message = (MessOpenDoorAnswer) pMessage;
 		if (message.getOpenDoor() == true) {
+			gamewindow.nextLevel();
+			
 			System.out.println("METHOD Engine.openDoorAnswer: Level completed!");
 		} else {
 			System.out.println("METHOD Engine.openDoorAnswer: No key available!");
@@ -426,6 +429,14 @@ public class ClientEngine implements Runnable   {
 		
 	}
 	
+	public void aStarRequest() {
+		this.sendToServer(new MessAstarRequest(1,10));
+	}
+	
+	public void aStarAnswer(Message pMessage) {
+		MessAstarAnswer message = (MessAstarAnswer) pMessage;
+		this.myPlayer = message.getMyPlayer();
+	}
 	
 	
 	/**
@@ -561,8 +572,6 @@ public class ClientEngine implements Runnable   {
 		this.myMonsterList= myMonsterList;
 	}
 	
-
-
 	public ExecutorService getThreadPool() {
 		return threadPool;
 	}

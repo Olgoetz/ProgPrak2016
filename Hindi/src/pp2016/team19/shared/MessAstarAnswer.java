@@ -10,11 +10,11 @@ import java.io.Serializable;
  * @author Oliver Goetz, 5961343
  *
  */
-public class MessAsternAnswer extends Message implements Serializable {
+public class MessAstarAnswer extends Message implements Serializable {
 
 	
 	private static final long serialVersionUID = 7041547849671854239L;
-	boolean confirmed;
+	private Player myPlayer;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
@@ -23,14 +23,19 @@ public class MessAsternAnswer extends Message implements Serializable {
 	 * @param subType the subtype (=11) of the message
 	 */
 	
-	public MessAsternAnswer(boolean confirmed, int type, int subType) {
+	public MessAstarAnswer(Player player, int type, int subType) {
 		super(type, subType);
-		this.confirmed = confirmed;
+		this.myPlayer = player;
 	}
 	
-	public boolean isConfirmed() {
-		return confirmed;
+	public void setMyPlayer(Player player) {
+		this.myPlayer = player;
 	}
+	
+	public Player getMyPlayer() {
+		return myPlayer;
+	}
+	
 	
 	
 
