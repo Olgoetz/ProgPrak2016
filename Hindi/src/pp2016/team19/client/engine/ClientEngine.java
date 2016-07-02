@@ -1,19 +1,13 @@
 package pp2016.team19.client.engine;
 
-import java.awt.Color;
+
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import pp2016.team19.client.*;
 import pp2016.team19.client.comm.HandlerClient;
 import pp2016.team19.client.gui.GameWindow;
-import pp2016.team19.client.gui.ServerConnection;
 import pp2016.team19.shared.*;
 
 
@@ -56,17 +50,12 @@ public class ClientEngine implements Runnable   {
 	private ExecutorService threadPool;
 	private HandlerClient networkHandler;
 	private GameWindow gamewindow;
-	private String serverAdress;
-	private String port;
-	private ServerConnection sercon;
 	
 	// game attributes
 	private int playerID;
 	private Player myPlayer;
 	private LinkedList<Monster> myMonsterList;
-	private int direction;
 	public Tile[][] labyrinth;
-	private Labyrinth test = new Labyrinth();
 	
 	// static attributes
 	public static final int BOX = 32;
@@ -354,23 +343,18 @@ public class ClientEngine implements Runnable   {
 	
 	// Processes a moveCharacterAnswer Message coming from the server
 	private void moveCharacterAnswer(Message pMessage) {	
-		System.out.println("METHOD ClientEngine.moveCharacterAnswer: Message came from server");
 		
 			// Casts the message
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
 			
 			// Checks if the boolean in message is true
 			if(message.isConfirmed()) {
-			System.out.println("METHOD ClientEngine.moveCharacterAnswer: Movement allowed");
 			
 			// Sets new position of the player
 			myPlayer.xPos = message.getX();
 			myPlayer.yPos = message.getY();
-		
-			} else {
-				System.out.println("METHOD ClientEngine.moveCharacterAnswer: Movement NOT allowed");
-			}
 			
+			}		
 		}
 	
 	// Sends an attackRequest to the server
@@ -383,8 +367,7 @@ public class ClientEngine implements Runnable   {
 	public void attackAnswer(Message pMessage) {
 		System.out.println("METHOD ClientEngine.attaRequest: AttackRequest received!");
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
-		
-//		this.myMonster = message.getMonster();
+		this.myMonsterList = message.getMonster();
 	}
 	
 	
@@ -612,15 +595,4 @@ public class ClientEngine implements Runnable   {
 		return playerID;
 	}
 
-
-
-
-	
-
-	
-//	private void setCharacter(Character myCharacter) {
-//		this.myCharacter = myCharacter;
-//	}
-//	
-	
-} // end of engine-class
+} // end of ClientEngine-class

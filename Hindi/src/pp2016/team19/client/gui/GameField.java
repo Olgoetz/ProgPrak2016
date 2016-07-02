@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -55,7 +56,13 @@ public class GameField extends JPanel {
 			potion = ImageIO.read(new File("img//potion.png"));
 			fireball = ImageIO.read(new File("img//fireball.png"));
 			player = ImageIO.read(new File("img//player.png"));
-			monster = ImageIO.read(new File("img//dragon1.png"));
+
+			Random r = new Random();
+			// Load image for monster
+			int i = r.nextInt(3) + 1;
+				monster = ImageIO.read(new File("img//dragon" + i + ".png"));
+		
+			
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
 		}
@@ -133,11 +140,9 @@ public class GameField extends JPanel {
 		 // attacking order is called, if the player is
 		 // in range. Otherwise the fsm is called to decide what the monster
 		 // should do.
-			if (event) {
-//				m.move();
-			} else {
+			if (m.justAttacked()) {
 				int box = window.BOX;
-				Player s = window.player;
+				Player s = window.getEngine().getMyPlayer();
 
 				double p = m.cooldownRate();
 				g.setColor(Color.RED);

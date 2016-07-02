@@ -419,8 +419,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void keyPressed(KeyEvent e) {
 		// Current position of the player
-		int xPos = this.engine.getMyPlayer().getXPos();
-		int yPos = this.engine.getMyPlayer().getYPos();
+//		int xPos = this.engine.getMyPlayer().getXPos();
+//		int yPos = this.engine.getMyPlayer().getYPos();
 		// System.out.println("OLDPosition of Player in game:" +
 		// this.engine.getMyPlayer().getXPos() + " " +
 		// this.engine.getMyPlayer().getYPos());
@@ -463,34 +463,15 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 						+ this.engine.getMyPlayer().getYPos());
 
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
-				Monster m = player.monsterToAttack();
-				if (m != null)
-					m.changeHealth(-BOX / 4);
+				this.engine.attackRequest();
+				
 				// Press B for 'Use potion'
 			} else if (e.getKeyCode() == KeyEvent.VK_B) {
-//				int change = player.usePotion();
-//				// Effect of the potion is increased, if new monsters spawn
-//				// because of taking the key
-//				if (player.hasKey())
-//					player.changeHealth((int) (change * 1.5));
-//				else
-//					player.changeHealth((int) (change * 0.5));
-//			} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-//				System.exit(0);
-//			}
+			
 				this.getEngine().usePotionRequest();
 				
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			// Take the key
-//			if (level[player.getXPos()][player.getYPos()].containsKey()) {
-//				player.takeKey();
-//				level[player.getXPos()][player.getYPos()].setContainsKey(false);
-//			}
-//			// Take a potion
-//			else if (level[player.getXPos()][player.getYPos()].containsPotion()) {
-//				player.takePotion(new Potion(20));
-//				level[player.getXPos()][player.getYPos()].setContainsPotion(false);
-//			}
+
 			if (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isFloor()) {
 				this.engine.collectItemRequest();
 			} else if  (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isExit()) {
