@@ -72,6 +72,7 @@ public class Game extends TimerTask implements Serializable {
 			} else {
 				monster.move();
 			}
+		}
 			updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
 			try {
 				engine.messagesToClient.put(updateMonster);
@@ -81,7 +82,6 @@ public class Game extends TimerTask implements Serializable {
 			}
 
 		}
-	}
 
 	/**
 	 * Determines action depending on subtype
