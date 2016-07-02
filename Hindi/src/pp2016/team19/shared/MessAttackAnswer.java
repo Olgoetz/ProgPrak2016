@@ -16,9 +16,10 @@ public class MessAttackAnswer extends Message implements Serializable {
 	boolean confirmed;
 	private LinkedList<Monster> monster;
 	
-	public MessAttackAnswer(LinkedList<Monster> monster, int type, int subType) {
+	public MessAttackAnswer(LinkedList<Monster> monster, boolean confirmed, int type, int subType) {
 		super(type, subType);
 		this.monster = monster;
+		this.confirmed = confirmed;
 	}
 	
 	public void setMonsterList(LinkedList<Monster> monster) {

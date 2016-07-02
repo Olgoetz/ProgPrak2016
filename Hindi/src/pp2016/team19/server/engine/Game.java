@@ -212,10 +212,25 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void playerAttack(Message message) {
-		if (player.monsterToAttack() != null) {
-			player.monsterToAttack().changeHealth(-8);
+		Message answer;
+		Monster monster = player.monsterToAttack();
+		if (monster != null) {
+			System.out.println("METHOD game.playerAttack: Monster attacked");
+			monster.changeHealth(-8);
+			if(player.getHealth()<=0) {
+				Monsters.remove(monster);
+			}
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters,true,1,3);
+		} else {
+			System.out.println("METHOD game.playerAttack: No Monster in range");
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters,false,1,3);
 		}
-		// answer
+		try {
+			engine.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void messageTester(Message message) { // Testing
