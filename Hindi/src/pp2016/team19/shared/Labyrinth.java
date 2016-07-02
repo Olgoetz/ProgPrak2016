@@ -490,9 +490,24 @@ public class Labyrinth implements Serializable {
 		}
 
 		if (br == false) {
-			
+			if (j < gameSize/2){
 				placeExit(j+1, gameSize);
-			
+			}
+			else{
+				for (int i = (gameSize - 2); i > (gameSize/2 + 2); --i) {
+					if (gameMap[i][j].isFloor()) {
+						if (countNeighbors(i, j, gameSize) < 3) {
+							gameMap[i][j].setType(EXIT);
+							gameMap[i][j].setExitUnlocked(false);
+							br = true;
+							System.out.print("\nExit placed in lower left Corner\n");
+							break;
+							
+
+						}
+					}
+				}
+			}
 		}
 			
 		
