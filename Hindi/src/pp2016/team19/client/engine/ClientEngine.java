@@ -191,7 +191,12 @@ public class ClientEngine implements Runnable   {
 			case 9:
 				this.openDoorAnswer(pMessage);
 				break;
-			// test case to see if messages are coming form the server	
+
+				
+			case 11:
+				this.aStarAnswer(pMessage);
+				break;
+				
 			case 18:
 				System.out.println("Message received");
 				break;
