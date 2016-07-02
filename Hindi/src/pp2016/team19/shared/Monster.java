@@ -30,6 +30,8 @@ public class Monster extends Character {
 	private int[] lastPlayerPos;
 	private LinkedList<Node> pathToPlayer;
 	private LinkedList<Node> fleePath;
+	
+	private boolean justAttacked = false;
 
 	private int type; // Present from beginning: 0, Appears later: 1
 
@@ -297,6 +299,10 @@ public class Monster extends Character {
 	 */
 	public int getType() {
 		return type;
+	}
+	
+	public boolean justAttacked(){
+		return this.justAttacked;
 	}
 	
 	public String toString() {
