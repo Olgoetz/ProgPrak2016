@@ -75,7 +75,7 @@ public class Game extends TimerTask implements Serializable {
 		if(nextSend) {
 		for (Monster monster : Monsters) {
 			if (monster.attackPlayer(player.hasKey())) {
-				monster.setJustAttacked(false);
+				monster.setJustAttacked(true);
 				playerAttacked = true;
 			} else {
 				monster.setJustAttacked(false);
