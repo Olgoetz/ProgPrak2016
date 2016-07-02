@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 	<h1>A class, that generates the random Labyrinth with Tile-Objects, and sets a choosen number of Monster randomly on the gameMap, also 
  * 	Potions, Exit, Entry and the Key.</h1>
  * 	<p>
- * 	It contains the Floodfill algorithm, and also a lot of helpful other methods.
+ * 	It contains the floodfill algorithm, and also a lot of helpful other methods.
  * 	<p>
  * 	It has a fundamental method called "generate()", which generates the Labyrinth with the help of all methods.
  * 	<p>
@@ -493,6 +493,7 @@ public class Labyrinth implements Serializable {
 			if (j < gameSize/2){
 				placeExit(j+1, gameSize);
 			}
+			
 			else{
 				for (int i = (gameSize - 2); i > (gameSize/2 + 2); --i) {
 					if (gameMap[i][j].isFloor()) {
