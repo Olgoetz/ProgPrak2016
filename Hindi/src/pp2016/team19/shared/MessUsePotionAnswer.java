@@ -18,6 +18,10 @@ public class MessUsePotionAnswer extends Message implements Serializable {
 		
 	}
 	
+	public Player getPlayer() {
+		return myPlayer;
+	}
+	
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
 	}
