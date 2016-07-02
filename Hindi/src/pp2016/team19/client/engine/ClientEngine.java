@@ -194,6 +194,10 @@ public class ClientEngine implements Runnable   {
 				this.collectItemAnswer(pMessage);
 				break;
 				
+			case 7:
+				this.usePotionAnswer(pMessage);
+				break;
+				
 			case 9:
 				this.openDoorAnswer(pMessage);
 				break;
@@ -407,14 +411,19 @@ public class ClientEngine implements Runnable   {
 			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
 		}
 	}
-//	
-//	public void usePotionRequest(Message pMessage) {
-//		System.out.println("METHOD Engine.usePotionRequest:" + pMessage.toString());
-//	}
-//	
-//	public void usePotionAnswer(Message pMessage) {
-//		System.out.println("METHOD Egnine.usePotionAnswer:" + pMessage.toString());
-//	}
+	
+	public void usePotionRequest() {
+		System.out.println("METHOD Engine.usePotionRequest: PotionRequest sent!");
+		this.sendToServer(new MessUsePotionRequest(1,6));
+	}
+	
+	public void usePotionAnswer(Message pMessage) {
+		System.out.println("METHOD Engine.usePotionAnswer: PotionAnswer received!");
+		MessUsePotionAnswer message = (MessUsePotionAnswer) pMessage;
+		if (message.isConfirmed()) {
+			this.myPlayer = message.getPlayer();
+		}
+	}
 	
 	public void openDoorRequest() {
 		
