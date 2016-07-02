@@ -129,15 +129,32 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 6:
 			this.usePotion(message);
-		default:
-			break;
 		case 8: // OpenDoorRequest
 			this.openDoor();
+		case 10:
+			this.aStarMove(message);
 		case 37: // Testing
 			this.messageTester(message);
 			break;
 		}
 
+	}
+
+	private void aStarMove(Message pmessage) {
+		Message answer;
+		MessAstarRequest message = (MessAstarRequest) pmessage;
+		LinkedList<Node> path = player.moveToPos(message.getMouseX(), message.getMouseY());
+		while(!path.isEmpty()) {
+			player.changeDir(path);
+			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+					true);
+		}
+		try {
+			engine.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void openDoor() {
