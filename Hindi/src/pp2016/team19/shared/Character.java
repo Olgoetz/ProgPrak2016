@@ -27,7 +27,6 @@ public abstract class Character implements Serializable{
 	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
 
 	private transient Game game;
-	private Tile[][] gameMap;
 
 	public int health;
 	public int ID;
@@ -53,7 +52,6 @@ public abstract class Character implements Serializable{
 	 */
 	public Character(Game game) {
 		this.game = game;
-		this.gameMap = game.getGameMap();
 	}
 
 	/**
@@ -96,25 +94,25 @@ public abstract class Character implements Serializable{
 			int actY = cheapest.getYPos();
 
 			// Up-Neighbor valid?
-			if (!gameMap[actX][actY - 1].isRock())
+			if (!game.getGameMap()[actX][actY - 1].isRock())
 				neighbors[0] = new Node(actX, actY - 1); // up
 			else
 				neighbors[0] = null;
 
 			// Right-Neighbor valid?
-			if (!gameMap[actX + 1][actY].isRock())
+			if (!game.getGameMap()[actX + 1][actY].isRock())
 				neighbors[1] = new Node(actX + 1, actY); // right
 			else
 				neighbors[1] = null;
 
 			// Down-Neighbor valid?
-			if (!gameMap[actX][actY + 1].isRock())
+			if (!game.getGameMap()[actX][actY + 1].isRock())
 				neighbors[2] = new Node(actX, actY + 1); // down
 			else
 				neighbors[2] = null;
 
 			// Left-Neighbor valid?
-			if (!gameMap[actX - 1][actY].isRock())
+			if (!game.getGameMap()[actX - 1][actY].isRock())
 				neighbors[3] = new Node(actX - 1, actY); // left
 			else
 				neighbors[3] = null;
@@ -258,8 +256,7 @@ public abstract class Character implements Serializable{
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public boolean isWalkable(int x, int y) {
-		if (gameMap[x][y].isRock() || gameMap[x][y].containsKey()
-				|| gameMap[x][y].isEntry() || gameMap[x][y].isExit()) {
+		if (game.getGameMap()[x][y].isRock()) {
 			return false;
 		} else {
 			return true;
@@ -347,7 +344,6 @@ public abstract class Character implements Serializable{
 	
 	public void setGame(Game game) {
 		this.game = game;
-		this.gameMap = game.getGameMap();
 	}
 
 }

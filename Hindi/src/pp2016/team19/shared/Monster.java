@@ -35,7 +35,6 @@ public class Monster extends Character {
 
 	private int type; // Present from beginning: 0, Appears later: 1
 
-	private Tile[][] gameMap;
 	private Player player;
 	private Game game;
 
@@ -58,7 +57,6 @@ public class Monster extends Character {
 		super(game);
 		this.game = game;
 		this.player = game.getPlayer();
-		this.gameMap = game.getGameMap();
 		this.type = type;
 		setPos(x, y);
 		setHealth(32);
@@ -143,7 +141,7 @@ public class Monster extends Character {
 	public void changeHealth(int change) {
 		super.changeHealth(change);
 		if (getHealth() <= 0) {
-			gameMap[getXPos()][getYPos()].setContainsPotion(true);
+			game.getGameMap()[getXPos()][getYPos()].setContainsPotion(true);
 			game.getMonsters().remove(this);
 		}
 	}
