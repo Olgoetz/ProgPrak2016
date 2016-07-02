@@ -6,13 +6,14 @@ public class MessUsePotionAnswer extends Message implements Serializable {
 
 
 	private static final long serialVersionUID = 854152714970390583L;
+	private Player myPlayer;
+	private boolean confirmed;
 	
-	public boolean confirmed;
 	
-	
-	public MessUsePotionAnswer (boolean confirmed, int type, int subType) {
+	public MessUsePotionAnswer (Player myPlayer, boolean confirmed, int type, int subType) {
 		
 		super(type, subType);
+		this.myPlayer = myPlayer;
 		this.confirmed = confirmed;
 		
 	}
