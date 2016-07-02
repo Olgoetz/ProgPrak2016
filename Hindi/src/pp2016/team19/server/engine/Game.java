@@ -30,15 +30,15 @@ public class Game extends TimerTask implements Serializable {
 	boolean tester = true; // Testing
 	Player player;
 	boolean playerAttacked = false;
+	Labyrinth TestLabyrinth = new Labyrinth();
+	Message updateMonster;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
-		gameMap = Labyrinth.generate(gameSize, 1);
-		Monsters = createMonsters(gameMap);
-		player.setPos(1, gameSize - 2);
+		newLevel(levelNumber);
 		player.setGame(this);
 	}
 
@@ -71,6 +71,13 @@ public class Game extends TimerTask implements Serializable {
 			if (monster.attackPlayer(player.hasKey())) {
 			} else {
 				monster.move();
+			}
+			updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
+			try {
+				engine.messagesToClient.put(updateMonster);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 		}
@@ -140,7 +147,7 @@ public class Game extends TimerTask implements Serializable {
 
 	}
 
-	private void usePotion(Message message) { // How does it work?
+	private void usePotion(Message message) {
 		Message answer;
 		System.out.println("METHOD Game.usePotion");
 		if (player.getNumberOfPotions() > 0) {
@@ -208,6 +215,7 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, levelNumber);
+		TestLabyrinth.setGameMap(gameMap);
 		
 		Monsters.clear();
 		createMonsters(gameMap);
