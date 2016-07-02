@@ -1,19 +1,13 @@
 package pp2016.team19.client.engine;
 
-import java.awt.Color;
+
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import pp2016.team19.client.*;
 import pp2016.team19.client.comm.HandlerClient;
 import pp2016.team19.client.gui.GameWindow;
-import pp2016.team19.client.gui.ServerConnection;
 import pp2016.team19.shared.*;
 
 
@@ -56,17 +50,12 @@ public class ClientEngine implements Runnable   {
 	private ExecutorService threadPool;
 	private HandlerClient networkHandler;
 	private GameWindow gamewindow;
-	private String serverAdress;
-	private String port;
-	private ServerConnection sercon;
 	
 	// game attributes
 	private int playerID;
 	private Player myPlayer;
-	private LinkedList<Monster> myMonster;
-	private int direction;
+	private LinkedList<Monster> myMonsterList;
 	public Tile[][] labyrinth;
-	private Labyrinth test = new Labyrinth();
 	
 	// static attributes
 	public static final int BOX = 32;
@@ -202,7 +191,12 @@ public class ClientEngine implements Runnable   {
 			case 9:
 				this.openDoorAnswer(pMessage);
 				break;
-			// test case to see if messages are coming form the server	
+
+				
+			case 11:
+				this.aStarAnswer(pMessage);
+				break;
+				
 			case 18:
 				System.out.println("Message received");
 				break;
@@ -354,23 +348,18 @@ public class ClientEngine implements Runnable   {
 	
 	// Processes a moveCharacterAnswer Message coming from the server
 	private void moveCharacterAnswer(Message pMessage) {	
-		System.out.println("METHOD ClientEngine.moveCharacterAnswer: Message came from server");
 		
 			// Casts the message
 			MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
 			
 			// Checks if the boolean in message is true
 			if(message.isConfirmed()) {
-			System.out.println("METHOD ClientEngine.moveCharacterAnswer: Movement allowed");
 			
 			// Sets new position of the player
 			myPlayer.xPos = message.getX();
 			myPlayer.yPos = message.getY();
-		
-			} else {
-				System.out.println("METHOD ClientEngine.moveCharacterAnswer: Movement NOT allowed");
-			}
 			
+			}		
 		}
 	
 	// Sends an attackRequest to the server
@@ -383,8 +372,11 @@ public class ClientEngine implements Runnable   {
 	public void attackAnswer(Message pMessage) {
 		System.out.println("METHOD ClientEngine.attaRequest: AttackRequest received!");
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
+		if(message.isConfirmed()) {
+			
 		
-		this.myMonster = message.getMonster();
+		this.myMonsterList = message.getMonster();
+		}
 	}
 	
 	
@@ -392,13 +384,9 @@ public class ClientEngine implements Runnable   {
 	public void collectItemRequest() {
 		
 		this.sendToServer(new MessCollectItemRequest(1,4));
- 
-		
-		System.out.println("METHOD Engine.collectItemRequest: CollectItemRequest sent! ");
 	}
 	
 	public void collectItemAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.collectItemAnswer: collectItemAnswer received!");
 		
 		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
 		if (message.getID() == 0) {
@@ -409,17 +397,18 @@ public class ClientEngine implements Runnable   {
 			this.getMyPlayer().takePotion();
 			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsPotion(false);		
 		} else if(message.getID() == -1) {
-			System.out.println("METHOD ClientEngine.collectItemAnswer: No Item on the floor!");
+	
 		}
 	}
 	
 	public void usePotionRequest() {
-		System.out.println("METHOD Engine.usePotionRequest: PotionRequest sent!");
+
 		this.sendToServer(new MessUsePotionRequest(1,6));
+		
 	}
 	
 	public void usePotionAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.usePotionAnswer: PotionAnswer received!");
+	
 		MessUsePotionAnswer message = (MessUsePotionAnswer) pMessage;
 		if (message.isConfirmed()) {
 			this.myPlayer = message.getPlayer();
@@ -436,6 +425,8 @@ public class ClientEngine implements Runnable   {
 		
 		MessOpenDoorAnswer message = (MessOpenDoorAnswer) pMessage;
 		if (message.getOpenDoor() == true) {
+			gamewindow.nextLevel();
+			
 			System.out.println("METHOD Engine.openDoorAnswer: Level completed!");
 		} else {
 			System.out.println("METHOD Engine.openDoorAnswer: No key available!");
@@ -443,6 +434,14 @@ public class ClientEngine implements Runnable   {
 		
 	}
 	
+	public void aStarRequest() {
+		this.sendToServer(new MessAstarRequest(1,10));
+	}
+	
+	public void aStarAnswer(Message pMessage) {
+		MessAstarAnswer message = (MessAstarAnswer) pMessage;
+		this.myPlayer = message.getMyPlayer();
+	}
 	
 	
 	/**
@@ -469,8 +468,8 @@ public class ClientEngine implements Runnable   {
 	public void levelAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.levelAnswer: Level received! ");
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
-		this.myMonster = message.getMonsters();
-		System.out.println("METHOD ClientEngine.levelAnswer: Monstergröße " + this.myMonster.size());
+		this.myMonsterList = message.getMonsters();
+		System.out.println("METHOD ClientEngine.levelAnswer: Monstergröße " + this.myMonsterList.size());
 		this.labyrinth = message.getLabyrinth();
 	
 	}
@@ -496,12 +495,15 @@ public class ClientEngine implements Runnable   {
 	
 	
 
-	public void updateMonsterRequest(Message pMessage) {
-		System.out.println("METHOD Egnine.updateMonserRequest:" + pMessage.toString());
+	public void updateMonsterRequest(Monster monster) {
+		System.out.println("METHOD ClientEngine.updateMonserRequest: updateMonsterRequest send!");
+		this.sendToServer(new MessUpdateMonsterRequest(2,2));
 	}
 	
 	public void updateMonsterAnswer(Message pMessage) {
-		System.out.println("METHOD ClientEngine.updateMonserAnswer: UpdateMonsterAnswer received!");
+		
+		MessUpdateMonsterAnswer message = (MessUpdateMonsterAnswer) pMessage;
+		this.myMonsterList = message.getMonsterList();
 	}
 	
 	
@@ -568,15 +570,13 @@ public class ClientEngine implements Runnable   {
 	}
 	
 	public LinkedList<Monster> getMyMonster() {
-		return myMonster;
+		return myMonsterList;
 	}
 	
-	public void setMyMonster(LinkedList<Monster> myMonster) {
-		this.myMonster= myMonster;
+	public void setMyMonster(LinkedList<Monster> myMonsterList) {
+		this.myMonsterList= myMonsterList;
 	}
 	
-
-
 	public ExecutorService getThreadPool() {
 		return threadPool;
 	}
@@ -601,8 +601,6 @@ public class ClientEngine implements Runnable   {
 		this.gamewindow = gamewindow;
 	}
 	
-
-	
 	public Tile[][] getLabyrinth() {
 		return labyrinth;
 	}
@@ -611,15 +609,4 @@ public class ClientEngine implements Runnable   {
 		return playerID;
 	}
 
-
-
-
-	
-
-	
-//	private void setCharacter(Character myCharacter) {
-//		this.myCharacter = myCharacter;
-//	}
-//	
-	
-} // end of engine-class
+} // end of ClientEngine-class

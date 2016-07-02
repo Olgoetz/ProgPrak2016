@@ -1,9 +1,13 @@
 package pp2016.team19.shared;
 
+import java.io.Serializable;
+
 /**
 * Class Node is used in the AStar-algorithm. it has a parent-Node, coordinates and three arts of costs.
 * @author Strohbuecker, Max, 5960738 */
-public class Node {
+public class Node implements Serializable {
+
+	private static final long serialVersionUID = -6653427512107474773L;
 	private Node parent;
 	private int xPos, yPos;
 	private int costFromStart, costToGoal, totalCosts;

@@ -1,6 +1,6 @@
 package pp2016.team19.shared;
 
-import java.awt.Image;
+
 import java.io.Serializable;
 
 /**

@@ -30,15 +30,19 @@ public class Game extends TimerTask implements Serializable {
 	boolean tester = true; // Testing
 	Player player;
 	boolean playerAttacked = false;
+	Labyrinth TestLabyrinth = new Labyrinth();
+	Message updateMonster;
+	Message updatePlayer;
+	long lastSent;
+	int cooldown = 500;
+	boolean nextSend;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
 		this.gameSize = gameSize;
 		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
-		gameMap = Labyrinth.generate(gameSize, 1);
-		Monsters = createMonsters(gameMap);
-		player.setPos(1, gameSize - 2);
+		newLevel(levelNumber);
 		player.setGame(this);
 	}
 
@@ -67,13 +71,37 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println(message.toString());
 			this.distributor(message);
 		}
+		nextSend =  ((System.currentTimeMillis() - lastSent) >= cooldown);
+		if(nextSend) {
 		for (Monster monster : Monsters) {
 			if (monster.attackPlayer(player.hasKey())) {
+				monster.setJustAttacked(true);
+				playerAttacked = true;
 			} else {
+				monster.setJustAttacked(false);
 				monster.move();
 			}
-
 		}
+		updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
+		try {
+			engine.messagesToClient.put(updateMonster);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (playerAttacked) {
+		updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(), player.getYPos());
+		try {
+			engine.messagesToClient.put(updatePlayer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		playerAttacked = false;
+		}
+		lastSent = System.currentTimeMillis();
+		}
+
 	}
 
 	/**
@@ -92,6 +120,7 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 4:
 			this.collectItem(message);
+			break;
 		case 6:
 			this.usePotion(message);
 		default:
@@ -140,7 +169,7 @@ public class Game extends TimerTask implements Serializable {
 
 	}
 
-	private void usePotion(Message message) { // How does it work?
+	private void usePotion(Message message) {
 		Message answer;
 		System.out.println("METHOD Game.usePotion");
 		if (player.getNumberOfPotions() > 0) {
@@ -148,7 +177,8 @@ public class Game extends TimerTask implements Serializable {
 			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, true, 1, 7);
 		} else {
 			System.out.println("METHOD game.usePotion: No Potion");
-			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);;
+			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);
+			;
 		}
 		try {
 			engine.messagesToClient.put(answer);
@@ -183,10 +213,25 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void playerAttack(Message message) {
-		if (player.monsterToAttack() != null) {
-			player.monsterToAttack().changeHealth(-8);
+		Message answer;
+		Monster monster = player.monsterToAttack();
+		if (monster != null) {
+			System.out.println("METHOD game.playerAttack: Monster attacked");
+			monster.changeHealth(-8);
+			if(player.getHealth()<=0) {
+				Monsters.remove(monster);
+			}
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters,true,1,3);
+		} else {
+			System.out.println("METHOD game.playerAttack: No Monster in range");
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters,false,1,3);
 		}
-		//answer
+		try {
+			engine.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void messageTester(Message message) { // Testing
@@ -208,7 +253,8 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, levelNumber);
-		
+		// TestLabyrinth.setGameMap(gameMap);
+
 		Monsters.clear();
 		createMonsters(gameMap);
 		player.setPos(1, gameSize - 2);
@@ -294,7 +340,8 @@ public class Game extends TimerTask implements Serializable {
 			}
 			break;
 		default:
-			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1, false);
+			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+					false);
 			break;
 		}
 		try {

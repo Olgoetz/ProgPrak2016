@@ -1,23 +1,26 @@
 package pp2016.team19.shared;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 public class MessUpdateMonsterAnswer extends Message implements Serializable {
 
 	
 	private static final long serialVersionUID = -7778611457727967668L;
-	private boolean confirmed;
+	private LinkedList<Monster> MonsterList;
 	
-	public MessUpdateMonsterAnswer(boolean confirmed, int type, int subType){
+	public MessUpdateMonsterAnswer(LinkedList<Monster> MonsterList, int type, int subType){
 		super(type,subType);
-		this.confirmed = confirmed;
+		this.setMonsterList(MonsterList);
 	}
-	
-	public void setConfrimed(boolean confirmed) {
-		this.confirmed = confirmed;
+
+	public LinkedList<Monster> getMonsterList() {
+		return MonsterList;
 	}
+
 	
-	public boolean isConfiremd() {
-		return confirmed;
+	
+	public void setMonsterList(LinkedList<Monster> monsterList) {
+		MonsterList = monsterList;
 	}
 }

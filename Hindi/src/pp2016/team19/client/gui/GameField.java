@@ -6,17 +6,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-
+import java.util.LinkedList;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import pp2016.team19.shared.Door;
-import pp2016.team19.shared.Floor;
-import pp2016.team19.shared.Key;
 import pp2016.team19.shared.Monster;
 import pp2016.team19.shared.Player;
-import pp2016.team19.shared.Potion;
-import pp2016.team19.shared.Wall;
+
 
 /**
  * class for the panel on which the gamefield is drawn
@@ -54,7 +50,13 @@ public class GameField extends JPanel {
 			potion = ImageIO.read(new File("img//potion.png"));
 			fireball = ImageIO.read(new File("img//fireball.png"));
 			player = ImageIO.read(new File("img//player.png"));
-			monster = ImageIO.read(new File("img//dragon1.png"));
+
+			Random r = new Random();
+			// Load image for monster
+			int i = r.nextInt(3) + 1;
+				monster = ImageIO.read(new File("img//dragon" + i + ".png"));
+		
+			
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
 		}
@@ -123,29 +125,24 @@ public class GameField extends JPanel {
 
 		 // Draw the monsters at their specific position
 //		System.out.println("METHOD GameField.paint: Monster Größe" + window.getEngine().getMyMonster().size()); 
-		for (int i = 0; i < window.getEngine().getMyMonster().size(); i++) {
-		 Monster m = window.getEngine().getMyMonster().get(i);
+		LinkedList<Monster> monsterList = window.getEngine().getMyMonster();
+		for (int i = 0; i < monsterList.size(); i++) {
+		 Monster m = monsterList.get(i);
 		 boolean event = window.getEngine().getMyPlayer().hasKey();
 	
 		 // At this point every monster is called. So an
 		 // attacking order is called, if the player is
 		 // in range. Otherwise the fsm is called to decide what the monster
 		 // should do.
-//		 if (!m.attackPlayer(event)) {
-//		 m.move();
-//		 } else {
-//		 int box = window.BOX;
-//		 Player s = window.player;
-//		
-//		 double p = m.cooldownRate();
-//		 g.setColor(Color.RED);
-//		 g.drawImage(
-//		 fireball,
-//		 (int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box)
-//		 + box / 2, (int) (((1 - p) * m.getYPos() + (p)
-//		 * s.getYPos()) * box)
-//		 + box / 2, 8, 8, null);
-//		 }
+			if (m.justAttacked()) {
+				int box = window.BOX;
+				Player s = window.getEngine().getMyPlayer();
+
+				double p = m.cooldownRate();
+				g.setColor(Color.RED);
+				g.drawImage(fireball, (int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box) + box / 2,
+						(int) (((1 - p) * m.getYPos() + (p) * s.getYPos()) * box) + box / 2, 8, 8, null);
+			}
 		
 		 // Draw the monster, if it's present from the beginning on
 		 if (m.getType() == 0)
@@ -161,17 +158,9 @@ public class GameField extends JPanel {
 				* window.BOX, window.getEngine().getMyPlayer().getYPos()
 				* window.BOX, null);
 
-		// try {
-		// Thread.currentThread().sleep(50);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// repaint();
-	
 
-	//
-	// // game over is showing up if the game is lost
+	
+	 // game over is showing up if the game is lost
 	if(window.gameLost)
 
 	{

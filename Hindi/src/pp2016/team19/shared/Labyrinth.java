@@ -1,12 +1,12 @@
 package pp2016.team19.shared;
 
-
+import java.io.Serializable;
 
 /**
  * 	<h1>A class, that generates the random Labyrinth with Tile-Objects, and sets a choosen number of Monster randomly on the gameMap, also 
  * 	Potions, Exit, Entry and the Key.</h1>
  * 	<p>
- * 	It contains the Floodfill algorithm, and also a lot of helpful other methods.
+ * 	It contains the floodfill algorithm, and also a lot of helpful other methods.
  * 	<p>
  * 	It has a fundamental method called "generate()", which generates the Labyrinth with the help of all methods.
  * 	<p>
@@ -14,8 +14,10 @@ package pp2016.team19.shared;
  * @author < Czernik, Christof Martin, 5830621 >
  */
 
-public class Labyrinth {
+public class Labyrinth implements Serializable {
 
+
+	private static final long serialVersionUID = 5322398047502146239L;
 	/**
 	 * 7 Constants
 	 * 
@@ -488,9 +490,25 @@ public class Labyrinth {
 		}
 
 		if (br == false) {
-			
+			if (j < gameSize/2){
 				placeExit(j+1, gameSize);
+			}
 			
+			else{
+				for (int i = (gameSize - 2); i > (gameSize/2 + 2); --i) {
+					if (gameMap[i][j].isFloor()) {
+						if (countNeighbors(i, j, gameSize) < 3) {
+							gameMap[i][j].setType(EXIT);
+							gameMap[i][j].setExitUnlocked(false);
+							br = true;
+							System.out.print("\nExit placed in lower left Corner\n");
+							break;
+							
+
+						}
+					}
+				}
+			}
 		}
 			
 		
