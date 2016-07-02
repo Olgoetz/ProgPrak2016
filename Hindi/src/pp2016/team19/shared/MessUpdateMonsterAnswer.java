@@ -8,6 +8,7 @@ public class MessUpdateMonsterAnswer extends Message implements Serializable {
 	
 	private static final long serialVersionUID = -7778611457727967668L;
 	private LinkedList<Monster> MonsterList;
+	private Monster myMonster;
 	
 	public MessUpdateMonsterAnswer(LinkedList<Monster> MonsterList, int type, int subType){
 		super(type,subType);
@@ -18,6 +19,10 @@ public class MessUpdateMonsterAnswer extends Message implements Serializable {
 		return MonsterList;
 	}
 
+	public Monster myMonster() {
+		return myMonster;
+	}
+	
 	public void setMonsterList(LinkedList<Monster> monsterList) {
 		MonsterList = monsterList;
 	}

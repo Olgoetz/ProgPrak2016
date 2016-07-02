@@ -63,7 +63,7 @@ public class ClientEngine implements Runnable   {
 	// game attributes
 	private int playerID;
 	private Player myPlayer;
-	private LinkedList<Monster> myMonster;
+	private LinkedList<Monster> myMonsterList;
 	private int direction;
 	public Tile[][] labyrinth;
 	private Labyrinth test = new Labyrinth();
@@ -384,7 +384,7 @@ public class ClientEngine implements Runnable   {
 		System.out.println("METHOD ClientEngine.attaRequest: AttackRequest received!");
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
 		
-		this.myMonster = message.getMonster();
+//		this.myMonster = message.getMonster();
 	}
 	
 	
@@ -469,8 +469,8 @@ public class ClientEngine implements Runnable   {
 	public void levelAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.levelAnswer: Level received! ");
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
-		this.myMonster = message.getMonsters();
-		System.out.println("METHOD ClientEngine.levelAnswer: Monstergröße " + this.myMonster.size());
+		this.myMonsterList = message.getMonsters();
+		System.out.println("METHOD ClientEngine.levelAnswer: Monstergröße " + this.myMonsterList.size());
 		this.labyrinth = message.getLabyrinth();
 	
 	}
@@ -496,14 +496,15 @@ public class ClientEngine implements Runnable   {
 	
 	
 
-	public void updateMonsterRequest(Message pMessage) {
-		System.out.println("METHOD Egnine.updateMonserRequest:" + pMessage.toString());
+	public void updateMonsterRequest(Monster monster) {
+		System.out.println("METHOD ClientEngine.updateMonserRequest: updateMonsterRequest send!");
+		this.sendToServer(new MessUpdateMonsterRequest(2,2));
 	}
 	
 	public void updateMonsterAnswer(Message pMessage) {
 		
 		MessUpdateMonsterAnswer message = (MessUpdateMonsterAnswer) pMessage;
-		this.myMonster = message.getMonsterList();
+		this.myMonsterList = message.getMonsterList();
 	}
 	
 	
@@ -570,11 +571,11 @@ public class ClientEngine implements Runnable   {
 	}
 	
 	public LinkedList<Monster> getMyMonster() {
-		return myMonster;
+		return myMonsterList;
 	}
 	
-	public void setMyMonster(LinkedList<Monster> myMonster) {
-		this.myMonster= myMonster;
+	public void setMyMonster(LinkedList<Monster> myMonsterList) {
+		this.myMonsterList= myMonsterList;
 	}
 	
 
@@ -602,8 +603,6 @@ public class ClientEngine implements Runnable   {
 	public void setGameWindow(GameWindow gamewindow) {
 		this.gamewindow = gamewindow;
 	}
-	
-
 	
 	public Tile[][] getLabyrinth() {
 		return labyrinth;
