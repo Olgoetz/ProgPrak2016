@@ -36,6 +36,7 @@ public class Game extends TimerTask implements Serializable {
 	long lastSent;
 	int cooldown = 500;
 	boolean nextSend;
+	boolean monsterMoving = false;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
@@ -71,35 +72,40 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println(message.toString());
 			this.distributor(message);
 		}
-		nextSend =  ((System.currentTimeMillis() - lastSent) >= cooldown);
-		if(nextSend) {
-		for (Monster monster : Monsters) {
-			if (monster.attackPlayer(player.hasKey())) {
-				monster.setJustAttacked(true);
-				playerAttacked = true;
-			} else {
-				monster.setJustAttacked(false);
-				monster.move();
+		nextSend = ((System.currentTimeMillis() - lastSent) >= cooldown);
+		if (nextSend) {
+
+			for (Monster monster : Monsters) {
+				monsterMoving = (monsterMoving || monster.playerInRange());
+				if (monster.attackPlayer(player.hasKey())) {
+					monster.setJustAttacked(true);
+					playerAttacked = true;
+				} else {
+					monster.setJustAttacked(false);
+					monster.move();
+				}
 			}
-		}
-		updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
-		try {
-			engine.messagesToClient.put(updateMonster);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (playerAttacked) {
-		updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(), player.getYPos());
-		try {
-			engine.messagesToClient.put(updatePlayer);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		playerAttacked = false;
-		}
-		lastSent = System.currentTimeMillis();
+			if (monsterMoving) {
+				updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
+				try {
+					engine.messagesToClient.put(updateMonster);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (playerAttacked) {
+					updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
+							player.getYPos());
+					try {
+						engine.messagesToClient.put(updatePlayer);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					playerAttacked = false;
+				}
+			}
+			lastSent = System.currentTimeMillis();
 		}
 
 	}
@@ -218,13 +224,13 @@ public class Game extends TimerTask implements Serializable {
 		if (monster != null) {
 			System.out.println("METHOD game.playerAttack: Monster attacked");
 			monster.changeHealth(-8);
-			if(player.getHealth()<=0) {
+			if (player.getHealth() <= 0) {
 				Monsters.remove(monster);
 			}
-			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters,true,1,3);
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, true, 1, 3);
 		} else {
 			System.out.println("METHOD game.playerAttack: No Monster in range");
-			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters,false,1,3);
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, false, 1, 3);
 		}
 		try {
 			engine.messagesToClient.put(answer);
@@ -252,21 +258,27 @@ public class Game extends TimerTask implements Serializable {
 	 * @param levelNumber
 	 */
 	public void newLevel(int levelNumber) {
-		gameMap = Labyrinth.generate(gameSize, levelNumber);
+		gameMap = Labyrinth.generate(gameSize, levelNumber * 2);
 		// TestLabyrinth.setGameMap(gameMap);
 
 		Monsters.clear();
-		createMonsters(gameMap);
+		createMonsters(gameMap, levelNumber * 2);
 		player.setPos(1, gameSize - 2);
 		player.removeKey();
 
 	}
 
-	private LinkedList<Monster> createMonsters(Tile[][] gameMap2) {
+	private LinkedList<Monster> createMonsters(Tile[][] gameMap2, int monsterNumber) {
+		int k = 0;
 		for (int i = 0; i < gameMap2.length; i++) {
 			for (int j = 0; j < gameMap2.length; j++) {
 				if (gameMap[i][j].containsMonster()) {
-					Monsters.add(new Monster(i, j, this, 1));
+					if (k < monsterNumber / 2) {
+						Monsters.add(new Monster(i, j, this, 0));
+						k++;
+					} else {
+						Monsters.add(new Monster(i, j, this, 1));
+					}
 				}
 
 			}
