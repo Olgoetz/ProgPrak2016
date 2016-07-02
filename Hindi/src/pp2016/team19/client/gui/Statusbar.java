@@ -1,6 +1,7 @@
 package pp2016.team19.client.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -29,6 +30,7 @@ private static final long serialVersionUID = 1L;
 	
 	private Image background, key, potion;	
 	private Image floor1, wall1, doorOpen1, doorClosed1, playerImg; 
+	private Image red, black;
 	
 	private GameWindow window;
 	private int miniBox = 8;
@@ -52,6 +54,8 @@ private static final long serialVersionUID = 1L;
 			doorClosed1 = ImageIO.read(new File("img//doorClosedKopie.png"));
 			doorOpen1 = ImageIO.read(new File("img//dooropenKopie.png"));
 			playerImg = ImageIO.read(new File("img//player.png"));
+			red = ImageIO.read(new File ("img//rot.png"));
+			black = ImageIO.read(new File("img//schwarz.png"));
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
@@ -65,10 +69,11 @@ private static final long serialVersionUID = 1L;
 	public void paint(Graphics g) {
 		
 		// first draw the panel black
+		g.setFont(new Font("Avenir Heavy", Font.PLAIN, 12));
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
 		
-		// 5 is the new width of the statusbar and (window.height-6) is the height , make space for minimap
 		
 		//draws the background with pictures, at the bottom it leaves space for the minimap
 		for(int i = 0; i < 20; i++){
@@ -77,64 +82,79 @@ private static final long serialVersionUID = 1L;
 			}
 		}		
 	
+		
 		g.drawImage(playerImg, 4, 4, window.BOX - 8, window.BOX - 8, null);
-		// draw the key if the player picked one up
-		if(window.getEngine().getMyPlayer().hasKey()){
-			g.drawImage(key, 5, window.BOX * (window.HEIGHT - 11), null);
-		}
 		
 		g.setColor(Color.WHITE);	
 		g.drawString(window.getEngine().getMyPlayer().getName(), window.BOX + 5, 20);
 		g.drawLine( 5, 35, 155, 35);
-		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5,  window.BOX * (window.HEIGHT - 14));
-		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5,  window.BOX * (window.HEIGHT - 13));
 		
+		g.setColor(Color.WHITE);
+		g.drawString("Player's Health: ", 5, 60);
+		
+		g.setColor(Color.RED);
+		g.fillRect(5,70, window.getEngine().getMyPlayer().getMaxHealth(), 5);
+		g.setColor(Color.GREEN);
+		g.fillRect(5, 70 , window.getEngine().getMyPlayer().getHealth(), 5);
+		
+		g.setColor(Color.WHITE);
+		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5, 100);
 		
 		// Display of the potions
 		int numberOfPotions = window.getEngine().getMyPlayer().getNumberOfPotions();
 		String s;
-		if (numberOfPotions < 10) s ="" +numberOfPotions;
+		if (numberOfPotions < 10) s =" " +numberOfPotions;
 		else s = String.valueOf(numberOfPotions);
 		g.drawString(s, 5, window.BOX * (window.HEIGHT - 12));
-		g.drawImage(potion,7,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
+		g.drawImage(potion,12,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
+			
+		// draw the key if the player picked one up
+		if(window.getEngine().getMyPlayer().hasKey()){
+			g.drawImage(key, 45, 113, null);
+		}
+		
+	
+		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 160);	
+		
 	
 		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine().getMyPlayer().getYPos()];
 		
 		//draw the instructions
 		if(field.containsKey()){
-			g.drawString("Press Space to take key", 5, window.BOX * (window.HEIGHT - 11));
+			g.drawString("Press Space to take key", 5, 190);
 		}else if(field.isExit()){
 			if(!field.exitUnlocked()){
 				if(window.getEngine().getMyPlayer().hasKey())
-					g.drawString("Press Space: open door", 5, window.BOX * (window.HEIGHT - 11));
+					g.drawString("Press Space: open door", 5, 190);
 				else
-					g.drawString("Door closed!", 5, window.BOX * (window.HEIGHT - 11));
+					g.drawString("Door closed!", 5, 190);
 			}			
 		}else if(field.containsPotion()){
-			g.drawString("Press Space: take potion", 5, window.BOX * (window.HEIGHT - 11));
+			g.drawString("Press Space: take potion", 5, 190);
 		}
+		//g.setColor(Color.WHITE);
+		g.drawLine(5,200,155,200);
+		g.drawString("System Messages: ", 5 , 215);
+		
+		// !!!!!!!
+		//System messages: 
+		// for( i=0; i < SystemMessages.List.size(); i++ ) {
+		// g.drawString("...." , 5, 225)
+		// ......
 		
 		
-		g.setColor(Color.WHITE);
-		g.drawString("Player's Health: ", 5, window.BOX * (window.HEIGHT - 10) + 20);
 		
-		// getEngine().getMyPlayer()s health bar
-		g.setColor(Color.RED);
-		g.fillRect(5,window.BOX * (window.HEIGHT - 9), window.getEngine().getMyPlayer().getMaxHealth(), 5);
-		g.setColor(Color.GREEN);
-		g.fillRect(5, window.BOX * (window.HEIGHT - 9), window.getEngine().getMyPlayer().getHealth(), 5);
-		
-		// show text "minimap" on the statusbar
-		g.setColor(Color.WHITE);
-		g.drawString( "Minimap  ", 5,  window.BOX * (window.HEIGHT - 7));
-		g.drawLine( 5, window.BOX * (window.HEIGHT - 7) + 10 , 155, window.BOX * (window.HEIGHT - 7) + 10);
+		// show text "minimap" on the statusbar	
+		g.drawString( "Minimap  ", 5, 340);
+		g.drawLine( 5, 345, 155, 345);
 		
 		g.drawLine(2, 0, 2, window.BOX * (window.HEIGHT));
 
+	
 	// draw minimap 
-	// variables to set the map at the bottom of the panel	
-	int var1=350;
-	int var2 = 10;
+	// variables to adjust the map at the bottom of the panel	
+	int var1= 360;
+	int var2 = 12;
 	
 	// draw every single mini tile
 	for (int i = 0; i < window.WIDTH ; i++) {
@@ -150,23 +170,17 @@ private static final long serialVersionUID = 1L;
 				
 				}else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
 						// Here is the door
-						g.drawImage(floor1, i * window.BOX, j * window.BOX, null);
-						g.drawImage(doorOpen1, i * window.BOX, j
-								* window.BOX, null);
-					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {							
-						if (window.getEngine().getLabyrinth()[i][j].exitUnlocked())
-							g.drawImage(doorOpen1, i * window.BOX, j
-									* window.BOX, null);
-						else
-							g.drawImage(doorClosed1, i * window.BOX, j
-									* window.BOX, null);												
+						g.drawImage(black, (i * window.BOX) +var2, (j * window.BOX) + var1, null);
+						
+					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {													
+							g.drawImage(black, (i * window.BOX) + var2, (j * window.BOX) + var1, null);												
 					} 
 				} 
 				
 		}
 	
 		
-				g.drawImage(playerImg.getScaledInstance(6, 6, 0),( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
+				g.drawImage(red,( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
 						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
 
