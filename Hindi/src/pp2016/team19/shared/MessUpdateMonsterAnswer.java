@@ -18,6 +18,8 @@ public class MessUpdateMonsterAnswer extends Message implements Serializable {
 		return MonsterList;
 	}
 
+	
+	
 	public void setMonsterList(LinkedList<Monster> monsterList) {
 		MonsterList = monsterList;
 	}
