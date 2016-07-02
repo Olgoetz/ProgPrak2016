@@ -216,7 +216,7 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, levelNumber);
-		TestLabyrinth.setGameMap(gameMap);
+		//TestLabyrinth.setGameMap(gameMap);
 		
 		Monsters.clear();
 		createMonsters(gameMap);
