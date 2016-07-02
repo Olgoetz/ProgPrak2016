@@ -29,7 +29,7 @@ public class Statusbar extends JPanel {
 private static final long serialVersionUID = 1L;
 	
 	private Image background, key, potion;	
-	private Image floor1, wall1, doorOpen1, doorClosed1, playerImg; 
+	private Image floor1, wall1, playerImg; 
 	private Image red, black;
 	
 	private GameWindow window;
@@ -51,8 +51,6 @@ private static final long serialVersionUID = 1L;
 			//load the smaller images for the minimap
 			floor1 = ImageIO.read(new File("img//floorKopie.png"));
 			wall1 = ImageIO.read(new File("img//wallKopie.png"));
-			doorClosed1 = ImageIO.read(new File("img//doorClosedKopie.png"));
-			doorOpen1 = ImageIO.read(new File("img//dooropenKopie.png"));
 			playerImg = ImageIO.read(new File("img//player.png"));
 			red = ImageIO.read(new File ("img//rot.png"));
 			black = ImageIO.read(new File("img//schwarz.png"));
