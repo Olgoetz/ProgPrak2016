@@ -57,21 +57,13 @@ public class Player extends Character implements Serializable{
 		}
 	}
 	
-
-	public boolean moveToPos(int xGoal, int yGoal) {
+	public LinkedList<Node> moveToPos(int xGoal, int yGoal) {
 		if (pathToPos.isEmpty()) {
 			pathToPos = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);
 			pathToPos.addLast(new Node(xGoal, yGoal));
 		}
 		
-		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
-		if (nextWalk) {
-			changeDir(pathToPos);
-			System.out.println("Actual Player Position: " + this.getXPos() + ", " + this.getYPos());
-			lastStep = System.currentTimeMillis();
-		}
-		
-		return pathToPos.isEmpty();
+		return pathToPos;
 	}
 	
 	// Method to take the key
