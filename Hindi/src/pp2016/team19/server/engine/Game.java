@@ -29,7 +29,7 @@ public class Game extends TimerTask implements Serializable {
 	transient ServerEngine engine;
 	boolean tester = true; // Testing
 	Player player;
-	int potions;
+	boolean playerAttacked = false;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
@@ -67,12 +67,13 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println(message.toString());
 			this.distributor(message);
 		}
-		 for(Monster monster: Monsters) {
-		 if (!monster.attackPlayer(player.hasKey())) {
-		 monster.move();
-		 }
-		
-		 }
+		for (Monster monster : Monsters) {
+			if (monster.attackPlayer(player.hasKey())) {
+			} else {
+				monster.move();
+			}
+
+		}
 	}
 
 	/**
@@ -127,6 +128,7 @@ public class Game extends TimerTask implements Serializable {
 				e.printStackTrace();
 			}
 		} else {
+			System.out.println("METHOD Game.openDoor: Door didn't open");
 			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(false, 1, 9);
 			try {
 				engine.messagesToClient.put(answer);
@@ -139,10 +141,21 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void usePotion(Message message) { // How does it work?
-		potions = player.getNumberOfPotions();
-		if (potions > 0) {
+		Message answer;
+		System.out.println("METHOD Game.usePotion");
+		if (player.getNumberOfPotions() > 0) {
 			player.usePotion();
-			// Answer
+			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, true, 1, 7);
+		} else {
+			System.out.println("METHOD game.usePotion: No Potion");
+			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);;
+		}
+		try {
+			engine.messagesToClient.put(answer);
+			System.out.println("METHOD Game.collectItem:" + answer.toString());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -171,8 +184,9 @@ public class Game extends TimerTask implements Serializable {
 
 	private void playerAttack(Message message) {
 		if (player.monsterToAttack() != null) {
-
+			player.monsterToAttack().changeHealth(-8);
 		}
+		//answer
 	}
 
 	private void messageTester(Message message) { // Testing
@@ -194,6 +208,7 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	public void newLevel(int levelNumber) {
 		gameMap = Labyrinth.generate(gameSize, levelNumber);
+		
 		Monsters.clear();
 		createMonsters(gameMap);
 		player.setPos(1, gameSize - 2);
@@ -219,6 +234,7 @@ public class Game extends TimerTask implements Serializable {
 	 * @param message
 	 */
 	private void playerMove(Message pmessage) {
+		Message answer;
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 		player.xPos = message.getX();
 		player.yPos = message.getY();
@@ -230,102 +246,63 @@ public class Game extends TimerTask implements Serializable {
 			if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos() + 1].isWalkable()) {
 				player.moveDown();
 				System.out.println("DOWN:" + player.getXPos() + " " + player.getYPos());
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, true);
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						true);
 				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
 				System.out.println("Player position test:" + tester.getX());
 				System.out.println("Move executed");
-				try {
-					engine.messagesToClient.put(answer);
-					System.out.println("Answer sent");
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			} else {
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, false);
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						false);
 				System.out.println("UP Move not allowed");
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			break;
 		case 1: // MoveDown
 			if (player.getYPos() < 16 - 1 && gameMap[player.getXPos()][player.getYPos() - 1].isWalkable()) {
 				player.moveUp();
 				System.out.println("UP:" + player.getXPos() + " " + player.getYPos());
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, true);
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						true);
 			} else {
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, false);
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						false);
 				System.out.println("DOWN Move not allowed");
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			break;
 		case 2: // MoveLeft
 			if (player.getXPos() > 0 && gameMap[player.getXPos() - 1][player.getYPos()].isWalkable()) {
 				player.moveLeft();
 				System.out.println("LEFT:" + player.getXPos() + " " + player.getYPos());
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, true);
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						true);
 			} else {
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, false);
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						false);
 				System.out.println("LEFT Move not allowed");
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			break;
 		case 3: // MoveRight
 			if (player.getXPos() < 16 - 1 && gameMap[player.getXPos() + 1][player.getYPos()].isWalkable()) {
 				player.moveRight();
 				System.out.println("RIGHT:" + player.getXPos() + " " + player.getYPos());
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, true);
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						true);
 			} else {
-				Message answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(),
-						player.getYPos(), 1, 1, false);
+				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						false);
 				System.out.println("RIGHT Move not allowed");
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-
+			break;
+		default:
+			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1, false);
+			break;
+		}
+		try {
+			engine.messagesToClient.put(answer);
+			System.out.println("METHOD Game.movePlayer: PlayerPos = " + player.getXPos() + ", " + player.getYPos());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
