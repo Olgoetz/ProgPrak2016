@@ -510,10 +510,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				if (playerCheck == true) {
 					this.player = this.getEngine().getMyPlayer();
 
-					if (this.engine.getMyPlayer().getHealth() <= 0) {
-						gameWon = true;
-						gameLost = true;
-					}
 				} // ende testt
 			} else {
 				neededTime = (int) ((System.currentTimeMillis() - startTime) / 1000);
