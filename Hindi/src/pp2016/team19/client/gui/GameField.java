@@ -177,7 +177,7 @@ public class GameField extends JPanel {
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
 		// game over is showing up if the game is lost
-		if(!window.gameLost)
+		if(window.gameLost)
 
 	{
 		g.setColor(Color.WHITE);
