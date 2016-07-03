@@ -177,7 +177,9 @@ public class GameField extends JPanel {
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
 		// game over is showing up if the game is lost
-		if(window.gameLost) {
+		if(!window.gameLost)
+
+	{
 		g.setColor(Color.WHITE);
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 		g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
@@ -212,11 +214,7 @@ public class GameField extends JPanel {
 			
 			// Monster Health Points
 			g.setColor(Color.GREEN);
-<<<<<<< HEAD
 			g.fillRect((m.getXPos() * window.BOX) + v1, (m.getYPos() * window.BOX - 2) + v2, m.getHealth(), 2);
-=======
-			g.fillRect(((m.getXPos() * window.BOX) + v1) + 15, (m.getYPos() * window.BOX - 2) + v2, window.BOX-40 * (m.getHealth()/m.getMaxHealth()), 4);
->>>>>>> branch 'master' of https://github.com/Olgoetz/ProgPrak2016.git
 		}
 	}
 
