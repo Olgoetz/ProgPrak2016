@@ -334,16 +334,18 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void mouseClicked(MouseEvent m) {
 
-		int mouseX = m.getX() / 32;
-		int mouseY = m.getY() / 32;
-		// System.out.println("Mouse at: " + mouseX + ", " + mouseY);
-		// System.out.println("Player at: " + xPos + ", " + yPos);
+		int mouseX = m.getX() / this.BOX -2;
+		int mouseY = m.getY() / this.BOX -2;
+		int playerX = this.getEngine().getMyPlayer().getXPos();
+		int playerY = this.getEngine().getMyPlayer().getYPos();
+		System.out.println("Mouse at: " + mouseX + ", " + mouseY);
+		System.out.println("Player at: " + playerX + ", " + playerY);
 		if (!gameWon) {
-			if (!this.getEngine().getLabyrinth()[mouseX][mouseY].isRock()) { // if click y is higher than
+			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { // if click y is higher than
 													// playerposition y and
 													// theres no wall, player
 													// moveDown()
-				this.getEngine().aStarRequest(mouseX, mouseY);
+				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);
 				
 			} else {
 				System.out.println("METOD GameWindow.mouseClicekd: Tile is NOT walkable!");
