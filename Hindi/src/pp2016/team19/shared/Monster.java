@@ -19,6 +19,8 @@ import pp2016.team19.server.engine.Game;
  */
 public class Monster extends Character {
 
+	private static final long serialVersionUID = -8329575206755045242L;
+	
 	private long lastAttack;
 	private long lastStep;
 	private int cooldownAttack;
@@ -73,17 +75,6 @@ public class Monster extends Character {
 		actAction = -1;
 
 		setDamage(5 + game.getLevelNumber() * 2);
-		Random r = new Random();
-
-		// Load image for monster
-		int i = r.nextInt(3) + 1;
-
-		try {
-			setImage(ImageIO.read(new File("img//dragon" + i + ".png")));
-		} catch (IOException e) {
-			System.err.print("Error while loading the image dragon" + i
-					+ ".png.");
-		}
 	}
 
 	/**

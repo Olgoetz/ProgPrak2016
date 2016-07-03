@@ -14,7 +14,6 @@ public class Player extends Character implements Serializable{
 
 	private static final long serialVersionUID = -3344880853631540753L;
 
-
 	private String name;
 	private String password;
 
@@ -27,15 +26,12 @@ public class Player extends Character implements Serializable{
 	
 	public Player(){
 		super();
+		
 		setNumberOfPotions(0);
 		setPos(0,0);		
 		setHealth(100);
 		setMaxHealth(getHealth());
-		try {
-			setImage(ImageIO.read(new File("img//player.png")));
-		} catch (IOException e) {
-			System.err.print("Error while loading the player image.");
-		}
+		setName("Anonymous");
 	}
 	
 	public Player(Game game){
@@ -45,14 +41,7 @@ public class Player extends Character implements Serializable{
 		setPos(0,0);		
 		setHealth(100);
 		setMaxHealth(getHealth());
-		setName("Hindi Bones");
-		
-		// Load the image of the player
-		try {
-			setImage(ImageIO.read(new File("img//player.png")));
-		} catch (IOException e) {
-			System.err.print("Error while loading the player image.");
-		}
+		setName("Anonymous");
 	}
 	
 	public LinkedList<Node> moveToPos(int xGoal, int yGoal) {
