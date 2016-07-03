@@ -199,8 +199,16 @@ public class ServerEngine implements Runnable {
 
 	}
 
-	private void signOutRequest(Message message) {
-
+	private void signOutRequest(Message pmessage) {
+		MessSignOutRequest message = (MessSignOutRequest) pmessage;
+		games.get(message.getPlayerID()).stopGame();
+		Message answer = (MessSignOutAnswer) new MessSignOutAnswer(true,0,9);
+		try {
+			this.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void signUpRequest(Message pmessage) {

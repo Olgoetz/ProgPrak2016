@@ -40,7 +40,7 @@ public class Game extends TimerTask implements Serializable {
 	boolean monsterMoving = false;
 	boolean gameEnded = false;
 	long startTime;
-	int scoreTime=0;
+	int scoreTime = 0;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
@@ -57,7 +57,7 @@ public class Game extends TimerTask implements Serializable {
 	public void run() {
 		if (tester == true) {
 			System.out.println("Game executed");
-			startTime=System.currentTimeMillis();
+			startTime = System.currentTimeMillis();
 			tester = false;
 			System.out.println(player.toString());
 			Message level = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
@@ -93,7 +93,7 @@ public class Game extends TimerTask implements Serializable {
 				}
 				if (monsterMoving) {
 					updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
-					monsterMoving=false;
+					monsterMoving = false;
 					try {
 						engine.messagesToClient.put(updateMonster);
 					} catch (InterruptedException e) {
@@ -101,22 +101,22 @@ public class Game extends TimerTask implements Serializable {
 						e.printStackTrace();
 					}
 					if (playerAttacked) {
-						if (player.getHealth()<=0) {
+						if (player.getHealth() <= 0) {
 							endGame(false);
 						} else {
-						updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
-								player.getYPos());
-						try {
-							engine.messagesToClient.put(updatePlayer);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
+									player.getYPos());
+							try {
+								engine.messagesToClient.put(updatePlayer);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							playerAttacked = false;
 						}
-						playerAttacked = false;
 					}
+					lastSent = System.currentTimeMillis();
 				}
-				lastSent = System.currentTimeMillis();
-			}
 			}
 		}
 	}
@@ -156,7 +156,7 @@ public class Game extends TimerTask implements Serializable {
 		gameEnded = true;
 		System.out.println("Game Ended");
 		if (playerWon) {
-			scoreTime = (int) (System.currentTimeMillis()-startTime/1000);
+			scoreTime = (int) (System.currentTimeMillis() - startTime / 1000);
 		}
 		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7);
 		try {
@@ -263,7 +263,7 @@ public class Game extends TimerTask implements Serializable {
 		try {
 			engine.messagesToClient.put(answer);
 			System.out.println("METHOD Game.collectItem:" + answer.toString());
-			if (updateMonsters!=null) {
+			if (updateMonsters != null) {
 				engine.messagesToClient.put(updateMonsters);
 			}
 		} catch (InterruptedException e) {
@@ -274,16 +274,21 @@ public class Game extends TimerTask implements Serializable {
 
 	private void playerAttack(Message message) {
 		Message answer;
-		Message gameMapUpdate=null;
+		Message gameMapUpdate = null;
 		Monster monster = player.monsterToAttack();
 		if (monster != null) {
 			System.out.println("METHOD game.playerAttack: Monster attacked");
 			monster.changeHealth(-8);
 			if (monster.getHealth() <= 0) {
-				if(monster.carriesKey()) {
+				System.out.println("METHOD game.playerAttack: Monster Killed");
+				if (monster.carriesKey()) {
 					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
 				} else {
-					gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
+					double random = Math.random();
+					System.out.println("METHOD game.playerAttack: Random Number:" + random);
+					if (random > 1 / 2) {
+						gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
+					}
 				}
 				Monsters.remove(monster);
 				gameMapUpdate = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
@@ -295,8 +300,9 @@ public class Game extends TimerTask implements Serializable {
 		}
 		try {
 			engine.messagesToClient.put(answer);
-			if(gameMapUpdate!=null)
+			if (gameMapUpdate != null) {
 				engine.messagesToClient.put(gameMapUpdate);
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -337,7 +343,7 @@ public class Game extends TimerTask implements Serializable {
 		for (int i = 0; i < gameMap2.length; i++) {
 			for (int j = 0; j < gameMap2.length; j++) {
 				if (gameMap[i][j].containsMonster()) {
-					if (k%2==0) {
+					if (k % 2 == 0) {
 						Monsters.add(new Monster(i, j, this, 0));
 						k++;
 					} else {
@@ -451,5 +457,8 @@ public class Game extends TimerTask implements Serializable {
 	public LinkedList<Monster> getMonsters() {
 
 		return Monsters;
+	}
+	public void stopGame() {
+		gameEnded = false;
 	}
 }
