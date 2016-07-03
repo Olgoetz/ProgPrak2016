@@ -322,12 +322,13 @@ public class ClientEngine implements Runnable {
 	
 	
 	public void serverSignOutRequest() {
-		System.out.println("METHOD ClientEngine.serverSignOutRequeset: SignOutRequest sent!");
+		System.out.println("METHOD ClientEngine.serverSignOutRequest: SignOutRequest sent!");
 		this.sendToServer(new MessSignOutRequest(this.playerID,0,8));
 	}
 	
 	public void serverSignOutAnswer(Message pMessage) {
-		
+		System.out.println("METHOD ClientEngine.serverSignOutAnswer: SignOutAnswer received!");
+		MessSignOutAnswer message = (MessSignOutAnswer) pMessage;
 	}
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS ********** //
@@ -484,6 +485,11 @@ public class ClientEngine implements Runnable {
 
 		MessUpdateMonsterAnswer message = (MessUpdateMonsterAnswer) pMessage;
 		this.myMonsterList = message.getMonsterList();
+	}
+	
+	
+	public void endGameRequest() {
+		this.sendToServer(new MessEndGameRequest(2,6));
 	}
 	
 	public void endGameAnswer(Message pMessage) {
