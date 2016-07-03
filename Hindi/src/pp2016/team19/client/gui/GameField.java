@@ -177,7 +177,7 @@ public class GameField extends JPanel {
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
 		// game over is showing up if the game is lost
-		if(window.gameLost)
+		if(!window.getEngine().getGamewon())
 
 	{
 		g.setColor(Color.WHITE);
@@ -186,7 +186,7 @@ public class GameField extends JPanel {
 	}else
 	{
 		// you win is showing up on screen if the game is won
-		if (window.gameWon) {
+		if (window.getEngine().getGamewon()) {
 			g.setColor(Color.WHITE);
 			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 			g.drawString("YOU WIN", getWidth() / 2 - 120, getHeight() / 2);
