@@ -338,8 +338,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		int mouseY = m.getY() / this.BOX -2;
 		int playerX = this.getEngine().getMyPlayer().getXPos();
 		int playerY = this.getEngine().getMyPlayer().getYPos();
-		System.out.println("Mouse at: " + mouseX + ", " + mouseY);
-		System.out.println("Player at: " + playerX + ", " + playerY);
+//		System.out.println("Mouse at: " + mouseX + ", " + mouseY);
+//		System.out.println("Player at: " + playerX + ", " + playerY);
 		if (!gameWon) {
 			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { // if click y is higher than
 													// playerposition y and
@@ -417,7 +417,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 			
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
-				this.engine.attackRequest();
+				this.getEngine().attackRequest();
 				
 				// Press B for 'Use potion'
 			} else if (e.getKeyCode() == KeyEvent.VK_B) {
