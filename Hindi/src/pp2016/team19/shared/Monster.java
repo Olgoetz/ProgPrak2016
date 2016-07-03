@@ -19,10 +19,13 @@ import pp2016.team19.server.engine.Game;
  */
 public class Monster extends Character {
 
+	private static final long serialVersionUID = -8329575206755045242L;
+	
 	private long lastAttack;
 	private long lastStep;
 	private int cooldownAttack;
 	private int cooldownWalk;
+	private boolean carriesKey;
 
 	private int actAction; // Defines what action the monster should do: 0 move
 							// to player, 1 flee, 2 regenerate
@@ -35,7 +38,6 @@ public class Monster extends Character {
 
 	private int type; // Present from beginning: 0, Appears later: 1
 
-	private Tile[][] gameMap;
 	private Player player;
 	private Game game;
 
@@ -58,7 +60,6 @@ public class Monster extends Character {
 		super(game);
 		this.game = game;
 		this.player = game.getPlayer();
-		this.gameMap = game.getGameMap();
 		this.type = type;
 		setPos(x, y);
 		setHealth(32);
@@ -75,17 +76,6 @@ public class Monster extends Character {
 		actAction = -1;
 
 		setDamage(5 + game.getLevelNumber() * 2);
-		Random r = new Random();
-
-		// Load image for monster
-		int i = r.nextInt(3) + 1;
-
-		try {
-			setImage(ImageIO.read(new File("img//dragon" + i + ".png")));
-		} catch (IOException e) {
-			System.err.print("Error while loading the image dragon" + i
-					+ ".png.");
-		}
 	}
 
 	/**
@@ -143,7 +133,7 @@ public class Monster extends Character {
 	public void changeHealth(int change) {
 		super.changeHealth(change);
 		if (getHealth() <= 0) {
-			gameMap[getXPos()][getYPos()].setContainsPotion(true);
+			game.getGameMap()[getXPos()][getYPos()].setContainsPotion(true);
 			game.getMonsters().remove(this);
 		}
 	}
@@ -186,6 +176,8 @@ public class Monster extends Character {
 	 */
 	public void moveToPlayer() {
 
+		cooldownWalk = 1000;
+		
 		// Did the player move since the last route calculation?
 		if (actAction != 0 || pathToPlayer.isEmpty()
 				|| player.getXPos() != this.lastPlayerPos[0]
@@ -208,6 +200,8 @@ public class Monster extends Character {
 	 */
 	public void flee() {
 
+		cooldownWalk = 500;
+		
 		if (actAction != 1 || fleePath.isEmpty()) {
 			Node fleePos = getFleePos();
 			System.out.println("Flee to: " + fleePos.getXPos() + ", "
@@ -311,6 +305,14 @@ public class Monster extends Character {
 	
 	public String toString() {
 		return "Monster: " + this.getXPos() + ", " + this.getYPos() + " | Health: " + this.getHealth();
+	}
+
+	public boolean carriesKey() {
+		return carriesKey;
+	}
+
+	public void setCarriesKey(boolean carriesKey) {
+		this.carriesKey = carriesKey;
 	}
 
 }
