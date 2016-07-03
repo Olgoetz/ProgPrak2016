@@ -37,6 +37,12 @@ public class Game extends TimerTask implements Serializable {
 	int cooldown = 500;
 	boolean nextSend;
 	boolean monsterMoving = false;
+	//Scorepoints
+	int scoreKillMonster = 50;
+	int scoreNewLevel = 60;
+	int scoreGetKey = 40;
+	int scorePotionKept = 40;
+	int scoreVictoryBonus = 200;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
@@ -160,6 +166,7 @@ public class Game extends TimerTask implements Serializable {
 
 	private void openDoor() {
 		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) {
+			player.increaseScore(scoreNewLevel*levelNumber);
 			levelNumber++;
 			this.newLevel(levelNumber);
 			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
@@ -221,6 +228,7 @@ public class Game extends TimerTask implements Serializable {
 			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
 		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
+			player.increaseScore(scoreGetKey*levelNumber);
 			player.takeKey();
 			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
@@ -244,6 +252,7 @@ public class Game extends TimerTask implements Serializable {
 			monster.changeHealth(-8);
 			if (player.getHealth() <= 0) {
 				Monsters.remove(monster);
+				player.increaseScore(scoreKillMonster);
 			}
 			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, true, 1, 3);
 		} else {

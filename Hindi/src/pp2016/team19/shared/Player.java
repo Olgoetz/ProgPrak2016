@@ -21,6 +21,7 @@ public class Player extends Character implements Serializable{
 	private boolean hasKey;
 	private int numberOfPotions;
 	private int potionEffect=40;
+	private int score;
 
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
 	
@@ -132,7 +133,17 @@ public class Player extends Character implements Serializable{
 		
 		return null;
 	}
-	
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	public void increaseScore(int points) {
+		score = score + points;
+	}
 
 	
 }
