@@ -9,8 +9,7 @@ import javax.imageio.ImageIO;
 
 import pp2016.team19.server.engine.Game;
 
-public class Player extends Character implements Serializable{
-
+public class Player extends Character implements Serializable {
 
 	private static final long serialVersionUID = -3344880853631540753L;
 
@@ -19,81 +18,92 @@ public class Player extends Character implements Serializable{
 
 	private boolean hasKey;
 	private int numberOfPotions;
-	private int potionEffect=40;
+	private int potionEffect = 40;
 	private int score;
 
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
-	
-	public Player(){
+
+	public Player(String userName, String password) {
 		super();
-		
+
+		setName(userName);
+		setPassword(password);
 		setNumberOfPotions(0);
-		setPos(0,0);		
+		setPos(0, 0);
+		setHealth(100);
+		setMaxHealth(getHealth());
+	}
+
+	public Player() {
+		super();
+		setNumberOfPotions(0);
+		setPos(0, 0);
 		setHealth(100);
 		setMaxHealth(getHealth());
 		setName("Anonymous");
 	}
-	
-	public Player(Game game){
+
+	public Player(Game game) {
 		super(game);
-		
+
 		setNumberOfPotions(0);
-		setPos(0,0);		
+		setPos(0, 0);
 		setHealth(100);
 		setMaxHealth(getHealth());
 		setName("Anonymous");
 	}
-	
+
 	public LinkedList<Node> moveToPos(int xGoal, int yGoal) {
 		if (pathToPos.isEmpty()) {
 			pathToPos = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);
 			pathToPos.addLast(new Node(xGoal, yGoal));
 		}
-		
+
 		return pathToPos;
 	}
-	
+
 	// Method to take the key
-	public void takeKey(){
+	public void takeKey() {
 		hasKey = true;
 	}
-	
+
 	// Method to remove the key
-	public void removeKey(){
+	public void removeKey() {
 		hasKey = false;
-	}	
-	
-	public int usePotion(){
-		setNumberOfPotions(numberOfPotions-1);
-		health = Math.min(health+potionEffect,getMaxHealth());
+	}
+
+	public int usePotion() {
+		setNumberOfPotions(numberOfPotions - 1);
+		health = Math.min(health + potionEffect, getMaxHealth());
 		return health;
 	}
-	
-	public void takePotion(){
+
+	public void takePotion() {
 		numberOfPotions++;
 	}
-	
-	public void setNumberOfPotions(int quantity){
-		if (quantity >= 0) numberOfPotions = quantity;
+
+	public void setNumberOfPotions(int quantity) {
+		if (quantity >= 0)
+			numberOfPotions = quantity;
 	}
-	
-	public int getNumberOfPotions(){
+
+	public int getNumberOfPotions() {
 		return numberOfPotions;
 	}
-	
+
 	// Does the player have the key?
-	public boolean hasKey(){
+	public boolean hasKey() {
 		return hasKey;
 	}
-		
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -101,25 +111,29 @@ public class Player extends Character implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String toString(){
-		return "Player: " + this.getName() + ", PW: " + this.getPassword() + ", Pos: " + this.getXPos() + ", " + this.getYPos();
+
+	public String toString() {
+		return "Player: " + this.getName() + ", PW: " + this.getPassword() + ", Pos: " + this.getXPos() + ", "
+				+ this.getYPos();
 	}
 
-	public Monster monsterToAttack(){
-		for(int i = 0; i < getGame().getMonsters().size(); i++){
+	public Monster monsterToAttack() {
+		for (int i = 0; i < getGame().getMonsters().size(); i++) {
 			Monster m = getGame().getMonsters().get(i);
-						
+
 			// Is the player able to attack?
 			boolean ableToAttack = false;
-			if (m.getType() == 0) ableToAttack = true; 
-			if (m.getType() == 1) ableToAttack = hasKey;
-			
-			if((Math.sqrt(Math.pow(getXPos() - m.getXPos(), 2)+ Math.pow(getYPos() - m.getYPos(), 2)) < 2)&&ableToAttack){
+			if (m.getType() == 0)
+				ableToAttack = true;
+			if (m.getType() == 1)
+				ableToAttack = hasKey;
+
+			if ((Math.sqrt(Math.pow(getXPos() - m.getXPos(), 2) + Math.pow(getYPos() - m.getYPos(), 2)) < 2)
+					&& ableToAttack) {
 				return m;
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -130,9 +144,9 @@ public class Player extends Character implements Serializable{
 	public void setScore(int score) {
 		this.score = score;
 	}
+
 	public void increaseScore(int points) {
 		score = score + points;
 	}
 
-	
 }

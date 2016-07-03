@@ -38,9 +38,8 @@ public class ServerEngine implements Runnable {
 	public ServerEngine(ExecutorService serverThreadPool, LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
-		players.addElement(new Player());
-		players.get(0).setName("user");
-		players.get(0).setPassword("123");
+		players.addElement(new Player("user","123"));
+		System.out.println(players.get(0).getName());
 	}
 
 	/**
@@ -48,6 +47,7 @@ public class ServerEngine implements Runnable {
 	 */
 	public void run() {
 		System.out.println("METHOD ServerEngine.run: Started");
+		System.out.println(players.get(0).getName());
 		while (true) {
 			Message message = network.getMessageFromClient();
 			if (message != null) {
@@ -150,6 +150,7 @@ public class ServerEngine implements Runnable {
 		playerFound = false;
 		for (Player player : players) {
 			if (player.getName().equals(message.getUsername())) {
+				System.out.println("player found");
 				playerFound = true;
 				if (player.getPassword().equals(message.getPassword())) {
 					System.out.println("METHOD ServerEngine.SignInRequest: Log-In successful");
@@ -219,7 +220,7 @@ public class ServerEngine implements Runnable {
 			}
 		}
 		if (playerIsNew) {
-			players.addElement(new Player());
+			players.addElement(new Player(message.getUsername(),message.getPassword()));
 			System.out.println("Player reqgistered");
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
