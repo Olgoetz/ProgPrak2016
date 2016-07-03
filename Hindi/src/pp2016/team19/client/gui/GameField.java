@@ -47,7 +47,7 @@ public class GameField extends JPanel {
 			wall = ImageIO.read(new File("img//bricks.png"));	//bricks.png, wall
 			doorClosed = ImageIO.read(new File("img//gateClosedK.png")); //gateclosedK.png, doorClosed
 			doorOpen = ImageIO.read(new File("img//torK.png")); // tor.png, dooropen
-			key = ImageIO.read(new File("img//Goldkey.png")); // //source: http://rocketdock.com/images/screenshots/Gold-key.png
+			key = ImageIO.read(new File("img//Goldkey.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
 
 			potion = ImageIO.read(new File("img//potionK.png")); // potionK.png, potion
 			fireball = ImageIO.read(new File("img//fireK.png")); //fireK.png, fireball
@@ -123,7 +123,7 @@ public class GameField extends JPanel {
 						if (window.getEngine().getLabyrinth()[i][j].containsKey()) {
 							// Here lies the key
 							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
-							g.drawImage(key, (i * window.BOX) + v1 , (j * window.BOX) + v2, null);
+							g.drawImage(key, (i * window.BOX) + v1 + 15 , (j * window.BOX) + v2 + 20, null);
 						} else if (window.getEngine().getLabyrinth()[i][j].containsPotion()) {
 							// Here is the door
 							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);

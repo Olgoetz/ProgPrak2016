@@ -46,7 +46,7 @@ private static final long serialVersionUID = 1L;
 		//loading the images
 		try {
 			background = ImageIO.read(new File("img//statusgrau.png"));
-			key = ImageIO.read(new File("img//key.png"));
+			key = ImageIO.read(new File("img//Goldkey2.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
 			potion = ImageIO.read(new File("img//potionSmall.png"));
 			
 			//load the smaller images for the minimap
@@ -108,7 +108,7 @@ private static final long serialVersionUID = 1L;
 			
 		// draw the key if the player picked one up
 		if(window.getEngine().getMyPlayer().hasKey()){
-			g.drawImage(key, 50, 120, null);
+			g.drawImage(key, 55, 120, null);
 			}
 			
 		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 170);	
