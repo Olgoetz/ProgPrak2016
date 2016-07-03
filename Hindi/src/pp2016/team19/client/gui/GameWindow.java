@@ -397,33 +397,23 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 0);
 
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
-
 			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 1);
-
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
 
 			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 2);
 
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
-
+			
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 3);
 
-				System.out.println("NEWPosition of Player in game:" + this.engine.getMyPlayer().getXPos() + " "
-						+ this.engine.getMyPlayer().getYPos());
-
+			
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
 				this.engine.attackRequest();
 				
@@ -470,7 +460,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		// TODO: Server Request f�r GameRestart
 		// player = new Player("img//player.png", this);
 		this.engine.startGameRequest(this.engine.getPlayerID());
-		;
 		// spiel zurücksetzen, was muss alles ausgeführt werden, welche
 		// variablen gesetzt werden :)
 
@@ -510,7 +499,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		do {
 
 			if (!gameWon) {
-
 				// Every 50ms the map is repainted
 				try {
 					Thread.sleep(50);

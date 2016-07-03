@@ -71,7 +71,6 @@ public class ClientEngine implements Runnable {
 
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this, BOX * WIDTH, BOX * HEIGHT, "Hindi Bones"));
-		this.getThreadPool().execute(this.getGameWindow());
 
 	}
 
@@ -258,12 +257,10 @@ public class ClientEngine implements Runnable {
 		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
 
 		// check if passwords are equal
-		// if true, the registration is successful and the game menu will be
-		// opened
+		// if true, the registration is successful and the game menu will be opened
 		// if false, there is an output that the passwords are not equal
 		if (pPassword.equals(pPassword2)) {
 			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword, 0, 2));
-			getGameWindow().showMenu();
 			System.out.println("Registration successful!");
 
 		} else {
@@ -293,10 +290,10 @@ public class ClientEngine implements Runnable {
 	}
 
 	/**
-	 * This method processes a SignInAndUpAnswer message coming from the server
+	 * This method processes a SignInAndUpAnswer message coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage
+	 * @param pMessage the received message
 	 */
 	private void serverSignInAndUpAnswer(Message pMessage) {
 		System.out.println("METHOD Engine.serverSignInAnswer() " + pMessage.toString());
@@ -319,7 +316,7 @@ public class ClientEngine implements Runnable {
 		}
 	}
 
-	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
+	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS ********** //
 
 	// Sends a moveCharacterRequest to the server
 	public void moveCharacterRequest(int x, int y, int direction) {
@@ -421,13 +418,10 @@ public class ClientEngine implements Runnable {
 		this.myPlayer = message.getMyPlayer();
 	}
 
-	/**
-	 * @author Oliver Goetz, 5961343
-	 * @param pMessage
-	 */
 
-	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
-	// **********
+
+	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS ********** //
+
 
 	public void startGameRequest(int ID) {
 		System.out.println("METHOD ClientEngine.startGameRequest: New game requested");
@@ -442,7 +436,7 @@ public class ClientEngine implements Runnable {
 
 	// Processes a levelAnswer Message coming from the server
 	public void levelAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.levelAnswer: Level received! ");
+		System.out.println("METHOD ClientEngine.levelAnswer: Level received! ");
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
 		this.myMonsterList = message.getMonsters();
 		this.labyrinth = message.getLabyrinth();
@@ -466,6 +460,7 @@ public class ClientEngine implements Runnable {
 		gamewindow.setTest(true);
 
 	}
+	
 
 	public void updateMonsterRequest(Monster monster) {
 		this.sendToServer(new MessUpdateMonsterRequest(2, 2));
@@ -479,34 +474,22 @@ public class ClientEngine implements Runnable {
 
 	// ***** Section 4 *****//
 
-	/***
-	 * @author Oliver Goetz, 596313
-	 * 
-	 * @param pMessage
-	 * @param myPlayer
-	 * @param myMonster
-	 * @param networkHandler
-	 * @param gamewindow
-	 * 
-	 *            This block contains helper, getter and setter methods
-	 */
 
 	/**
-	 * SECTION xx contains helper methods as well Getter and Setter
+	 * SECTION 4 contains helper methods as well Getter and Setter.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * 
 	 */
 
-	// ********* HELPERS and GETTERS'n'SETTERS **********
+	// ********* HELPERS and GETTERS'n'SETTERS ********** //
 
 	/**
-	 * This methods calls the newtorkhandler and puts a message in queue.
+	 * This methods calls the newtorkhandler and puts a message in a queue.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param pMessage
 	 */
-
 	private void sendToServer(Message pMessage) {
 		this.networkHandler.sendMessageToServer(pMessage);
 	}
@@ -531,43 +514,104 @@ public class ClientEngine implements Runnable {
 	public void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
-
+	
+	/**
+	 * Getter Method for the MonsterList.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return myMonsterList
+	 */
 	public LinkedList<Monster> getMyMonster() {
 		return myMonsterList;
 	}
 
+	/**
+	 * Setter Method for the MonsterList.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param myMonsterList the MonsterList
+	 */
 	public void setMyMonster(LinkedList<Monster> myMonsterList) {
 		this.myMonsterList = myMonsterList;
 	}
-
+	
+	/**
+	 * Getter Method for the threadPool
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return a threadPool
+	 */
 	public ExecutorService getThreadPool() {
 		return threadPool;
 	}
-
+	
+	/**
+	 * Setter Method for the threadPool
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param threadPool a threadPool
+	 */
 	public void setThreadPool(ExecutorService threadPool) {
 		this.threadPool = threadPool;
 	}
-
+	
+	/**
+	 * Getter Method for the networkhandler.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return the Client NetworkHandler
+	 */
 	public HandlerClient getNetworkHandler() {
 		return networkHandler;
 	}
 
+	/**
+	 * Setter Method for the networkhandler.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param networkHandler a networkhandler
+	 */
 	public void setNetworkHandler(HandlerClient networkHandler) {
 		this.networkHandler = networkHandler;
 	}
 
+	/**
+	 * Getter Method for a gamewindow.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return the gamewindow
+	 */
 	public GameWindow getGameWindow() {
 		return gamewindow;
 	}
 
+	/**
+	 * Setter Method for a gamewindow.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param gamewindow a gamewindow
+	 */
 	public void setGameWindow(GameWindow gamewindow) {
 		this.gamewindow = gamewindow;
 	}
+	
+	/**
+	 * Getter Method for the labyrinth.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return a labyrinth
+	 */
 
 	public Tile[][] getLabyrinth() {
 		return labyrinth;
 	}
 
+	/**
+	 * Getter Method for an unique playerID.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return a playerID
+	 */
 	public int getPlayerID() {
 		return playerID;
 	}
