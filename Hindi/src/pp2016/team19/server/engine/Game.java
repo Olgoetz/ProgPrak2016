@@ -25,6 +25,7 @@ public class Game extends TimerTask implements Serializable {
 	Tile[][] gameMap;
 	private int gameSize;
 	transient LinkedList<Monster> Monsters = new LinkedList<Monster>();
+	LinkedList<Monster> WaitingMonsters = new LinkedList<Monster>();
 	int levelNumber = 1;
 	transient ServerEngine engine;
 	boolean tester = true; // Testing
@@ -240,7 +241,7 @@ public class Game extends TimerTask implements Serializable {
 		}
 		try {
 			engine.messagesToClient.put(answer);
-			System.out.println("METHOD Game.collectItem:" + answer.toString());
+			System.out.println("METHOD Game.usePotion:" + answer.toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -248,6 +249,7 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void collectItem(Message message) {
+		Message updateMonsters = null;
 		Message answer;
 		System.out.println("METHOD Game.collectItem: executed");
 		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
@@ -256,15 +258,20 @@ public class Game extends TimerTask implements Serializable {
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
 		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
 			player.increaseScore(scoreGetKey * levelNumber);
+			Monsters.addAll(WaitingMonsters);
 			player.takeKey();
 			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
+			updateMonsters = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
 		} else {
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(-1, 1, 5);
 		}
 		try {
 			engine.messagesToClient.put(answer);
 			System.out.println("METHOD Game.collectItem:" + answer.toString());
+			if (updateMonsters!=null) {
+				engine.messagesToClient.put(updateMonsters);
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -273,13 +280,20 @@ public class Game extends TimerTask implements Serializable {
 
 	private void playerAttack(Message message) {
 		Message answer;
+		Message gameMapUpdate=null;
 		Monster monster = player.monsterToAttack();
 		if (monster != null) {
 			System.out.println("METHOD game.playerAttack: Monster attacked");
 			monster.changeHealth(-8);
-			if (player.getHealth() <= 0) {
-				Monsters.remove(monster);
+			if (monster.getHealth() <= 0) {
 				player.increaseScore(scoreKillMonster);
+				if(monster.carriesKey()) {
+					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
+				} else {
+					gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
+				}
+				Monsters.remove(monster);
+				gameMapUpdate = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
 			}
 			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, true, 1, 3);
 		} else {
@@ -288,6 +302,8 @@ public class Game extends TimerTask implements Serializable {
 		}
 		try {
 			engine.messagesToClient.put(answer);
+			if(gameMapUpdate!=null)
+				engine.messagesToClient.put(gameMapUpdate);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -323,15 +339,17 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private LinkedList<Monster> createMonsters(Tile[][] gameMap2, int monsterNumber) {
+		WaitingMonsters.clear();
 		int k = 0;
 		for (int i = 0; i < gameMap2.length; i++) {
 			for (int j = 0; j < gameMap2.length; j++) {
 				if (gameMap[i][j].containsMonster()) {
-					if (k < monsterNumber / 2) {
+					if (k%2==0) {
 						Monsters.add(new Monster(i, j, this, 0));
 						k++;
 					} else {
-						Monsters.add(new Monster(i, j, this, 1));
+						WaitingMonsters.add(new Monster(i, j, this, 1));
+						k++;
 					}
 				}
 

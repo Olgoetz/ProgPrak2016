@@ -1,7 +1,14 @@
 package pp2016.team19.shared;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
+
+import pp2016.team19.client.gui.GameWindow;
 import pp2016.team19.server.engine.Game;
 
 /**
@@ -18,6 +25,7 @@ public class Monster extends Character {
 	private long lastStep;
 	private int cooldownAttack;
 	private int cooldownWalk;
+	private boolean carriesKey;
 
 	private int actAction; // Defines what action the monster should do: 0 move
 							// to player, 1 flee, 2 regenerate
@@ -297,6 +305,14 @@ public class Monster extends Character {
 	
 	public String toString() {
 		return "Monster: " + this.getXPos() + ", " + this.getYPos() + " | Health: " + this.getHealth();
+	}
+
+	public boolean carriesKey() {
+		return carriesKey;
+	}
+
+	public void setCarriesKey(boolean carriesKey) {
+		this.carriesKey = carriesKey;
 	}
 
 }
