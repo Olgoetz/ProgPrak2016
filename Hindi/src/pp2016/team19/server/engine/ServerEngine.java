@@ -1,5 +1,6 @@
 package pp2016.team19.server.engine;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.Vector;
@@ -20,9 +21,8 @@ public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 
 	private ExecutorService threadPool;
-	// private LinkedList<Player> players;
-	private Vector<Player> players = new Vector<Player>();
-	private Vector<Game> games = new Vector<Game>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Game> games = new ArrayList<Game>();
 	transient private Game game1; // Test
 	private Timer tick = new Timer();
 	HandlerServer network = new HandlerServer();
@@ -38,7 +38,7 @@ public class ServerEngine implements Runnable {
 	public ServerEngine(ExecutorService serverThreadPool, LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
-		players.addElement(new Player("user","123"));
+		players.add(new Player("user","123"));
 		System.out.println(players.get(0).getName());
 	}
 
@@ -189,8 +189,8 @@ public class ServerEngine implements Runnable {
 
 	private void startGame(Player player) {
 		this.messagesToGames = new LinkedBlockingQueue<Message>();
-		this.games.addElement(new Game(this, player, 16, this.messagesToGames));
-		this.tick.scheduleAtFixedRate(this.games.lastElement(), 0, 50);
+		this.games.add(new Game(this, player, 16, this.messagesToGames));
+		this.tick.scheduleAtFixedRate(this.games.get(this.games.size()-1), 0, 50);
 
 	}
 
@@ -220,7 +220,7 @@ public class ServerEngine implements Runnable {
 			}
 		}
 		if (playerIsNew) {
-			players.addElement(new Player(message.getUsername(),message.getPassword()));
+			players.add(new Player(message.getUsername(),message.getPassword()));
 			System.out.println("Player reqgistered");
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
