@@ -47,7 +47,8 @@ public class GameField extends JPanel {
 			wall = ImageIO.read(new File("img//bricks.png"));	//bricks.png, wall
 			doorClosed = ImageIO.read(new File("img//gateClosedK.png")); //gateclosedK.png, doorClosed
 			doorOpen = ImageIO.read(new File("img//torK.png")); // tor.png, dooropen
-			key = ImageIO.read(new File("img//key2.png")); // key2.png, key
+			key = ImageIO.read(new File("img//Goldkey.png")); // //source: http://rocketdock.com/images/screenshots/Gold-key.png
+
 			potion = ImageIO.read(new File("img//potionK.png")); // potionK.png, potion
 			fireball = ImageIO.read(new File("img//fireK.png")); //fireK.png, fireball
 			hindi = ImageIO.read(new File("img/warrior.png")); //warrior.png, player 
