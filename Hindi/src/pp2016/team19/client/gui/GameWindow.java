@@ -139,8 +139,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(5*BOX, 5*BOX));
 		statusbar.setPreferredSize(new Dimension(5 * SBox, height));
-		controls.setPreferredSize(new Dimension(width, height + BOX));
-		highscore.setPreferredSize(new Dimension(width, height + BOX));
+		controls.setPreferredSize(new Dimension(width, height));
+		highscore.setPreferredSize(new Dimension(width, height));
 		menupanel.setPreferredSize(new Dimension(width, height));
 		loginpanel.setPreferredSize(new Dimension(width, height));
 		// connectpanel.setPreferredSize(new Dimension(width, height));

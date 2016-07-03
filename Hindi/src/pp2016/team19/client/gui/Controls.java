@@ -77,9 +77,9 @@ public class Controls extends JPanel {
 		g.drawImage(right, 180 , 410 , null);
 		g.drawString("pick up item", 300, 425);
 		
-		g.drawImage(b,60, 460, null);
-		g.drawImage(right, 180, 470, null);
-		g.drawString("take the potion", 300, 500);
+		g.drawImage(b,60, 450, null);
+		g.drawImage(right, 180, 465, null);
+		g.drawString("take the potion", 300, 480);
 		
 	}
 	
