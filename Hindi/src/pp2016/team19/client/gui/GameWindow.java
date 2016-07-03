@@ -62,7 +62,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public boolean gameLost = false;
 	public long startTime;
 	public int neededTime;
-	public boolean mistOn = true;
+	public boolean minifieldShown = false;
 
 	private boolean playerCheck = false;
 
@@ -77,7 +77,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public final int MAXLEVEL = 5;
 	public final int WIDTH = 16;
 	public final int HEIGHT = 16;
-	public final int BOX = 32;
+	public final int BOX = 94;
 
 	public final int SBox = 32;
 
@@ -137,7 +137,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.highscore = new Highscore();
 
 		// Setting the desired sizes
-		gamefield.setPreferredSize(new Dimension(width, height));
+		gamefield.setPreferredSize(new Dimension(5*BOX, 5*BOX));
 		statusbar.setPreferredSize(new Dimension(5 * SBox, height));
 		controls.setPreferredSize(new Dimension(width, height + BOX));
 		highscore.setPreferredSize(new Dimension(width, height + BOX));
@@ -169,18 +169,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 * 
 	 */
 
-	// public void showConnect(){
-	// connectShown = true;
-	// highscoreShown = false;
-	// controlsShown = false;
-	// gamefieldShown = false;
-	// menuShown = false;
-	// loginShown = false;
-	// this.add(connectpanel, BorderLayout.CENTER);
-	// this.requestFocus();
-	// this.pack();
-	// connectpanel.repaint();
-	// }
+
 
 	/**
 	 * @author Felizia Langsdorf, 6002960 sets the login panel in the window
@@ -499,7 +488,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		currentLevel = 0;
 		gameWon = false;
 		gameLost = false;
-		mistOn = true;
+		minifieldShown = false;
 		nextLevel();
 		playerInHighscore = false;
 		startTime = System.currentTimeMillis();
