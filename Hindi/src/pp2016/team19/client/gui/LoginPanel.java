@@ -155,11 +155,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 				// achtung: namen der variablen haben sich geändert !!!
 				// plus methode von olli fuer überprüfen ob passwörter gleich eingegben 
 				// olli weißte ja dann bescheid, kannst dann alles unnötige wieder weg machen
+				regUsername = textField_2.getText();
 				regPassword1 = passwordField_2.getText();
 				regPassword2 = passwordField_3.getText();
-				if(regPassword1 == regPassword2){
-					System.out.println("user is registered");
-				}								
+				window.engine.serverSignUpRequest(logUsername, regPassword1, regPassword2);							
 			}
 
 }
