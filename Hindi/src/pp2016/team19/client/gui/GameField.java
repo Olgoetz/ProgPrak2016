@@ -128,7 +128,7 @@ public class GameField extends JPanel {
 							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
 							// Here lies a potion
 							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2,null);
-							g.drawImage(potion, (i * window.BOX) + v1, (j * window.BOX) + v2,null);
+							g.drawImage(potion, (i * window.BOX) + v1 + 10, (j * window.BOX) + v2 + 10,null);
 						}
 					} else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
 						// Here is the door
