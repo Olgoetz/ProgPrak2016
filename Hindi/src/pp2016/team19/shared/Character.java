@@ -16,12 +16,11 @@ import pp2016.team19.server.engine.Game;
  * 
  * @author Strohbuecker, Max, 5960738
  */
-public abstract class Character implements Serializable{
+public abstract class Character implements Serializable {
 
-	
 	private static final long serialVersionUID = -6464021522368997893L;
-	
-	public  int  xPos, yPos;
+
+	public int xPos, yPos;
 	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
 
 	private transient Game game;
@@ -66,7 +65,8 @@ public abstract class Character implements Serializable{
 	 * @return returns the calculated path
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public LinkedList<Node> AStarSearch(int xStart, int yStart, int xGoal, int yGoal) {
+	public LinkedList<Node> AStarSearch(int xStart, int yStart, int xGoal,
+			int yGoal) {
 		ArrayList<Node> openList = new ArrayList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
 		Node start = new Node(xStart, yStart);
@@ -124,32 +124,39 @@ public abstract class Character implements Serializable{
 				// Set neighbors' parents to cheapest
 				neighbors[k].setParent(cheapest);
 
-				if (neighbors[k].getXPos() == xGoal && neighbors[k].getYPos() == yGoal) {
+				if (neighbors[k].getXPos() == xGoal
+						&& neighbors[k].getYPos() == yGoal) {
 					// Current Neighbor is the goal / player
 					goalFound = true;
 					goal = neighbors[k];
 				} else {
 					// Calculate costs of neighbor
-					neighbors[k].setCostFromStart(cheapest.getCostFromStart() + 1);
+					neighbors[k]
+							.setCostFromStart(cheapest.getCostFromStart() + 1);
 					int xDiff = xGoal - neighbors[k].getXPos();
 					int yDiff = yGoal - neighbors[k].getYPos();
-					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff * xDiff + yDiff * yDiff));
+					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff * xDiff
+							+ yDiff * yDiff));
 					neighbors[k].calculateCosts();
 
 					boolean skipNode = false;
 					for (Node checkOpen : openList) {
 						if (checkOpen.getXPos() == neighbors[k].getXPos()
-								&& checkOpen.getYPos() == neighbors[k].getYPos()) {
+								&& checkOpen.getYPos() == neighbors[k]
+										.getYPos()) {
 							// Neighbor already in the openList
-							if (checkOpen.getTotalCosts() <= neighbors[k].getTotalCosts())
+							if (checkOpen.getTotalCosts() <= neighbors[k]
+									.getTotalCosts())
 								skipNode = true;
 						}
 					}
 					for (Node checkClosed : closedList) {
 						if (checkClosed.getXPos() == neighbors[k].getXPos()
-								&& checkClosed.getYPos() == neighbors[k].getYPos()) {
+								&& checkClosed.getYPos() == neighbors[k]
+										.getYPos()) {
 							// Neighbor already in the closedList
-							if (checkClosed.getTotalCosts() <= neighbors[k].getTotalCosts())
+							if (checkClosed.getTotalCosts() <= neighbors[k]
+									.getTotalCosts())
 								skipNode = true;
 						}
 					}
@@ -162,19 +169,24 @@ public abstract class Character implements Serializable{
 
 		// Go back path to node which parent is the start node (=monster)
 		LinkedList<Node> path = new LinkedList<Node>();
-		Node current = goal.getParent();
-		while (current != start && current != null) {
-			path.addFirst(current);
-			current = current.getParent();
+		if (goal == null) {
+			System.out.println("METHOD Character.AStarSearch: Goal not found!");
+			return null;
+		} else {
+			Node current = goal.getParent();
+			while (current != start && current != null) {
+				path.addFirst(current);
+				current = current.getParent();
+			}
 		}
-
 		return path;
 	}
 
 	// Move-Methods
-	
+
 	/**
 	 * Method to move up the character
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public synchronized void moveUp() {
@@ -183,6 +195,7 @@ public abstract class Character implements Serializable{
 
 	/**
 	 * Method to move down the character
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public synchronized void moveDown() {
@@ -213,16 +226,21 @@ public abstract class Character implements Serializable{
 		// test = path.get(i);
 		// System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
 		// }
-		if (nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos() - 1) {
+		if (nextNode.getXPos() == this.getXPos()
+				&& nextNode.getYPos() == this.getYPos() - 1) {
 			dir = 0;
-		} else if (nextNode.getXPos() == this.getXPos() + 1 && nextNode.getYPos() == this.getYPos()) {
+		} else if (nextNode.getXPos() == this.getXPos() + 1
+				&& nextNode.getYPos() == this.getYPos()) {
 			dir = 1;
-		} else if (nextNode.getXPos() == this.getXPos() && nextNode.getYPos() == this.getYPos() + 1) {
+		} else if (nextNode.getXPos() == this.getXPos()
+				&& nextNode.getYPos() == this.getYPos() + 1) {
 			dir = 2;
-		} else if (nextNode.getXPos() == this.getXPos() - 1 && nextNode.getYPos() == this.getYPos()) {
+		} else if (nextNode.getXPos() == this.getXPos() - 1
+				&& nextNode.getYPos() == this.getYPos()) {
 			dir = 3;
 		} else {
-			System.out.println("Error while changing direction: Next step is not next to the monster");
+			System.out
+					.println("Error while changing direction: Next step is not next to the monster");
 		}
 		if (valid()) {
 			switch (dir) {
@@ -280,7 +298,8 @@ public abstract class Character implements Serializable{
 		} else if (dir == 3 && getXPos() > 0) {
 			return isWalkable(getXPos() - 1, getYPos());
 		} else {
-			System.out.println("Error while validating step: Next step blocked by a wall, door or key.");
+			System.out
+					.println("Error while validating step: Next step blocked by a wall, door or key.");
 			return false;
 		}
 	}
@@ -327,11 +346,11 @@ public abstract class Character implements Serializable{
 	public int getXPos() {
 		return xPos;
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}
-	
+
 	public void setGame(Game game) {
 		this.game = game;
 	}
