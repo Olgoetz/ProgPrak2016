@@ -95,6 +95,7 @@ public class Game extends TimerTask implements Serializable {
 				}
 				if (monsterMoving) {
 					updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
+					monsterMoving=false;
 					try {
 						engine.messagesToClient.put(updateMonster);
 					} catch (InterruptedException e) {

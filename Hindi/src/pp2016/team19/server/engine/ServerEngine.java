@@ -177,12 +177,7 @@ public class ServerEngine implements Runnable {
 			}
 		}
 		if (!playerFound) {
-			System.out.println("METHOD ServerEngine.SignInRequest: Player doesn't exist"); // Maybe
-																							// send
-																							// this
-																							// as
-			// String with Answer
-			// message
+			System.out.println("METHOD ServerEngine.SignInRequest: Player doesn't exist"); 
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(false, -1, 0, 3);
 			try {
 				this.messagesToClient.put(answer);
