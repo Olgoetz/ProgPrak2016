@@ -510,7 +510,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		do {
 
 			if (!gameWon) {
-
 				// Every 50ms the map is repainted
 				try {
 					Thread.sleep(50);

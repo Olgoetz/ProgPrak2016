@@ -71,7 +71,6 @@ public class ClientEngine implements Runnable {
 
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this, BOX * WIDTH, BOX * HEIGHT, "Hindi Bones"));
-		this.getThreadPool().execute(this.getGameWindow());
 
 	}
 
