@@ -1,11 +1,7 @@
 package pp2016.team19.shared;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
-
-import javax.imageio.ImageIO;
 
 import pp2016.team19.server.engine.Game;
 
