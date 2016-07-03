@@ -39,12 +39,8 @@ public class Game extends TimerTask implements Serializable {
 	boolean nextSend;
 	boolean monsterMoving = false;
 	boolean gameEnded = false;
-	// Scorepoints
-	int scoreKillMonster = 50;
-	int scoreNewLevel = 60;
-	int scoreGetKey = 40;
-	int scorePotionKept = 40;
-	int scoreVictoryBonus = 200;
+	long startTime;
+	int scoreTime=0;
 
 	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
 		this.player = player;
@@ -61,6 +57,7 @@ public class Game extends TimerTask implements Serializable {
 	public void run() {
 		if (tester == true) {
 			System.out.println("Game executed");
+			startTime=System.currentTimeMillis();
 			tester = false;
 			System.out.println(player.toString());
 			Message level = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
@@ -158,11 +155,10 @@ public class Game extends TimerTask implements Serializable {
 	public void endGame(boolean playerWon) {
 		gameEnded = true;
 		System.out.println("Game Ended");
-		player.increaseScore(scorePotionKept * player.getNumberOfPotions());
 		if (playerWon) {
-			player.increaseScore(scoreVictoryBonus);
+			scoreTime = (int) (System.currentTimeMillis()-startTime/1000);
 		}
-		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, player.getScore(), 2, 7);
+		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7);
 		try {
 			engine.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
@@ -191,7 +187,6 @@ public class Game extends TimerTask implements Serializable {
 
 	private void openDoor() {
 		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) {
-			player.increaseScore(scoreNewLevel * levelNumber);
 			if (levelNumber >= 5) {
 				endGame(true);
 			} else {
@@ -257,7 +252,6 @@ public class Game extends TimerTask implements Serializable {
 			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
 		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
-			player.increaseScore(scoreGetKey * levelNumber);
 			Monsters.addAll(WaitingMonsters);
 			player.takeKey();
 			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
@@ -286,7 +280,6 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println("METHOD game.playerAttack: Monster attacked");
 			monster.changeHealth(-8);
 			if (monster.getHealth() <= 0) {
-				player.increaseScore(scoreKillMonster);
 				if(monster.carriesKey()) {
 					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
 				} else {

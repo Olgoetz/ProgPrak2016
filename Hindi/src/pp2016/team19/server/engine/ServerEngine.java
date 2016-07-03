@@ -220,7 +220,8 @@ public class ServerEngine implements Runnable {
 			}
 		}
 		if (playerIsNew) {
-			players.add(new Player(message.getUsername(),message.getPassword()));
+			Player player=new Player(message.getUsername(),message.getPassword());
+			players.add(player);
 			System.out.println("Player reqgistered");
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
@@ -229,6 +230,7 @@ public class ServerEngine implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			startGame(player);
 		}
 	}
 
