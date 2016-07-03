@@ -23,7 +23,6 @@ public abstract class Character implements Serializable{
 	
 	private static final long serialVersionUID = -6464021522368997893L;
 	public  int  xPos, yPos;
-	private transient Image image;
 	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
 
 	private transient Game game;
@@ -315,14 +314,6 @@ public abstract class Character implements Serializable{
 
 	public int getHealth() {
 		return health;
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image img) {
-		image = img;
 	}
 
 	public void setPos(int xPos, int yPos) {
