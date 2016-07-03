@@ -21,8 +21,6 @@ public class ServerEngine implements Runnable {
 
 	private ExecutorService threadPool;
 	// private LinkedList<Player> players;
-	private String userName = "user";
-	private String password = "123";
 	private Vector<Player> players = new Vector<Player>();
 	private Vector<Game> games = new Vector<Game>();
 	transient private Game game1; // Test
@@ -206,6 +204,7 @@ public class ServerEngine implements Runnable {
 
 	private void signUpRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
+		System.out.println("Checking Registration");
 		playerIsNew = true;
 		for (Player player : players) {
 			if (message.getUsername().equals(player.getName())) {
@@ -221,6 +220,7 @@ public class ServerEngine implements Runnable {
 		}
 		if (playerIsNew) {
 			players.addElement(new Player());
+			System.out.println("Player reqgistered");
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
 				this.messagesToClient.put(answer);
