@@ -261,7 +261,6 @@ public class ClientEngine implements Runnable {
 		// if false, there is an output that the passwords are not equal
 		if (pPassword.equals(pPassword2)) {
 			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword, 0, 2));
-			getGameWindow().showMenu();
 			System.out.println("Registration successful!");
 
 		} else {
