@@ -177,16 +177,14 @@ public class GameField extends JPanel {
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
 		// game over is showing up if the game is lost
-		if(!window.getEngine().getGamewon())
-
-	{
+		if(window.gameLost) {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 		g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
 	}else
 	{
 		// you win is showing up on screen if the game is won
-		if (window.getEngine().getGamewon()) {
+		if (window.gameWon) {
 			g.setColor(Color.WHITE);
 			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 			g.drawString("YOU WIN", getWidth() / 2 - 120, getHeight() / 2);
@@ -209,12 +207,12 @@ public class GameField extends JPanel {
 	private void drawMonster(Graphics g, Monster m) {
 		
 		if (inRange(m.getXPos(), m.getYPos())) {
-			g.drawImage(monster, ( (m.getXPos() * window.BOX) + v1) + 10, ((m.getYPos()
-					* window.BOX) + v2) + 10, null);
+			g.drawImage(monster, (m.getXPos() * window.BOX) + v1, (m.getYPos()
+					* window.BOX) + v2, null);
 			
 			// Monster Health Points
 			g.setColor(Color.GREEN);
-			g.fillRect(((m.getXPos() * window.BOX) + v1) + 20, (m.getYPos() * window.BOX - 2) + v2, window.BOX * (m.getHealth()/m.getMaxHealth()), 4);
+			g.fillRect((m.getXPos() * window.BOX) + v1, (m.getYPos() * window.BOX - 2) + v2, m.getHealth(), 2);
 		}
 	}
 

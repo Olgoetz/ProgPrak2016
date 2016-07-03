@@ -496,9 +496,11 @@ public class ClientEngine implements Runnable {
 		MessEndGameAnswer message = (MessEndGameAnswer) pMessage;
 		this.myPlayer.setScore(message.getScore());
 		if(message.isGameWon()) {
-			this.gamewon = true;
+			this.getGameWindow().gameLost = false;
+			this.getGameWindow().gameWon = true;
 		} else {
-			this.gamewon = false;
+			this.getGameWindow().gameLost = true;
+			this.getGameWindow().gameWon = true;
 		}
 		
 	}
@@ -647,14 +649,7 @@ public class ClientEngine implements Runnable {
 		return playerID;
 	}
 
-	public boolean getGamewon() {
-		return gamewon;
-	}
-	
-	public void setGamewon(boolean gw) {
-		this.gamewon = gw;
-	}
-	
+
 	
 	
 } // end of ClientEngine-class
