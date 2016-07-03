@@ -44,7 +44,8 @@ public class ClientEngine implements Runnable {
 	private int playerID;
 	private Player myPlayer;
 	private LinkedList<Monster> myMonsterList;
-	public Tile[][] labyrinth;
+	private Tile[][] labyrinth;
+	private boolean gamewon;
 
 	// static attributes
 	public static final int BOX = 32;
@@ -136,10 +137,10 @@ public class ClientEngine implements Runnable {
 				this.serverSignInAndUpAnswer(pMessage);
 				break;
 
-			// case 5:
-			// this.serverSignOutAnswer(pMessage);
-			// break;
-			//
+			 case 9:
+			 this.serverSignOutAnswer(pMessage);
+			 break;
+			
 			// case 7:
 			// this.serverSignOffAnswer(pMessage);
 			// break;
@@ -207,6 +208,10 @@ public class ClientEngine implements Runnable {
 				this.playerAnswer(pMessage);
 				break;
 
+			case 7:
+				this.endGameAnswer(pMessage);
+				break;
+				
 			default:
 				break;
 			}
@@ -285,7 +290,6 @@ public class ClientEngine implements Runnable {
 	// Sends a SignInRequest to the server
 	public void serverSignInRequest(String pUsername, String pPassword) {
 		System.out.println("METHOD Engine.serverSignInRequest() " + pUsername + ", " + pPassword);
-
 		this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword, 0, 4));
 	}
 
@@ -314,6 +318,16 @@ public class ClientEngine implements Runnable {
 		} else {
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
 		}
+	}
+	
+	
+	public void serverSignOutRequest() {
+		System.out.println("METHOD ClientEngine.serverSignOutRequeset: SignOutRequest sent!");
+		this.sendToServer(new MessSignOutRequest(this.playerID,0,8));
+	}
+	
+	public void serverSignOutAnswer(Message pMessage) {
+		
 	}
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS ********** //
@@ -471,6 +485,17 @@ public class ClientEngine implements Runnable {
 		MessUpdateMonsterAnswer message = (MessUpdateMonsterAnswer) pMessage;
 		this.myMonsterList = message.getMonsterList();
 	}
+	
+	public void endGameAnswer(Message pMessage) {
+		MessEndGameAnswer message = (MessEndGameAnswer) pMessage;
+		this.myPlayer.setScore(message.getScore());
+		if(message.isGameWon()) {
+			this.gamewon = true;
+		} else {
+			this.gamewon = false;
+		}
+		
+	}
 
 	// ***** Section 4 *****//
 
@@ -616,4 +641,14 @@ public class ClientEngine implements Runnable {
 		return playerID;
 	}
 
+	public boolean getGamewon() {
+		return gamewon;
+	}
+	
+	public void setGamewon(boolean gw) {
+		this.gamewon = gw;
+	}
+	
+	
+	
 } // end of ClientEngine-class

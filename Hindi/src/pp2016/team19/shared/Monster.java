@@ -74,6 +74,7 @@ public class Monster extends Character {
 		pathToPlayer = new LinkedList<Node>();
 		fleePath = new LinkedList<Node>();
 		actAction = -1;
+		carriesKey=false;
 
 		setDamage(5 + game.getLevelNumber() * 2);
 	}
