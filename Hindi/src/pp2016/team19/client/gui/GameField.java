@@ -214,6 +214,10 @@ public class GameField extends JPanel {
 			
 			// Monster Health Points
 			g.setColor(Color.GREEN);
+			long monsterHP = (long) m.getHealth();
+			long monsterMaxHP = (long) m.getMaxHealth();
+			int monsterHealthRect = (int) ((window.BOX-30) * monsterHP/monsterMaxHP);
+			g.fillRect(((m.getXPos() * window.BOX) + v1) + 15, (m.getYPos() * window.BOX - 2) + v2, monsterHealthRect, 4);
 			g.fillRect((m.getXPos() * window.BOX) + v1, (m.getYPos() * window.BOX - 2) + v2, m.getHealth(), 2);
 		}
 	}
