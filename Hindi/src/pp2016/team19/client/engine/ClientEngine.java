@@ -329,6 +329,9 @@ public class ClientEngine implements Runnable {
 	public void serverSignOutAnswer(Message pMessage) {
 		System.out.println("METHOD ClientEngine.serverSignOutAnswer: SignOutAnswer received!");
 		MessSignOutAnswer message = (MessSignOutAnswer) pMessage;
+		if (message.isConfirmed()) {
+			this.getGameWindow().showLogin();
+		}
 	}
 
 	// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS ********** //

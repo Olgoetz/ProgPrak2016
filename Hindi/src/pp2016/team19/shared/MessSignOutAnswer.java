@@ -18,7 +18,7 @@ public class MessSignOutAnswer extends Message implements Serializable {
 		return confirmed;
 	}
 	
-	public void setConfirme(boolean confirmed) {
+	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
 	}
 
