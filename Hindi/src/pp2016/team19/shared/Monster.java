@@ -175,6 +175,8 @@ public class Monster extends Character {
 	 */
 	public void moveToPlayer() {
 
+		cooldownWalk = 1000;
+		
 		// Did the player move since the last route calculation?
 		if (actAction != 0 || pathToPlayer.isEmpty()
 				|| player.getXPos() != this.lastPlayerPos[0]
@@ -197,6 +199,8 @@ public class Monster extends Character {
 	 */
 	public void flee() {
 
+		cooldownWalk = 500;
+		
 		if (actAction != 1 || fleePath.isEmpty()) {
 			Node fleePos = getFleePos();
 			System.out.println("Flee to: " + fleePos.getXPos() + ", "
