@@ -30,9 +30,10 @@ private static final long serialVersionUID = 1L;
 	
 	private Image background, key, potion;	
 	private Image floor1, wall1, playerImg; 
-	private Image red, black;
+	private Image red, black, beige;
 	
 	private GameWindow window;
+	private int statBox = 32;
 	private int miniBox = 8;
 	
 	/**
@@ -44,16 +45,17 @@ private static final long serialVersionUID = 1L;
 		
 		//loading the images
 		try {
-			background = ImageIO.read(new File("img//status.png"));
+			background = ImageIO.read(new File("img//statusgrau.png"));
 			key = ImageIO.read(new File("img//key.png"));
-			potion = ImageIO.read(new File("img//potion.png"));
+			potion = ImageIO.read(new File("img//potionSmall.png"));
 			
 			//load the smaller images for the minimap
 			floor1 = ImageIO.read(new File("img//floorKopie.png"));
 			wall1 = ImageIO.read(new File("img//wallKopie.png"));
-			playerImg = ImageIO.read(new File("img//player.png"));
+			playerImg = ImageIO.read(new File("img//warrior.png"));
 			red = ImageIO.read(new File ("img//rot.png"));
 			black = ImageIO.read(new File("img//schwarz.png"));
+			beige = ImageIO.read(new File ("img//beige.png"));
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
@@ -69,25 +71,23 @@ private static final long serialVersionUID = 1L;
 		// first draw the panel black
 		g.setFont(new Font("Avenir Heavy", Font.PLAIN, 12));
 		
-		g.setColor(Color.BLACK);
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
 		
 		
 		//draws the background with pictures, at the bottom it leaves space for the minimap
 		for(int i = 0; i < 20; i++){
 			for(int j= 0; j < window.HEIGHT- 6; j++){
-			g.drawImage(background, i*window.BOX, j*window.BOX, null);
+			g.drawImage(background, i*statBox, j*statBox, null);
 			}
 		}		
 	
 		
-		g.drawImage(playerImg, 4, 4, window.BOX - 8, window.BOX - 8, null);
+		g.drawImage(playerImg, 4, 4, statBox - 8, statBox - 8, null);
 		
-		g.setColor(Color.WHITE);	
-		g.drawString(window.getEngine().getMyPlayer().getName(), window.BOX + 5, 20);
+		g.setColor(new Color (245,245,220));	
+		g.drawString(window.getEngine().getMyPlayer().getName(), statBox + 5, 20);
 		g.drawLine( 5, 35, 155, 35);
-		
-		g.setColor(Color.WHITE);
 		g.drawString("Player's Health: ", 5, 60);
 		
 		g.setColor(Color.RED);
@@ -95,7 +95,7 @@ private static final long serialVersionUID = 1L;
 		g.setColor(Color.GREEN);
 		g.fillRect(5, 70 , window.getEngine().getMyPlayer().getHealth(), 5);
 		
-		g.setColor(Color.WHITE);
+		g.setColor(new Color (245,245,220));
 		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5, 100);
 		
 		// Display of the potions
@@ -103,16 +103,15 @@ private static final long serialVersionUID = 1L;
 		String s;
 		if (numberOfPotions < 10) s =" " +numberOfPotions;
 		else s = String.valueOf(numberOfPotions);
-		g.drawString(s, 5, window.BOX * (window.HEIGHT - 12));
-		g.drawImage(potion,12,(window.BOX * (window.HEIGHT - 12))- window.BOX/2,null);
+		g.drawString(s, 5, 135);
+		g.drawImage(potion,12,(statBox * (window.HEIGHT - 12))- statBox/2,null);
 			
 		// draw the key if the player picked one up
 		if(window.getEngine().getMyPlayer().hasKey()){
-			g.drawImage(key, 45, 113, null);
-		}
-		
-	
-		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 160);	
+			g.drawImage(key, 50, 120, null);
+			}
+			
+		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 170);	
 		
 	
 		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine().getMyPlayer().getYPos()];
@@ -139,14 +138,14 @@ private static final long serialVersionUID = 1L;
 		// for( i=0; i < SystemMessages.List.size(); i++ ) {
 		// g.drawString("...." , 5, 225)
 		// ......
-		
+		g.drawLine(5, 325, 155, 325);
 		
 		
 		// show text "minimap" on the statusbar	
 		g.drawString( "Minimap  ", 5, 340);
 		g.drawLine( 5, 345, 155, 345);
 		
-		g.drawLine(2, 0, 2, window.BOX * (window.HEIGHT));
+		g.drawLine(2, 0, 2, statBox * (window.HEIGHT));
 
 	
 	// draw minimap 
@@ -155,6 +154,7 @@ private static final long serialVersionUID = 1L;
 	int var2 = 12;
 	
 	// draw every single mini tile
+	if ( window.minifieldShown){
 	for (int i = 0; i < window.WIDTH ; i++) {
 		for (int j = 0; j < window.HEIGHT; j++) {
 //			if (inRange(i,j)) {
@@ -168,10 +168,10 @@ private static final long serialVersionUID = 1L;
 				
 				}else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
 						// Here is the door
-						g.drawImage(black, (i * window.BOX) +var2, (j * window.BOX) + var1, null);
+						g.drawImage(black, (i * miniBox) +var2, (j * miniBox) + var1, null);
 						
 					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {													
-							g.drawImage(black, (i * window.BOX) + var2, (j * window.BOX) + var1, null);												
+							g.drawImage(beige, (i * miniBox) + var2, (j * miniBox) + var1, null);												
 					} 
 				} 
 				
@@ -181,7 +181,7 @@ private static final long serialVersionUID = 1L;
 				g.drawImage(red,( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
 						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
-
+	}
 		
 //		private boolean inRange(int i, int j) {
 //			return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)

@@ -50,7 +50,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         newGame = new JMenuItem("Start New Game");
         quit = new JMenuItem("Quit Game");
         highscore = new JMenuItem("Show Highscore");
-        showMap = new JMenuItem("Show Map");
+        showMap = new JMenuItem("Show Mini-Map");
         controls = new JMenuItem("Show Control");
         LogArrow = new JMenuItem(arrow);
               
@@ -96,12 +96,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			}
 			
 		}else if(e.getSource() == showMap){
-			if(window.mistOn){
-				window.mistOn = false;
-				showMap.setText("Hide Map");
+			if(window.minifieldShown){
+				showMap.setText("Show Mini-Map");
+				window.minifieldShown = false;
 			}else{
-				window.mistOn = true;
-				showMap.setText("Show Map");
+				window.minifieldShown = true;
+				showMap.setText("Hide Mini-Map");
 			}		
 		}else if(e.getSource() == quit){
 			System.exit(0);
