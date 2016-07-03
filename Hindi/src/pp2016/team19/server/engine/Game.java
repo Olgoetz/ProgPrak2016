@@ -37,7 +37,8 @@ public class Game extends TimerTask implements Serializable {
 	int cooldown = 500;
 	boolean nextSend;
 	boolean monsterMoving = false;
-	//Scorepoints
+	boolean gameEnded = false;
+	// Scorepoints
 	int scoreKillMonster = 50;
 	int scoreNewLevel = 60;
 	int scoreGetKey = 40;
@@ -72,48 +73,53 @@ public class Game extends TimerTask implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		Message message = this.messagesFromServer.poll();
-		if (message != null) {
-			System.out.println("Message received in game");
-			System.out.println(message.toString());
-			this.distributor(message);
-		}
-		nextSend = ((System.currentTimeMillis() - lastSent) >= cooldown);
-		if (nextSend) {
-
-			for (Monster monster : Monsters) {
-				monsterMoving = (monsterMoving || monster.playerInRange());
-				if (monster.attackPlayer(player.hasKey())) {
-					monster.setJustAttacked(true);
-					playerAttacked = true;
-				} else {
-					monster.setJustAttacked(false);
-					monster.move();
-				}
+		while (!gameEnded) {
+			Message message = this.messagesFromServer.poll();
+			if (message != null) {
+				System.out.println("Message received in game");
+				System.out.println(message.toString());
+				this.distributor(message);
 			}
-			if (monsterMoving) {
-				updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
-				try {
-					engine.messagesToClient.put(updateMonster);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			nextSend = ((System.currentTimeMillis() - lastSent) >= cooldown);
+			if (nextSend) {
+
+				for (Monster monster : Monsters) {
+					monsterMoving = (monsterMoving || monster.playerInRange());
+					if (monster.attackPlayer(player.hasKey())) {
+						monster.setJustAttacked(true);
+						playerAttacked = true;
+					} else {
+						monster.setJustAttacked(false);
+						monster.move();
+					}
 				}
-				if (playerAttacked) {
-					updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
-							player.getYPos());
+				if (monsterMoving) {
+					updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
 					try {
-						engine.messagesToClient.put(updatePlayer);
+						engine.messagesToClient.put(updateMonster);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					playerAttacked = false;
+					if (playerAttacked) {
+						if (player.getHealth()<=0) {
+							endGame(false);
+						} else {
+						updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
+								player.getYPos());
+						try {
+							engine.messagesToClient.put(updatePlayer);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						playerAttacked = false;
+					}
 				}
+				lastSent = System.currentTimeMillis();
 			}
-			lastSent = System.currentTimeMillis();
+			}
 		}
-
 	}
 
 	/**
@@ -147,45 +153,66 @@ public class Game extends TimerTask implements Serializable {
 
 	}
 
-	private void aStarMove(Message pmessage) {
-		Message answer;
-		MessAstarRequest message = (MessAstarRequest) pmessage;
-		LinkedList<Node> path = player.moveToPos(message.getMouseX(), message.getMouseY());
-		while(!path.isEmpty()) {
-			player.changeDir(path);
-			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
-					true);
+	public void endGame(boolean playerWon) {
+		gameEnded = true;
+		System.out.println("Game Ended");
+		player.increaseScore(scorePotionKept * player.getNumberOfPotions());
+		if (playerWon) {
+			player.increaseScore(scoreVictoryBonus);
+		}
+		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, player.getScore(), 2, 7);
 		try {
 			engine.messagesToClient.put(answer);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
+
 	}
 
-	private void openDoor() {
-		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) {
-			player.increaseScore(scoreNewLevel*levelNumber);
-			levelNumber++;
-			this.newLevel(levelNumber);
-			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
-			Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
-			Message playerUpdate = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
-					player.getYPos());
-			System.out.println("METHOD Game.openDoor: Door opened");
+	private void aStarMove(Message pmessage) {
+		Message answer;
+		MessAstarRequest message = (MessAstarRequest) pmessage;
+		LinkedList<Node> path = player.moveToPos(message.getMouseX(), message.getMouseY());
+		while (!path.isEmpty()) {
+			player.changeDir(path);
+			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+					true);
 			try {
 				engine.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			try {
-				engine.messagesToClient.put(newLevel);
-				engine.messagesToClient.put(playerUpdate);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		}
+	}
+
+	private void openDoor() {
+		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) {
+			player.increaseScore(scoreNewLevel * levelNumber);
+			if (levelNumber >= 5) {
+				endGame(true);
+			} else {
+				levelNumber++;
+				this.newLevel(levelNumber);
+				Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
+				Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
+				Message playerUpdate = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
+						player.getYPos());
+				System.out.println("METHOD Game.openDoor: Door opened");
+				try {
+					engine.messagesToClient.put(answer);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					engine.messagesToClient.put(newLevel);
+					engine.messagesToClient.put(playerUpdate);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else {
 			System.out.println("METHOD Game.openDoor: Door didn't open");
@@ -197,7 +224,6 @@ public class Game extends TimerTask implements Serializable {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	private void usePotion(Message message) {
@@ -228,7 +254,7 @@ public class Game extends TimerTask implements Serializable {
 			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
 		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
-			player.increaseScore(scoreGetKey*levelNumber);
+			player.increaseScore(scoreGetKey * levelNumber);
 			player.takeKey();
 			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
