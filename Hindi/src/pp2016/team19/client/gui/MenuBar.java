@@ -115,7 +115,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			highscore.setText("Show Highscore");
 		}
 		}else if(e.getSource()== LogArrow){
-			window.showLogin();                  // shows simply the loginpanel again, method for proper logout is going to implemented
+			window.getEngine().serverSignOutRequest();
 		}
 	}
 	
