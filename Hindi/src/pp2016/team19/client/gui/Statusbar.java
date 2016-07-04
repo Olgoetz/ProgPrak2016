@@ -51,7 +51,7 @@ private static final long serialVersionUID = 1L;
 			
 			//load the smaller images for the minimap
 			floor1 = ImageIO.read(new File("img//floorKopie.png")); // adopted
-			wall1 = ImageIO.read(new File("img//hellgrau.png"));
+			wall1 = ImageIO.read(new File("img//hellgrau.png"));//source: http://static.webshopapp.com/shops/065293/files/025593597/pvc-matt-hellgrau.jpg
 			playerImg = ImageIO.read(new File("img//warrior.png"));// source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
 			red = ImageIO.read(new File ("img//rot.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
 			black = ImageIO.read(new File("img//schwarz.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
