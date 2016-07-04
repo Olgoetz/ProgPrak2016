@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * class for the panel showing the highscore
+ * <h1> class for the panel showing the highscore <h1>
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
  */
@@ -25,7 +25,6 @@ public class Highscore extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private LinkedList<HighScoreElement> highScore;
 	
-	// ändert sich noch???
 		public Highscore(){
 
 				highScore = new LinkedList<HighScoreElement>();		
@@ -138,7 +137,7 @@ public class Highscore extends JPanel {
 		
 		/**
 		 * constructor for the HighScoreElement
-		 * @author Felizia Langsdorf, Matr_Nr: 6002960
+		 * @author Felizia Langsdorf, 6002960
 		 * @param points the points of the player
 		 * @param name the name of the player
 		 */

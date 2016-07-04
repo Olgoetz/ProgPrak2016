@@ -69,33 +69,34 @@ private static final long serialVersionUID = 1L;
 	 */
 	public void paint(Graphics g) {
 		
-		// first draw the panel black
+		// set font style 
 		g.setFont(new Font("Avenir Heavy", Font.PLAIN, 12));
-		
+		//first overpaint everything gray
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
-		
-		
-		//draws the background with pictures, at the bottom it leaves space for the minimap
+			
+		//draws pictures in the panel, at the bottom it leaves space for the minimap
 		for(int i = 0; i < 20; i++){
 			for(int j= 0; j < window.HEIGHT- 6; j++){
 			g.drawImage(background, i*statBox, j*statBox, null);
 			}
 		}		
 	
-		
+		//draws the miniplayer image
 		g.drawImage(playerImg, 4, 4, statBox - 8, statBox - 8, null);
 		
 		g.setColor(new Color (245,245,220));	
+		// display the name
 		g.drawString(window.getEngine().getMyPlayer().getName(), statBox + 5, 20);
 		g.drawLine( 5, 35, 155, 35);
 		g.drawString("Player's Health: ", 5, 60);
-		
+		//display the healthbar of the player
 		g.setColor(Color.RED);
 		g.fillRect(5,70, window.getEngine().getMyPlayer().getMaxHealth(), 5);
 		g.setColor(Color.GREEN);
 		g.fillRect(5, 70 , window.getEngine().getMyPlayer().getHealth(), 5);
 		
+		//display the level
 		g.setColor(new Color (245,245,220));
 		g.drawString("Level " + window.currentLevel + "/" + window.MAXLEVEL, 5, 100);
 		
@@ -111,9 +112,8 @@ private static final long serialVersionUID = 1L;
 		if(window.getEngine().getMyPlayer().hasKey()){
 			g.drawImage(key, 55, 120, null);
 			}
-			
-		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 170);	
-		
+		//display the past time
+		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 170);		
 	
 		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine().getMyPlayer().getYPos()];
 		
@@ -130,7 +130,7 @@ private static final long serialVersionUID = 1L;
 		}else if(field.containsPotion()){
 			g.drawString("Press Space: take potion", 5, 190);
 		}
-		//g.setColor(Color.WHITE);
+	
 		g.drawLine(5,200,155,200);
 		g.drawString("System Messages: ", 5 , 215);
 		
@@ -144,8 +144,7 @@ private static final long serialVersionUID = 1L;
 		
 		// show text "minimap" on the statusbar	
 		g.drawString( "Minimap  ", 5, 340);
-		g.drawLine( 5, 345, 155, 345);
-		
+		g.drawLine( 5, 345, 155, 345);		
 		g.drawLine(2, 0, 2, statBox * (window.HEIGHT));
 
 	
@@ -154,23 +153,21 @@ private static final long serialVersionUID = 1L;
 	int var1= 360;
 	int var2 = 12;
 	
-	// draw every single mini tile
+	// if in the menubar "show minimap" was clicked
+	// draw every single mini tile, 8x8 pixel
 	if ( window.minifieldShown){
 	for (int i = 0; i < window.WIDTH ; i++) {
 		for (int j = 0; j < window.HEIGHT; j++) {
-//			if (inRange(i,j)) {
 				if (window.getEngine().getLabyrinth()[i][j].isRock()) {
 					// Here goes a wall
 					g.drawImage(wall1, (i * miniBox) + var2 , (j * miniBox) + var1 ,null);
 				} else if (window.getEngine().getLabyrinth()[i][j].isFloor()) {
-					// This field is walkable
-					g.drawImage(floor1, (i * miniBox) + var2,
-							(j * miniBox) + var1 , null);
-				
+					//here goes floor
+					g.drawImage(floor1, (i * miniBox) + var2, (j * miniBox) + var1 , null);		
 				}else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
 						// Here is the door
 						g.drawImage(black, (i * miniBox) +var2, (j * miniBox) + var1, null);
-						
+						//here is the exit
 					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {													
 							g.drawImage(beige, (i * miniBox) + var2, (j * miniBox) + var1, null);												
 					} 
@@ -178,17 +175,12 @@ private static final long serialVersionUID = 1L;
 				
 		}
 	
-		
+		     // the player as a red point
 				g.drawImage(red,( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
 						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
-	}
+		}
 		
-//		private boolean inRange(int i, int j) {
-//			return (Math.sqrt(Math.pow(window.player.getXPos() - i, 2)
-//					+ Math.pow(window.player.getYPos() - j, 2)) < 3 || !window.mistOn);
-//		}
-//	
 	}
 	
 

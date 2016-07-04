@@ -20,7 +20,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private ImageIcon picture = new ImageIcon("img//labyrinth.png");
+	private ImageIcon picture = new ImageIcon("img//labyrinth.png");//source:http://brandedinthe80s.com/wp-content/uploads/2014/03/2013-04-10-labyrinth.gif
 	private JLabel lab;
 
 	private GameWindow window;
@@ -75,8 +75,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	 */
 
 	public void actionPerformed(ActionEvent ae) {
-		if (ae.getSource() == b1) { // pressing button start game, then game
-									// starts
+		if (ae.getSource() == b1) { // pressing button start game, then game starts
 			window.showGameField();
 			window.getEngine().getThreadPool().execute(window);
 

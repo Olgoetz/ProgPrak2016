@@ -74,9 +74,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
         this.add(logOut);      
 	}
 	
-// events after clicking on the menu items 
+
 	/**
 	 * actionPerformed method for the menuItems
+	 * events after clicking on the items
 	 * @author Felizia Langsdorf, Matr_Nr: 6002960
 	 *
 	 */
@@ -121,7 +122,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	
 	/**
 	 * 
-	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 * @author Felizia Langsdorf,6002960
 	 * @return highscore !!!!!xxxx ???
 	 */
 	public JMenuItem getHighscore(){

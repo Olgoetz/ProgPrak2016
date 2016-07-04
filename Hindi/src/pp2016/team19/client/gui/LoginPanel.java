@@ -136,9 +136,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 		
 	}
 
-	// plan: here implement method that login worked, after checking username and pw, then open the gamewindow automatically
-	// now just cheap System.out.println, checks that buttons works. 
-	// for login tip: username: user and password: 123
 	
 	/**
 	 * actionPerformed class for the buttons
