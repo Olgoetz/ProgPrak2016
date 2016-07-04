@@ -12,21 +12,17 @@ import javax.swing.JPanel;
 
 /**
  * 
- * <h1> class for the panel which shows how to control the game <h1>
+ * <h1> class for the panel which explains how to control the game <h1>
+ * shows up after clicking on the MenuItem "show control"
  * @author Felizia Langsdorf, Matr_Nr: 6002960
- * @param 
  * 
  */
-
-
-// panel for explanation of the control, is showing after clicking on MenuItem "show control"
 
 public class Controls extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * <h1> class for the Panel explaining the controls <h1>
 	 * @author Felizia Langsdorf, 6002960
 	 * paint method, draws the pictures and strings on the panel
 	 * 

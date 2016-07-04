@@ -15,13 +15,11 @@ import pp2016.team19.shared.Player;
 
 
 /**
- * class for the panel on which the gamefield is drawn
- * 
+ * <h1> class for gamefield-panel <h1>
  * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */
 
-// panel for the gamefield
 
 public class GameField extends JPanel {
 
@@ -54,7 +52,7 @@ public class GameField extends JPanel {
 			hindi = ImageIO.read(new File("img/warrior.png")); //source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
 
 			Random r = new Random();
-			// Load image for monster
+			// Load image for monster, picks randomly one of three 
 			int i = r.nextInt(3) + 1;
 				monster = ImageIO.read(new File("img//drache" + i + ".png")); //adopted
 			
@@ -63,51 +61,53 @@ public class GameField extends JPanel {
 		}
 	}
 	
-	// shift variables for the labyrinth
+	// shift variables for the labyrinth, they ensure that the player is drawn in the middle of the visible gamefield 
 	int v1;
 	int v2;
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 paint method, draws the labyrinth, the
-	 *         player, the monsters, etc.
-	 * 
+	 * @author Felizia Langsdorf, 6002960 
+	 * paint method, draws the labyrinth, the player, the monsters, etc.
 	 */
 
 	public void paint(Graphics g) {
-
-		// First, everything is going to be overpainted while repainting
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
+		// first everything is painted with walls 
 		for (int i = 0; i < window.WIDTH; i++){
 			for (int j=0; j < window.HEIGHT; j++){
-				g.drawImage(wall, i*window.BOX , j * window.BOX, null); // box 94 !
+				g.drawImage(wall, i*window.BOX , j * window.BOX, null); 
 			}
 		}
 		
+		// x and y coordinates of the entry/player at the beginning (always 1,14) 
 		int startX = 1; 
 		int startY = 14; 
 		
 		int playerX = window.getEngine().getMyPlayer().getXPos();
 		int playerY = window.getEngine().getMyPlayer().getYPos();
 		
+		//shift variables
 		v1 = window.BOX;
 		v2 = -12 * window.BOX; 
 		
 
-		// Draw every single field
+		// Draw every single tile of the labyrinth
 		for (int i = 0; i < window.WIDTH; i++) {
 			for (int j = 0; j < window.HEIGHT; j++) {
 					
+				//if the player moves down, labyrinth has to be shifted up one tile size 
 					if(playerY > startY){
 						v2 -= window.BOX;
-						startY+=1;		
+						startY+=1;	
+				// if he moves right, labyrinth has to be shifted one tile size to the left
 					}else if (playerX>startX){
 						v1-= window.BOX;
 						startX+=1;
+				// if he moves up, labyrinth has to be shifted one tile size down 
 					}else if(playerY < startY){
 						v2 += window.BOX;
 						startY -= 1;
+				// if he moves left, labyrinth has to be shifted one tile size to the right
 					}else if(playerX < startX){
 						v1 += window.BOX;
 						startX -= 1;
@@ -118,17 +118,16 @@ public class GameField extends JPanel {
 						// Here goes a wall
 						g.drawImage(wall, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
 					} else if (window.getEngine().getLabyrinth()[i][j].isFloor()) {
-						// This field is walkable
+						// here goes a floor tile
 						g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
 						if (window.getEngine().getLabyrinth()[i][j].containsKey()) {
 							// Here lies the key
 							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
 							g.drawImage(key, (i * window.BOX) + v1 + 15 , (j * window.BOX) + v2 + 20, null);
 						} else if (window.getEngine().getLabyrinth()[i][j].containsPotion()) {
-							// Here is the door
-							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
-							// Here lies a potion
+							// first draw a floor		
 							g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2,null);
+							// Here lies a potion
 							g.drawImage(potion, (i * window.BOX) + v1 + 10, (j * window.BOX) + v2 + 10,null);
 						}
 					} else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
@@ -137,6 +136,7 @@ public class GameField extends JPanel {
 						g.drawImage(doorOpen, (i * window.BOX) + v1, (j * window.BOX) + v2 ,null);
 					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {
 						if (window.getEngine().getLabyrinth()[i][j].exitUnlocked())
+						//here's the exit
 							g.drawImage(doorOpen, (i * window.BOX) + v1 , (j* window.BOX) + v2, null);
 						else
 							g.drawImage(doorClosed, (i * window.BOX) + v1, (j* window.BOX) + v2, null);
@@ -178,14 +178,11 @@ public class GameField extends JPanel {
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
 		// game over is showing up if the game is lost
-		if(window.gameLost)
-
-	{
+		if(window.gameLost){
 		g.setColor(Color.WHITE);
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 		g.drawString("GAME OVER", getWidth() / 2 - 120, getHeight() / 2);
-	}else
-	{
+	}else{
 		// you win is showing up on screen if the game is won
 		if (window.gameWon) {
 			g.setColor(Color.WHITE);
@@ -203,7 +200,7 @@ public class GameField extends JPanel {
 	 * @author Felizia Langsdorf, 6002960
 	 * @param g
 	 * @param m
-	 *            monster object?
+	 *            monster object
 	 * 
 	 */
 
@@ -224,7 +221,7 @@ public class GameField extends JPanel {
 
 	/**
 	 * @author Felizia Langsdorf, 6002960 method need to understand that !!!
-	 *         xxxx
+	 *   noch notwendig??
 	 * 
 	 */
 
