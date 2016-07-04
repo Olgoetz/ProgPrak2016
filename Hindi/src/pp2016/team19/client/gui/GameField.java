@@ -45,7 +45,7 @@ public class GameField extends JPanel {
 		try {
 			floor = ImageIO.read(new File("img//greyK.png")); //source: http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
 			wall = ImageIO.read(new File("img//bricks.png"));	//source:https://www.wallpaper-gratis.eu/texturen/steinmauer/steinmauer009_1024x768.jpg
-			doorClosed = ImageIO.read(new File("img//gateClosedK.png")); //gateclosedK.png, doorClosed
+			doorClosed = ImageIO.read(new File("img//Gartentor.png")); //source:http://www.bauanleitung.org/wp-content/uploads/Bauanleitung-Gartentor-e1408705808615.jpg
 			doorOpen = ImageIO.read(new File("img//torK.png")); //source: http://www.decowoerner.com/images/contentUploads/pictures/600_699/646/www/10354/646_635_00-1-5-00.jpg
 			key = ImageIO.read(new File("img//Goldkey.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
 
