@@ -45,17 +45,17 @@ private static final long serialVersionUID = 1L;
 		
 		//loading the images
 		try {
-			background = ImageIO.read(new File("img//statusgrau.png"));
+			background = ImageIO.read(new File("img//statusgrau.png"));//source: http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
 			key = ImageIO.read(new File("img//Goldkey2.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
-			potion = ImageIO.read(new File("img//potionSmall.png"));
+			potion = ImageIO.read(new File("img//potionSmall.png"));//source:http://www.rpguides.de/images/poe/icon_item64_potion_of_major_recovery.png
 			
 			//load the smaller images for the minimap
-			floor1 = ImageIO.read(new File("img//floorKopie.png"));
-			wall1 = ImageIO.read(new File("img//wallKopie.png"));
-			playerImg = ImageIO.read(new File("img//warrior.png"));
-			red = ImageIO.read(new File ("img//rot.png"));
-			black = ImageIO.read(new File("img//schwarz.png"));
-			beige = ImageIO.read(new File ("img//beige.png"));
+			floor1 = ImageIO.read(new File("img//floorKopie.png")); // adopted
+			wall1 = ImageIO.read(new File("img//hellgrau.png"));
+			playerImg = ImageIO.read(new File("img//warrior.png"));// source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
+			red = ImageIO.read(new File ("img//rot.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
+			black = ImageIO.read(new File("img//schwarz.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
+			beige = ImageIO.read(new File ("img//beige.png"));//source: http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");

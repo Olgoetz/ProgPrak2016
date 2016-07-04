@@ -43,20 +43,20 @@ public class GameField extends JPanel {
 		this.window = window;
 		// Load the images
 		try {
-			floor = ImageIO.read(new File("img//greyK.png")); //grey.png, floor
-			wall = ImageIO.read(new File("img//bricks.png"));	//bricks.png, wall
+			floor = ImageIO.read(new File("img//greyK.png")); //source: http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
+			wall = ImageIO.read(new File("img//bricks.png"));	//source:https://www.wallpaper-gratis.eu/texturen/steinmauer/steinmauer009_1024x768.jpg
 			doorClosed = ImageIO.read(new File("img//gateClosedK.png")); //gateclosedK.png, doorClosed
-			doorOpen = ImageIO.read(new File("img//torK.png")); // tor.png, dooropen
+			doorOpen = ImageIO.read(new File("img//torK.png")); //source: http://www.decowoerner.com/images/contentUploads/pictures/600_699/646/www/10354/646_635_00-1-5-00.jpg
 			key = ImageIO.read(new File("img//Goldkey.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
 
-			potion = ImageIO.read(new File("img//potionK.png")); // potionK.png, potion
-			fireball = ImageIO.read(new File("img//fireK.png")); //fireK.png, fireball
-			hindi = ImageIO.read(new File("img/warrior.png")); //warrior.png, player 
+			potion = ImageIO.read(new File("img//potionK.png")); // source:http://www.rpguides.de/images/poe/icon_item64_potion_of_major_recovery.png
+			fireball = ImageIO.read(new File("img//fireK.png")); //adopted
+			hindi = ImageIO.read(new File("img/warrior.png")); //source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
 
 			Random r = new Random();
 			// Load image for monster
 			int i = r.nextInt(3) + 1;
-				monster = ImageIO.read(new File("img//drache" + i + ".png")); //drache , dragon	
+				monster = ImageIO.read(new File("img//drache" + i + ".png")); //adopted
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
