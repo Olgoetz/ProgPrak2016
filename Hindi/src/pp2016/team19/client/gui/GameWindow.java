@@ -2,20 +2,12 @@ package pp2016.team19.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-
 import pp2016.team19.client.engine.ClientEngine;
 import pp2016.team19.shared.Door;
 import pp2016.team19.shared.Floor;
@@ -28,8 +20,7 @@ import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
 /**
- * class for the window of the whole application with interfaces: KeyListener,
- * MouseListener, Runnable
+ * <h1> class for the window of the whole application <h1>
  * 
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
@@ -38,11 +29,8 @@ import pp2016.team19.shared.Wall;
 public class GameWindow extends JFrame implements KeyListener, MouseListener, Runnable {
 
 	private static final long serialVersionUID = 1L;
-
-	// private ServerConnection connectpanel;
-
+	
 	private LoginPanel loginpanel;
-
 	private MenuPanel menupanel;
 
 	private MenuBar menubar;
@@ -72,13 +60,11 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public boolean gamefieldShown = false;
 	public boolean menuShown = false;
 	public boolean loginShown = false;
-	// public boolean connectShown = false;
-
+	
 	public final int MAXLEVEL = 5;
 	public final int WIDTH = 16;
 	public final int HEIGHT = 16;
 	public final int BOX = 94;
-
 	public final int SBox = 32;
 
 	/**
@@ -92,8 +78,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 * @param height
 	 *            the height of the window
 	 * @param title
-	 *            title of the window width height und title noch notwendig?
-	 *            sind die nciht schon im initializeJFrame drin?
+	 *            title of the window 
+	 *            
 	 */
 
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
@@ -143,36 +129,27 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		highscore.setPreferredSize(new Dimension(width, height));
 		menupanel.setPreferredSize(new Dimension(width, height));
 		loginpanel.setPreferredSize(new Dimension(width, height));
-		// connectpanel.setPreferredSize(new Dimension(width, height));
 
 		// first the Loginpanel is on screen
 		showLogin();
-
-		// showMenu();
+		
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
-		// Default setup
-		// add KeyListener and MouseListener for control the game with mouse and
-		// buttons
+		// add KeyListener and MouseListener for control the game with mouse and keyboard
 		this.addKeyListener(this);
 		gamefield.addMouseListener(this);
+		
 		this.setResizable(false);
 		this.setTitle(title);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	/**
-	 * @author Felizia Langsdorf, 6002960 sets the serverconnection panel in the
-	 *         window
-	 * 
-	 */
-
-
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 sets the login panel in the window
+	 * @author Felizia Langsdorf, 6002960 
+	 * sets the login panel in the window
 	 * 
 	 */
 
@@ -188,7 +165,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.remove(menubar);
 		this.remove(statusbar);
 		this.remove(menupanel);
-		// this.remove(connectpanel);
 		this.add(loginpanel, BorderLayout.CENTER);
 		this.requestFocus();
 		this.pack();
@@ -196,7 +172,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 sets the menu panel in the window
+	 * @author Felizia Langsdorf, 6002960 
+	 * sets the menu panel in the window
 	 * 
 	 */
 
@@ -212,7 +189,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.remove(menubar);
 		this.remove(statusbar);
 		this.remove(loginpanel);
-		// this.remove(connectpanel);
 		this.add(menupanel, BorderLayout.CENTER);
 		this.requestFocus();
 		this.pack();
@@ -220,8 +196,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 sets the gamefield in the window,
-	 *         which includes the statusbar and the menubar
+	 * @author Felizia Langsdorf, 6002960 
+	 * sets the gamefield in the window,
+	 * which includes the statusbar and the menubar
 	 * 
 	 */
 
@@ -235,7 +212,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.remove(controls);
 		this.remove(menupanel);
 		this.remove(loginpanel);
-		// Create the gamefield
+		// Create the gamefield, statusbar and menubar
 		this.add(gamefield, BorderLayout.CENTER);
 		this.add(statusbar, BorderLayout.EAST);
 		this.add(menubar, BorderLayout.NORTH);
@@ -245,9 +222,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 sets the highscore panel in the window
+	 * @author Felizia Langsdorf, 6002960 
+	 * sets the highscore panel in the window
 	 *         removes everything else
-	 * 
 	 */
 
 	public void showHighscore() {
@@ -270,7 +247,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 sets the control panel in the window
+	 * @author Felizia Langsdorf, 6002960 
+	 * sets the control panel in the window
 	 *         removes everything else
 	 */
 
@@ -292,8 +270,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 getter for the panels: gamefield,
-	 *         statusbar, highscore, control, menu, login
+	 * @author Felizia Langsdorf, 6002960 
+	 * getter for the panels: gamefield,
+	 * statusbar, highscore, control, menu, login
 	 * 
 	 */
 
@@ -323,12 +302,11 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 
 	/**
-	 * method for controlling the player with the mouse player moves to clicked
-	 * position with the A* algorithm
-	 * 
 	 * @author Felizia Langsdorf, 6002960
 	 * @param m
-	 *            mouseevent
+	 *            mouseEvent
+	 * method for controlling the player with the mouse; 
+	 * player moves to clicked position with the A* algorithm
 	 * 
 	 */
 
@@ -341,12 +319,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //		System.out.println("Mouse at: " + mouseX + ", " + mouseY);
 //		System.out.println("Player at: " + playerX + ", " + playerY);
 		if (!gameWon) {
-			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { // if click y is higher than
-													// playerposition y and
-													// theres no wall, player
-													// moveDown()
-				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);
-				
+			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { 												
+				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);			
 			} else {
 				System.out.println("METOD GameWindow.mouseClicekd: Tile is NOT walkable!");
 	
@@ -356,7 +330,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * remaining methods of the MouseListener Interface which have to be
-	 * implemented but not used
+	 * implemented 
 	 * 
 	 * @author Felizia Langsdorf, 6002960
 	 * 
@@ -531,8 +505,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * method for counting up the level
-	 * 
+	 * method for counting up the level 
 	 * @author Felizia Langsdorf, 6002960
 	 * 
 	 */
@@ -540,19 +513,33 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public void nextLevel() {
 		currentLevel++;
 	}
-
+	
+	/**
+	 * method for counting up the level 
+	 * @author Felizia Langsdorf, 6002960
+	 * 
+	 */
 	public ClientEngine getEngine() {
 		return this.engine;
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 */
 	public Player getPlayer() {
 		return this.player;
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 */
 	public Tile[][] getLevel() {
 		return this.level;
 	}
 
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 */
 	public void setTest(boolean playerCheck) {
 		this.playerCheck = playerCheck;
 	}
