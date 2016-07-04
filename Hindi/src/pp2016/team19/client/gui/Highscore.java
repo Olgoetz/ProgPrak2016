@@ -99,17 +99,15 @@ public class Highscore extends JPanel {
 		 */
 		
 		public void paint(Graphics g){
-			Image img = null; // floor = null;
+			Image img = null; 
 			
 			try{
-				img = ImageIO.read(new File("img//highscores.png"));
-				//floor = ImageIO.read(new File("img//status.png"));
+				img = ImageIO.read(new File("img//highscores.png")); //source: http://javascriptgamer.com/brickslayer/sprites/highscores.png
 			}catch(IOException e){ }
 			
 			
 			for(int i = 0; i < 16; i++){
 				for(int j = 0; j < 17; j++){
-					//g.drawImage(floor, 32*i,32*j,null);
 					g.setColor(Color.LIGHT_GRAY);
 					g.fillRect(0, 0, this.getWidth() , this.getHeight());
 				}

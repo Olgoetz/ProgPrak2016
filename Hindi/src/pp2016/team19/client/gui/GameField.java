@@ -210,15 +210,15 @@ public class GameField extends JPanel {
 	private void drawMonster(Graphics g, Monster m) {
 		
 		if (inRange(m.getXPos(), m.getYPos())) {
-			g.drawImage(monster, (m.getXPos() * window.BOX) + v1 + 5, (m.getYPos()
-					* window.BOX) + v2 + 10, null);
+			g.drawImage(monster, (m.getXPos() * window.BOX) + v1, (m.getYPos()
+					* window.BOX) + v2, null);
 			
 			// Monster Health Points
 			g.setColor(Color.GREEN);
 			long monsterHP = (long) m.getHealth();
 			long monsterMaxHP = (long) m.getMaxHealth();
 			int monsterHealthRect = (int) ((window.BOX-30) * monsterHP/monsterMaxHP);
-			g.fillRect(((m.getXPos() * window.BOX) + v1) + 15, (m.getYPos() * window.BOX - 2) + v2 + 2, monsterHealthRect, 2);
+			g.fillRect(((m.getXPos() * window.BOX) + v1) + 15, (m.getYPos() * window.BOX - 2) + v2 + 4, monsterHealthRect, 2);
 		}
 	}
 
