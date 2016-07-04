@@ -29,8 +29,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenuItem showMap;
     private JMenuItem controls;
     private JMenuItem LogArrow;
-    private ImageIcon arrow = new ImageIcon ("img//icon-arrow.png"); // arrow icon for logout
-   
+    private ImageIcon arrow = new ImageIcon ("img//icon-arrow.png"); //source: https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-right-b-128.png
+    
     private GameWindow window;
     
     /**

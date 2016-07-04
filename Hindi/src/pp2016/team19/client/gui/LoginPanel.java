@@ -16,7 +16,7 @@ import javax.swing.border.BevelBorder;
 
 
 /**
- * class for the Panel which shows the login and the registration
+ * <h1> class for the Panel which shows the login and the registration <h1>
  * interface ActionListener is implemented
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *

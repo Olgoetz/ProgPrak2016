@@ -19,7 +19,8 @@ import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
 /**
- * class for panel statusbar shown on the right side of the window while playing the game
+ * <h1> class for panel statusbar shown on the right side of the window while playing the game <h1> 
+ * contains: playername, healthbar, items, level, minimap, etc.
  * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */
