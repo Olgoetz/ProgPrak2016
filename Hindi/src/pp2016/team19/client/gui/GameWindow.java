@@ -347,7 +347,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 //		System.out.println("Player at: " + playerX + ", " + playerY);
 		if (!gameWon) {
 			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { 												
-				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);			
+				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);
+				if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].containsMonster())
+					this.getEngine().attackRequest();
 			} else {
 				System.out.println("METOD GameWindow.mouseClicekd: Tile is NOT walkable!");
 	
