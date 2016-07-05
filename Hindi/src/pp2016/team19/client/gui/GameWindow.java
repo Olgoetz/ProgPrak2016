@@ -84,7 +84,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
-		this.engine.startGameRequest(this.engine.getPlayerID());
+//		this.engine.startGameRequest(this.engine.getPlayerID());
 		this.player = this.engine.getMyPlayer();
 
 		// try {
@@ -463,7 +463,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		// TODO: Server Request f�r GameRestart
 		// player = new Player("img//player.png", this);
-		this.engine.startGameRequest(this.engine.getPlayerID());
+//		this.engine.startGameRequest(this.engine.getPlayerID());
 		// spiel zurücksetzen, was muss alles ausgeführt werden, welche
 		// variablen gesetzt werden :)
 
