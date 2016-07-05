@@ -62,7 +62,7 @@ public class HandlerServer {
 					transmitter = new TransmitterServer(client);
 					receiver.start();
 					transmitter.start();
-					pingTimer.scheduleAtFixedRate(new PingCheckServer(this), 3000, 3000);
+					pingTimer.scheduleAtFixedRate(new PingCheckServer(this), 10000, 10000);
 					connected = true;
 				}
 

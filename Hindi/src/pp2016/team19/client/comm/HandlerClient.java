@@ -84,7 +84,7 @@ public class HandlerClient {
 		 * The Timer 'pingTimer' executes the TimerTask-PingCheckClient within a
 		 * certain interval
 		 */
-		this.pingTimer.scheduleAtFixedRate(new PingCheckClient(this), 5000, 5000);
+		this.pingTimer.scheduleAtFixedRate(new PingCheckClient(this), 10000, 10000);
 	}
 
 	/**
