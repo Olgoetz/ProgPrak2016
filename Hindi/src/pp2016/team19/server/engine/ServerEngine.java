@@ -38,6 +38,7 @@ public class ServerEngine implements Runnable {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
 		players.add(new Player("user","123"));
+		games.add(null);
 	}
 
 	/**
@@ -110,7 +111,7 @@ public class ServerEngine implements Runnable {
 		MessStartGameRequest message = (MessStartGameRequest) pmessage;
 		Player player = players.get(message.getPlayerID());
 		if (player.isLoggedIn()) {
-		startGame(player);
+		startGame(message.getPlayerID(), player);
 		}
 	}
 
@@ -187,10 +188,10 @@ public class ServerEngine implements Runnable {
 		}
 	}
 
-	private void startGame(Player player) {
+	private void startGame(int ID, Player player) {
 		this.messagesToGames = new LinkedBlockingQueue<Message>();
-		this.games.add(new Game(this, player, 16, this.messagesToGames));
-		this.tick.scheduleAtFixedRate(this.games.get(this.games.size()-1), 0, 50);
+		this.games.set(ID, new Game(this, player, 16, this.messagesToGames));
+		this.tick.scheduleAtFixedRate(this.games.get(ID), 0, 50);
 
 	}
 
@@ -231,6 +232,7 @@ public class ServerEngine implements Runnable {
 		if (playerIsNew) {
 			Player player=new Player(message.getUsername(),message.getPassword());
 			players.add(player);
+			games.add(null);
 			System.out.println("Player registered");
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
