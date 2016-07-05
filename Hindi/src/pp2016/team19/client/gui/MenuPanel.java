@@ -76,7 +76,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == b1) { // pressing button start game, then game starts
-			window.initializeGameframe(window.WIDTH, window.HEIGHT, "Hindi Bones");
+			window.initializeGameframe(32*16, 32*16, "Hindi Bones");
 			window.getEngine().getThreadPool().execute(window);
 
 		} else if (ae.getSource() == b2) {
