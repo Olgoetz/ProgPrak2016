@@ -273,6 +273,7 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void playerAttack(Message message) {
+		System.out.println("METHOD game.playerAttack");
 		Message answer;
 		Message gameMapUpdate = null;
 		Monster monster = player.monsterToAttack();
@@ -286,7 +287,7 @@ public class Game extends TimerTask implements Serializable {
 				} else {
 					double random = Math.random();
 					System.out.println("METHOD game.playerAttack: Random Number:" + random);
-					if (random > 1 / 2) {
+					if (random > 0.9) {
 						gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
 					}
 				}
