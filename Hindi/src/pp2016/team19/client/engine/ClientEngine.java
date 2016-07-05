@@ -360,7 +360,6 @@ public class ClientEngine implements Runnable {
 
 	// Sends an attackRequest to the server
 	public void attackRequest() {
-
 		this.sendToServer(new MessAttackRequest(1, 2));
 	}
 

@@ -125,7 +125,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
-		this.addKeyListener(this);
 		
 		this.setResizable(false);
 		this.setTitle(title);
