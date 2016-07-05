@@ -9,11 +9,11 @@ import pp2016.team19.shared.MessPing;
 /**
  * <h1>Checking the connection between Client and Server via Ping-Messages</h1>
  * 
- * The PingCheckClient Class builds the TimerTask for sending a Message within
- * a certain interval to the Server. The connection between Server and Client is
+ * The PingCheckClient Class builds the TimerTask for sending a Message within a
+ * certain interval to the Server. The connection between Server and Client is
  * going to be checked by sending these Messages to the Server repetetively. In
- * case that the messages from the Server cannot be read, the PingCheckClient
- * is going to close the connection to the Server after a certain time.
+ * case that the messages from the Server cannot be read, the PingCheckClient is
+ * going to close the connection to the Server after a certain time.
  * 
  * @author Bulut , Taner , 5298261
  */
@@ -26,7 +26,8 @@ public class PingCheckClient extends TimerTask {
 	 * Initializes the instance of the HandlerClient 'networkHandler'
 	 * 
 	 * @author Bulut , Taner , 5298261
-	 * @param networkHandler defines the HandlerClient that executes the TimerTask
+	 * @param networkHandler
+	 *            defines the HandlerClient that executes the TimerTask
 	 */
 	public PingCheckClient(HandlerClient networkHandler) {
 		this.networkHandler = networkHandler;
@@ -54,12 +55,13 @@ public class PingCheckClient extends TimerTask {
 	}
 
 	/**
-	 * Sends a MessPing-Message to the Server. Sets the variable 'connectedState1' of
-	 * the HandlerClient to false, in order to check if the ReceiverClient
-	 * reads a message from the InputStream and then changes the value of
-	 * 'connectedState1' back to true. This means that the Connection between Server
-	 * and Client is alive otherwise pingTwo() is started. Therefore pingOne() is
-	 * the first attempt to check the reading of the InputStream.
+	 * Sends a MessPing-Message to the Server. Sets the variable
+	 * 'connectedState1' of the HandlerClient to false, in order to check if the
+	 * ReceiverClient reads a message from the InputStream and then changes the
+	 * value of 'connectedState1' back to true. This means that the Connection
+	 * between Server and Client is alive otherwise pingTwo() is started.
+	 * Therefore pingOne() is the first attempt to check the reading of the
+	 * InputStream.
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
@@ -70,12 +72,13 @@ public class PingCheckClient extends TimerTask {
 	}
 
 	/**
-	 * Sends a MessPing-Message to the Server. Sets the variable 'connectedState2' of
-	 * the HandlerClient to false, in order to check if the ReceiverClient
-	 * reads a message from the InputStream and then changes the value of
-	 * 'connectedState2' back to true. This means that the Connection between Server
-	 * and Client is alive otherwise stopConnection() is started.Therefore
-	 * pingTwo() is the last attempt to check the reading of the InputStream.
+	 * Sends a MessPing-Message to the Server. Sets the variable
+	 * 'connectedState2' of the HandlerClient to false, in order to check if the
+	 * ReceiverClient reads a message from the InputStream and then changes the
+	 * value of 'connectedState2' back to true. This means that the Connection
+	 * between Server and Client is alive otherwise stopConnection() is
+	 * started.Therefore pingTwo() is the last attempt to check the reading of
+	 * the InputStream.
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
@@ -86,7 +89,6 @@ public class PingCheckClient extends TimerTask {
 		this.networkHandler.sendMessageToServer(new MessPing(100, 0));
 	}
 
-	
 	/**
 	 * Closing the connection between the Server and the Client and closing the
 	 * application. The TimerTask is also cancelled.

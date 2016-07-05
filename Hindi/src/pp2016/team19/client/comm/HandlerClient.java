@@ -39,6 +39,8 @@ public class HandlerClient {
 	 * is also started for sending MessPing messages to the server.
 	 * 
 	 * @author Bulut , Taner , 5298261
+	 * @param adresse
+	 *            defines the Server-Address
 	 */
 	public HandlerClient(String adresse) {
 		this.pingTimer = new Timer();
@@ -100,7 +102,7 @@ public class HandlerClient {
 			this.pingTimer.cancel();
 			this.getServer().close();
 			System.out.println(errorMessage);
-			System.exit(1);
+//			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HandlerClient.close(String errorMessage)");
 			e.printStackTrace();

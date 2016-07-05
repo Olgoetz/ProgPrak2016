@@ -82,7 +82,7 @@ public class TransmitterServer extends Thread {
 				System.out.println("ERROR: TRANSMITTERSERVER in transmitMessage()");
 				e.printStackTrace();
 			}
-			System.exit(1);
+//			System.exit(1);
 		}
 	}
 	

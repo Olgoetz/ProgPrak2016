@@ -89,7 +89,7 @@ public class HandlerServer {
 			this.setCloseNetwork(true);
 			this.pingTimer.cancel();
 			this.client.close();
-			System.exit(1);
+//			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER");
 			e.printStackTrace();
