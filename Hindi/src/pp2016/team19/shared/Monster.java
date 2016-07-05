@@ -134,8 +134,6 @@ public class Monster extends Character {
 	public void changeHealth(int change) {
 		super.changeHealth(change);
 		if (getHealth() <= 0) {
-			game.getGameMap()[getXPos()][getYPos()].setContainsPotion(true);
-			game.getMonsters().remove(this);
 		}
 	}
 

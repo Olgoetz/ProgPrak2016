@@ -285,9 +285,8 @@ public class Game extends TimerTask implements Serializable {
 				if (monster.carriesKey()) {
 					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
 				} else {
-					double random = Math.random();
-					System.out.println("METHOD game.playerAttack: Random Number:" + random);
-					if (random > 0.9) {
+					if (Math.random() >= 0.3) {
+						System.out.println("METHOD game.playerAttack: Potion placed");
 						gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
 					}
 				}
@@ -328,7 +327,7 @@ public class Game extends TimerTask implements Serializable {
 	 * @param levelNumber
 	 */
 	public void newLevel(int levelNumber) {
-		gameMap = Labyrinth.generate(gameSize, levelNumber * 2);
+		gameMap = Labyrinth.generate(gameSize, 10);
 		// TestLabyrinth.setGameMap(gameMap);
 
 		Monsters.clear();
@@ -368,18 +367,15 @@ public class Game extends TimerTask implements Serializable {
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 		player.xPos = message.getX();
 		player.yPos = message.getY();
-		System.out.println("METHOD ServerEngine.playerMove: " + player.toString());
-		System.out.println("METHOD ServerEngine.playerMove: " + message.getDirection());
 
 		switch (message.getDirection()) {
-		case 0: // MoveUp
+		case 0: // MoveDown
 			if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos() + 1].isWalkable()) {
 				player.moveDown();
 				System.out.println("DOWN:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
 				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
-				System.out.println("Player position test:" + tester.getX());
 				System.out.println("Move executed");
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
@@ -387,7 +383,7 @@ public class Game extends TimerTask implements Serializable {
 				System.out.println("UP Move not allowed");
 			}
 			break;
-		case 1: // MoveDown
+		case 1: // MoveUp
 			if (player.getYPos() < 16 - 1 && gameMap[player.getXPos()][player.getYPos() - 1].isWalkable()) {
 				player.moveUp();
 				System.out.println("UP:" + player.getXPos() + " " + player.getYPos());
