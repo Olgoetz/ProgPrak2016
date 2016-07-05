@@ -61,7 +61,7 @@ public class TransmitterClient extends Thread {
 			 * the appropriate OutputStream. The BufferedOutputStream is
 			 * allowing to write Data into the OutputStream.
 			 */
-			out = new ObjectOutputStream(new BufferedOutputStream(server.getOutputStream()));
+			out = new ObjectOutputStream(server.getOutputStream());
 			while (true) {
 				/*
 				 * The Thread is waiting before the messages can be polled from

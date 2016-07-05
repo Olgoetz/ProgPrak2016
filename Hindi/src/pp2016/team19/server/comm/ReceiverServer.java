@@ -58,7 +58,7 @@ public class ReceiverServer extends Thread {
 	 */
 	private void receiveMessage() {
 		try {
-			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+			in = new ObjectInputStream(client.getInputStream());
 			while (true) {
 				ThreadWaitForMessage.waitFor(100L);
 				messageFC = (Message) in.readObject();
@@ -87,7 +87,7 @@ public class ReceiverServer extends Thread {
 				System.out.println("ERROR: RECEIVERSERVER");
 				e.printStackTrace();
 			}
-//			System.exit(1);
+			System.exit(1);
 		}
 	}
 

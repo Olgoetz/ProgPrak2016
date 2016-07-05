@@ -54,7 +54,7 @@ public class TransmitterServer extends Thread {
 	 */
 	private void transmitMessage(){
 		try {
-			out = new ObjectOutputStream(new BufferedOutputStream(client.getOutputStream()));
+			out = new ObjectOutputStream(client.getOutputStream());
 			while (true)
 			{
 				messageTC = messagesToClient.poll(100,TimeUnit.MILLISECONDS);
@@ -82,7 +82,7 @@ public class TransmitterServer extends Thread {
 				System.out.println("ERROR: TRANSMITTERSERVER in transmitMessage()");
 				e.printStackTrace();
 			}
-//			System.exit(1);
+			System.exit(1);
 		}
 	}
 	

@@ -64,7 +64,7 @@ public class ReceiverClient extends Thread {
 			 * appropriate InputStream. The BufferedInputStream is allowing to
 			 * save the arguments of the InputStream.
 			 */
-			in = new ObjectInputStream(new BufferedInputStream(server.getInputStream()));
+			in = new ObjectInputStream(server.getInputStream());
 			while (true) {
 				/*
 				 * The Thread is waiting before the messages can be read and

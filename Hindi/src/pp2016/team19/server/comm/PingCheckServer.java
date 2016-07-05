@@ -1,6 +1,8 @@
 package pp2016.team19.server.comm;
 
+import java.io.EOFException;
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.TimerTask;
 
 import pp2016.team19.shared.MessPing;
@@ -89,6 +91,7 @@ public class PingCheckServer extends TimerTask {
 
 		System.out.println("PingCheckServer STOPTHREADS for Server after " + pingIteration + " Pings");
 		this.cancel();
+		this.networkHandler.close();
 		try {
 			System.out.println(
 					"Connection to Client lost (PINGCHECK)! \n\n Please insure, that the Client was not stopped! \n Start the game again afterwards!");
@@ -96,6 +99,11 @@ public class PingCheckServer extends TimerTask {
 			System.out.println("PINGCHECKSERVER: CLIENT CLOSED");
 			this.networkHandler.getServer().close();
 			System.out.println("PINGCHECKSERVER: SERVER CLOSED");
+		}catch (SocketException e) {
+			System.out.println("CLIENT SOCKET CLOSED IN PINGCHECKSERVER");
+		}  
+		catch (EOFException e) {
+			System.out.println("CLIENT SOCKET CLOSED IN PINGCHECKSERVER");
 		} catch (IOException e) {
 			System.out.println("ERROR: PINGCHECKSERVER");
 			System.out.println("Socket ERROR for HandlerServer resulting in PingCheckServer");

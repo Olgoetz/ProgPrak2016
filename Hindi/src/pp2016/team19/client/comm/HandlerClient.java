@@ -102,7 +102,7 @@ public class HandlerClient {
 			this.pingTimer.cancel();
 			this.getServer().close();
 			System.out.println(errorMessage);
-//			System.exit(1);
+			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HandlerClient.close(String errorMessage)");
 			e.printStackTrace();

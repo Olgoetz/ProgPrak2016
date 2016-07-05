@@ -1,5 +1,6 @@
 package pp2016.team19.client.comm;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.TimerTask;
@@ -104,6 +105,8 @@ public class PingCheckClient extends TimerTask {
 			System.out.println(
 					"Connection to Server lost (PINGCHECK)! \n\n Please insure, that the server was not stopped! \n Start the game again afterwards!");
 			this.networkHandler.getServer().close();
+		} catch (EOFException e) {
+			System.out.println("CLIENT SOCKET CLOSED IN PINGCHECKCLIENT");
 		} catch (SocketException e) {
 			System.out.println("CLIENT SOCKET CLOSED IN PINGCHECKCLIENT");
 		} catch (IOException e) {

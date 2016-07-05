@@ -74,6 +74,7 @@ public class HandlerServer {
 		}
 
 	}
+	
 
 	/**
 	 * Closing the Socket, the TimerTask and stops the running of the
@@ -89,7 +90,8 @@ public class HandlerServer {
 			this.setCloseNetwork(true);
 			this.pingTimer.cancel();
 			this.client.close();
-//			System.exit(1);
+			this.setConnected(false);
+			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER");
 			e.printStackTrace();
@@ -149,6 +151,26 @@ public class HandlerServer {
 	 * 
 	 */
 
+	/**
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 * @param connected
+	 *            the boolean variable sets the connection state of the ServerSocket
+	 * 
+	 */
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
+	/**
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 * @return the connection state of the ServerSocket
+	 * 
+	 */
+	public boolean getConnected() {
+		return this.connected;
+	}
 	/**
 	 * 
 	 * @author Bulut , Taner , 5298261
