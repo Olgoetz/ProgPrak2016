@@ -190,6 +190,9 @@ public class ServerEngine implements Runnable {
 
 	private void startGame(int ID, Player player) {
 		this.messagesToGames = new LinkedBlockingQueue<Message>();
+		if(this.games.get(ID)!=null) {
+		this.games.get(ID).stopGame();
+		}
 		this.games.set(ID, new Game(this, player, 16, this.messagesToGames));
 		this.tick.scheduleAtFixedRate(this.games.get(ID), 0, 50);
 

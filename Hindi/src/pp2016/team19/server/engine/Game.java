@@ -365,8 +365,8 @@ public class Game extends TimerTask implements Serializable {
 	private void playerMove(Message pmessage) {
 		Message answer;
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
-		player.xPos = message.getX();
-		player.yPos = message.getY();
+//		player.xPos = message.getX();
+//		player.yPos = message.getY();
 
 		switch (message.getDirection()) {
 		case 0: // MoveDown
