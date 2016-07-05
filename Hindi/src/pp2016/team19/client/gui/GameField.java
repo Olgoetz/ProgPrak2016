@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import pp2016.team19.shared.Monster;
 import pp2016.team19.shared.Player;
+import java.awt.*;
+import javax.*;
 
 
 /**
