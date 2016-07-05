@@ -462,7 +462,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 		// TODO: Server Request f�r GameRestart
 		// player = new Player("img//player.png", this);
-//		this.engine.startGameRequest(this.engine.getPlayerID());
+//		this.engine.startGameRequest(this.engine.getPlayerID());		// TOOOBIIIIIII :DDDDDDD
 		// spiel zurücksetzen, was muss alles ausgeführt werden, welche
 		// variablen gesetzt werden :)
 
