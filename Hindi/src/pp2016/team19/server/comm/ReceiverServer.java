@@ -87,7 +87,7 @@ public class ReceiverServer extends Thread {
 				System.out.println("ERROR: RECEIVERSERVER");
 				e.printStackTrace();
 			}
-			System.exit(1);
+//			System.exit(1);
 		}
 	}
 
