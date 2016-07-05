@@ -23,7 +23,6 @@ public class ServerEngine implements Runnable {
 	private ExecutorService threadPool;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Game> games = new ArrayList<Game>();
-	transient private Game game1; // Test
 	private Timer tick = new Timer();
 	HandlerServer network = new HandlerServer();
 	private boolean playerIsNew;
@@ -39,7 +38,6 @@ public class ServerEngine implements Runnable {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
 		players.add(new Player("user","123"));
-		System.out.println(players.get(0).getName());
 	}
 
 	/**
@@ -47,7 +45,6 @@ public class ServerEngine implements Runnable {
 	 */
 	public void run() {
 		System.out.println("METHOD ServerEngine.run: Started");
-		System.out.println(players.get(0).getName());
 		while (true) {
 			Message message = network.getMessageFromClient();
 			if (message != null) {
@@ -111,8 +108,10 @@ public class ServerEngine implements Runnable {
 
 	private void newGame(Message pmessage) {
 		MessStartGameRequest message = (MessStartGameRequest) pmessage;
-		startGame(players.get(message.getPlayerID()));
-
+		Player player = players.get(message.getPlayerID());
+		if (player.isLoggedIn()) {
+		startGame(player);
+		}
 	}
 
 	private void confirmConnection() {
@@ -155,6 +154,7 @@ public class ServerEngine implements Runnable {
 				playerFound = true;
 				if (player.getPassword().equals(message.getPassword())) {
 					System.out.println("METHOD ServerEngine.SignInRequest: Log-In successful");
+					player.logIn();
 					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.indexOf(player), 0,
 							3);
 					try {
@@ -202,6 +202,7 @@ public class ServerEngine implements Runnable {
 	private void signOutRequest(Message pmessage) {
 		MessSignOutRequest message = (MessSignOutRequest) pmessage;
 		games.get(message.getPlayerID()).stopGame();
+		players.get(message.getPlayerID()).logOut();
 		Message answer = (MessSignOutAnswer) new MessSignOutAnswer(true,0,9);
 		try {
 			this.messagesToClient.put(answer);
@@ -230,7 +231,7 @@ public class ServerEngine implements Runnable {
 		if (playerIsNew) {
 			Player player=new Player(message.getUsername(),message.getPassword());
 			players.add(player);
-			System.out.println("Player reqgistered");
+			System.out.println("Player registered");
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
 				this.messagesToClient.put(answer);

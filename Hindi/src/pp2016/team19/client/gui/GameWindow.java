@@ -106,15 +106,42 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 * @param title
 	 *            title of the window
 	 */
-
-	public void initializeJFrame(int width, int height, String title) {
-		// Layout of the window
+	
+	public void initializeJFrame(int width, int height, String title){
 		this.setLayout(new BorderLayout());
-
-		// Create objects of the panels
-		// this.connectpanel = new ServerConnection(this);
 		this.loginpanel = new LoginPanel(this);
 		this.menupanel = new MenuPanel(this);
+		
+		menupanel.setPreferredSize(new Dimension(width, height));
+		loginpanel.setPreferredSize(new Dimension(width, height));
+		this.add(loginpanel, BorderLayout.CENTER);
+		
+		menuShown = false;
+		loginShown = true;
+		
+		this.requestFocus();
+		this.pack();
+		loginpanel.repaint();
+		
+		final Dimension d = this.getToolkit().getScreenSize();
+		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
+		this.addKeyListener(this);
+		
+		this.setResizable(false);
+		this.setTitle(title);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+
+	public void initializeGameframe(int width, int height, String title) {
+		// Layout of the window
+		this.engine.startGameRequest(this.engine.getPlayerID());
+		this.setLayout(new BorderLayout());
+		
+		// Create objects of the panels
+		// this.connectpanel = new ServerConnection(this);
+//		this.loginpanel = new LoginPanel(this);
+//		this.menupanel = new MenuPanel(this);
 
 		this.gamefield = new GameField(this);
 		this.statusbar = new Statusbar(this);
@@ -127,11 +154,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		statusbar.setPreferredSize(new Dimension(5 * SBox, height));
 		controls.setPreferredSize(new Dimension(width, height));
 		highscore.setPreferredSize(new Dimension(width, height));
-		menupanel.setPreferredSize(new Dimension(width, height));
-		loginpanel.setPreferredSize(new Dimension(width, height));
+//		menupanel.setPreferredSize(new Dimension(width, height));
+//		loginpanel.setPreferredSize(new Dimension(width, height));
+		showGameField();
 
 		// first the Loginpanel is on screen
-		showLogin();
+		//showLogin();
 		
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
@@ -139,7 +167,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		// add KeyListener and MouseListener for control the game with mouse and keyboard
 		this.addKeyListener(this);
 		gamefield.addMouseListener(this);
-		
+	
 		this.setResizable(false);
 		this.setTitle(title);
 		this.setVisible(true);
@@ -178,16 +206,16 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 */
 
 	public void showMenu() {
-		highscoreShown = false;
-		controlsShown = false;
-		gamefieldShown = false;
+//		highscoreShown = false;
+//		controlsShown = false;
+//		gamefieldShown = false;
 		loginShown = false;
 		menuShown = true;
-		this.remove(highscore);
-		this.remove(controls);
-		this.remove(gamefield);
-		this.remove(menubar);
-		this.remove(statusbar);
+//		this.remove(highscore);
+//		this.remove(controls);
+//		this.remove(gamefield);
+//		this.remove(menubar);
+//		this.remove(statusbar);
 		this.remove(loginpanel);
 		this.add(menupanel, BorderLayout.CENTER);
 		this.requestFocus();

@@ -222,7 +222,7 @@ public class GameField extends JPanel {
 	}
 
 	/**
-	 * @author Felizia Langsdorf, 6002960 method need to understand that !!!
+	 * @author Felizia Langsdorf, 6002960
 	 *   noch notwendig??
 	 * 
 	 */

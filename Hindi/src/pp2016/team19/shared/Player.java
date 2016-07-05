@@ -11,6 +11,7 @@ public class Player extends Character implements Serializable {
 
 	private String name;
 	private String password;
+	private boolean isLoggedIn;
 
 	private boolean hasKey;
 	private int numberOfPotions;
@@ -145,4 +146,14 @@ public class Player extends Character implements Serializable {
 		score = score + points;
 	}
 
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+
+	public void logIn() {
+		this.isLoggedIn = true;
+	}
+	public void logOut() {
+		this.isLoggedIn = false;
+	}
 }
