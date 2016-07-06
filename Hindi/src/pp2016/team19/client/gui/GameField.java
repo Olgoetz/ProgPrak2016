@@ -146,8 +146,7 @@ public class GameField extends JPanel {
 			}
 			
 			
-			// Draw the monsters at their specific position
-//			System.out.println("METHOD GameField.paint: Monster Gr��e" + window.getEngine().getMyMonster().size()); 
+			// Draw the monsters at their specific position 
 			LinkedList<Monster> monsterList = window.getEngine().getMyMonster();
 			for (int x = 0; x < monsterList.size(); x++) {
 			 Monster m = monsterList.get(x);
@@ -155,8 +154,7 @@ public class GameField extends JPanel {
 		
 			 // At this point every monster is called. So an
 			 // attacking order is called, if the player is
-			 // in range. Otherwise the fsm is called to decide what the monster
-			 // should do.
+			 // in range. 
 				if (m.justAttacked()) {
 					int box = window.BOX;
 					Player s = window.getEngine().getMyPlayer();
@@ -175,7 +173,7 @@ public class GameField extends JPanel {
 			 drawMonster(g, m);
 			 }
 			
-//		 Draw the player at its position
+		//Draw the player at its position
 		g.drawImage(hindi, (window.getEngine().getMyPlayer().getXPos()
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
@@ -222,8 +220,8 @@ public class GameField extends JPanel {
 	}
 
 	/**
+	 * calculates the range
 	 * @author Felizia Langsdorf, 6002960
-	 *   noch notwendig??
 	 * 
 	 */
 
