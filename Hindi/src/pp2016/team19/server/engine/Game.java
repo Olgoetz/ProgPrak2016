@@ -21,7 +21,7 @@ import pp2016.team19.server.map.*;
 public class Game extends TimerTask implements Serializable {
 
 	private static final long serialVersionUID = 358470863151883429L;
-	LinkedBlockingQueue<Message> messagesFromServer;
+	LinkedBlockingQueue<Message> messagesFromServer = new LinkedBlockingQueue<Message>();
 	Tile[][] gameMap;
 	private int gameSize;
 	transient LinkedList<Monster> Monsters = new LinkedList<Monster>();
@@ -42,13 +42,14 @@ public class Game extends TimerTask implements Serializable {
 	long startTime;
 	int scoreTime = 0;
 
-	public Game(ServerEngine engine, Player player, int gameSize, LinkedBlockingQueue<Message> messagesFromServer) {
+	public Game(ServerEngine engine, Player player, int gameSize) {
 		this.player = player;
 		this.gameSize = gameSize;
-		this.messagesFromServer = messagesFromServer;
 		this.engine = engine;
 		newLevel(levelNumber);
 		player.setGame(this);
+		//engine.tick.scheduleAtFixedRate(this, 0, 50);
+		//System.out.println("Game: scheduled");
 	}
 
 	/**
@@ -327,10 +328,14 @@ public class Game extends TimerTask implements Serializable {
 	 * @param levelNumber
 	 */
 	public void newLevel(int levelNumber) {
-		gameMap = Labyrinth.generate(gameSize, 10);
+		System.out.println("METHOD Game.newLevel");
+		gameMap = Labyrinth.generate(gameSize, levelNumber*2);
 		// TestLabyrinth.setGameMap(gameMap);
 
 		Monsters.clear();
+		if (Monsters.isEmpty()) {
+			System.out.println("METHOD Game.newLevel: Monsterlist cleared");
+		}
 		createMonsters(gameMap, levelNumber * 2);
 		player.setPos(1, gameSize - 2);
 		player.removeKey();
@@ -457,5 +462,8 @@ public class Game extends TimerTask implements Serializable {
 	}
 	public void stopGame() {
 		gameEnded = false;
+	}
+	public void restartGame() {
+		gameEnded = true;
 	}
 }

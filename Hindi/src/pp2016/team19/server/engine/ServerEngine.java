@@ -18,12 +18,12 @@ import pp2016.team19.shared.*;
  */
 public class ServerEngine implements Runnable {
 	LinkedBlockingQueue<Message> messagesToClient;
-	LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
+	//LinkedBlockingQueue<Message> messagesToGames = new LinkedBlockingQueue<Message>();
 
 	private ExecutorService threadPool;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Game> games = new ArrayList<Game>();
-	private Timer tick = new Timer();
+	Timer tick = new Timer();
 	HandlerServer network = new HandlerServer();
 	private boolean playerIsNew;
 	private boolean playerFound;
@@ -50,7 +50,7 @@ public class ServerEngine implements Runnable {
 			Message message = network.getMessageFromClient();
 			if (message != null) {
 				if (message.getType() != 100) {
-					System.out.println("Message received");
+					System.out.println("SE: Message received");
 					System.out.println(message.toString());
 					this.distributor(message);
 				}
@@ -97,7 +97,6 @@ public class ServerEngine implements Runnable {
 			break;
 		case 1:
 			this.sendToGame(message);
-			System.out.println("METHOD ServerEngine.sendToGame: Messages forwarded");
 			break;
 		case 100:
 			this.confirmConnection();
@@ -133,6 +132,7 @@ public class ServerEngine implements Runnable {
 	private void sendToGame(Message message) {
 		try {
 			games.get(0).messagesFromServer.put(message);
+			System.out.println("METHOD ServerEngine.sendToGame: Messages forwarded");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -189,11 +189,15 @@ public class ServerEngine implements Runnable {
 	}
 
 	private void startGame(int ID, Player player) {
-		this.messagesToGames = new LinkedBlockingQueue<Message>();
-		if(this.games.get(ID)!=null) {
-		this.games.get(ID).stopGame();
-		}
-		this.games.set(ID, new Game(this, player, 16, this.messagesToGames));
+		System.out.println("METHOD SE.startGame: ID: "+ID);
+//		if(this.games.get(ID)!=null) {
+//		this.games.get(ID).stopGame();
+//		}
+		this.games.set(ID, new Game(this, player, 16));
+		System.out.println("METHOD SE.startGame: game.gameEnded: "+this.games.get(ID).gameEnded);
+		System.out.println("METHOD SE.startGame: game.tester: "+this.games.get(ID).tester);
+		tick.cancel();
+		tick = new Timer();
 		this.tick.scheduleAtFixedRate(this.games.get(ID), 0, 50);
 
 	}
