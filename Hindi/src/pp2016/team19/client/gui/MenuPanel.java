@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- * class for the welcome panel shows up after a successful login
+ * <h1> class for the welcome panel shows up after a successful login <h1>
  * 
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
@@ -27,7 +27,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	private JButton b1;
 	private JButton b2;
-	private JTextField message;
+	
 
 	/**
 	 * @author Felizia Langsdorf, Matr_Nr: 6002960
@@ -59,24 +59,18 @@ public class MenuPanel extends JPanel implements ActionListener {
 		b2.setVisible(true);
 		b1.addActionListener(this);
 		b2.addActionListener(this);
-
-		// add the texfield for systemmessages
-		message = new JTextField();
-		message.setBounds(10, 470, 480, 20);
-		lab.add(message);
+		
 	}
 
 	/**
+	 * @author Felizia Langsdorf, 6002960
 	 * method of the interface actionListener: after clicking the buttons the
 	 * game starts or logout is initiated
-	 * 
-	 * @author Felizia Langsdorf, Matr_Nr: 6002960
-	 *
 	 */
 
 	public void actionPerformed(ActionEvent ae) {
-		if (ae.getSource() == b1) { // pressing button start game, then game starts
-			window.initializeGameframe(32*16, 32*16, "Hindi Bones");
+		if (ae.getSource() == b1) { // button start game
+			window.initializeGameframe(32*16, 32*16, "Hindi Bones"); 
 			window.getEngine().getThreadPool().execute(window);
 
 		} else if (ae.getSource() == b2) {

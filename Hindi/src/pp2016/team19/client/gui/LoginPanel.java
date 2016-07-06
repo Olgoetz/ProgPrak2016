@@ -39,7 +39,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JPasswordField passwordField_2;
 	private JPasswordField passwordField_3;
 	private JButton regButton;
-	private JTextField message;
 	private String regUsername = "";
 	private String regPassword1 = "";
 	private String regPassword2 = "";
@@ -126,10 +125,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 		regButton = new JButton("Register");
 		LoginPanel.add(regButton);	
 		regButton.addActionListener(this); 	
-		
-		//texfield for systemessages
-		message = new JTextField();
-		LoginPanel.add(message);
 		
 		//add the panel to gamewindow
 		add(LoginPanel, BorderLayout.CENTER);				
