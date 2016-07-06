@@ -21,7 +21,8 @@ import pp2016.team19.shared.Wall;
 /**
  * <h1> class for panel statusbar shown on the right side of the window while playing the game <h1> 
  * contains: playername, healthbar, items, level, minimap, etc.
- * @author Felizia Langsdorf, Matr_Nr.: 6002960
+ * 
+ * @author Felizia Langsdorf, 6002960
  *
  */
 
@@ -64,8 +65,7 @@ private static final long serialVersionUID = 1L;
 	}
 	/**
 	 * paint method
-	 * @author Felizia Langsdorf, Matr_Nr.: 6002960
-	 *
+	 * @author Felizia Langsdorf, 6002960 
 	 */
 	public void paint(Graphics g) {
 		
@@ -75,7 +75,7 @@ private static final long serialVersionUID = 1L;
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
 			
-		//draws pictures in the panel, at the bottom it leaves space for the minimap
+		//draw pictures in the panel, at the bottom it leaves space for the minimap
 		for(int i = 0; i < 20; i++){
 			for(int j= 0; j < window.HEIGHT- 6; j++){
 			g.drawImage(background, i*statBox, j*statBox, null);
@@ -113,34 +113,23 @@ private static final long serialVersionUID = 1L;
 			g.drawImage(key, 55, 120, null);
 			}
 		//display the past time
-		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 170);		
+		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime)/1000, 5, 200);		
 	
 		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine().getMyPlayer().getYPos()];
 		
-		//draw the instructions
+		// the instructions
 		if(field.containsKey()){
-			g.drawString("Press Space to take key", 5, 190);
+			g.drawString("Press Space to take key", 5, 230);
 		}else if(field.isExit()){
 			if(!field.exitUnlocked()){
 				if(window.getEngine().getMyPlayer().hasKey())
-					g.drawString("Press Space: open door", 5, 190);
+					g.drawString("Press Space: open door", 5, 230);
 				else
-					g.drawString("Door closed!", 5, 190);
+					g.drawString("Door closed!", 5, 230);
 			}			
 		}else if(field.containsPotion()){
-			g.drawString("Press Space: take potion", 5, 190);
-		}
-	
-		g.drawLine(5,200,155,200);
-		g.drawString("System Messages: ", 5 , 215);
-		
-		// !!!!!!!
-		//System messages: 
-		// for( i=0; i < SystemMessages.List.size(); i++ ) {
-		// g.drawString("...." , 5, 225)
-		// ......
-		g.drawLine(5, 325, 155, 325);
-		
+			g.drawString("Press Space: take potion", 5, 230);
+		}	
 		
 		// show text "minimap" on the statusbar	
 		g.drawString( "Minimap  ", 5, 340);

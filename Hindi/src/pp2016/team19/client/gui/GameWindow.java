@@ -85,19 +85,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	public GameWindow(ClientEngine engine, int width, int height, String title) {
 		this.engine = engine;
 //		this.engine.startGameRequest(this.engine.getPlayerID());
-		this.player = this.engine.getMyPlayer();
-
-		// try {
-		// this.player.setImage(ImageIO.read(new File("img//player.png")));
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-
-		initializeJFrame(width, height, title);
-
+		this.player = this.engine.getMyPlayer(); 
+		initializeJFrame(width, height, title);  
 	}
 
 	/**
+	 * 
+	 * initializes the frame where login, registration and welcome-menu is shown
 	 * @author Felizia Langsdorf, 6002960 initializes the Frame
 	 * @param width
 	 *            the width of the window
@@ -105,6 +99,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 *            the height of the window
 	 * @param title
 	 *            title of the window
+	 *      
 	 */
 	
 	public void initializeJFrame(int width, int height, String title){
@@ -132,16 +127,24 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * 
+	 * initializes the frame for the actual game 
+	 * @author Felizia Langsdorf, 6002960
+	 * @param width
+	 *            the width of the window
+	 * @param height
+	 *            the height of the window
+	 * @param title
+	 *            title of the window
+	 */
+
 	public void initializeGameframe(int width, int height, String title) {
-		// Layout of the window
+		//game request 
 		this.engine.startGameRequest(this.engine.getPlayerID());
+		// Layout of the window
 		this.setLayout(new BorderLayout());
 		
-		// Create objects of the panels
-		// this.connectpanel = new ServerConnection(this);
-//		this.loginpanel = new LoginPanel(this);
-//		this.menupanel = new MenuPanel(this);
-
 		this.gamefield = new GameField(this);
 		this.statusbar = new Statusbar(this);
 		this.menubar = new MenuBar(this);
@@ -153,13 +156,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		statusbar.setPreferredSize(new Dimension(5 * SBox, height));
 		controls.setPreferredSize(new Dimension(width, height));
 		highscore.setPreferredSize(new Dimension(width, height));
-//		menupanel.setPreferredSize(new Dimension(width, height));
-//		loginpanel.setPreferredSize(new Dimension(width, height));
-		showGameField();
-
-		// first the Loginpanel is on screen
-		//showLogin();
-		
+		showGameField();		
 		// Center the window on the screen
 		final Dimension d = this.getToolkit().getScreenSize();
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
@@ -225,7 +222,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * @author Felizia Langsdorf, 6002960 
 	 * sets the gamefield in the window,
-	 * which includes the statusbar and the menubar
+	 * plus statusbar and menubar
 	 * 
 	 */
 
@@ -298,30 +295,53 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter for the panels: gamefield,
-	 * statusbar, highscore, control, menu, login
-	 * 
+	 * getter gamefield
 	 */
 
 	public GameField getGameField() {
 		return gamefield;
 	}
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 * getter statusbar
+	 */
 
 	public Statusbar getStatusbar() {
 		return statusbar;
 	}
 
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 * getter highscore
+	 */
+
 	public Highscore getHighscore() {
 		return highscore;
 	}
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 * getter control
+	 */
 
 	public Controls getControls() {
 		return controls;
 	}
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 * getter menu 
+	 */
 
 	public MenuPanel getMenuPanel() {
 		return menupanel;
 	}
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960 
+	 * getter login
+	 */
 
 	public LoginPanel getLoginPanel() {
 		return loginpanel;
@@ -338,18 +358,19 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 */
 
 	public void mouseClicked(MouseEvent m) {
-
+		
+		//position of the click
 		int mouseX = m.getX() / this.BOX -2;
 		int mouseY = m.getY() / this.BOX -2;
+		//current position of the player
 		int playerX = this.getEngine().getMyPlayer().getXPos();
 		int playerY = this.getEngine().getMyPlayer().getYPos();
-//		System.out.println("Mouse at: " + mouseX + ", " + mouseY);
-//		System.out.println("Player at: " + playerX + ", " + playerY);
+		
 		if (!gameWon) {
-			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { 												
+			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { 	//tile is not a wall											
 				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);
 				if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].containsMonster())
-					this.getEngine().attackRequest();
+					this.getEngine().attackRequest(); // attack the monster
 			} else {
 				System.out.println("METOD GameWindow.mouseClicekd: Tile is NOT walkable!");
 	
@@ -367,13 +388,22 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void mouseEntered(MouseEvent arg0) {
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 */
 	public void mouseExited(MouseEvent arg0) {
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 */
 	public void mousePressed(MouseEvent arg0) {
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 */
 	public void mouseReleased(MouseEvent arg0) {
 	}
 
@@ -386,11 +416,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 */
 
 	public void keyPressed(KeyEvent e) {
-		// Current position of the player
 
-		// System.out.println("OLDPosition of Player in game:" +
-		// this.engine.getMyPlayer().getXPos() + " " +
-		// this.engine.getMyPlayer().getYPos());
 		// Ask for the keyboard entrys of the arrow keys.
 		// It is checked whether the next step is valid.
 		// Does the character stay within the borders of
@@ -426,7 +452,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			} else if (e.getKeyCode() == KeyEvent.VK_B) {
 			
 				this.getEngine().usePotionRequest();
-				
+				// press space for collecting the item
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
 			if (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isFloor()) {
@@ -436,7 +462,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			}
 			
 		}
-		} // end if gamewon
+		} 
 	}
 
 	/**
@@ -449,15 +475,16 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void keyReleased(KeyEvent e) {
 	}
-
+	
+	/**
+	 * @author Felizia Langsdorf, 6002960
+	 */
 	public void keyTyped(KeyEvent e) {
 	}
 
 	/**
 	 * method for reset the game
-	 * 
 	 * @author Felizia Langsdorf, 6002960
-	 * 
 	 */
 
 	public void resetGame() {
@@ -509,7 +536,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
 				}
-
+				
+				//repainting
 				getGameField().repaint();
 				getStatusbar().repaint();
 				if (playerCheck == true) {
@@ -544,7 +572,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 	
 	/**
-	 * method for counting up the level 
 	 * @author Felizia Langsdorf, 6002960
 	 * 
 	 */

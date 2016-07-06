@@ -9,8 +9,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * class for the menubar shown atop
- * @author Felizia Langsdorf, Matr_Nr: 6002960
+ * <h1> class for the menubar shown at the top of the window while playing <h1>
+ * @author Felizia Langsdorf, 6002960
  *
  */
 public class MenuBar extends JMenuBar implements ActionListener {
@@ -34,8 +34,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private GameWindow window;
     
     /**
-     *
-     * @author Felizia Langsdorf, Matr_Nr: 6002960
+     * @author Felizia Langsdorf, 6002960
      * @param window window of the application
      */
     
@@ -84,10 +83,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == newGame){
-			window.resetGame();
+			window.resetGame(); //new Game initialized
 			window.showGameField();
 		}else if(e.getSource() == highscore){
-			if(window.highscoreShown){
+			if(window.highscoreShown){ 
 				window.showGameField();
 				highscore.setText("Show Highscore");
 			}else{
@@ -96,7 +95,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 				controls.setText("Show Control");
 			}
 			
-		}else if(e.getSource() == showMap){
+		}else if(e.getSource() == showMap){ //then the minimap will appear 
 			if(window.minifieldShown){
 				showMap.setText("Show Mini-Map");
 				window.minifieldShown = false;
@@ -105,25 +104,24 @@ public class MenuBar extends JMenuBar implements ActionListener {
 				showMap.setText("Hide Mini-Map");
 			}		
 		}else if(e.getSource() == quit){
-			System.exit(0);
+			System.exit(0); // shuts down the whole application
 		}else if(e.getSource() == controls){
-			if(window.controlsShown){
+			if(window.controlsShown){ 
 			window.showGameField();
 			controls.setText("Show Control");
 		}else{
-			window.showControls();
+			window.showControls();//shows how to play the game
 			controls.setText("Show Gamefield");
 			highscore.setText("Show Highscore");
 		}
 		}else if(e.getSource()== LogArrow){
-			window.getEngine().serverSignOutRequest();
+			window.getEngine().serverSignOutRequest(); //logout
 		}
 	}
 	
 	/**
-	 * 
 	 * @author Felizia Langsdorf,6002960
-	 * @return highscore !!!!!xxxx ???
+	 * @return highscore 
 	 */
 	public JMenuItem getHighscore(){
 		return highscore;

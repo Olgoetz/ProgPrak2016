@@ -12,8 +12,7 @@ import javax.swing.*;
 /**
  * <h1> class for the welcome panel shows up after a successful login <h1>
  * 
- * @author Felizia Langsdorf, Matr_Nr: 6002960
- *
+ * @author Felizia Langsdorf, 6002960
  */
 
 public class MenuPanel extends JPanel implements ActionListener {

@@ -45,7 +45,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	
 	/**
 	 *
-	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 * @author Felizia Langsdorf, 6002960
 	 * @param window window of the application
 	 */
 	
@@ -73,8 +73,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		LoginPanel.add(textField_1);
-		
-		
+				
 		// password
 		JLabel logLabel_2 = new JLabel("Password");
 		LoginPanel.add(logLabel_2);
@@ -134,13 +133,13 @@ public class LoginPanel extends JPanel implements ActionListener {
 	
 	/**
 	 * actionPerformed class for the buttons
-	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 * @author Felizia Langsdorf, 6002960
 	 * @param ae ActionEvent of buttons
 	 */
 		public void actionPerformed(ActionEvent ae) {
 			if(ae.getSource()==logButton){				
-		logUsername = textField_1.getText();  //JTextfield
-		userpassword = passwordField_1.getText();	//JPasswordField
+		logUsername = textField_1.getText();  // getting the text from the JTextfield
+		userpassword = passwordField_1.getText();	//getting the content of the JPasswordField
 			window.engine.serverSignInRequest(logUsername, userpassword);
 			}else if(ae.getSource() == regButton){
 				//regUsername speichern: Olli
