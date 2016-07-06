@@ -69,12 +69,6 @@ public class Labyrinth implements Serializable {
 		// Starts to switch Rock-Tiles to Floor-Tiles, to make a maze.
 		floodFill(1, gameSize - 2, gameSize);
 		
-		// MazePerfektion
-//		if(mazePerfection(gameSize) < ((((gameSize-1)*(gameSize-1))/2)-1)){
-//			generate(gameSize,monsterNumber);
-//			return null;
-//		}
-		
 		// Places an Entry.
 		placeEntry(gameSize);
 
@@ -446,23 +440,27 @@ public class Labyrinth implements Serializable {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placeKey(int j, int gameSize) {
+	public static void placeKey(int i, int gameSize) {
 		boolean br = false;
-		for (int i = 1; i < (gameSize / 2 + 1); i++) {
+		for (int j = 1; j < gameSize; j++) {
 			if (gameMap[i][j].isFloor()) {
-				if (countNeighbors(i, j, gameSize) < 2) {
-					gameMap[i][j].setContainsKey(true);
-					br = true;
-					System.out.print("\nKey placed randomly in a blind alley.");
-					gameMap[i][j].isWalkable();
-					break;
-
+				if(!gameMap[i+1][j].isExit() && !gameMap[i-1][j].isExit() && !gameMap[i][j+1].isExit() && !gameMap[i][j-1].isExit() && !gameMap[i+1][j].isEntry() && !gameMap[i-1][j].isEntry() && !gameMap[i][j+1].isEntry() && !gameMap[i][j-1].isEntry()){
+					if (countNeighbors(i, j, gameSize) < 2) {
+						if(!gameMap[i][j].isEntry() && !gameMap[i][j].isExit() && !gameMap[i][j].containsPotion() && !gameMap[i][j].containsMonster()){
+						
+							gameMap[i][j].setContainsKey(true);
+							br = true;
+							System.out.print("\nKey placed randomly in a blind alley.");
+							gameMap[i][j].isWalkable();
+							break;
+						}
+					}
 				}
 			}
 		}
 
 		if (br == false) {
-			placeKey(j + 1, gameSize);
+			placeKey(i + 1, gameSize);
 		}
 	}
 
@@ -476,15 +474,18 @@ public class Labyrinth implements Serializable {
 	public static void placeExit(int j, int gameSize) {
 		boolean br = false;
 		
-		for (int i = (gameSize - 2); i > (gameSize/2 + 2); --i) {
+		for (int i = 1; i < gameSize; i++) {
 			if (gameMap[i][j].isFloor()) {
 				if (countNeighbors(i, j, gameSize) < 2) {
-					gameMap[i][j].setType(EXIT);
-					gameMap[i][j].setExitUnlocked(false);
-					br = true;
-					System.out.print("\nExit placed in lower left Corner\n");
-					break;
-
+					if(!gameMap[i][j].containsKey() && !gameMap[i][j].containsMonster() && !gameMap[i][j].containsPlayer() && !gameMap[i][j].containsPotion() && !gameMap[i][j].isExit() && !gameMap[i][j].isEntry()){
+							
+						gameMap[i][j].setType(EXIT);
+						gameMap[i][j].setExitUnlocked(false);
+						br = true;
+						System.out.print("\nExit placed in lower left Corner\n");
+						break;
+						
+					}
 				}
 			}
 		}
