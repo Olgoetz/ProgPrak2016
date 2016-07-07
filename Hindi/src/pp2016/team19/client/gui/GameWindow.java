@@ -20,7 +20,7 @@ import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
 
 /**
- * <h1> class for the window of the whole application <h1>
+ * <h1> class for the window of the whole application. <h1>
  * 
  * @author Felizia Langsdorf, Matr_Nr: 6002960
  *
@@ -379,13 +379,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 			}
 		}
 	}
+	
+	//remaining methods of the MouseListener Interface which have to be implemented 
 
 	/**
-	 * remaining methods of the MouseListener Interface which have to be
-	 * implemented 
-	 * 
 	 * @author Felizia Langsdorf, 6002960
-	 * 
+	 * @param arg0 
 	 */
 
 	public void mouseEntered(MouseEvent arg0) {
@@ -393,18 +392,21 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960
+	 * @param arg0
 	 */
 	public void mouseExited(MouseEvent arg0) {
 	}
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960
+	 * @param arg0
 	 */
 	public void mousePressed(MouseEvent arg0) {
 	}
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960
+	 * @param arg0
 	 */
 	public void mouseReleased(MouseEvent arg0) {
 	}
@@ -585,7 +587,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * @author Felizia Langsdorf, 6002960 
 	 * @param playerCheck
-	 * @return playerCheck
+	 * 
 	 */
 	public void setTest(boolean playerCheck) {
 		this.playerCheck = playerCheck;

@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * <h1> system messages frame <h1>
+ * <h1> system messages frame. <h1>
  * 
  * @author Felizia Langsdorf, 6002960
  */
@@ -37,6 +37,11 @@ public class SystemMessages extends JFrame {
 		messages.setWrapStyleWord(true);
 		messages.setEditable(false); //not editable
 		messages.setVisible(true);
+		
+		// for(i=0; i < 11; i++ ) {
+//		messages.append( strings aus der schlange + line);
+	
+//	}
 		messages.append("hallo 123 huhuuu juhulaekhröglhsargoihdfgohgä" + line);
 		messages.append("zweite message hier bin ich"+ line);
 		messages.append("blubiibibisaoishg"+ line);

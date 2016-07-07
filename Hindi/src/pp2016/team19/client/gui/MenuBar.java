@@ -9,7 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * <h1> class for the menubar shown at the top of the window while playing <h1>
+ * <h1> class for the menubar shown at the top of the window while playing. <h1>
  * @author Felizia Langsdorf, 6002960
  *
  */
