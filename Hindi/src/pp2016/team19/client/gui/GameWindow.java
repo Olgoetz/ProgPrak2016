@@ -168,39 +168,36 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setTitle(title);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
-
-
-	
+	}	
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * sets the login panel in the window after logout in the menu
+	 * sets the login panel in the window after logout
 	 * 
 	 */
 	
 	public void showLogin() {
-		if(menuShown){
+		if(menuShown){ // if the user is in the menu 
 		menuShown = false;
 		loginShown = true;
-		this.remove(menupanel);
-		this.add(loginpanel, BorderLayout.CENTER);
+		this.remove(menupanel); //remove menu 
+		this.add(loginpanel, BorderLayout.CENTER); //add the loginpanel in the window
 		this.requestFocus();
 		this.pack();
 		loginpanel.repaint(); 
-		}else{
+		}else{ //if user is logging out after playing
 			highscoreShown = false;
 			controlsShown = false;
 			gamefieldShown = false;
 			menuShown = false;
 			loginShown = true;
-			this.remove(highscore);
+			this.remove(highscore); //remove everything
 			this.remove(controls);
 			this.remove(gamefield);
 			this.remove(menubar);
 			this.remove(statusbar);
 			this.remove(menupanel);
-			this.add(loginpanel, BorderLayout.CENTER);
+			this.add(loginpanel, BorderLayout.CENTER); //add the loginpanel in the window
 			this.requestFocus();
 			this.pack();
 			loginpanel.repaint();			
@@ -299,7 +296,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter gamefield
+	 * @return gamefield
 	 */
 
 	public GameField getGameField() {
@@ -308,7 +305,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter statusbar
+	 * @return statusbar
 	 */
 
 	public Statusbar getStatusbar() {
@@ -317,7 +314,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter highscore
+	 * @return highscore
 	 */
 
 	public Highscore getHighscore() {
@@ -326,7 +323,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter control
+	 * @return controls
 	 */
 
 	public Controls getControls() {
@@ -335,7 +332,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter menu 
+	 * @return menupanel
+	 * 
 	 */
 
 	public MenuPanel getMenuPanel() {
@@ -344,7 +342,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * getter login
+	 * @return loginpanel
 	 */
 
 	public LoginPanel getLoginPanel() {
@@ -372,7 +370,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		
 		if (!gameWon) {
 			if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].isRock()) { 	//tile is not a wall											
-				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY);
+				this.getEngine().aStarRequest(playerX+mouseX, playerY+mouseY); //player moves to clicked position with a*
 				if (!this.getEngine().getLabyrinth()[playerX+mouseX][playerY+mouseY].containsMonster())
 					this.getEngine().attackRequest(); // attack the monster
 			} else {
@@ -448,7 +446,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				this.engine.moveCharacterRequest(this.engine.getMyPlayer().getXPos(),
 						this.engine.getMyPlayer().getYPos(), 3);
 
-			
+				//attack monster with Q
 			} else if (e.getKeyCode() == KeyEvent.VK_Q) {
 				this.getEngine().attackRequest();
 				
@@ -492,24 +490,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 */
 
 	public void resetGame() {
-
-		// TODO: Server Request f�r GameRestart
-		// player = new Player("img//player.png", this);
-//		this.engine.startGameRequest(this.engine.getPlayerID());		// TOOOBIIIIIII :DDDDDDD
-		// spiel zurücksetzen, was muss alles ausgeführt werden, welche
-		// variablen gesetzt werden :)
-
-		// das war im alten code drin! hier wurde auch das level "übergeben"!!!
-
-		// spieler = new Spieler("img//warrior.png", this);
-		// monsterListe = new LinkedList<Monster>();
-		// level = new Spielelement[16][16];
-		// this.player = this.engine.getMyPlayer();
-		// System.out.println("METHOD GameWindow.resetGame:" +
-		// this.player.toString());
-
+		
 		level = this.engine.getLabyrinth();
-
+		//set the level to 0 again
 		currentLevel = 0;
 		gameWon = false;
 		gameLost = false;
@@ -517,7 +500,6 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		nextLevel();
 		playerInHighscore = false;
 		startTime = System.currentTimeMillis();
-
 	}
 
 	/**
@@ -533,7 +515,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		resetGame();
 
 		do {
-
+			// game is not yet won 
 			if (!gameWon) {
 				// Every 50ms the map is repainted
 				try {
@@ -547,12 +529,12 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				if (playerCheck == true) {
 					this.player = this.getEngine().getMyPlayer();
 
-				} // ende testt
+				} 
 			} else {
-				neededTime = (int) ((System.currentTimeMillis() - startTime) / 1000);
+				neededTime = (int) ((System.currentTimeMillis() - startTime) / 1000); //past time
 
 				if (!gameLost && !playerInHighscore) {
-					getHighscore().addPlayerToHighScore(neededTime);
+					getHighscore().addPlayerToHighScore(neededTime); //add the player to highscore
 					getHighscore().repaint();
 					playerInHighscore = true;
 				} else {
@@ -577,6 +559,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960
+	 * @return engine
 	 * 
 	 */
 	public ClientEngine getEngine() {
@@ -585,13 +568,15 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960
+	 * @return player
 	 */
 	public Player getPlayer() {
 		return this.player;
 	}
 	
 	/**
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Felizia Langsdorf, 6002960
+	 * @return level
 	 */
 	public Tile[][] getLevel() {
 		return this.level;
@@ -599,6 +584,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * @author Felizia Langsdorf, 6002960 
+	 * @param playerCheck
+	 * @return playerCheck
 	 */
 	public void setTest(boolean playerCheck) {
 		this.playerCheck = playerCheck;
