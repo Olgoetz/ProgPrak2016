@@ -73,7 +73,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 			window.getEngine().getThreadPool().execute(window);
 
 		} else if (ae.getSource() == b2) {
-			window.showLogin(); // here's going to be a proper method for
+			window.engine.serverSignOutRequest();
+			//window.showLogin(); // here's going to be a proper method for
 								// logging out
 		}
 	}

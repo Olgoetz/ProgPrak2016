@@ -171,13 +171,38 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 
+	
+	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
-	 * sets the login panel in the window
+	 * sets the login panel in the window after logout in the menu
+	 * 
+	 */
+	
+	public void showLogin() {
+		highscoreShown = false;
+		controlsShown = false;
+		gamefieldShown = false;
+		menuShown = false;
+		loginShown = true;
+//		this.remove(highscore);
+//		this.remove(controls);
+//		this.remove(gamefield);
+//		this.remove(menubar);
+//		this.remove(statusbar);
+		this.remove(menupanel);
+		this.add(loginpanel, BorderLayout.CENTER);
+		this.requestFocus();
+		this.pack();
+		loginpanel.repaint();
+	}
+/**
+	 * @author Felizia Langsdorf, 6002960 
+	 * sets the login panel in the window after logging out after playing
 	 * 
 	 */
 
-	public void showLogin() {
+	public void showLoginP() {
 		highscoreShown = false;
 		controlsShown = false;
 		gamefieldShown = false;
@@ -194,7 +219,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.pack();
 		loginpanel.repaint();
 	}
-
+	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
 	 * sets the menu panel in the window
