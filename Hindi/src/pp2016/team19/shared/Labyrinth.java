@@ -83,12 +83,6 @@ public class Labyrinth implements Serializable {
 
 		// Places a number of Monster.
 		placeMonster(gameSize,monsterNumber);
-		
-		
-		// Counter:
-		System.out.println("\n\nGameSize: " + ((gameSize-1) * (gameSize-1)));
-		System.out.println("MazeSize Perfect: " +  ((((gameSize-1) * (gameSize-1))/2)-1));
-		System.out.println("MazeSize Generated: " + mazePerfection(gameSize));
 
 		return gameMap;
 	}
@@ -388,7 +382,7 @@ public class Labyrinth implements Serializable {
 			gameMap[x][y].setContainsMonster(true);
 		
 		}
-		System.out.print("\n" + monsterNumber + " Monster placed randomly over the map.");
+		
 	}
 	
 	// NEU kommentieren!
@@ -482,7 +476,6 @@ public class Labyrinth implements Serializable {
 						gameMap[i][j].setType(EXIT);
 						gameMap[i][j].setExitUnlocked(false);
 						br = true;
-						System.out.print("\nExit placed in lower left Corner\n");
 						break;
 						
 					}
@@ -502,7 +495,6 @@ public class Labyrinth implements Serializable {
 							gameMap[i][j].setType(EXIT);
 							gameMap[i][j].setExitUnlocked(false);
 							br = true;
-							System.out.print("\nExit placed in lower left Corner\n");
 							break;
 							
 
@@ -525,7 +517,6 @@ public class Labyrinth implements Serializable {
 	public static void placeEntry(int gameSize) {
 		gameMap[1][gameSize - 2].setType(ENTRY);
 		gameMap[1][gameSize - 2].setContainsPlayer(true);
-		System.out.print("\nEntry placed in upper right Corner");
 	}
 	
 	/**
@@ -727,18 +718,9 @@ public class Labyrinth implements Serializable {
 					System.out.print("o ");
 
 				}
-				
-			
-
-
 			}
 			System.out.println("");
 		}
-		
-		// Monster Coordinates:
-		System.out.println("\n X Koordinate des 1 Monsters: " + monsterList_x(gameSize, monsterNumber, 0));
-		System.out.println("\n Y Koordinate des 1 Monsters: " + monsterList_y(gameSize, monsterNumber, 0));
-		System.out.println("\n X Koordinate des 2 Monsters: " + monsterList_x(gameSize, monsterNumber, 1));
-		System.out.println("\n Y Koordinate des 2 Monsters: " + monsterList_y(gameSize, monsterNumber, 1));
+
 	}
 }
