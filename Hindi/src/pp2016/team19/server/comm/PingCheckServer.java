@@ -44,12 +44,14 @@ public class PingCheckServer extends TimerTask {
 	@Override
 	public void run() {
 		pingIteration++;
-
 		if (this.networkHandler.getConnectedState1() && this.networkHandler.getConnectedState2()) {
+			// the pingOne() is sending a Ping-Message and checks the Connection as the first attempt
 			pingOne();
 		} else if (!this.networkHandler.getConnectedState1() && this.networkHandler.getConnectedState2()) {
+			// the pingTwo() is sending a Ping-Message and checks the Connection as the second attempt
 			pingTwo();
 		} else if (!this.networkHandler.getConnectedState1() && !this.networkHandler.getConnectedState2()) {
+			// Closing the connection between Server and Client after two attempts 
 			stopConnection();
 		}
 	}
@@ -65,6 +67,7 @@ public class PingCheckServer extends TimerTask {
 		this.networkHandler.setCloseNetwork(false);
 		this.networkHandler.setConnectedState1(false);
 		this.networkHandler.setConnectedState2(false);
+		//Sends a Ping-Message
 		this.networkHandler.sendMessageToClient(new MessPing(100, 0));
 	}
 
@@ -78,6 +81,7 @@ public class PingCheckServer extends TimerTask {
 	private void pingOne() {
 		this.networkHandler.setCloseNetwork(false);
 		this.networkHandler.setConnectedState1(false);
+		//Sends a Ping-Message
 		this.networkHandler.sendMessageToClient(new MessPing(100, 0));
 	}
 
@@ -90,13 +94,17 @@ public class PingCheckServer extends TimerTask {
 	private void stopConnection() {
 
 		System.out.println("PingCheckServer STOPTHREADS for Server after " + pingIteration + " Pings");
+		//Cancelling the TimerTask 
 		this.cancel();
+		//Closing the Sockets
 		this.networkHandler.close();
 		try {
 			System.out.println(
 					"Connection to Client lost (PINGCHECK)! \n\n Please insure, that the Client was not stopped! \n Start the game again afterwards!");
+			//Closes the Client-Socket
 			this.networkHandler.getClient().close();
 			System.out.println("PINGCHECKSERVER: CLIENT CLOSED");
+			//Closes the ServerSocket
 			this.networkHandler.getServer().close();
 			System.out.println("PINGCHECKSERVER: SERVER CLOSED");
 		}catch (SocketException e) {

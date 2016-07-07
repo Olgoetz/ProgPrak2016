@@ -63,6 +63,7 @@ public class HandlerClient {
 				System.exit(0);
 			}
 		}
+		// Starts the Threads and the TimerTask
 		startComponents();
 	}
 
@@ -76,15 +77,15 @@ public class HandlerClient {
 	 */
 	private void startComponents() {
 		System.out.println("HandlerClient.startComponents()");
+		// Initializing and starting the Threads for receiving and transmitting
+		// messages
 		transmitter = new TransmitterClient(server);
 		receiver = new ReceiverClient(server, this);
 		transmitter.start();
 		receiver.start();
-		/*
-		 * The Timer 'pingTimer' executes the TimerTask-PingCheckClient within a
-		 * certain interval
-		 */
-		this.pingTimer.scheduleAtFixedRate(new PingCheckClient(this), 10000, 10000);
+		// The Timer 'pingTimer' executes the TimerTask-PingCheckClient within a
+		// certain interval
+		this.pingTimer.scheduleAtFixedRate(new PingCheckClient(this), 3000, 3000);
 	}
 
 	/**
@@ -99,9 +100,12 @@ public class HandlerClient {
 	public void close(String errorMessage) {
 		try {
 			System.out.println("CLOSED: HandlerClient");
+			//Cancelling the Timer
 			this.pingTimer.cancel();
+			//Closing the Socket
 			this.getServer().close();
 			System.out.println(errorMessage);
+			//Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HandlerClient.close(String errorMessage)");
@@ -118,7 +122,7 @@ public class HandlerClient {
 	 *            ObjectOutputStream and sent to the Server
 	 */
 	public void sendMessageToServer(Message message) {
-		// System.out.println("HandlerClient.sendMessageToServer()");
+		// Writes the Message into the ObjectOutputStream
 		transmitter.writeMessage(message);
 	}
 
@@ -129,6 +133,7 @@ public class HandlerClient {
 	 * @return the Message-object that is read from the ObjectInputStream
 	 */
 	public Message getMessageFromServer() {
+		// Getting the Message from the LinkedBlockingQueue 'messagesFromServer'
 		return receiver.getMessage();
 	}
 
