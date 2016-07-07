@@ -58,7 +58,7 @@ public class TransmitterClient extends Thread {
 		try {
 			/*
 			 * The Stream header is written to the OutputStream and referring to
-			 * the appropriate OutputStream. The BufferedOutputStream is
+			 * the appropriate OutputStream. The ObjectOutputStream is
 			 * allowing to write Data into the OutputStream.
 			 */
 			out = new ObjectOutputStream(server.getOutputStream());

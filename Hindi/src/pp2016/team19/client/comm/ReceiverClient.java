@@ -61,7 +61,7 @@ public class ReceiverClient extends Thread {
 		try {
 			/*
 			 * The Stream header is read from the InputStream that refers to the
-			 * appropriate InputStream. The BufferedInputStream is allowing to
+			 * appropriate InputStream. The ObjectInputStream is allowing to
 			 * save the arguments of the InputStream.
 			 */
 			in = new ObjectInputStream(server.getInputStream());
