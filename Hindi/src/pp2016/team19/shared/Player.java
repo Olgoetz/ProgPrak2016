@@ -50,6 +50,12 @@ public class Player extends Character implements Serializable {
 		setName("Anonymous");
 	}
 
+	public void reset() {
+		setNumberOfPotions(0);
+		setPos(0, 0);
+		setHealth(100);
+	}
+	
 	public LinkedList<Node> moveToPos(int xGoal, int yGoal) {
 		if (pathToPos.isEmpty()) {
 			pathToPos = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);

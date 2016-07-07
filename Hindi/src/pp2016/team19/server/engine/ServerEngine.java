@@ -27,6 +27,7 @@ public class ServerEngine implements Runnable {
 	HandlerServer network = new HandlerServer();
 	private boolean playerIsNew;
 	private boolean playerFound;
+	private int currentPlayerID;
 
 	/**
 	 * Constructor sets Message Queues for communication
@@ -43,6 +44,7 @@ public class ServerEngine implements Runnable {
 
 	/**
 	 * Keeps processing Messages
+	 *  @author Tobias Schrader
 	 */
 	public void run() {
 		System.out.println("METHOD ServerEngine.run: Started");
@@ -68,6 +70,7 @@ public class ServerEngine implements Runnable {
 	 * Determines action depending on type and subtype
 	 * 
 	 * @param message
+	 *  @author Tobias Schrader
 	 */
 	public void distributor(Message message) {
 		switch (message.getType()) {
@@ -109,6 +112,7 @@ public class ServerEngine implements Runnable {
 	private void newGame(Message pmessage) {
 		MessStartGameRequest message = (MessStartGameRequest) pmessage;
 		Player player = players.get(message.getPlayerID());
+		System.out.println(player.isLoggedIn());
 		if (player.isLoggedIn()) {
 		startGame(message.getPlayerID(), player);
 		}
@@ -128,10 +132,11 @@ public class ServerEngine implements Runnable {
 	 * Forwards player actions to game
 	 * 
 	 * @param message
+	 *  @author Tobias Schrader
 	 */
 	private void sendToGame(Message message) {
 		try {
-			games.get(0).messagesFromServer.put(message);
+			games.get(currentPlayerID).messagesFromServer.put(message);
 			System.out.println("METHOD ServerEngine.sendToGame: Messages forwarded");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -143,6 +148,7 @@ public class ServerEngine implements Runnable {
 	 * Checks Log-In information, starts new game if correct
 	 * 
 	 * @param message
+	 *  @author Tobias Schrader
 	 */
 
 	private void signInRequest(Message pmessage) {
@@ -156,6 +162,7 @@ public class ServerEngine implements Runnable {
 				if (player.getPassword().equals(message.getPassword())) {
 					System.out.println("METHOD ServerEngine.SignInRequest: Log-In successful");
 					player.logIn();
+					currentPlayerID = players.indexOf(player);
 					Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.indexOf(player), 0,
 							3);
 					try {
@@ -193,6 +200,7 @@ public class ServerEngine implements Runnable {
 //		if(this.games.get(ID)!=null) {
 //		this.games.get(ID).stopGame();
 //		}
+		player.reset();
 		this.games.set(ID, new Game(this, player, 16));
 		System.out.println("METHOD SE.startGame: game.gameEnded: "+this.games.get(ID).gameEnded);
 		System.out.println("METHOD SE.startGame: game.tester: "+this.games.get(ID).tester);
@@ -213,6 +221,7 @@ public class ServerEngine implements Runnable {
 		games.get(message.getPlayerID()).stopGame();
 		}
 		players.get(message.getPlayerID()).logOut();
+		
 		Message answer = (MessSignOutAnswer) new MessSignOutAnswer(true,0,9);
 		try {
 			this.messagesToClient.put(answer);
@@ -241,8 +250,10 @@ public class ServerEngine implements Runnable {
 		if (playerIsNew) {
 			Player player=new Player(message.getUsername(),message.getPassword());
 			players.add(player);
+			player.logIn();
 			games.add(null);
 			System.out.println("Player registered");
+			currentPlayerID = players.size() - 1;
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
 			try {
 				this.messagesToClient.put(answer);
