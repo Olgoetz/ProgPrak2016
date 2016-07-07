@@ -321,6 +321,11 @@ public class ClientEngine implements Runnable {
 	}
 	
 	
+	/**
+	 * @author Oliver Goetz, 5961343
+	 * 
+	 */
+	
 	public void serverSignOutRequest() {
 		System.out.println("METHOD ClientEngine.serverSignOutRequest: SignOutRequest sent!");
 		this.sendToServer(new MessSignOutRequest(this.playerID,0,8));
@@ -331,7 +336,6 @@ public class ClientEngine implements Runnable {
 		MessSignOutAnswer message = (MessSignOutAnswer) pMessage;
 		if (message.isConfirmed()) {
 			this.getGameWindow().showLogin();
-			this.gamewindow.gameWon = message.isConfirmed();
 		}
 	}
 
