@@ -180,45 +180,32 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 */
 	
 	public void showLogin() {
-		highscoreShown = false;
-		controlsShown = false;
-		gamefieldShown = false;
+		if(menuShown){
 		menuShown = false;
 		loginShown = true;
-//		this.remove(highscore);
-//		this.remove(controls);
-//		this.remove(gamefield);
-//		this.remove(menubar);
-//		this.remove(statusbar);
 		this.remove(menupanel);
 		this.add(loginpanel, BorderLayout.CENTER);
 		this.requestFocus();
 		this.pack();
-		loginpanel.repaint();
-	}
-/**
-	 * @author Felizia Langsdorf, 6002960 
-	 * sets the login panel in the window after logging out after playing
-	 * 
-	 */
-
-	public void showLoginP() {
-		highscoreShown = false;
-		controlsShown = false;
-		gamefieldShown = false;
-		menuShown = false;
-		loginShown = true;
-		this.remove(highscore);
-		this.remove(controls);
-		this.remove(gamefield);
-		this.remove(menubar);
-		this.remove(statusbar);
-		this.remove(menupanel);
-		this.add(loginpanel, BorderLayout.CENTER);
-		this.requestFocus();
-		this.pack();
-		loginpanel.repaint();
-	}
+		loginpanel.repaint(); 
+		}else{
+			highscoreShown = false;
+			controlsShown = false;
+			gamefieldShown = false;
+			menuShown = false;
+			loginShown = true;
+			this.remove(highscore);
+			this.remove(controls);
+			this.remove(gamefield);
+			this.remove(menubar);
+			this.remove(statusbar);
+			this.remove(menupanel);
+			this.add(loginpanel, BorderLayout.CENTER);
+			this.requestFocus();
+			this.pack();
+			loginpanel.repaint();			
+		}		
+	}	
 	
 	/**
 	 * @author Felizia Langsdorf, 6002960 
@@ -227,16 +214,8 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 */
 
 	public void showMenu() {
-//		highscoreShown = false;
-//		controlsShown = false;
-//		gamefieldShown = false;
 		loginShown = false;
 		menuShown = true;
-//		this.remove(highscore);
-//		this.remove(controls);
-//		this.remove(gamefield);
-//		this.remove(menubar);
-//		this.remove(statusbar);
 		this.remove(loginpanel);
 		this.add(menupanel, BorderLayout.CENTER);
 		this.requestFocus();

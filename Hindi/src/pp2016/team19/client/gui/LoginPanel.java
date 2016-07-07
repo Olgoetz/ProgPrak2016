@@ -149,6 +149,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 				regUsername = textField_2.getText();
 				regPassword1 = passwordField_2.getText();
 				regPassword2 = passwordField_3.getText();
+				window.gamefieldShown = false;
 				window.engine.serverSignUpRequest(regUsername, regPassword1, regPassword2);							
 			}
 
