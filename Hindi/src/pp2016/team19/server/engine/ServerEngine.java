@@ -209,7 +209,9 @@ public class ServerEngine implements Runnable {
 
 	private void signOutRequest(Message pmessage) {
 		MessSignOutRequest message = (MessSignOutRequest) pmessage;
+		if (games.get(message.getPlayerID())!=null) {
 		games.get(message.getPlayerID()).stopGame();
+		}
 		players.get(message.getPlayerID()).logOut();
 		Message answer = (MessSignOutAnswer) new MessSignOutAnswer(true,0,9);
 		try {
