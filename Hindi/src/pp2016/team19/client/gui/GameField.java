@@ -17,7 +17,7 @@ import javax.*;
 
 
 /**
- * <h1> class for gamefield-panel <h1>
+ * <h1> class for gamefield-panel. <h1>
  * @author Felizia Langsdorf, Matr_Nr.: 6002960
  *
  */

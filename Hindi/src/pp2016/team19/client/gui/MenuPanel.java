@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- * <h1> class for the welcome panel shows up after a successful login <h1>
+ * <h1> class for the welcome panel shows up after a successful login. <h1>
  * 
  * @author Felizia Langsdorf, 6002960
  */
@@ -73,9 +73,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 			window.getEngine().getThreadPool().execute(window);
 
 		} else if (ae.getSource() == b2) {
-			window.engine.serverSignOutRequest();
-			//window.showLogin(); // here's going to be a proper method for
-								// logging out
+			window.engine.serverSignOutRequest(); //logout
 		}
 	}
 
