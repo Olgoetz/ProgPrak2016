@@ -42,7 +42,7 @@ public class ClientEngine implements Runnable {
 
 	// game attributes
 	private int playerID;
-	private Player myPlayer;
+	private Player myPlayer = new Player();
 	private LinkedList<Monster> myMonsterList;
 	private Tile[][] labyrinth;
 	private boolean gamewon;
@@ -331,6 +331,7 @@ public class ClientEngine implements Runnable {
 		MessSignOutAnswer message = (MessSignOutAnswer) pMessage;
 		if (message.isConfirmed()) {
 			this.getGameWindow().showLogin();
+			this.gamewindow.gameWon = message.isConfirmed();
 		}
 	}
 
