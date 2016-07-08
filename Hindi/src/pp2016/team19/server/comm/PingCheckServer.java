@@ -96,8 +96,7 @@ public class PingCheckServer extends TimerTask {
 		System.out.println("PingCheckServer STOPTHREADS for Server after " + pingIteration + " Pings");
 		//Cancelling the TimerTask 
 		this.cancel();
-		//Closing the Sockets
-		this.networkHandler.close();
+		
 		try {
 			System.out.println(
 					"Connection to Client lost (PINGCHECK)! \n\n Please insure, that the Client was not stopped! \n Start the game again afterwards!");
@@ -117,6 +116,8 @@ public class PingCheckServer extends TimerTask {
 			System.out.println("Socket ERROR for HandlerServer resulting in PingCheckServer");
 			e.printStackTrace();
 		}
+		//Closing the Sockets
+				this.networkHandler.close();
 	}
 
 }

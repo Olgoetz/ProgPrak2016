@@ -33,6 +33,16 @@ public class HandlerServer {
 	private boolean connectedState2;
 
 	/**
+	 * Executes the init() method, so that the connection between the Server an
+	 * the Client can be built.
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
+	public HandlerServer() {
+		init();
+	}
+
+	/**
 	 * Builds the ServerSocket for the Server-Side and starts the Threads for
 	 * sending and receiving through ReceiverServer and TransmitterServer. Also
 	 * listens to connections that want to be made to the ServerSocket. The
@@ -40,8 +50,8 @@ public class HandlerServer {
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
-	public HandlerServer() {
-		// The instance of Timer 'pingTimer' is build and later executes the
+	public void init() {
+		// The instance of Timer 'pingTimer' is built, that later executes the
 		// TimerTask-PingCheckServer within a certain interval
 		pingTimer = new Timer();
 		this.connectedState1 = true;
@@ -74,13 +84,12 @@ public class HandlerServer {
 			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
-
 	}
 
 	/**
 	 * Closing the Socket, the TimerTask and stops the running of the
 	 * application. This method allows to stop the connection between Server and
-	 * Client.
+	 * Client. Starts the connection again with a Client-Socket.
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
@@ -89,19 +98,21 @@ public class HandlerServer {
 		try {
 			System.out.println("CLOSED: HandlerServer");
 			this.setCloseNetwork(true);
-			// Canscels the Timer
+			// Cancels the Timer
 			this.pingTimer.cancel();
-			// Closing the Socket
-			this.client.close();
 			this.setConnected(false);
 			// Stops the Thread for receiving the messages
 			this.receiver.interrupt();
 			// Stops the Thread for transmitting the messages
 			this.transmitter.interrupt();
+			// Closing the Socket
+			this.client.close();
 			// Closing the ServerSocket
 			this.server.close();
+			// Starts the connection with a Client
+			this.init();
 			// Terminates the currently running Java Virtual Machine
-			System.exit(1);
+			// System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER");
 			e.printStackTrace();
@@ -139,7 +150,7 @@ public class HandlerServer {
 	 *            ObjectOutputStream and sent to the Client
 	 */
 	public void sendMessageToClient(Message message) {
-		//Writes the Message into the ObjectOutputStream
+		// Writes the Message into the ObjectOutputStream
 		transmitter.writeMessage(message);
 	}
 

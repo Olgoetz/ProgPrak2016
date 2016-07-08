@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -86,16 +87,16 @@ public class ReceiverServer extends Thread {
 			System.out.println("readObject() ERROR in RECEIVERSERVER.receiveMessage()");
 			e.printStackTrace();
 		} finally {
-			try {
-				System.out.println("InputStream is closed: RECEIVERSERVER");
-				//Closes the input stream
-				this.in.close();
-			} catch (IOException e) {
-				System.out.println("ERROR: RECEIVERSERVER");
-				e.printStackTrace();
-			}
+//			try {
+//				System.out.println("InputStream is closed: RECEIVERSERVER");
+//				//Closes the input stream
+//				this.in.close();
+//			} catch (IOException e) {
+//				System.out.println("ERROR: RECEIVERSERVER");
+//				e.printStackTrace();
+//			}
 			//Terminates the currently running Java Virtual Machine
-			System.exit(1);
+//			System.exit(1);
 		}
 	}
 

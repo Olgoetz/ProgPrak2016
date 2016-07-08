@@ -82,17 +82,17 @@ public class TransmitterServer extends Thread {
 		} catch (IOException | InterruptedException e) {
 			System.out.println("ERROR: TRANSMITTERSERVER resulting in transmitMessage()");
 			e.printStackTrace();
-		} finally {
-			try {
-				System.out.println("OutputStream is closed: TRANSMITTERSERVER");
-				// Closes the output stream
-				this.out.close();
-			} catch (IOException e) {
-				System.out.println("ERROR: TRANSMITTERSERVER in transmitMessage()");
-				e.printStackTrace();
-			}
+		} finally {	
+//			try {
+//				System.out.println("OutputStream is closed: TRANSMITTERSERVER");
+//				// Closes the output stream
+//				this.out.close();
+//			} catch (IOException e) {
+//				System.out.println("ERROR: TRANSMITTERSERVER in transmitMessage()");
+//				e.printStackTrace();
+//			}
 			// Terminates the currently running Java Virtual Machine
-			System.exit(1);
+//			System.exit(1);
 		}
 	}
 
