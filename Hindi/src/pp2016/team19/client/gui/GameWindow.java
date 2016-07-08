@@ -459,9 +459,9 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 				// press space for collecting the item
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
-			if (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isFloor()) {
+			if (this.getEngine().getLabyrinth()[this.getEngine().getMyPlayer().getXPos()][this.getEngine().getMyPlayer().getYPos()].isFloor()) {
 				this.engine.collectItemRequest();
-			} else if  (this.getEngine().getLabyrinth()[this.getPlayer().getXPos()][this.getPlayer().getYPos()].isExit()) {
+			} else if  (this.getEngine().getLabyrinth()[this.getEngine().getMyPlayer().getXPos()][this.getEngine().getMyPlayer().getYPos()].isExit()) {
 				this.engine.openDoorRequest();
 			}
 			
@@ -502,6 +502,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		nextLevel();
 		playerInHighscore = false;
 		startTime = System.currentTimeMillis();
+		
 	}
 
 	/**

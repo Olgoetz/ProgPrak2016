@@ -10,5 +10,6 @@
  * 		   has been started.
  * <p>
  * 
+ * @author Oliver Goetz, 5961343
  */
 package pp2016.team19.client.engine;

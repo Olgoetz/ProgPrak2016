@@ -12,13 +12,20 @@ import java.io.Serializable;
  */
 public class MessAstarAnswer extends Message implements Serializable {
 
-	
+	/**
+	 * 
+	 * Special attributes for the AstarAnswer.
+	 * @author Oliver Goetz, 5961343
+	 * 
+	 */
 	private static final long serialVersionUID = 7041547849671854239L;
 	private Player myPlayer;
 	
 	/**
+	 * Message object, that is sent to the server.
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param confirmed ???
+	 * @param plyer the player object
 	 * @param type the maintype (=1) of the message
 	 * @param subType the subtype (=11) of the message
 	 */
@@ -28,9 +35,22 @@ public class MessAstarAnswer extends Message implements Serializable {
 		this.myPlayer = player;
 	}
 	
+	/**
+	 * Sets the player.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param player
+	 */
+	
 	public void setMyPlayer(Player player) {
 		this.myPlayer = player;
 	}
+	
+	/**
+	 * Gets the player.
+	 * @author Oliver Goetz, 5961343
+	 * @return the player
+	 */
 	
 	public Player getMyPlayer() {
 		return myPlayer;
