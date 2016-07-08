@@ -56,29 +56,23 @@ public class TransmitterClient extends Thread {
 	 */
 	private void transmitMessage() {
 		try {
-			/*
-			 * The Stream header is written to the OutputStream and referring to
-			 * the appropriate OutputStream. The ObjectOutputStream is
-			 * allowing to write Data into the OutputStream.
-			 */
+
+			// The Stream header is written to the OutputStream and referring to
+			// the appropriate OutputStream. The ObjectOutputStream is
+			// allowing to write Data into the OutputStream.
 			out = new ObjectOutputStream(server.getOutputStream());
 			while (true) {
-				/*
-				 * The Thread is waiting before the messages can be polled from
-				 * the Queue
-				 */
+				// The Thread is waiting before the messages can be polled from
+				// the Queue
 				messageTS = messagesToServer.poll(100, TimeUnit.MILLISECONDS);
 				if (messageTS != null) {
+					// Writes the Message into the output stream
 					out.writeObject(messageTS);
-					/*
-					 * The OutputStream is flushed so that the Data is sent
-					 * entirely
-					 */
+					// The OutputStream is flushed so that the Data is sent
+					// entirely
 					out.flush();
-					/*
-					 * The OutputStream is reseted so the Stream has the state
-					 * of 'new ObjectOutputStream'
-					 */
+					// The OutputStream is reseted so the Stream has the state
+					// of 'new ObjectOutputStream'
 					out.reset();
 				}
 			}
@@ -94,11 +88,13 @@ public class TransmitterClient extends Thread {
 		} finally {
 			try {
 				System.out.println("OutputStream is closed: TRANSMITTERCLIENT");
+				//Closing the output stream
 				this.out.close();
 			} catch (IOException e) {
 				System.out.println("ERROR: TRANSMITTERCLIENT in transmitMessage()");
 				e.printStackTrace();
 			}
+			//Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
 	}
@@ -125,6 +121,7 @@ public class TransmitterClient extends Thread {
 	 */
 	public void writeMessage(Message message) {
 		try {
+			//Puts the Message into the LinkedBlockingQueue 'messagesToServer'
 			this.messagesToServer.put(message);
 		} catch (InterruptedException e) {
 			System.out.println("ERROR: TRANSMITTERCLIENT.writeMessage(Message message)");
@@ -138,7 +135,7 @@ public class TransmitterClient extends Thread {
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the LinkedBlockingQueue<Message> that gathers the Message-objects
-	 *         that are going to be sent to the Server 
+	 *         that are going to be sent to the Server
 	 */
 	public LinkedBlockingQueue<Message> getQueueMessagesToServer() {
 		return messagesToServer;

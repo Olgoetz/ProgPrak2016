@@ -60,12 +60,17 @@ public class ReceiverServer extends Thread {
 		try {
 			in = new ObjectInputStream(client.getInputStream());
 			while (true) {
+				// The Thread is waiting before the messages can be read and
+				// saved in the Queue by executing Thread.yield()
 				ThreadWaitForMessage.waitFor(100L);
+				// Reads the Message from the input stream
 				messageFC = (Message) in.readObject();
 				this.networkHandler.setConnectedState1(true);
 				this.networkHandler.setConnectedState2(true);
 				// System.out.println(messageFC.toString());
 				if (messageFC != null) {
+					// Puts the Message into the LinkedBlockingQueue
+					// 'messagesFromClient'
 					messagesFromClient.put(messageFC);
 				}
 			}
@@ -73,6 +78,7 @@ public class ReceiverServer extends Thread {
 			System.out.println("ERROR ObjectInputStream: RECEIVERSERVER");
 			e.printStackTrace();
 		} catch (SocketException e) {
+			//Closes Connection between Server and Client
 			this.networkHandler.close();
 			System.out.println("ERROR SocketException: RECEIVERSERVER");
 			e.printStackTrace();
@@ -82,11 +88,13 @@ public class ReceiverServer extends Thread {
 		} finally {
 			try {
 				System.out.println("InputStream is closed: RECEIVERSERVER");
+				//Closes the input stream
 				this.in.close();
 			} catch (IOException e) {
 				System.out.println("ERROR: RECEIVERSERVER");
 				e.printStackTrace();
 			}
+			//Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
 	}

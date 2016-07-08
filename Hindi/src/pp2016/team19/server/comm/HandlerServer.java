@@ -41,10 +41,8 @@ public class HandlerServer {
 	 * @author Bulut , Taner , 5298261
 	 */
 	public HandlerServer() {
-		/*
-		 * The instance of Timer 'pingTimer' is build and later executes the
-		 * TimerTask-PingCheckServer within a certain interval
-		 */
+		// The instance of Timer 'pingTimer' is build and later executes the
+		// TimerTask-PingCheckServer within a certain interval
 		pingTimer = new Timer();
 		this.connectedState1 = true;
 		this.connectedState2 = true;
@@ -58,11 +56,14 @@ public class HandlerServer {
 				client = server.accept();
 				// Starts the Thread and the TimerTask, then leaves the loop
 				if (client.isConnected()) {
+					// Initializing and starting the Threads for receiving and
+					// sending messages
 					receiver = new ReceiverServer(client, this);
 					transmitter = new TransmitterServer(client);
 					receiver.start();
 					transmitter.start();
-					pingTimer.scheduleAtFixedRate(new PingCheckServer(this), 10000, 10000);
+					// Starts the TimerTask 'PingCheckServer'
+					pingTimer.scheduleAtFixedRate(new PingCheckServer(this), 3000, 3000);
 					connected = true;
 				}
 
@@ -70,11 +71,11 @@ public class HandlerServer {
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER PORT NOT FOUND OR OCCUPIED");
 			e.printStackTrace();
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
 
 	}
-	
 
 	/**
 	 * Closing the Socket, the TimerTask and stops the running of the
@@ -88,9 +89,18 @@ public class HandlerServer {
 		try {
 			System.out.println("CLOSED: HandlerServer");
 			this.setCloseNetwork(true);
+			// Canscels the Timer
 			this.pingTimer.cancel();
+			// Closing the Socket
 			this.client.close();
 			this.setConnected(false);
+			// Stops the Thread for receiving the messages
+			this.receiver.interrupt();
+			// Stops the Thread for transmitting the messages
+			this.transmitter.interrupt();
+			// Closing the ServerSocket
+			this.server.close();
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER");
@@ -129,6 +139,7 @@ public class HandlerServer {
 	 *            ObjectOutputStream and sent to the Client
 	 */
 	public void sendMessageToClient(Message message) {
+		//Writes the Message into the ObjectOutputStream
 		transmitter.writeMessage(message);
 	}
 
@@ -155,7 +166,8 @@ public class HandlerServer {
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connected
-	 *            the boolean variable sets the connection state of the ServerSocket
+	 *            the boolean variable sets the connection state of the
+	 *            ServerSocket
 	 * 
 	 */
 	public void setConnected(boolean connected) {
@@ -171,6 +183,7 @@ public class HandlerServer {
 	public boolean getConnected() {
 		return this.connected;
 	}
+
 	/**
 	 * 
 	 * @author Bulut , Taner , 5298261
