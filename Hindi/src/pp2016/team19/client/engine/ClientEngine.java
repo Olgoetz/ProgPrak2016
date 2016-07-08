@@ -3,6 +3,8 @@ package pp2016.team19.client.engine;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import pp2016.team19.client.comm.HandlerClient;
@@ -54,7 +56,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * @param clientThreadPool
-	 *            enables to start a tread
+	 *            enables to start a thread
 	 */
 
 	public ClientEngine(ExecutorService clientThreadPool) {
@@ -62,17 +64,22 @@ public class ClientEngine implements Runnable {
 		// opens a dialog window to type in a value for the server adress
 		JOptionPane.setDefaultLocale(Locale.ENGLISH);
 		JFrame input = new JFrame();
-		String adresse = JOptionPane.showInputDialog(input, "Serveradress", "localhost");
-
+		String adress = JOptionPane.showInputDialog(input, "Serveradress", "localhost");
+		if(adress == null) {
+			System.out.println("Serverconnection canceled");
+			  System.exit(0);
+		} else {
+		
 		// sets the thread
 		this.setThreadPool(clientThreadPool);
 
 		// creates a new Networkhandler
-		this.setNetworkHandler(new HandlerClient(adresse));
+		this.setNetworkHandler(new HandlerClient(adress));
 
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this, BOX * WIDTH, BOX * HEIGHT, "Hindi Bones"));
-
+		}
+	
 	}
 
 	/***
@@ -89,13 +96,14 @@ public class ClientEngine implements Runnable {
 		// TODO Auto-generated method stub
 		System.out.println("Engine started");
 		while (true) {
+			
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// creates a new message and puts in a queue of the networkandler
+			// creates a new message and puts it in a queue of the networkandler
 			Message message = this.getNetworkHandler().getMessageFromServer();
 			if (message != null) {
 				this.messageReader(message);
@@ -123,7 +131,6 @@ public class ClientEngine implements Runnable {
 	 */
 
 	private void messageReader(Message pMessage) {
-
 		// returns the maintype of the message
 		switch (pMessage.getType()) {
 
@@ -280,7 +287,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param pMessage
-	 *            message oject coming from the server
+	 *            message object coming from the server
 	 * @param userName
 	 *            a userName
 	 * @param password
@@ -335,7 +342,15 @@ public class ClientEngine implements Runnable {
 		System.out.println("METHOD ClientEngine.serverSignOutAnswer: SignOutAnswer received!");
 		MessSignOutAnswer message = (MessSignOutAnswer) pMessage;
 		if (message.isConfirmed()) {
+			try {
+				this.getGameWindow().getEngine().getThreadPool().awaitTermination(50, TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			this.getGameWindow().showLogin();
+			
 		}
 	}
 
@@ -343,7 +358,8 @@ public class ClientEngine implements Runnable {
 
 	// Sends a moveCharacterRequest to the server
 	public void moveCharacterRequest(int x, int y, int direction) {
-
+		System.out.println("METHOD ClientEngine.moveCharacterRequest: Messages sent sent sent!!");
+		
 		this.sendToServer(new MessMoveCharacterRequest(x, y, direction, 1, 0));
 	}
 
