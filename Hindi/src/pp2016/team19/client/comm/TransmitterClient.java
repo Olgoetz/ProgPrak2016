@@ -26,9 +26,13 @@ import pp2016.team19.shared.Message;
  */
 public class TransmitterClient extends Thread {
 
+	// For getting the output stream
 	private Socket server;
+	// For sending Message-Objects
 	private ObjectOutputStream out;
+	// Gathers the Messages that are sent to the Server
 	private LinkedBlockingQueue<Message> messagesToServer = new LinkedBlockingQueue<>();
+	// Defines the Message-Objects that are sent 
 	private Message messageTS;
 
 	/**

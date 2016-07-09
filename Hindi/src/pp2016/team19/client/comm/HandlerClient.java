@@ -23,12 +23,17 @@ import pp2016.team19.shared.Message;
  */
 
 public class HandlerClient {
-
+	// Gathers the Messages to the Server in a Queue
 	public LinkedBlockingQueue<Message> outputQueue = new LinkedBlockingQueue<>();
+	// Connecting with the Server-Port
 	private Socket server;
+	// Receiving Messages by a Thread
 	private ReceiverClient receiver;
+	// Sending Messages by a Thread
 	private TransmitterClient transmitter;
+	// Executes the TimerTask
 	private Timer pingTimer;
+	// Stating the Connection State
 	private boolean closeNetwork;
 	private boolean connectedState1;
 	private boolean connectedState2;

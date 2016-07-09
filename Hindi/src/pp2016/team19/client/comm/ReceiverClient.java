@@ -25,10 +25,15 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  */
 public class ReceiverClient extends Thread {
 
+	// For setting the connection state after recieving Messages
 	private HandlerClient networkHandler;
+	// Gathers the Messages that a received from Server
 	private LinkedBlockingQueue<Message> messagesFromServer = new LinkedBlockingQueue<>();
+	// For getting the input stream
 	private Socket server;
+	// For reading Message-Objects from the input stream
 	private ObjectInputStream in;
+	// For saving the Message-Objects
 	private Message messageFS;
 
 	/**
@@ -87,7 +92,7 @@ public class ReceiverClient extends Thread {
 			System.out.println("ERROR ObjectInputStream: RECEIVERCLIENT");
 			e.printStackTrace();
 		} catch (SocketException e) {
-			//Closing the Connection between the Server and the Client
+			// Closing the Connection between the Server and the Client
 			this.networkHandler.close("Connection to the Server lost!");
 			System.out.println("ERROR SocketException: RECEIVERCLIENT");
 			e.printStackTrace();
@@ -96,13 +101,13 @@ public class ReceiverClient extends Thread {
 		} finally {
 			try {
 				System.out.println("InputStream is closed: RECEIVERCLIENT");
-				//Closing the input stream
+				// Closing the input stream
 				this.in.close();
 			} catch (IOException e) {
 				System.out.println("ERROR: RECEIVERCLIENT");
 				e.printStackTrace();
 			}
-			//Terminates the currently running Java Virtual Machine
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
 	}

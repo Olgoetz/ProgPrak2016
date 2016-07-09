@@ -26,10 +26,15 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  */
 public class ReceiverServer extends Thread {
 
+	// For setting the connection state
 	private HandlerServer networkHandler;
+	// For getting the input stream
 	private Socket client;
+	// For reading Message-Objects from the input stream
 	private ObjectInputStream in;
+	// Gathers the Messages from the Client 
 	LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<>();
+	// Saving the received Message-Objects
 	private Message messageFC;
 
 	/**
@@ -79,7 +84,7 @@ public class ReceiverServer extends Thread {
 			System.out.println("ERROR ObjectInputStream: RECEIVERSERVER");
 			e.printStackTrace();
 		} catch (SocketException e) {
-			//Closes Connection between Server and Client
+			// Closes Connection between Server and Client
 			this.networkHandler.close();
 			System.out.println("ERROR SocketException: RECEIVERSERVER");
 			e.printStackTrace();
@@ -87,16 +92,16 @@ public class ReceiverServer extends Thread {
 			System.out.println("readObject() ERROR in RECEIVERSERVER.receiveMessage()");
 			e.printStackTrace();
 		} finally {
-//			try {
-//				System.out.println("InputStream is closed: RECEIVERSERVER");
-//				//Closes the input stream
-//				this.in.close();
-//			} catch (IOException e) {
-//				System.out.println("ERROR: RECEIVERSERVER");
-//				e.printStackTrace();
-//			}
-			//Terminates the currently running Java Virtual Machine
-//			System.exit(1);
+			// try {
+			// System.out.println("InputStream is closed: RECEIVERSERVER");
+			// //Closes the input stream
+			// this.in.close();
+			// } catch (IOException e) {
+			// System.out.println("ERROR: RECEIVERSERVER");
+			// e.printStackTrace();
+			// }
+			// Terminates the currently running Java Virtual Machine
+			// System.exit(1);
 		}
 	}
 

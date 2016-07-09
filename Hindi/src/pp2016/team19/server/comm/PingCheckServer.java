@@ -20,7 +20,9 @@ import pp2016.team19.shared.MessPing;
  */
 public class PingCheckServer extends TimerTask {
 
+	// Counts the Ping-Messages that are sent
 	private int pingIteration = 0;
+	// For getting the connection state and sending Ping-Messages
 	private HandlerServer networkHandler;
 
 	/**

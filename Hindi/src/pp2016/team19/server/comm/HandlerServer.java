@@ -22,11 +22,17 @@ import pp2016.team19.shared.Message;
  */
 public class HandlerServer {
 
+	// Defines the Server-Port
 	private ServerSocket server;
+	// Binding the Client-Socket
 	private Socket client;
+	// Executes the TimerTask
 	private Timer pingTimer;
+	// Starts the receiving Thread
 	private ReceiverServer receiver;
+	// Starts the sending Thread
 	private TransmitterServer transmitter;
+	// States the connection between Server and Client
 	private boolean connected;
 	private boolean closeNetwork;
 	private boolean connectedState1;
