@@ -47,6 +47,7 @@ public class PingCheckClient extends TimerTask {
 	 */
 	@Override
 	public void run() {
+		//Counts the sending of Ping-Messages
 		pingIteration++;
 		if (this.networkHandler.getConnectedState1() && this.networkHandler.getConnectedState2()) {
 			// the pingOne() is sending a Ping-Message and checks the Connection as the first attempt

@@ -34,8 +34,11 @@ public class HandlerServer {
 	private TransmitterServer transmitter;
 	// States the connection between Server and Client
 	private boolean connected;
+	// Stating the Connection State for closing the Sockets
 	private boolean closeNetwork;
+	// Stating the Connection State
 	private boolean connectedState1;
+	// Stating the Connection State
 	private boolean connectedState2;
 
 	/**
@@ -45,6 +48,7 @@ public class HandlerServer {
 	 * @author Bulut , Taner , 5298261
 	 */
 	public HandlerServer() {
+		//Executes the Sockets 
 		init();
 	}
 
@@ -180,6 +184,7 @@ public class HandlerServer {
 	 */
 
 	/**
+	 * Sets the 'connected' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connected
@@ -192,6 +197,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Gets the 'connected' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the ServerSocket
@@ -202,6 +208,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'closeNetwork' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param closeNetwork
@@ -213,6 +220,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Gets the 'closeNetwork' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Server
@@ -223,6 +231,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState1
@@ -235,6 +244,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Gets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Server regarding the first
@@ -246,6 +256,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState2
@@ -258,6 +269,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Server regarding the second
@@ -269,13 +281,13 @@ public class HandlerServer {
 	}
 
 	// For Testing
-	public void addMessage(Message message) {
-		try {
-			receiver.messagesFromClient.put(message);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public void addMessage(Message message) {
+//		try {
+//			receiver.messagesFromClient.put(message);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 }

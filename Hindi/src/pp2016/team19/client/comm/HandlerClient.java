@@ -33,9 +33,11 @@ public class HandlerClient {
 	private TransmitterClient transmitter;
 	// Executes the TimerTask
 	private Timer pingTimer;
-	// Stating the Connection State
+	// Stating the Connection State for closing the Sockets
 	private boolean closeNetwork;
+	// Stating the Connection State 
 	private boolean connectedState1;
+	// Stating the Connection State
 	private boolean connectedState2;
 
 	/**
@@ -105,12 +107,12 @@ public class HandlerClient {
 	public void close(String errorMessage) {
 		try {
 			System.out.println("CLOSED: HandlerClient");
-			//Cancelling the Timer
+			// Cancelling the Timer
 			this.pingTimer.cancel();
-			//Closing the Socket
+			// Closing the Socket
 			this.getServer().close();
 			System.out.println(errorMessage);
-			//Terminates the currently running Java Virtual Machine
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HandlerClient.close(String errorMessage)");
@@ -183,6 +185,7 @@ public class HandlerClient {
 	 */
 
 	/**
+	 * Sets the 'closeNetwork' attribute 
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param closeNetwork
@@ -194,6 +197,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'closeNetwork' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Client
@@ -204,6 +208,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Sets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState1
@@ -216,6 +221,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Client regarding the first
@@ -227,6 +233,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Sets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState2
@@ -239,6 +246,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Client regarding the second
@@ -250,6 +258,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'server' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the Socket for Client-Side
@@ -260,6 +269,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Sets the 'server' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param server
