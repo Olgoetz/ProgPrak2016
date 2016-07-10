@@ -169,6 +169,7 @@ public class Game extends TimerTask implements Serializable {
 		System.out.println("Game Ended");
 		if (playerWon) {
 			scoreTime = (int) (System.currentTimeMillis() - startTime / 1000);
+			engine.highscores.addPlayerScore(player.getName(),scoreTime);
 		}
 		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7);
 		try {

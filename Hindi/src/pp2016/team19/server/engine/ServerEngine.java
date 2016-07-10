@@ -23,8 +23,11 @@ public class ServerEngine implements Runnable {
 	private ExecutorService threadPool;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Game> games = new ArrayList<Game>();
+	UserList users = new UserList(this);
 	Timer tick = new Timer();
 	HandlerServer network = new HandlerServer();
+	Highscore highscores;
+	LinkedList<HighScoreElement> highscore;
 	private boolean playerIsNew;
 	private boolean playerFound;
 	private int currentPlayerID;
@@ -38,11 +41,13 @@ public class ServerEngine implements Runnable {
 	public ServerEngine(ExecutorService serverThreadPool, LinkedBlockingQueue<Message> messagesToClient) {
 		this.threadPool = serverThreadPool;
 		this.messagesToClient = messagesToClient;
-		players.add(new Player("user","123"));
-		games.add(null);
-		players.add(new Player("molina","pp2016"));
-		games.add(null);
+//		players.add(new Player("user","123"));
+//		games.add(null);
+//		players.add(new Player("molina","pp2016"));
+//		games.add(null);
+		players = users.readUserList();
 		players.get(1).makeCheater(true);
+		highscores = new Highscore();
 	}
 
 	/**
@@ -139,7 +144,7 @@ public class ServerEngine implements Runnable {
 	 */
 	private void sendToGame(Message message) {
 		try {
-			games.get(currentPlayerID).messagesFromServer.put(message);
+			players.get(currentPlayerID).getGame().messagesFromServer.put(message);
 			//System.out.println("METHOD ServerEngine.sendToGame: Messages forwarded");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -204,12 +209,10 @@ public class ServerEngine implements Runnable {
 //		this.games.get(ID).stopGame();
 //		}
 		player.reset();
-		this.games.set(ID, new Game(this, player, 16));
-		System.out.println("METHOD SE.startGame: game.gameEnded: "+this.games.get(ID).gameEnded);
-		System.out.println("METHOD SE.startGame: game.tester: "+this.games.get(ID).tester);
+		player.setGame(new Game(this, player, 16));
 		tick.cancel();
 		tick = new Timer();
-		this.tick.scheduleAtFixedRate(this.games.get(ID), 0, 50);
+		this.tick.scheduleAtFixedRate(player.getGame(), 0, 50);
 
 	}
 
@@ -220,8 +223,8 @@ public class ServerEngine implements Runnable {
 
 	private void signOutRequest(Message pmessage) {
 		MessSignOutRequest message = (MessSignOutRequest) pmessage;
-		if (games.get(message.getPlayerID())!=null) {
-		games.get(message.getPlayerID()).stopGame();
+		if (players.get(message.getPlayerID()).getGame()!=null) {
+			players.get(message.getPlayerID()).getGame().stopGame();
 		}
 		players.get(message.getPlayerID()).logOut();
 		tick.cancel();
@@ -254,8 +257,9 @@ public class ServerEngine implements Runnable {
 		if (playerIsNew) {
 			Player player=new Player(message.getUsername(),message.getPassword());
 			players.add(player);
+			System.out.println("Server: #player: "+players.size());
+			users.addPlayerToList(player);
 			player.logIn();
-			games.add(null);
 			System.out.println("Player registered");
 			currentPlayerID = players.size() - 1;
 			Message answer = (MessSignInAndUpAnswer) new MessSignInAndUpAnswer(true, players.size() - 1, 0, 3);
