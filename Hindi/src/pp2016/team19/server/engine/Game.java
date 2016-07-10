@@ -41,6 +41,8 @@ public class Game extends TimerTask implements Serializable {
 	boolean gameEnded = false;
 	long startTime;
 	int scoreTime = 0;
+	LinkedList<Node> playerPath = new LinkedList<Node>();
+	Message autoMoveAnswer;
 
 	public Game(ServerEngine engine, Player player, int gameSize) {
 		this.player = player;
@@ -48,8 +50,6 @@ public class Game extends TimerTask implements Serializable {
 		this.engine = engine;
 		newLevel(levelNumber);
 		player.setGame(this);
-		//engine.tick.scheduleAtFixedRate(this, 0, 50);
-		//System.out.println("Game: scheduled");
 	}
 
 	/**
@@ -75,8 +75,8 @@ public class Game extends TimerTask implements Serializable {
 		while (!gameEnded) {
 			Message message = this.messagesFromServer.poll();
 			if (message != null) {
-				System.out.println("Message received in game");
-				System.out.println(message.toString());
+				//System.out.println("Message received in game");
+				//System.out.println(message.toString());
 				this.distributor(message);
 			}
 			nextSend = ((System.currentTimeMillis() - lastSent) >= cooldown);
@@ -102,7 +102,7 @@ public class Game extends TimerTask implements Serializable {
 						e.printStackTrace();
 					}
 					if (playerAttacked) {
-						if (player.getHealth() <= 0) {
+						if (player.getHealth() <= 0 && !player.isCheater()) {
 							endGame(false);
 						} else {
 							updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
@@ -119,6 +119,17 @@ public class Game extends TimerTask implements Serializable {
 					lastSent = System.currentTimeMillis();
 				}
 			}
+			while (!playerPath.isEmpty()) {
+				player.changeDir(playerPath);
+				autoMoveAnswer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
+						true);
+				try {
+					engine.messagesToClient.put(autoMoveAnswer);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -131,7 +142,7 @@ public class Game extends TimerTask implements Serializable {
 		switch (message.getSubType()) {
 		case 0:
 			this.playerMove(message);
-			System.out.println("METHOD Distributor: playerMove executed");
+			//System.out.println("METHOD Distributor: playerMove executed");
 			break;
 		case 2:
 			this.playerAttack(message);
@@ -170,20 +181,8 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	private void aStarMove(Message pmessage) {
-		Message answer;
 		MessAstarRequest message = (MessAstarRequest) pmessage;
-		LinkedList<Node> path = player.moveToPos(message.getMouseX(), message.getMouseY());
-		while (!path.isEmpty()) {
-			player.changeDir(path);
-			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
-					true);
-			try {
-				engine.messagesToClient.put(answer);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		playerPath = player.moveToPos(message.getMouseX(), message.getMouseY());
 	}
 
 	private void openDoor() {
@@ -226,7 +225,7 @@ public class Game extends TimerTask implements Serializable {
 
 	private void usePotion(Message message) {
 		Message answer;
-		System.out.println("METHOD Game.usePotion");
+		//System.out.println("METHOD Game.usePotion");
 		if (player.getNumberOfPotions() > 0) {
 			player.usePotion();
 			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, true, 1, 7);
@@ -247,7 +246,7 @@ public class Game extends TimerTask implements Serializable {
 	private void collectItem(Message message) {
 		Message updateMonsters = null;
 		Message answer;
-		System.out.println("METHOD Game.collectItem: executed");
+		//System.out.println("METHOD Game.collectItem: executed");
 		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
 			player.takePotion();
 			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false);
@@ -282,16 +281,15 @@ public class Game extends TimerTask implements Serializable {
 			System.out.println("METHOD game.playerAttack: Monster attacked");
 			monster.changeHealth(-8);
 			if (monster.getHealth() <= 0) {
+				Monsters.remove(monster);
 				System.out.println("METHOD game.playerAttack: Monster Killed");
-				if (monster.carriesKey()) {
+				if (Monsters.isEmpty() && !player.hasKey()) {
 					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
 				} else {
-					if (Math.random() >= 0.3) {
-						System.out.println("METHOD game.playerAttack: Potion placed");
+					if (Math.random()>0.4) {
 						gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
 					}
 				}
-				Monsters.remove(monster);
 				gameMapUpdate = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
 			}
 			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, true, 1, 3);
@@ -334,11 +332,11 @@ public class Game extends TimerTask implements Serializable {
 
 		Monsters.clear();
 		if (Monsters.isEmpty()) {
-			System.out.println("METHOD Game.newLevel: Monsterlist cleared");
+			//System.out.println("METHOD Game.newLevel: Monsterlist cleared");
 		}
 		createMonsters(gameMap, levelNumber * 2);
 		player.setPos(1, gameSize - 2);
-		player.removeKey();
+		player.removeKey(player.isCheater());
 
 	}
 
@@ -350,13 +348,11 @@ public class Game extends TimerTask implements Serializable {
 				if (gameMap[i][j].containsMonster()) {
 					if (k % 2 == 0) {
 						Monsters.add(new Monster(i, j, this, 0));
-						k++;
 					} else {
 						WaitingMonsters.add(new Monster(i, j, this, 1));
-						k++;
 					}
+					k++;
 				}
-
 			}
 		}
 		return Monsters;
@@ -381,7 +377,7 @@ public class Game extends TimerTask implements Serializable {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
 				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
-				System.out.println("Move executed");
+				//System.out.println("Move executed");
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						false);
