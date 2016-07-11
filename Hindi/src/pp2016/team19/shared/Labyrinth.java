@@ -65,7 +65,6 @@ public class Labyrinth implements Serializable {
 		// Creates a Map of ROCKS.
 		restartGenerator(gameSize);
 		
-
 		// Starts to switch Rock-Tiles to Floor-Tiles, to make a maze.
 		floodFill(1, gameSize - 2, gameSize);
 		
@@ -75,8 +74,8 @@ public class Labyrinth implements Serializable {
 		// Places an Exit.
 		placeExit(1, gameSize);
 
-		// Places a Key
-		placeKey(1, gameSize);
+		// Places a Key (Replaced by Monster holds Key)
+		// placeKey(1, gameSize);
 
 		// Places a Potion.
 		placePotion(gameSize);
