@@ -66,7 +66,7 @@ public class PingCheckServer extends TimerTask {
 	 * @author Bulut , Taner , 5298261
 	 */
 	private void pingTwo() {
-		this.networkHandler.setCloseNetwork(false);
+//		this.networkHandler.setCloseNetwork(false);
 		this.networkHandler.setConnectedState1(false);
 		this.networkHandler.setConnectedState2(false);
 		//Sends a Ping-Message
@@ -81,7 +81,7 @@ public class PingCheckServer extends TimerTask {
 	 * @author Bulut , Taner , 5298261
 	 */
 	private void pingOne() {
-		this.networkHandler.setCloseNetwork(false);
+//		this.networkHandler.setCloseNetwork(false);
 		this.networkHandler.setConnectedState1(false);
 		//Sends a Ping-Message
 		this.networkHandler.sendMessageToClient(new MessPing(100, 0));

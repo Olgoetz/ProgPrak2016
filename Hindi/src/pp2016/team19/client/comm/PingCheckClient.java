@@ -73,7 +73,7 @@ public class PingCheckClient extends TimerTask {
 	 * @author Bulut , Taner , 5298261
 	 */
 	private void pingOne() {
-		this.networkHandler.setCloseNetwork(false);
+//		this.networkHandler.setCloseNetwork(false);
 		// Sets the first connection state to false
 		this.networkHandler.setConnectedState1(false);
 		// Sends a Ping-Message
@@ -92,7 +92,7 @@ public class PingCheckClient extends TimerTask {
 	 * @author Bulut , Taner , 5298261
 	 */
 	private void pingTwo() {
-		this.networkHandler.setCloseNetwork(false);
+//		this.networkHandler.setCloseNetwork(false);
 		this.networkHandler.setConnectedState1(false);
 		// Sets the second connection state to false
 		this.networkHandler.setConnectedState2(false);
@@ -109,7 +109,7 @@ public class PingCheckClient extends TimerTask {
 	private void stopConnection() {
 		// Closes the Sockets
 		this.networkHandler.close("PingCheckClient STOPTHREADS for Client after " + pingIteration + " Pings");
-		this.networkHandler.setCloseNetwork(true);
+//		this.networkHandler.setCloseNetwork(true);
 		// Cancels this TimerTask
 		this.cancel();
 		try {

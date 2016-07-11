@@ -52,6 +52,7 @@ public class HandlerClient {
 	public HandlerClient(String adresse) {
 		this.pingTimer = new Timer();
 		this.closeNetwork = false;
+		//Connects with the ServerSocket
 		while (this.server == null) {
 			try {
 				// this.server = new Socket("62.143.243.85", 33333);

@@ -107,7 +107,7 @@ public class HandlerServer {
 
 		try {
 			System.out.println("CLOSED: HandlerServer");
-			this.setCloseNetwork(true);
+//			this.setCloseNetwork(true);
 			// Cancels the Timer
 			this.pingTimer.cancel();
 			this.setConnected(false);
