@@ -22,15 +22,35 @@ import pp2016.team19.shared.Message;
  */
 public class HandlerServer {
 
+	// Defines the Server-Port
 	private ServerSocket server;
+	// Binding the Client-Socket
 	private Socket client;
+	// Executes the TimerTask
 	private Timer pingTimer;
+	// Starts the receiving Thread
 	private ReceiverServer receiver;
+	// Starts the sending Thread
 	private TransmitterServer transmitter;
+	// States the connection between Server and Client
 	private boolean connected;
+	// Stating the Connection State for closing the Sockets
 	private boolean closeNetwork;
+	// Stating the Connection State
 	private boolean connectedState1;
+	// Stating the Connection State
 	private boolean connectedState2;
+
+	/**
+	 * Executes the init() method, so that the connection between the Server an
+	 * the Client can be built.
+	 * 
+	 * @author Bulut , Taner , 5298261
+	 */
+	public HandlerServer() {
+		//Executes the Sockets 
+		init();
+	}
 
 	/**
 	 * Builds the ServerSocket for the Server-Side and starts the Threads for
@@ -40,11 +60,9 @@ public class HandlerServer {
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
-	public HandlerServer() {
-		/*
-		 * The instance of Timer 'pingTimer' is build and later executes the
-		 * TimerTask-PingCheckServer within a certain interval
-		 */
+	public void init() {
+		// The instance of Timer 'pingTimer' is built, that later executes the
+		// TimerTask-PingCheckServer within a certain interval
 		pingTimer = new Timer();
 		this.connectedState1 = true;
 		this.connectedState2 = true;
@@ -58,11 +76,14 @@ public class HandlerServer {
 				client = server.accept();
 				// Starts the Thread and the TimerTask, then leaves the loop
 				if (client.isConnected()) {
+					// Initializing and starting the Threads for receiving and
+					// sending messages
 					receiver = new ReceiverServer(client, this);
 					transmitter = new TransmitterServer(client);
 					receiver.start();
 					transmitter.start();
-					pingTimer.scheduleAtFixedRate(new PingCheckServer(this), 10000, 10000);
+					// Starts the TimerTask 'PingCheckServer'
+					pingTimer.scheduleAtFixedRate(new PingCheckServer(this), 3000, 3000);
 					connected = true;
 				}
 
@@ -70,16 +91,15 @@ public class HandlerServer {
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER PORT NOT FOUND OR OCCUPIED");
 			e.printStackTrace();
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
-
 	}
-	
 
 	/**
 	 * Closing the Socket, the TimerTask and stops the running of the
 	 * application. This method allows to stop the connection between Server and
-	 * Client.
+	 * Client. Starts the connection again with a Client-Socket.
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 */
@@ -88,10 +108,21 @@ public class HandlerServer {
 		try {
 			System.out.println("CLOSED: HandlerServer");
 			this.setCloseNetwork(true);
+			// Cancels the Timer
 			this.pingTimer.cancel();
-			this.client.close();
 			this.setConnected(false);
-			System.exit(1);
+			// Stops the Thread for receiving the messages
+			this.receiver.interrupt();
+			// Stops the Thread for transmitting the messages
+			this.transmitter.interrupt();
+			// Closing the Socket
+			this.client.close();
+			// Closing the ServerSocket
+			this.server.close();
+			// Starts the connection with a Client
+			this.init();
+			// Terminates the currently running Java Virtual Machine
+			// System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HANDLERSERVER");
 			e.printStackTrace();
@@ -129,6 +160,7 @@ public class HandlerServer {
 	 *            ObjectOutputStream and sent to the Client
 	 */
 	public void sendMessageToClient(Message message) {
+		// Writes the Message into the ObjectOutputStream
 		transmitter.writeMessage(message);
 	}
 
@@ -152,10 +184,12 @@ public class HandlerServer {
 	 */
 
 	/**
+	 * Sets the 'connected' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connected
-	 *            the boolean variable sets the connection state of the ServerSocket
+	 *            the boolean variable sets the connection state of the
+	 *            ServerSocket
 	 * 
 	 */
 	public void setConnected(boolean connected) {
@@ -163,6 +197,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Gets the 'connected' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the ServerSocket
@@ -171,7 +206,9 @@ public class HandlerServer {
 	public boolean getConnected() {
 		return this.connected;
 	}
+
 	/**
+	 * Sets the 'closeNetwork' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param closeNetwork
@@ -183,6 +220,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Gets the 'closeNetwork' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Server
@@ -193,6 +231,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState1
@@ -205,6 +244,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Gets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Server regarding the first
@@ -216,6 +256,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState2
@@ -228,6 +269,7 @@ public class HandlerServer {
 	}
 
 	/**
+	 * Sets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Server regarding the second
@@ -239,13 +281,13 @@ public class HandlerServer {
 	}
 
 	// For Testing
-	public void addMessage(Message message) {
-		try {
-			receiver.messagesFromClient.put(message);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public void addMessage(Message message) {
+//		try {
+//			receiver.messagesFromClient.put(message);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 }

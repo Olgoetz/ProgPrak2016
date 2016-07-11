@@ -17,6 +17,7 @@ public class Player extends Character implements Serializable {
 	private int numberOfPotions;
 	private int potionEffect = 40;
 	private int score;
+	private boolean isCheater;
 
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
 
@@ -106,8 +107,8 @@ public class Player extends Character implements Serializable {
 	}
 
 	// Method to remove the key
-	public void removeKey() {
-		hasKey = false;
+	public void removeKey(boolean isCheater) {
+		hasKey = isCheater;
 	}
 
 	public int usePotion() {
@@ -196,5 +197,13 @@ public class Player extends Character implements Serializable {
 	}
 	public void logOut() {
 		this.isLoggedIn = false;
+	}
+
+	public boolean isCheater() {
+		return isCheater;
+	}
+
+	public void makeCheater(boolean isCheater) {
+		this.isCheater = isCheater;
 	}
 }

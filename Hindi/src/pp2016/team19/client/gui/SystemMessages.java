@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
  * <h1> system messages frame. <h1>
  * 
  * @author Felizia Langsdorf, 6002960
+ * @author Oliver Goetz, 5961343
  */
 
 
@@ -31,23 +32,22 @@ public class SystemMessages extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		messages = new JTextArea(); // textarea for the messages
-		messages.setBounds(0, 0, 400, 300);
+		messages.setBounds(0, 0, 300, 200);
 		messages.setLayout(new GridLayout(15,0,0,0)); //15 rows
 		messages.setLineWrap(true);
 		messages.setWrapStyleWord(true);
 		messages.setEditable(false); //not editable
 		messages.setVisible(true);
 		
-		// for(i=0; i < 11; i++ ) {
-//		messages.append( strings aus der schlange + line);
-	
-//	}
-		messages.append("hallo 123 huhuuu juhulaekhröglhsargoihdfgohgä" + line);
-		messages.append("zweite message hier bin ich"+ line);
-		messages.append("blubiibibisaoishg"+ line);
-		messages.append("grrr" + line);
-		messages.append("blablallbaaa" + line);
 		
+		
+	
+//		messages.append("hallo 123 huhuuu juhulaekhröglhsargoihdfgohgä" + line);
+//		messages.append("zweite message hier bin ich"+ line);
+//		messages.append("blubiibibisaoishg"+ line);
+//		messages.append("grrr" + line);
+//		messages.append("blablallbaaa" + line);
+		 
 		
 		JScrollPane scroll = new JScrollPane(messages); //set the textarea into a scroll pane
 		scroll.setVerticalScrollBarPolicy(
@@ -55,6 +55,18 @@ public class SystemMessages extends JFrame {
 		scroll.setVisible(true);	
 		this.add(scroll);	//adding the scrollpane to the window		
 	}
+	
+	/**
+	 * Gets the JTextArea.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return messages the messages
+	 */
+	public JTextArea getMessArea() {
+		return messages;
+	}
+	
+	
 	
 	/**
 	 * main method

@@ -20,7 +20,9 @@ import pp2016.team19.shared.MessPing;
  */
 public class PingCheckClient extends TimerTask {
 
+	// For sending Ping-Messages and receiving the connection state
 	private HandlerClient networkHandler;
+	// Counts the Ping-Messages that are sent
 	private int pingIteration = 0;
 
 	/**
@@ -45,12 +47,16 @@ public class PingCheckClient extends TimerTask {
 	 */
 	@Override
 	public void run() {
+		//Counts the sending of Ping-Messages
 		pingIteration++;
 		if (this.networkHandler.getConnectedState1() && this.networkHandler.getConnectedState2()) {
+			// the pingOne() is sending a Ping-Message and checks the Connection as the first attempt
 			pingOne();
 		} else if (!this.networkHandler.getConnectedState1() && this.networkHandler.getConnectedState2()) {
+			// the pingTwo() is sending a Ping-Message and checks the Connection as the second attempt
 			pingTwo();
 		} else if (!this.networkHandler.getConnectedState1() && !this.networkHandler.getConnectedState2()) {
+			// Closing the connection between Server and Client after two attempts 
 			stopConnection();
 		}
 	}
@@ -68,7 +74,9 @@ public class PingCheckClient extends TimerTask {
 	 */
 	private void pingOne() {
 		this.networkHandler.setCloseNetwork(false);
+		// Sets the first connection state to false
 		this.networkHandler.setConnectedState1(false);
+		// Sends a Ping-Message
 		this.networkHandler.sendMessageToServer(new MessPing(100, 0));
 	}
 
@@ -86,7 +94,9 @@ public class PingCheckClient extends TimerTask {
 	private void pingTwo() {
 		this.networkHandler.setCloseNetwork(false);
 		this.networkHandler.setConnectedState1(false);
+		// Sets the second connection state to false
 		this.networkHandler.setConnectedState2(false);
+		// Sends a Ping-Message
 		this.networkHandler.sendMessageToServer(new MessPing(100, 0));
 	}
 
@@ -97,9 +107,10 @@ public class PingCheckClient extends TimerTask {
 	 * @author Bulut , Taner , 5298261
 	 */
 	private void stopConnection() {
-
+		// Closes the Sockets
 		this.networkHandler.close("PingCheckClient STOPTHREADS for Client after " + pingIteration + " Pings");
 		this.networkHandler.setCloseNetwork(true);
+		// Cancels this TimerTask
 		this.cancel();
 		try {
 			System.out.println(
@@ -115,6 +126,7 @@ public class PingCheckClient extends TimerTask {
 			e.printStackTrace();
 		} finally {
 			System.out.println("PINGCHECKCLIENT closed the game!");
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
 	}

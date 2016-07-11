@@ -5,7 +5,7 @@ import pp2016.team19.shared.Labyrinth;
 /**
  * A test class, for the "komponententest" of the Levelgenerator.
  * 
- * @author < Czernik, Christof, 5830621 >
+ * @author Czernik, Christof, 5830621
  */
 
 public class Levelgenerator_Test{

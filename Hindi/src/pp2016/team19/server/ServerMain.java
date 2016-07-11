@@ -1,6 +1,7 @@
 
-package pp2016.team19.server.engine;
+package pp2016.team19.server;
 
+import pp2016.team19.server.engine.ServerEngine;
 import pp2016.team19.shared.*;
 
 import java.util.concurrent.ExecutorService;

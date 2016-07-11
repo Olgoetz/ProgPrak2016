@@ -23,14 +23,21 @@ import pp2016.team19.shared.Message;
  */
 
 public class HandlerClient {
-
+	// Gathers the Messages to the Server in a Queue
 	public LinkedBlockingQueue<Message> outputQueue = new LinkedBlockingQueue<>();
+	// Connecting with the Server-Port
 	private Socket server;
+	// Receiving Messages by a Thread
 	private ReceiverClient receiver;
+	// Sending Messages by a Thread
 	private TransmitterClient transmitter;
+	// Executes the TimerTask
 	private Timer pingTimer;
+	// Stating the Connection State for closing the Sockets
 	private boolean closeNetwork;
+	// Stating the Connection State 
 	private boolean connectedState1;
+	// Stating the Connection State
 	private boolean connectedState2;
 
 	/**
@@ -63,6 +70,7 @@ public class HandlerClient {
 				System.exit(0);
 			}
 		}
+		// Starts the Threads and the TimerTask
 		startComponents();
 	}
 
@@ -76,15 +84,15 @@ public class HandlerClient {
 	 */
 	private void startComponents() {
 		System.out.println("HandlerClient.startComponents()");
+		// Initializing and starting the Threads for receiving and transmitting
+		// messages
 		transmitter = new TransmitterClient(server);
 		receiver = new ReceiverClient(server, this);
 		transmitter.start();
 		receiver.start();
-		/*
-		 * The Timer 'pingTimer' executes the TimerTask-PingCheckClient within a
-		 * certain interval
-		 */
-		this.pingTimer.scheduleAtFixedRate(new PingCheckClient(this), 10000, 10000);
+		// The Timer 'pingTimer' executes the TimerTask-PingCheckClient within a
+		// certain interval
+		this.pingTimer.scheduleAtFixedRate(new PingCheckClient(this), 3000, 3000);
 	}
 
 	/**
@@ -99,9 +107,12 @@ public class HandlerClient {
 	public void close(String errorMessage) {
 		try {
 			System.out.println("CLOSED: HandlerClient");
+			// Cancelling the Timer
 			this.pingTimer.cancel();
+			// Closing the Socket
 			this.getServer().close();
 			System.out.println(errorMessage);
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: HandlerClient.close(String errorMessage)");
@@ -118,7 +129,7 @@ public class HandlerClient {
 	 *            ObjectOutputStream and sent to the Server
 	 */
 	public void sendMessageToServer(Message message) {
-		// System.out.println("HandlerClient.sendMessageToServer()");
+		// Writes the Message into the ObjectOutputStream
 		transmitter.writeMessage(message);
 	}
 
@@ -129,6 +140,7 @@ public class HandlerClient {
 	 * @return the Message-object that is read from the ObjectInputStream
 	 */
 	public Message getMessageFromServer() {
+		// Getting the Message from the LinkedBlockingQueue 'messagesFromServer'
 		return receiver.getMessage();
 	}
 
@@ -173,6 +185,7 @@ public class HandlerClient {
 	 */
 
 	/**
+	 * Sets the 'closeNetwork' attribute 
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param closeNetwork
@@ -184,6 +197,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'closeNetwork' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Client
@@ -194,6 +208,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Sets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState1
@@ -206,6 +221,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'connectedState1' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Client regarding the first
@@ -217,6 +233,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Sets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param connectedState2
@@ -229,6 +246,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'connectedState2' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the connection state of the Client regarding the second
@@ -240,6 +258,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Gets the 'server' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @return the Socket for Client-Side
@@ -250,6 +269,7 @@ public class HandlerClient {
 	}
 
 	/**
+	 * Sets the 'server' attribute
 	 * 
 	 * @author Bulut , Taner , 5298261
 	 * @param server

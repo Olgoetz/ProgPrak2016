@@ -25,10 +25,15 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  */
 public class ReceiverClient extends Thread {
 
+	// For setting the connection state after recieving Messages
 	private HandlerClient networkHandler;
+	// Gathers the Messages that a received from Server
 	private LinkedBlockingQueue<Message> messagesFromServer = new LinkedBlockingQueue<>();
+	// For getting the input stream
 	private Socket server;
+	// For reading Message-Objects from the input stream
 	private ObjectInputStream in;
+	// For saving the Message-Objects
 	private Message messageFS;
 
 	/**
@@ -59,27 +64,23 @@ public class ReceiverClient extends Thread {
 	 */
 	private void receiveMessage() {
 		try {
-			/*
-			 * The Stream header is read from the InputStream that refers to the
-			 * appropriate InputStream. The ObjectInputStream is allowing to
-			 * save the arguments of the InputStream.
-			 */
+
+			// The Stream header is read from the InputStream that refers to the
+			// appropriate InputStream. The ObjectInputStream is allowing to
+			// save the arguments of the InputStream.
 			in = new ObjectInputStream(server.getInputStream());
 			while (true) {
-				/*
-				 * The Thread is waiting before the messages can be read and
-				 * saved in the Queue by executing Thread.yield()
-				 */
+				// The Thread is waiting before the messages can be read and
+				// saved in the Queue by executing Thread.yield()
 				ThreadWaitForMessage.waitFor(100L);
 				// The read argument has to be parsed into a Message-Type
 				messageFS = (Message) in.readObject();
 				// System.out.println(messageFS.toString());
-				/*
-				 * Sets the variables connectedState1 and connectedState2 to
-				 * true, so that the connection between the Server and the
-				 * Client is proofed. The PingCheckClient then tries the first
-				 * attempt again to check if the InputStream is readable.
-				 */
+
+				// Sets the variables connectedState1 and connectedState2 to
+				// true, so that the connection between the Server and the
+				// Client is proofed. The PingCheckClient then tries the first
+				// attempt again to check if the InputStream is readable.
 				networkHandler.setConnectedState1(true);
 				networkHandler.setConnectedState2(true);
 				if (messageFS != null) {
@@ -91,6 +92,7 @@ public class ReceiverClient extends Thread {
 			System.out.println("ERROR ObjectInputStream: RECEIVERCLIENT");
 			e.printStackTrace();
 		} catch (SocketException e) {
+			// Closing the Connection between the Server and the Client
 			this.networkHandler.close("Connection to the Server lost!");
 			System.out.println("ERROR SocketException: RECEIVERCLIENT");
 			e.printStackTrace();
@@ -99,11 +101,13 @@ public class ReceiverClient extends Thread {
 		} finally {
 			try {
 				System.out.println("InputStream is closed: RECEIVERCLIENT");
+				// Closing the input stream
 				this.in.close();
 			} catch (IOException e) {
 				System.out.println("ERROR: RECEIVERCLIENT");
 				e.printStackTrace();
 			}
+			// Terminates the currently running Java Virtual Machine
 			System.exit(1);
 		}
 	}

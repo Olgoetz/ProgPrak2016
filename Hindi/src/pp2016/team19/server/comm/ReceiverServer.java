@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -25,10 +26,15 @@ import pp2016.team19.shared.ThreadWaitForMessage;
  */
 public class ReceiverServer extends Thread {
 
+	// For setting the connection state
 	private HandlerServer networkHandler;
+	// For getting the input stream
 	private Socket client;
+	// For reading Message-Objects from the input stream
 	private ObjectInputStream in;
+	// Gathers the Messages from the Client 
 	LinkedBlockingQueue<Message> messagesFromClient = new LinkedBlockingQueue<>();
+	// Saving the received Message-Objects
 	private Message messageFC;
 
 	/**
@@ -60,12 +66,17 @@ public class ReceiverServer extends Thread {
 		try {
 			in = new ObjectInputStream(client.getInputStream());
 			while (true) {
+				// The Thread is waiting before the messages can be read and
+				// saved in the Queue by executing Thread.yield()
 				ThreadWaitForMessage.waitFor(100L);
+				// Reads the Message from the input stream
 				messageFC = (Message) in.readObject();
 				this.networkHandler.setConnectedState1(true);
 				this.networkHandler.setConnectedState2(true);
 				// System.out.println(messageFC.toString());
 				if (messageFC != null) {
+					// Puts the Message into the LinkedBlockingQueue
+					// 'messagesFromClient'
 					messagesFromClient.put(messageFC);
 				}
 			}
@@ -73,6 +84,7 @@ public class ReceiverServer extends Thread {
 			System.out.println("ERROR ObjectInputStream: RECEIVERSERVER");
 			e.printStackTrace();
 		} catch (SocketException e) {
+			// Closes Connection between Server and Client
 			this.networkHandler.close();
 			System.out.println("ERROR SocketException: RECEIVERSERVER");
 			e.printStackTrace();
@@ -80,14 +92,16 @@ public class ReceiverServer extends Thread {
 			System.out.println("readObject() ERROR in RECEIVERSERVER.receiveMessage()");
 			e.printStackTrace();
 		} finally {
-			try {
-				System.out.println("InputStream is closed: RECEIVERSERVER");
-				this.in.close();
-			} catch (IOException e) {
-				System.out.println("ERROR: RECEIVERSERVER");
-				e.printStackTrace();
-			}
-			System.exit(1);
+			// try {
+			// System.out.println("InputStream is closed: RECEIVERSERVER");
+			// //Closes the input stream
+			// this.in.close();
+			// } catch (IOException e) {
+			// System.out.println("ERROR: RECEIVERSERVER");
+			// e.printStackTrace();
+			// }
+			// Terminates the currently running Java Virtual Machine
+			// System.exit(1);
 		}
 	}
 
