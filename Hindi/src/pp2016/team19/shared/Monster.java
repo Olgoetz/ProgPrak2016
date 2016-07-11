@@ -152,7 +152,7 @@ public class Monster extends Character {
 	public void move() {
 		boolean nextWalk = (System.currentTimeMillis() - lastStep) >= cooldownWalk;
 		if (nextWalk) {
-			if (playerInRange()) {
+			if (playerInRange(this.xPos, this.yPos)) {
 				if (this.getHealth() > this.getMaxHealth() / 4)
 					moveToPlayer();
 				else
@@ -203,8 +203,8 @@ public class Monster extends Character {
 		
 		if (actAction != 1 || fleePath.isEmpty()) {
 			Node fleePos = getFleePos();
-			System.out.println("Flee to: " + fleePos.getXPos() + ", "
-					+ fleePos.getYPos());
+//			System.out.println("Flee to: " + fleePos.getXPos() + ", "
+//					+ fleePos.getYPos());
 			fleePath.clear();
 			fleePath = AStarSearch(this.getXPos(), this.getYPos(),
 					fleePos.getXPos(), fleePos.getYPos());
@@ -227,7 +227,7 @@ public class Monster extends Character {
 				// Monster is under and right of the player, flee to down right corner
 				for (int fleeX = game.getGameSize() - 1; fleeX >= game.getGameSize() / 2; fleeX--) {
 					for (int fleeY = game.getGameSize() - 1; fleeY >= game.getGameSize() / 2; fleeY--) {
-						if (isWalkable(fleeX, fleeY))
+						if (isWalkable(fleeX, fleeY) && !playerInRange(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
@@ -235,7 +235,7 @@ public class Monster extends Character {
 				// Monster is above and right of the player, flee to top right corner
 				for (int fleeX = game.getGameSize() - 1; fleeX >= game.getGameSize() / 2; fleeX--) {
 					for (int fleeY = 0; fleeY < game.getGameSize() / 2; fleeY++) {
-						if (isWalkable(fleeX, fleeY))
+						if (isWalkable(fleeX, fleeY) && !playerInRange(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
@@ -245,7 +245,7 @@ public class Monster extends Character {
 				// Monster is under and left of the player, flee to down left corner
 				for (int fleeX = 0; fleeX < game.getGameSize() / 2; fleeX++) {
 					for (int fleeY = game.getGameSize() - 1; fleeY >= game.getGameSize() / 2; fleeY--) {
-						if (isWalkable(fleeX, fleeY))
+						if (isWalkable(fleeX, fleeY) && !playerInRange(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
@@ -253,7 +253,7 @@ public class Monster extends Character {
 				// Monster is above and left of the player, flee to top left corner
 				for (int fleeX = 0; fleeX < game.getGameSize() / 2; fleeX++) {
 					for (int fleeY = 0; fleeY < game.getGameSize() / 2; fleeY++) {
-						if (isWalkable(fleeX, fleeY))
+						if (isWalkable(fleeX, fleeY) && !playerInRange(fleeX, fleeY))
 							return new Node(fleeX, fleeY);
 					}
 				}
@@ -272,12 +272,11 @@ public class Monster extends Character {
 	 *         false if not
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public boolean playerInRange() {
+	public boolean playerInRange(int monsterX, int monsterY) {
 		int range = 4;
-		if ((player.getXPos() >= this.getXPos() - range && player.getXPos() <= this
-				.getXPos() + range)
-				&& (player.getYPos() >= this.getYPos() - range && player
-						.getYPos() <= this.getYPos() + range)) {
+		if ((player.getXPos() >= monsterX - range && player.getXPos() <= monsterX + range)
+				&& (player.getYPos() >= monsterY - range && player
+						.getYPos() <= monsterY + range)) {
 			return true;
 		} else
 			return false;
