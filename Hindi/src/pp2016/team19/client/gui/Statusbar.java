@@ -34,7 +34,7 @@ public class Statusbar extends JPanel {
 
 private static final long serialVersionUID = 1L;
 	
-	private Image background, key, potion;	
+	private Image key, potion;	
 	private Image floor1, wall1, playerImg; 
 	private Image red, black, beige;
 	
