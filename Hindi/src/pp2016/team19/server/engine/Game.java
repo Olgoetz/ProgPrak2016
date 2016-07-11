@@ -120,7 +120,9 @@ public class Game extends TimerTask implements Serializable {
 				}
 			}
 			while (!playerPath.isEmpty()) {
-				player.changeDir(playerPath);
+				boolean pathIsMonsterFree;
+				pathIsMonsterFree = player.changeDir(playerPath);
+				if(pathIsMonsterFree) {
 				autoMoveAnswer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
 				try {
@@ -128,6 +130,10 @@ public class Game extends TimerTask implements Serializable {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				} else {
+					playerPath.clear();
+					playerAttack();
 				}
 			}
 		}
@@ -145,7 +151,7 @@ public class Game extends TimerTask implements Serializable {
 			//System.out.println("METHOD Distributor: playerMove executed");
 			break;
 		case 2:
-			this.playerAttack(message);
+			this.playerAttack();
 			break;
 		case 4:
 			this.collectItem(message);
@@ -275,7 +281,7 @@ public class Game extends TimerTask implements Serializable {
 		}
 	}
 
-	private void playerAttack(Message message) {
+	private void playerAttack() {
 		System.out.println("METHOD game.playerAttack");
 		Message answer;
 		Message gameMapUpdate = null;
@@ -367,7 +373,7 @@ public class Game extends TimerTask implements Serializable {
 	 * @param message
 	 */
 	private void playerMove(Message pmessage) {
-		Message answer;
+		Message answer = null;
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
 //		player.xPos = message.getX();
 //		player.yPos = message.getY();
@@ -375,12 +381,15 @@ public class Game extends TimerTask implements Serializable {
 		switch (message.getDirection()) {
 		case 0: // MoveDown
 			if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos() + 1].isWalkable()) {
+				if (gameMap[player.getXPos()][player.getYPos() + 1].containsMonster()) {
 				player.moveDown();
 				System.out.println("DOWN:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
-				MessMoveCharacterAnswer tester = (MessMoveCharacterAnswer) answer;
 				//System.out.println("Move executed");
+				} else {
+					playerAttack();
+				}
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						false);
@@ -389,10 +398,14 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 1: // MoveUp
 			if (player.getYPos() < 16 - 1 && gameMap[player.getXPos()][player.getYPos() - 1].isWalkable()) {
+				if (gameMap[player.getXPos()][player.getYPos() - 1].containsMonster()) {
 				player.moveUp();
 				System.out.println("UP:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
+				} else {
+					playerAttack();
+				}
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						false);
@@ -401,10 +414,14 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 2: // MoveLeft
 			if (player.getXPos() > 0 && gameMap[player.getXPos() - 1][player.getYPos()].isWalkable()) {
+				if (gameMap[player.getXPos()-1][player.getYPos()].containsMonster()) {
 				player.moveLeft();
 				System.out.println("LEFT:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
+				} else {
+					playerAttack();
+				}
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						false);
@@ -413,10 +430,14 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 3: // MoveRight
 			if (player.getXPos() < 16 - 1 && gameMap[player.getXPos() + 1][player.getYPos()].isWalkable()) {
+				if (gameMap[player.getXPos()+1][player.getYPos()].containsMonster()) {
 				player.moveRight();
 				System.out.println("RIGHT:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
+				} else {
+					playerAttack();
+				}
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						false);
@@ -429,6 +450,7 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		}
 		try {
+			if (answer!=null)
 			engine.messagesToClient.put(answer);
 			System.out.println("METHOD Game.movePlayer: PlayerPos = " + player.getXPos() + ", " + player.getYPos());
 		} catch (InterruptedException e) {
