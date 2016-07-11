@@ -78,7 +78,7 @@ public class Labyrinth implements Serializable {
 		// placeKey(1, gameSize);
 
 		// Places a Potion.
-		placePotion(gameSize);
+		placePotion(1,gameSize);
 
 		// Places a number of Monster.
 		placeMonster(gameSize,monsterNumber);
@@ -301,23 +301,26 @@ public class Labyrinth implements Serializable {
 	 * @author < Czernik, Christof, 5830621 >
 	 */
 	
-	public static void placePotion(int gameSize) {
+	public static void placePotion(int i, int gameSize) {
 		boolean br = false;
-		for (int i = (gameSize - 2); i > ((gameSize - 2) / 2 + 1); i--) {
-			if (gameMap[i][gameSize - 2].isFloor()) {
-
-				gameMap[i][(gameSize - 2)].setContainsPotion(true);
-				br = true;
-				System.out.print("\nPotion placed randomly in a blind alley.");
-				gameMap[i][(gameSize - 2)].isWalkable();
-				break;
-
+		for (int j = 1; j < gameSize; j++) {
+			if (gameMap[i][j].isFloor()) {
+				if(!gameMap[i+1][j].isExit() && !gameMap[i-1][j].isExit() && !gameMap[i][j+1].isExit() && !gameMap[i][j-1].isExit() && !gameMap[i+1][j].isEntry() && !gameMap[i-1][j].isEntry() && !gameMap[i][j+1].isEntry() && !gameMap[i][j-1].isEntry()){
+					if (countNeighbors(i, j, gameSize) < 2) {
+						if(!gameMap[i][j].isEntry() && !gameMap[i][j].isExit() && !gameMap[i][j].containsPotion() && !gameMap[i][j].containsMonster()){
+						
+							gameMap[i][j].setContainsPotion(true);
+							br = true;
+							gameMap[i][j].isWalkable();
+							break;
+						}
+					}
+				}
 			}
 		}
-		if (gameSize < 2) {
-			return;
-		} else if (br == false) {
-			placePotion((gameSize - 1));
+
+		if (br == false) {
+			placePotion(i + 1, gameSize);
 		}
 
 	}
