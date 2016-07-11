@@ -1,6 +1,12 @@
 package pp2016.team19.shared;
 
-public class HighScoreElement {
+import java.io.Serializable;
+
+public class HighScoreElement implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5760526936235804401L;
 	private String name;
 	private int time;
 	
