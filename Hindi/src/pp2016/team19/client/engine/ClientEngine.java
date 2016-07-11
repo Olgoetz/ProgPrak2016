@@ -643,11 +643,10 @@ public class ClientEngine implements Runnable {
 		
 		// casts the incoming message to a proper message object
 		MessAstarAnswer message = (MessAstarAnswer) pMessage;
-		
-		// updates the player position
 		this.myPlayer = message.getMyPlayer();
-	}
+	
 
+	}
 
 
 	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS ********** //

@@ -34,7 +34,6 @@ public class MessAstarAnswer extends Message implements Serializable {
 	public MessAstarAnswer(Player player, boolean valid, int type, int subType) {
 		super(type, subType);
 		this.myPlayer = player;
-		this.valid = valid;
 	}
 	
 	/**
@@ -57,18 +56,6 @@ public class MessAstarAnswer extends Message implements Serializable {
 	public Player getMyPlayer() {
 		return myPlayer;
 	}
-	
-	/**
-	 * Gets the value of the boolean valid, if the aStar movement is possibl.e
-	 * 
-	 * @author Oliver Goetz, 5961343
-	 * @return the boolean valid
-	 */
-	
-	public boolean isValid() {
-		return valid;
-	}
-	
 	
 	
 
