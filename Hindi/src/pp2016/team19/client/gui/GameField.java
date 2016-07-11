@@ -148,6 +148,10 @@ public class GameField extends JPanel {
 			
 			// Draw the monsters at their specific position 
 			LinkedList<Monster> monsterList = window.getEngine().getMyMonster();
+//			Random r = new Random();
+//			// Load image for monster, picks randomly one of three 
+//			int i = r.nextInt(3) + 1;
+//				monster = ImageIO.read(new File("img//drache" + i + ".png")); //adopted
 			for (int x = 0; x < monsterList.size(); x++) {
 			 Monster m = monsterList.get(x);
 			 boolean event = window.getEngine().getMyPlayer().hasKey();
