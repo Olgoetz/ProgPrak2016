@@ -190,6 +190,13 @@ public abstract class Character implements Serializable {
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public synchronized void moveUp() {
+		if (this instanceof Player) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
+			this.getGame().getGameMap()[xPos][yPos-1].setContainsPlayer(true);
+		} else if (this instanceof Monster) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
+			this.getGame().getGameMap()[xPos][yPos-1].setContainsMonster(true);
+		}
 		yPos--;
 	}
 
@@ -199,14 +206,35 @@ public abstract class Character implements Serializable {
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public synchronized void moveDown() {
+		if (this instanceof Player) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
+			this.getGame().getGameMap()[xPos][yPos+1].setContainsPlayer(true);
+		} else if (this instanceof Monster) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
+			this.getGame().getGameMap()[xPos][yPos+1].setContainsMonster(true);
+		}
 		yPos++;
 	}
 
 	public synchronized void moveLeft() {
+		if (this instanceof Player) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
+			this.getGame().getGameMap()[xPos-1][yPos].setContainsPlayer(true);
+		} else if (this instanceof Monster) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
+			this.getGame().getGameMap()[xPos-1][yPos].setContainsMonster(true);
+		}
 		xPos--;
 	}
 
 	public synchronized void moveRight() {
+		if (this instanceof Player) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
+			this.getGame().getGameMap()[xPos+1][yPos].setContainsPlayer(true);
+		} else if (this instanceof Monster) {
+			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
+			this.getGame().getGameMap()[xPos+1][yPos].setContainsMonster(true);
+		}
 		xPos++;
 	}
 
