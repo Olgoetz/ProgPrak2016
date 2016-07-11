@@ -39,7 +39,9 @@ public class Controls extends JPanel {
 			b= ImageIO.read(new File("img//b-button.png"));//source: https://somkcr.files.wordpress.com/2012/11/keyboard-b-button.jpg
 			leer = ImageIO.read(new File ("img//Leertaste.png"));//source: http://www.absatzsetzer.de/wp-content/uploads/2011/06/Erscheinungsbild-im-Bedienfeld-der-Optionsfeld-EigenschaftenLeertaste.png
 			mouse = ImageIO.read(new File ("img//mouse.png"));//source: http://cliparts.co/cliparts/8iG/ErE/8iGErEbaT.png
-		}catch(IOException e){ }
+		}catch(IOException e){
+			System.err.println("Error while loading one of the images.");
+		}
 		
 		// filling the panel with the content, drawing on it, the images, strings, etc.
 		g.setColor(Color.LIGHT_GRAY);

@@ -43,7 +43,9 @@ public class Highscore extends JPanel {
 			
 			try{
 				img = ImageIO.read(new File("img//highscores.png")); //source: http://javascriptgamer.com/brickslayer/sprites/highscores.png
-			}catch(IOException e){ }
+			}catch(IOException e){ 
+				System.err.println("Error while loading one of the images.");
+			}
 			
 			
 			for(int i = 0; i < 16; i++){

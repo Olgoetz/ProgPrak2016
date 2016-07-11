@@ -65,8 +65,7 @@ private static final long serialVersionUID = 1L;
 			red = ImageIO.read(new File ("img//rot.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
 			black = ImageIO.read(new File("img//schwarz.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
 			beige = ImageIO.read(new File ("img//beige.png"));//source: http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
-			miniball = ImageIO.read(new File("img//miniball"));
-						
+			
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
 		}
@@ -198,8 +197,6 @@ private static final long serialVersionUID = 1L;
 	}
 		}
 	
-
-
 
 	
 private void drawMonster(Graphics g, Monster m) {
