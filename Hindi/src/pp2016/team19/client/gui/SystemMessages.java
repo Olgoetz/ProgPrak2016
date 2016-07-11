@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
  * <h1> system messages frame. <h1>
  * 
  * @author Felizia Langsdorf, 6002960
+ * @author Oliver Goetz, 5961343
  */
 
 
