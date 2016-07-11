@@ -30,7 +30,7 @@ public class Monster extends Character {
 	private int actAction; // Defines what action the monster should do: 0 move
 							// to player, 1 flee, 2 regenerate
 
-	private int[] lastPlayerPos;
+	private Node lastPlayerPos;
 	private LinkedList<Node> pathToPlayer;
 	private LinkedList<Node> fleePath;
 	
@@ -68,9 +68,7 @@ public class Monster extends Character {
 		lastStep = System.currentTimeMillis();
 		cooldownAttack = 500 - 10 * game.getLevelNumber(); // ms
 		cooldownWalk = 1000;
-		lastPlayerPos = new int[2];
-		lastPlayerPos[0] = -1;
-		lastPlayerPos[1] = -1;
+		lastPlayerPos = new Node(-1,-1);
 		pathToPlayer = new LinkedList<Node>();
 		fleePath = new LinkedList<Node>();
 		actAction = -1;
@@ -84,8 +82,7 @@ public class Monster extends Character {
 	 * Strohbuecker, Max, 5960738
 	 */
 	public void updatePlayerPos() {
-		this.lastPlayerPos[0] = this.player.getXPos();
-		this.lastPlayerPos[1] = this.player.getYPos();
+		this.lastPlayerPos = new Node(this.player.getXPos(), this.player.getYPos());
 	}
 
 	/**
@@ -179,8 +176,8 @@ public class Monster extends Character {
 		
 		// Did the player move since the last route calculation?
 		if (actAction != 0 || pathToPlayer.isEmpty()
-				|| player.getXPos() != this.lastPlayerPos[0]
-				|| player.getYPos() != this.lastPlayerPos[1]) {
+				|| player.getXPos() != this.lastPlayerPos.getXPos()
+				|| player.getYPos() != this.lastPlayerPos.getYPos()) {
 			pathToPlayer.clear();
 			pathToPlayer = AStarSearch(this.getXPos(), this.getYPos(),
 					player.getXPos(), player.getYPos());
