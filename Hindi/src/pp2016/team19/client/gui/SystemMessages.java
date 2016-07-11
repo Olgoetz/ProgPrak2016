@@ -27,10 +27,7 @@ public class SystemMessages extends JFrame {
 	 */
 
 	public SystemMessages(){
-		this.setTitle("System Messages"); // title of the window
-		this.setSize(500, 200); //size
-		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		messages = new JTextArea(); // textarea for the messages
 		messages.setBounds(0, 0, 300, 200);
 		messages.setLayout(new GridLayout(15,0,0,0)); //15 rows
@@ -38,15 +35,6 @@ public class SystemMessages extends JFrame {
 		messages.setWrapStyleWord(true);
 		messages.setEditable(false); //not editable
 		messages.setVisible(true);
-		
-		
-		
-	
-//		messages.append("hallo 123 huhuuu juhulaekhröglhsargoihdfgohgä" + line);
-//		messages.append("zweite message hier bin ich"+ line);
-//		messages.append("blubiibibisaoishg"+ line);
-//		messages.append("grrr" + line);
-//		messages.append("blablallbaaa" + line);
 		 
 		
 		JScrollPane scroll = new JScrollPane(messages); //set the textarea into a scroll pane
@@ -66,16 +54,4 @@ public class SystemMessages extends JFrame {
 		return messages;
 	}
 	
-	
-	
-	/**
-	 * main method
-	 * @author Felizia Langsdorf, 6002960
-	 */
-
-	public static void main (String[] args){
-		SystemMessages messagewindow = new SystemMessages();
-		
-	}
-
 }
