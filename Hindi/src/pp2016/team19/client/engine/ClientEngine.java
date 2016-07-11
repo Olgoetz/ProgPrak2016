@@ -101,6 +101,12 @@ public class ClientEngine implements Runnable {
 
 		// creates a new GameWindow
 		this.setGameWindow(new GameWindow(this, BOX * WIDTH, BOX * HEIGHT, "Hindi Bones"));
+		
+		// creates a new Systemmessages Frame
+		this.sysMes.setTitle("System Messages");
+		this.sysMes.setSize(500, 200);
+		this.sysMes.setVisible(true);
+		this.sysMes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		
 		
