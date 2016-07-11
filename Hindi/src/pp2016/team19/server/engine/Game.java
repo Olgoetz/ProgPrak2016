@@ -186,6 +186,16 @@ public class Game extends TimerTask implements Serializable {
 	private void aStarMove(Message pmessage) {
 		MessAstarRequest message = (MessAstarRequest) pmessage;
 		playerPath = player.moveToPos(message.getMouseX(), message.getMouseY());
+		Message answer=null;
+		if (playerPath==null) {
+			answer = (MessAstarAnswer) new MessAstarAnswer(player,false,1,11);
+		} else {
+			answer = (MessAstarAnswer) new MessAstarAnswer(player,true,1,11);
+		}
+		try {
+			engine.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+		}	
 	}
 
 	private void openDoor() {
