@@ -61,6 +61,7 @@ public class ClientEngine implements Runnable {
 	private boolean gamewon;
 	private SystemMessages sysMes;
 	private String systemMessages;
+	private LinkedList<HighScoreElement> highscore;
 
 	// static attributes
 	public static final int BOX = 32;
@@ -261,6 +262,10 @@ public class ClientEngine implements Runnable {
 				this.endGameAnswer(pMessage);
 				break;
 				
+			case 9:
+				// processes a highScoreAnswer see SECTION 3
+				this.highscoreAnswer(pMessage);
+				
 			default:
 				break;
 			}
@@ -362,8 +367,8 @@ public class ClientEngine implements Runnable {
 			// opens the game menu
 			getGameWindow().showMenu();
 			System.out.println("METHOD Engine.serverSignInAndUpAnswer: Login successful");
-			writeSystemMessages("Login successful. Welcome" + this.getMyPlayer().getName());
-		} else {
+			writeSystemMessages("Login successful. Welcome to Hindi Bones, enjoy the Maze Runner Adventure Game!");
+		} else { 
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
 		}
 	}
@@ -521,7 +526,7 @@ public class ClientEngine implements Runnable {
 			
 			// the player takes a potion
 			this.getMyPlayer().takePotion();
-			writeSystemMessages("Poition taken!");
+			writeSystemMessages("Potion taken!");
 			
 			// the potion disappears from the labyrinth floor
 			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsPotion(false);
@@ -565,7 +570,7 @@ public class ClientEngine implements Runnable {
 			
 			// updates the player in the client-engine respectively in the gui
 			this.myPlayer = message.getPlayer();
-			writeSystemMessages("Poition used, health refilled!");
+			writeSystemMessages("Potion used, health refilled!");
 		}
 	}
 	
@@ -796,6 +801,26 @@ public class ClientEngine implements Runnable {
 			this.getGameWindow().gameLost = true;
 			this.getGameWindow().gameWon = true;
 		}
+		
+	}
+	
+	/**
+	 * Processes an highscoreAnswer messaage coming from the server.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @param pMessage a message object
+	 * 
+	 */
+	
+	public void highscoreAnswer(Message pMessage) {
+		
+		// casts the incoming message to a proper message object
+		MessHighscoreAnswer message = (MessHighscoreAnswer) pMessage;
+		
+		// sets the highscore list by taking the highscore list from the incoming
+		// message object
+		this.highscore = message.getHighscore();
+		
 		
 	}
 
