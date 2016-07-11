@@ -218,7 +218,7 @@ public abstract class Character implements Serializable {
 	 *            the path, of which the next step should be calculated
 	 * @author Strohbuecker, Max, 5960738
 	 */
-	public void changeDir(LinkedList<Node> path) {
+	public boolean changeDir(LinkedList<Node> path) {
 		Node nextNode = path.removeFirst();
 		// Node test;
 		// System.out.println("PATH:");
@@ -226,7 +226,11 @@ public abstract class Character implements Serializable {
 		// test = path.get(i);
 		// System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
 		// }
-		if (nextNode.getXPos() == this.getXPos()
+		
+		if (this.getGame().getGameMap()[nextNode.getXPos()][nextNode.getYPos()].containsMonster()) {
+			path.clear();
+			return false;
+		} else if (nextNode.getXPos() == this.getXPos()
 				&& nextNode.getYPos() == this.getYPos() - 1) {
 			dir = 0;
 		} else if (nextNode.getXPos() == this.getXPos() + 1
@@ -258,6 +262,7 @@ public abstract class Character implements Serializable {
 				break;
 			}
 		}
+		return true;
 	}
 
 	/**
