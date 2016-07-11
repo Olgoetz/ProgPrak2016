@@ -46,7 +46,7 @@ public class ServerEngine implements Runnable {
 //		players.add(new Player("molina","pp2016"));
 //		games.add(null);
 		players = users.readUserList();
-		players.get(1).activateGodmode(true);
+		players.get(1).characterShield(true);
 		highscores = new Highscore();
 	}
 

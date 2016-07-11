@@ -17,7 +17,7 @@ public class Player extends Character implements Serializable {
 	private int numberOfPotions;
 	private int potionEffect = 40;
 	private int score;
-	private boolean isCheater;
+	private boolean isInvulnerable;
 
 	private LinkedList<Node> pathToPos = new LinkedList<Node>();
 
@@ -30,6 +30,7 @@ public class Player extends Character implements Serializable {
 		setPos(0, 0);
 		setHealth(100);
 		setMaxHealth(getHealth());
+		setDamage(8);
 	}
 
 	public Player() {
@@ -201,12 +202,13 @@ public class Player extends Character implements Serializable {
 	public void logOut() {
 		this.isLoggedIn = false;
 	}
-
-	public boolean isCheater() {
-		return isCheater;
+	
+	public void characterShield(boolean bool) {
+		isInvulnerable = bool;
 	}
-
-	public void activateGodmode(boolean isCheater) {
-		this.isCheater = isCheater;
+	public void changeHealth(int change) {
+		if (!isInvulnerable) {
+			super.changeHealth(change);
+		}
 	}
 }

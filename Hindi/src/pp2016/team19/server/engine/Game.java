@@ -43,6 +43,7 @@ public class Game extends TimerTask implements Serializable {
 	int scoreTime = 0;
 	LinkedList<Node> playerPath = new LinkedList<Node>();
 	Message autoMoveAnswer;
+	private Object getCheat;
 
 	public Game(ServerEngine engine, Player player, int gameSize) {
 		this.player = player;
@@ -102,7 +103,7 @@ public class Game extends TimerTask implements Serializable {
 						e.printStackTrace();
 					}
 					if (playerAttacked) {
-						if (player.getHealth() <= 0 && !player.isCheater()) {
+						if (player.getHealth() <= 0) {
 							endGame(false);
 						} else {
 							updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
@@ -163,11 +164,25 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 10:
 			this.aStarMove(message);
+			break;
+		case 12:
+			this.cheat(message);
 		case 37: // Testing
 			this.messageTester(message);
 			break;
 		}
 
+	}
+
+	private void cheat(Message pmessage) {
+		MessCheatRequest message = (MessCheatRequest) pmessage;
+		if (message.getCheat().equals("molina")) {
+			player.characterShield(true);
+		} else if (message.getCheat().equals("thekeytolearningjava")) {
+			player.takeKey();
+		} else if (message.getCheat().equals("superdebugger")) {
+			player.setDamage(100);
+		}
 	}
 
 	public void endGame(boolean playerWon) {
@@ -349,8 +364,6 @@ public class Game extends TimerTask implements Serializable {
 		}
 		createMonsters(gameMap, levelNumber * 2);
 		player.setPos(1, gameSize - 2);
-		player.removeKey(player.isCheater());
-
 	}
 
 	private LinkedList<Monster> createMonsters(Tile[][] gameMap2, int monsterNumber) {
