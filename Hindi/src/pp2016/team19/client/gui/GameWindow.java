@@ -37,7 +37,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	private GameField gamefield;
 	private Statusbar statusbar;
 
-	private Highscore highscore;
+	private Highscore highscore = null;
 	private Controls controls;
 
 	public LinkedList<Monster> monsterList;
@@ -106,9 +106,11 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.setLayout(new BorderLayout());
 		this.loginpanel = new LoginPanel(this);
 		this.menupanel = new MenuPanel(this);
+//		this.highscore = new Highscore();
 		
 		menupanel.setPreferredSize(new Dimension(width, height));
 		loginpanel.setPreferredSize(new Dimension(width, height));
+//		highscore.setPreferredSize(new Dimension(width, height));
 		this.add(loginpanel, BorderLayout.CENTER);
 		
 		menuShown = false;
@@ -149,7 +151,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.statusbar = new Statusbar(this);
 		this.menubar = new MenuBar(this);
 		this.controls = new Controls();
-		this.highscore = new Highscore();
+		this.highscore = new Highscore(this);
 
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(5*BOX, 5*BOX));
@@ -533,18 +535,17 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 					this.player = this.getEngine().getMyPlayer();
 
 				} 
-			} else {
-				neededTime = (int) ((System.currentTimeMillis() - startTime) / 1000); //past time
-
-				if (!gameLost && !playerInHighscore) {
-					getHighscore().addPlayerToHighScore(neededTime); //add the player to highscore
-					getHighscore().repaint();
-					playerInHighscore = true;
+//			} else {
+//				neededTime = (int) ((System.currentTimeMillis() - startTime) / 1000); //past time
+//
+//				if (!gameLost && !playerInHighscore) {
+//					getHighscore().addPlayerToHighScore(neededTime); //add the player to highscore
+//					getHighscore().repaint();
+//					playerInHighscore = true;
 				} else {
 					getGameField().repaint();
 				}
 
-			}
 
 		} while (true);
 
