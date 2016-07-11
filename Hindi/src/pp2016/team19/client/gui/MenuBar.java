@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  * <h1> class for the menubar shown at the top of the window while playing. <h1>
@@ -19,8 +21,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		
 	// JMenus 
     private JMenu game;
-    private JMenu show;
-	private JMenu logOut;
+    private JMenu extras;
+    private JMenu logOut;
+	
 
     //MenuItems 
     private JMenuItem newGame;
@@ -28,6 +31,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenuItem quit;
     private JMenuItem showMap;
     private JMenuItem controls;
+    private JMenuItem cheats;
     private JMenuItem LogArrow;
     private ImageIcon arrow = new ImageIcon ("img//icon-arrow.png"); //source: https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-arrow-right-b-128.png
     
@@ -43,7 +47,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		
 		//shown at the bar at the top of the window 
 		game = new JMenu("Game");
-		show = new JMenu("Show");
+		extras = new JMenu("Show");
 		logOut = new JMenu("LogOut");
         
         newGame = new JMenuItem("Start New Game");
@@ -51,6 +55,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         highscore = new JMenuItem("Show Highscore");
         showMap = new JMenuItem("Show Mini-Map");
         controls = new JMenuItem("Show Control");
+        cheats = new JMenuItem("Cheats");
         LogArrow = new JMenuItem(arrow);
               
         newGame.addActionListener(this);
@@ -58,18 +63,20 @@ public class MenuBar extends JMenuBar implements ActionListener {
         quit.addActionListener(this);
         showMap.addActionListener(this);
         controls.addActionListener(this);
+        cheats.addActionListener(this);
         LogArrow.addActionListener(this);
         
         
         game.add(newGame);
         game.add(quit);
-        show.add(highscore);
-        show.add(showMap);
-        show.add(controls);
+        extras.add(highscore);
+        extras.add(showMap);
+        extras.add(controls);
+        extras.add(cheats);
         logOut.add(LogArrow);   
         
         this.add(game);
-        this.add(show);
+        this.add(extras);
         this.add(logOut);      
 	}
 	
@@ -102,7 +109,14 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			}else{
 				window.minifieldShown = true;
 				showMap.setText("Hide Mini-Map");
-			}		
+			}
+		}else if(e.getSource() == cheats){
+			JFrame input = new JFrame();
+			String cheatMes = JOptionPane.showInputDialog(input, "Enter Cheat Code", "");
+			if(cheatMes.equals("godmode")){
+				System.out.println("cheat activated");
+			}
+			//window.getEngine().getMyPlayer().makeCheater(true); !!!!!
 		}else if(e.getSource() == quit){
 			System.exit(0); // shuts down the whole application
 		}else if(e.getSource() == controls){
