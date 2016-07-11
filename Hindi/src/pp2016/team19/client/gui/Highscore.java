@@ -55,11 +55,6 @@ public class Highscore extends JPanel {
 			g.drawImage(img, 20, 40, null);
 			g.setColor(Color.WHITE);
 			
-			if (this.window == null) {
-				System.out.println("Window not found.");
-			} else if (this.window.getEngine() == null) {
-				System.out.println("Engine not found.");
-			}
 			for (int i = 0; i < this.window.getEngine().getHighscore().size(); i++) {
 				String name = this.window.getEngine().getHighscore().get(i).getName();
 				int time = this.window.getEngine().getHighscore().get(i).getTime();

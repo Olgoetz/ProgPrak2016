@@ -42,6 +42,8 @@ private static final long serialVersionUID = 1L;
 	private GameWindow window;
 	private int statBox = 32;
 	private int miniBox = 8;
+	int var1= 360;
+	int var2 = 12;
 	
 	/**
 	 * @author Felizia Langsdorf, Matr_Nr.: 6002960
@@ -64,12 +66,7 @@ private static final long serialVersionUID = 1L;
 			black = ImageIO.read(new File("img//schwarz.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
 			beige = ImageIO.read(new File ("img//beige.png"));//source: http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
 			miniball = ImageIO.read(new File("img//miniball"));
-			
-			Random r = new Random();
-			int i = r.nextInt(3) + 1;
-			monster = ImageIO.read(new File("img//minimonster" + i + ".png"));
-			
-			
+						
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
 		}
@@ -149,9 +146,9 @@ private static final long serialVersionUID = 1L;
 
 	
 	// draw minimap 
-	// variables to adjust the map at the bottom of the panel	
-	int var1= 360;
-	int var2 = 12;
+//	// variables to adjust the map at the bottom of the panel	
+//	int var1= 360;
+//	int var2 = 12;
 	
 	// if in the menubar "show minimap" was clicked
 	// draw every single mini tile, 8x8 pixel
@@ -163,7 +160,14 @@ private static final long serialVersionUID = 1L;
 					g.drawImage(wall1, (i * miniBox) + var2 , (j * miniBox) + var1 ,null);
 				} else if (window.getEngine().getLabyrinth()[i][j].isFloor()) {
 					//here goes floor
-					g.drawImage(floor1, (i * miniBox) + var2, (j * miniBox) + var1 , null);		
+					g.drawImage(floor1, (i * miniBox) + var2, (j * miniBox) + var1 , null);	
+					if(window.getEngine().getLabyrinth()[i][j].containsKey()){
+						g.setColor(Color.YELLOW);
+						g.fillRect((i * miniBox) + var2, (j * miniBox) + var1, miniBox, miniBox);
+					}else if (window.getEngine().getLabyrinth()[i][j].containsPotion()){
+						g.setColor(Color.BLUE);
+						g.fillRect((i * miniBox) + var2, (j * miniBox) + var1, miniBox, miniBox);
+					}
 				}else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
 						// Here is the door
 						g.drawImage(black, (i * miniBox) +var2, (j * miniBox) + var1, null);
@@ -177,19 +181,6 @@ private static final long serialVersionUID = 1L;
 					for (int x = 0; x < monsterList.size(); x++) {
 					 Monster m = monsterList.get(x);
 					 boolean event = window.getEngine().getMyPlayer().hasKey();
-				
-					 // At this point every monster is called. So an
-					 // attacking order is called, if the player is
-					 // in range. 
-						if (m.justAttacked()) {
-							int box = miniBox;
-							Player hindi = window.getEngine().getMyPlayer();
-
-							double p = m.cooldownRate();
-							g.setColor(Color.RED);
-							g.drawImage(miniball, (int) (((1 - p) * m.getXPos() + (p) * hindi.getXPos()) * box) + box/2 ,
-									(int) (((1 - p) * m.getYPos() + (p) * hindi.getYPos()) * box) + box/2 , 8, 8, null);
-						}
 					
 					 // Draw the monster, if it's present from the beginning on
 					 if (m.getType() == 0)
@@ -205,30 +196,23 @@ private static final long serialVersionUID = 1L;
 						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
 	}
-	}
-	
-	private void drawMonster(Graphics g, Monster m) {
-		
-		if (inRange(m.getXPos(), m.getYPos())) {
-			g.drawImage(monster, (m.getXPos() * 8) , (m.getYPos()
-					* 8) , null);
-			
-//			// Monster Health Points
-//			g.setColor(Color.GREEN);
-//			long monsterHP = (long) m.getHealth();
-//			long monsterMaxHP = (long) m.getMaxHealth();
-//			int monsterHealthRect = (int) ((8-30) * monsterHP/monsterMaxHP);
-//			g.fillRect(((m.getXPos() * window.BOX) ) + 15, (m.getYPos() * window.BOX - 2)  + 4, monsterHealthRect, 2);
 		}
-		
-	}
-	private boolean inRange(int i, int j) {
-		return (Math.sqrt(Math.pow(window.getEngine().getMyPlayer().getXPos()
-				- i, 2)
-				+ Math.pow(window.getEngine().getMyPlayer().getYPos() - j, 2)) < 4);
-	}
+	
+
+
+
+	
+private void drawMonster(Graphics g, Monster m) {
+	
+	g.setColor(Color.GREEN);
+	g.fillRect((m.getXPos() * miniBox) + var2, (m.getYPos()* miniBox) + var1 , miniBox, miniBox);
+	
 
 }
+
+	}
+
+
 
 		
 		
