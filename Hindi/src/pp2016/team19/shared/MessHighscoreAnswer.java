@@ -55,7 +55,7 @@ public class MessHighscoreAnswer extends Message implements Serializable {
 	 * @return the highscore linked list
 	 */
 	
-	public LinkedList<String> getHighscore() {
+	public LinkedList<HighScoreElement> getHighscore() {
 		return highscore;
 	}
 	

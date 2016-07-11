@@ -8,8 +8,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
-/** 
- * Server Main, used to execute the Server Engine
+/***
+ * 
+ * <h1>This class is used to execute the Server</h1>
  * 
  * @author Tobias Schrader
  */

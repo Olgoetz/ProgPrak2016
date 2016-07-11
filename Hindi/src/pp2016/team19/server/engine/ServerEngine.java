@@ -124,6 +124,13 @@ public class ServerEngine implements Runnable {
 		if (player.isLoggedIn()) {
 		startGame(message.getPlayerID(), player);
 		}
+		Message highScore = (MessHighscoreAnswer) new MessHighscoreAnswer(highscores.getHighScore(),2,9);
+		try {
+			messagesToClient.put(highScore);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void confirmConnection() {

@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import pp2016.team19.shared.HighScoreElement;
+
 
 public class Highscore {
 private LinkedList<HighScoreElement> highScore;
@@ -45,7 +47,7 @@ private LinkedList<HighScoreElement> highScore;
 	
 	public void addPlayerScore(String player, int time){
 		for(int i = 0; i < highScore.size(); i++){
-			if(highScore.get(i).time > time){
+			if(highScore.get(i).getTime() > time){
 				highScore.add(i, new HighScoreElement(time, player));
 				i = highScore.size();
 			}
@@ -54,7 +56,7 @@ private LinkedList<HighScoreElement> highScore;
 		try {
 			FileWriter writer = new FileWriter(new File("highscore.txt"));
 			for(int i = 0; i < 10; i++){
-				writer.write(highScore.get(i).time + "\t" + highScore.get(i).name + "\n");
+				writer.write(highScore.get(i).getTime() + "\t" + highScore.get(i).getName() + "\n");
 			}			
 
 			writer.close();
@@ -69,13 +71,4 @@ private LinkedList<HighScoreElement> highScore;
 		return highScore;
 	}
 }
-class HighScoreElement {
-	
-	String name;
-	int time;
-	
-	public HighScoreElement(int punkte, String name){
-		this.name = name;
-		this.time = punkte;
-	}
-}
+

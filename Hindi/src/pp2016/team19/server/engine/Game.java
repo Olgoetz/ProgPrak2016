@@ -172,8 +172,10 @@ public class Game extends TimerTask implements Serializable {
 			engine.highscores.addPlayerScore(player.getName(),scoreTime);
 		}
 		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7);
+		Message highScore = (MessHighscoreAnswer) new MessHighscoreAnswer(engine.highscores.getHighScore(),2,9);
 		try {
 			engine.messagesToClient.put(answer);
+			engine.messagesToClient.put(highScore);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
