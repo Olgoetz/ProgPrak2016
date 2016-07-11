@@ -131,8 +131,16 @@ public abstract class Character implements Serializable {
 					goal = neighbors[k];
 				} else {
 					// Calculate costs of neighbor
-					neighbors[k]
-							.setCostFromStart(cheapest.getCostFromStart() + 1);
+					int neighborX = neighbors[k].getXPos();
+					int neighborY = neighbors[k].getYPos();
+					if (this.getGame().getGameMap()[neighborX][neighborY]
+							.containsPlayer()) {
+						neighbors[k].setCostFromStart(cheapest
+								.getCostFromStart() + 999);
+					} else {
+						neighbors[k].setCostFromStart(cheapest
+								.getCostFromStart() + 1);
+					}
 					int xDiff = xGoal - neighbors[k].getXPos();
 					int yDiff = yGoal - neighbors[k].getYPos();
 					neighbors[k].setCostToGoal((int) Math.sqrt(xDiff * xDiff
@@ -192,10 +200,11 @@ public abstract class Character implements Serializable {
 	public synchronized void moveUp() {
 		if (this instanceof Player) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
-			this.getGame().getGameMap()[xPos][yPos-1].setContainsPlayer(true);
+			this.getGame().getGameMap()[xPos][yPos - 1].setContainsPlayer(true);
 		} else if (this instanceof Monster) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
-			this.getGame().getGameMap()[xPos][yPos-1].setContainsMonster(true);
+			this.getGame().getGameMap()[xPos][yPos - 1]
+					.setContainsMonster(true);
 		}
 		yPos--;
 	}
@@ -208,10 +217,11 @@ public abstract class Character implements Serializable {
 	public synchronized void moveDown() {
 		if (this instanceof Player) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
-			this.getGame().getGameMap()[xPos][yPos+1].setContainsPlayer(true);
+			this.getGame().getGameMap()[xPos][yPos + 1].setContainsPlayer(true);
 		} else if (this instanceof Monster) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
-			this.getGame().getGameMap()[xPos][yPos+1].setContainsMonster(true);
+			this.getGame().getGameMap()[xPos][yPos + 1]
+					.setContainsMonster(true);
 		}
 		yPos++;
 	}
@@ -219,10 +229,11 @@ public abstract class Character implements Serializable {
 	public synchronized void moveLeft() {
 		if (this instanceof Player) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
-			this.getGame().getGameMap()[xPos-1][yPos].setContainsPlayer(true);
+			this.getGame().getGameMap()[xPos - 1][yPos].setContainsPlayer(true);
 		} else if (this instanceof Monster) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
-			this.getGame().getGameMap()[xPos-1][yPos].setContainsMonster(true);
+			this.getGame().getGameMap()[xPos - 1][yPos]
+					.setContainsMonster(true);
 		}
 		xPos--;
 	}
@@ -230,10 +241,11 @@ public abstract class Character implements Serializable {
 	public synchronized void moveRight() {
 		if (this instanceof Player) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
-			this.getGame().getGameMap()[xPos+1][yPos].setContainsPlayer(true);
+			this.getGame().getGameMap()[xPos + 1][yPos].setContainsPlayer(true);
 		} else if (this instanceof Monster) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsMonster(false);
-			this.getGame().getGameMap()[xPos+1][yPos].setContainsMonster(true);
+			this.getGame().getGameMap()[xPos + 1][yPos]
+					.setContainsMonster(true);
 		}
 		xPos++;
 	}
@@ -254,8 +266,9 @@ public abstract class Character implements Serializable {
 		// test = path.get(i);
 		// System.out.println(i+". " + test.getXPos() + "/" + test.getYPos());
 		// }
-		
-		if (this.getGame().getGameMap()[nextNode.getXPos()][nextNode.getYPos()].containsMonster()) {
+
+		if (this.getGame().getGameMap()[nextNode.getXPos()][nextNode.getYPos()]
+				.containsMonster()) {
 			path.clear();
 			return false;
 		} else if (nextNode.getXPos() == this.getXPos()
