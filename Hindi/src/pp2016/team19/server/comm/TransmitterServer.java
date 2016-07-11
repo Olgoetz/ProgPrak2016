@@ -79,13 +79,13 @@ public class TransmitterServer extends Thread {
 			}
 		} catch (EOFException e) {
 			System.out.println("ERROR ObjectOutputStream: TRANSMITTERSERVER");
-			e.printStackTrace();
+//			e.printStackTrace();
 		} catch (SocketException e) {
 			System.out.println("ERROR SocketException: TRANSMITTERSERVER");
-			e.printStackTrace();
+//			e.printStackTrace();
 		} catch (IOException | InterruptedException e) {
-			System.out.println("ERROR: TRANSMITTERSERVER resulting in transmitMessage()");
-			e.printStackTrace();
+			System.out.println("Client successfully logged out!");
+//			e.printStackTrace();
 		} finally {	
 //			try {
 //				System.out.println("OutputStream is closed: TRANSMITTERSERVER");
