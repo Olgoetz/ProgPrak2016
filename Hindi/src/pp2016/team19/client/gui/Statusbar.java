@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -14,6 +16,8 @@ import pp2016.team19.shared.Door;
 import pp2016.team19.shared.Floor;
 import pp2016.team19.shared.GameObject;
 import pp2016.team19.shared.Key;
+import pp2016.team19.shared.Monster;
+import pp2016.team19.shared.Player;
 import pp2016.team19.shared.Potion;
 import pp2016.team19.shared.Tile;
 import pp2016.team19.shared.Wall;
@@ -33,6 +37,7 @@ private static final long serialVersionUID = 1L;
 	private Image background, key, potion;	
 	private Image floor1, wall1, playerImg; 
 	private Image red, black, beige;
+	private Image monster, miniball;
 	
 	private GameWindow window;
 	private int statBox = 32;
@@ -58,6 +63,12 @@ private static final long serialVersionUID = 1L;
 			red = ImageIO.read(new File ("img//rot.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
 			black = ImageIO.read(new File("img//schwarz.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
 			beige = ImageIO.read(new File ("img//beige.png"));//source: http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
+			miniball = ImageIO.read(new File("img//miniball"));
+			
+			Random r = new Random();
+			int i = r.nextInt(3) + 1;
+			monster = ImageIO.read(new File("img//minimonster" + i + ".png"));
+			
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
@@ -160,16 +171,67 @@ private static final long serialVersionUID = 1L;
 					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {													
 							g.drawImage(beige, (i * miniBox) + var2, (j * miniBox) + var1, null);												
 					} 
-				} 
+				}
+		// Draw the monsters at their specific position 
+					LinkedList<Monster> monsterList = window.getEngine().getMyMonster();
+					for (int x = 0; x < monsterList.size(); x++) {
+					 Monster m = monsterList.get(x);
+					 boolean event = window.getEngine().getMyPlayer().hasKey();
 				
-		}
+					 // At this point every monster is called. So an
+					 // attacking order is called, if the player is
+					 // in range. 
+						if (m.justAttacked()) {
+							int box = miniBox;
+							Player hindi = window.getEngine().getMyPlayer();
+
+							double p = m.cooldownRate();
+							g.setColor(Color.RED);
+							g.drawImage(miniball, (int) (((1 - p) * m.getXPos() + (p) * hindi.getXPos()) * box) + box/2 ,
+									(int) (((1 - p) * m.getYPos() + (p) * hindi.getYPos()) * box) + box/2 , 8, 8, null);
+						}
+					
+					 // Draw the monster, if it's present from the beginning on
+					 if (m.getType() == 0)
+					 drawMonster(g, m);
+					 // Draw the monster, if it only appears after the event 'take key'
+					 else if (event && m.getType() == 1)
+					 drawMonster(g, m);
+					 }
+						
 	
 		     // the player as a red point
 				g.drawImage(red,( window.getEngine().getMyPlayer().getXPos() //make x and y dynamic
 						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1 ,null);			
 					}
+	}
+	}
+	
+	private void drawMonster(Graphics g, Monster m) {
+		
+		if (inRange(m.getXPos(), m.getYPos())) {
+			g.drawImage(monster, (m.getXPos() * 8) , (m.getYPos()
+					* 8) , null);
+			
+//			// Monster Health Points
+//			g.setColor(Color.GREEN);
+//			long monsterHP = (long) m.getHealth();
+//			long monsterMaxHP = (long) m.getMaxHealth();
+//			int monsterHealthRect = (int) ((8-30) * monsterHP/monsterMaxHP);
+//			g.fillRect(((m.getXPos() * window.BOX) ) + 15, (m.getYPos() * window.BOX - 2)  + 4, monsterHealthRect, 2);
 		}
 		
 	}
+	private boolean inRange(int i, int j) {
+		return (Math.sqrt(Math.pow(window.getEngine().getMyPlayer().getXPos()
+				- i, 2)
+				+ Math.pow(window.getEngine().getMyPlayer().getYPos() - j, 2)) < 4);
+	}
+
+}
+
+		
+		
+	
 	
 
