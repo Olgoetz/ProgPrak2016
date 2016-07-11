@@ -37,7 +37,7 @@ private static final long serialVersionUID = 1L;
 	private Image background, key, potion;	
 	private Image floor1, wall1, playerImg; 
 	private Image red, black, beige;
-	private Image monster, miniball;
+	
 	
 	private GameWindow window;
 	private int statBox = 32;
@@ -54,7 +54,7 @@ private static final long serialVersionUID = 1L;
 		
 		//loading the images
 		try {
-			background = ImageIO.read(new File("img//statusgrau.png"));//source: http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
+//			background = ImageIO.read(new File("img//statusgrau.png"));//source: http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
 			key = ImageIO.read(new File("img//Goldkey2.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
 			potion = ImageIO.read(new File("img//potionSmall.png"));//source:http://www.rpguides.de/images/poe/icon_item64_potion_of_major_recovery.png
 			
@@ -82,13 +82,6 @@ private static final long serialVersionUID = 1L;
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
 			
-		//draw pictures in the panel, at the bottom it leaves space for the minimap
-		for(int i = 0; i < 20; i++){
-			for(int j= 0; j < window.HEIGHT- 6; j++){
-			g.drawImage(background, i*statBox, j*statBox, null);
-			}
-		}		
-	
 		//draws the miniplayer image
 		g.drawImage(playerImg, 4, 4, statBox - 8, statBox - 8, null);
 		
