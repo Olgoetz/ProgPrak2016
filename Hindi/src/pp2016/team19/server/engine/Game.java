@@ -5,15 +5,12 @@ import pp2016.team19.shared.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.TimerTask;
-import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import javax.swing.JFrame;
-
-import pp2016.team19.server.map.*;
-
 /**
- * Runs game, holds game data, loads levels
+ * <h1>This represents a game</h1>
+ * 
+ * Runs game, holds game data, loads levels, executes character actions
  * 
  * @author Tobias Schrader
  *
@@ -22,29 +19,34 @@ public class Game extends TimerTask implements Serializable {
 
 	private static final long serialVersionUID = 358470863151883429L;
 	LinkedBlockingQueue<Message> messagesFromServer = new LinkedBlockingQueue<Message>();
+	//save game information
 	Tile[][] gameMap;
 	private int gameSize;
 	transient LinkedList<Monster> Monsters = new LinkedList<Monster>();
 	LinkedList<Monster> WaitingMonsters = new LinkedList<Monster>();
 	int levelNumber = 1;
+	//the corresponding server engine
 	transient ServerEngine engine;
-	boolean tester = true; // Testing
+	//a few useful attributes
+	boolean starter = true;
 	Player player;
 	boolean playerAttacked = false;
-	Labyrinth TestLabyrinth = new Labyrinth();
-	Message updateMonster;
-	Message updatePlayer;
 	long lastSent;
 	int cooldown = 500;
 	boolean nextSend;
 	boolean monsterMoving = false;
 	boolean gameEnded = false;
 	long startTime;
-	int scoreTime = 0;
+	int scoreTime = -1;
 	LinkedList<Node> playerPath = new LinkedList<Node>();
-	Message autoMoveAnswer;
-	private Object getCheat;
 
+	/**
+	 * Constructor initializes player and engine, builds first level
+	 * @param engine
+	 * @param player
+	 * @param gameSize
+	 * @author Tobias Schrader, 5637252
+	 */
 	public Game(ServerEngine engine, Player player, int gameSize) {
 		this.player = player;
 		this.gameSize = gameSize;
@@ -54,14 +56,14 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	/**
-	 * Sets Clock for Game Engine, processes messages
+	 * Starts a thread to run the game. Processes messages, keeps monsters moving and player auto-moving.
+	 * @author Tobias Schrader, 5637252
 	 */
 	public void run() {
-		if (tester == true) {
+		if (starter == true) { //sets starting time, sends first level
 			System.out.println("Game executed");
 			startTime = System.currentTimeMillis();
-			tester = false;
-			System.out.println(player.toString());
+			starter = false;
 			Message level = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
 			Message sendPlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
 					player.getYPos());
@@ -69,50 +71,45 @@ public class Game extends TimerTask implements Serializable {
 				engine.messagesToClient.put(level);
 				engine.messagesToClient.put(sendPlayer);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
-		while (!gameEnded) {
+		while (!gameEnded) { //repeated until game is stopped
+			Message updateMonster;
+			Message updatePlayer;
+			//process messages
 			Message message = this.messagesFromServer.poll();
 			if (message != null) {
-				//System.out.println("Message received in game");
-				//System.out.println(message.toString());
 				this.distributor(message);
 			}
 			nextSend = ((System.currentTimeMillis() - lastSent) >= cooldown);
-			if (nextSend) {
+			if (nextSend) { //waits to move monsters until they cooled down to reduce traffic
 
-				for (Monster monster : Monsters) {
+				for (Monster monster : Monsters) { // has monsters move or attack the player
 					monsterMoving = (monsterMoving || monster.playerInRange(monster.getXPos(),monster.getYPos()));
-					if (monster.attackPlayer(player.hasKey())) {
+					if (monster.attackPlayer(player.hasKey())) { //attacks player
 						monster.setJustAttacked(true);
 						playerAttacked = true;
 					} else {
 						monster.setJustAttacked(false);
-						monster.move();
+						monster.move(); //moves monster
 					}
 				}
-				if (monsterMoving) {
+				if (monsterMoving) { //only sends an update if a monster is actually acting to reduce traffic
 					updateMonster = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
 					monsterMoving = false;
 					try {
 						engine.messagesToClient.put(updateMonster);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-					if (playerAttacked) {
+					if (playerAttacked) { //processes attack to the player
 						if (player.getHealth() <= 0) {
 							endGame(false);
 						} else {
 							updatePlayer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
 									player.getYPos());
 							try {
-								engine.messagesToClient.put(updatePlayer);
+								engine.messagesToClient.put(updatePlayer); //player update
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
 							}
 							playerAttacked = false;
 						}
@@ -120,17 +117,17 @@ public class Game extends TimerTask implements Serializable {
 					lastSent = System.currentTimeMillis();
 				}
 			}
+			//executes movement of the player scheduled by mouse click
 			while (!playerPath.isEmpty()) {
+				Message autoMoveAnswer;
 				boolean pathIsMonsterFree;
 				pathIsMonsterFree = player.changeDir(playerPath);
-				if(pathIsMonsterFree) {
+				if(pathIsMonsterFree) { //if monster is in the way, aborts path and attacks monster
 				autoMoveAnswer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
 				try {
 					engine.messagesToClient.put(autoMoveAnswer);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				} else {
 					playerPath.clear();
@@ -141,25 +138,25 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	/**
-	 * Determines action depending on subtype
+	 * analyzes game request messages forwarded from the engine. Determines action depending on subtype.
 	 * 
 	 * @param message
+	 * @author Tobias Schrader, 5637252
 	 */
 	public void distributor(Message message) {
 		switch (message.getSubType()) {
 		case 0:
 			this.playerMove(message);
-			//System.out.println("METHOD Distributor: playerMove executed");
 			break;
 		case 2:
 			this.playerAttack();
 			break;
 		case 4:
-			this.collectItem(message);
+			this.collectItem();
 			break;
 		case 6:
-			this.usePotion(message);
-		case 8: // OpenDoorRequest
+			this.usePotion();
+		case 8:
 			this.openDoor();
 			break;
 		case 10:
@@ -167,247 +164,29 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 12:
 			this.cheat(message);
-		case 37: // Testing
-			this.messageTester(message);
-			break;
-		}
-
-	}
-
-	private void cheat(Message pmessage) {
-		MessCheatRequest message = (MessCheatRequest) pmessage;
-		if (message.getCheat().equals("molina")) {
-			player.characterShield(true);
-		} else if (message.getCheat().equals("thekeytolearningjava")) {
-			player.takeKey();
-		} else if (message.getCheat().equals("superdebugger")) {
-			player.setDamage(100);
 		}
 	}
-
-	public void endGame(boolean playerWon) {
-		gameEnded = true;
-		System.out.println("Game Ended");
-		if (playerWon) {
-			scoreTime = (int) ((System.currentTimeMillis() - startTime) / 1000);
-			engine.highscores.addPlayerScore(player.getName(),scoreTime);
-		}
-		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7);
-		Message highScore = (MessHighscoreAnswer) new MessHighscoreAnswer(engine.highscores.getHighScore(),2,9);
-		try {
-			engine.messagesToClient.put(answer);
-			engine.messagesToClient.put(highScore);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private void aStarMove(Message pmessage) {
-		MessAstarRequest message = (MessAstarRequest) pmessage;
-		playerPath = player.moveToPos(message.getMouseX(), message.getMouseY());
-	}
-
-	private void openDoor() {
-		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) {
-			if (levelNumber >= 5) {
-				endGame(true);
-			} else {
-				levelNumber++;
-				this.newLevel(levelNumber);
-				Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
-				Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
-				Message playerUpdate = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
-						player.getYPos());
-				System.out.println("METHOD Game.openDoor: Door opened");
-				try {
-					engine.messagesToClient.put(answer);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					engine.messagesToClient.put(newLevel);
-					engine.messagesToClient.put(playerUpdate);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		} else {
-			System.out.println("METHOD Game.openDoor: Door didn't open");
-			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(false, 1, 9);
-			try {
-				engine.messagesToClient.put(answer);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private void usePotion(Message message) {
-		Message answer;
-		//System.out.println("METHOD Game.usePotion");
-		if (player.getNumberOfPotions() > 0) {
-			player.usePotion();
-			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, true, 1, 7);
-		} else {
-			System.out.println("METHOD game.usePotion: No Potion");
-			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);
-			;
-		}
-		try {
-			engine.messagesToClient.put(answer);
-			System.out.println("METHOD Game.usePotion:" + answer.toString());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void collectItem(Message message) {
-		Message updateMonsters = null;
-		Message answer;
-		//System.out.println("METHOD Game.collectItem: executed");
-		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
-			player.takePotion();
-			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false);
-			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
-		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
-			Monsters.addAll(WaitingMonsters);
-			for (Monster monster: Monsters) {
-				gameMap[monster.getXPos()][monster.getYPos()].setContainsMonster(true);
-			}
-			player.takeKey();
-			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
-			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
-			updateMonsters = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
-		} else {
-			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(-1, 1, 5);
-		}
-		try {
-			engine.messagesToClient.put(answer);
-			System.out.println("METHOD Game.collectItem:" + answer.toString());
-			if (updateMonsters != null) {
-				engine.messagesToClient.put(updateMonsters);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void playerAttack() {
-		System.out.println("METHOD game.playerAttack");
-		Message answer;
-		Message gameMapUpdate = null;
-		Monster monster = player.monsterToAttack();
-		if (monster != null) {
-			System.out.println("METHOD game.playerAttack: Monster attacked");
-			monster.changeHealth(-8);
-			if (monster.getHealth() <= 0) {
-				Monsters.remove(monster);
-				System.out.println("METHOD game.playerAttack: Monster Killed");
-				gameMap[monster.getXPos()][monster.getYPos()].setContainsMonster(false);
-				if (Monsters.isEmpty() && !player.hasKey()) {
-					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
-				} else {
-					if (Math.random()>0.4) {
-						gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
-					}
-				}
-				gameMapUpdate = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
-			}
-			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, true, 1, 3);
-		} else {
-			System.out.println("METHOD game.playerAttack: No Monster in range");
-			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, false, 1, 3);
-		}
-		try {
-			engine.messagesToClient.put(answer);
-			if (gameMapUpdate != null) {
-				engine.messagesToClient.put(gameMapUpdate);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void messageTester(Message message) { // Testing
-		System.out.println(message.toString());
-		Message answer = (TestMessage) new TestMessage(1, 18, "Answering Test");
-		try {
-			engine.messagesToClient.put(answer);
-			System.out.println("Message sent back");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Loads new level
-	 * 
-	 * @param levelNumber
-	 */
-	public void newLevel(int levelNumber) {
-		System.out.println("METHOD Game.newLevel");
-		gameMap = Labyrinth.generate(gameSize, levelNumber*2);
-		// TestLabyrinth.setGameMap(gameMap);
-
-		Monsters.clear();
-		if (Monsters.isEmpty()) {
-			//System.out.println("METHOD Game.newLevel: Monsterlist cleared");
-		}
-		createMonsters(gameMap, levelNumber * 2);
-		player.setPos(1, gameSize - 2);
-		player.removeKey();
-	}
-
-	private LinkedList<Monster> createMonsters(Tile[][] gameMap2, int monsterNumber) {
-		WaitingMonsters.clear();
-		int k = 0;
-		for (int i = 0; i < gameMap2.length; i++) {
-			for (int j = 0; j < gameMap2.length; j++) {
-				if (gameMap[i][j].containsMonster()) {
-					if (k % 2 == 0) {
-						Monsters.add(new Monster(i, j, this, 0));
-					} else {
-						WaitingMonsters.add(new Monster(i, j, this, 1));
-						gameMap[i][j].setContainsMonster(false);
-					}
-					k++;
-				}
-			}
-		}
-		return Monsters;
-	}
-
-	/**
-	 * Executes player movement command
-	 * 
-	 * @param message
-	 */
+/**
+ * This method executes a one-step move. It checks whether the destination tile is walkable,
+ * then moves there or attacks the monster if the tile is occupied by one.
+ * Sends answer with update of map and monsters.
+ * 
+ * @param pmessage, message that contains direction
+ * @author Tobias Schrader, 5637252
+ */
 	private void playerMove(Message pmessage) {
 		Message answer = null;
 		MessMoveCharacterRequest message = (MessMoveCharacterRequest) pmessage;
-//		player.xPos = message.getX();
-//		player.yPos = message.getY();
-
-		switch (message.getDirection()) {
+		switch (message.getDirection()) { //cases are directions, 0=down, 1=up, 2=left, 3=right
 		case 0: // MoveDown
-			if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos() + 1].isWalkable()) {
-				if (!gameMap[player.getXPos()][player.getYPos() + 1].containsMonster()) {
-				player.moveDown();
+			if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos() + 1].isWalkable()) { //check walkability
+				if (!gameMap[player.getXPos()][player.getYPos() + 1].containsMonster()) { //check if monster is there
+				player.moveDown(); //move
 				System.out.println("DOWN:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
 						true);
-				//System.out.println("Move executed");
 				} else {
-					playerAttack();
+					playerAttack(); //attack
 				}
 			} else {
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
@@ -463,22 +242,243 @@ public class Game extends TimerTask implements Serializable {
 				System.out.println("RIGHT Move not allowed");
 			}
 			break;
-		default:
-			answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
-					false);
-			break;
 		}
 		try {
 			if (answer!=null)
 			engine.messagesToClient.put(answer);
 			System.out.println("METHOD Game.movePlayer: PlayerPos = " + player.getXPos() + ", " + player.getYPos());
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This method searches for monsters in range and attacks one if one is found.
+	 * 
+	 * @author Tobias Schrader, 5637252
+	 */
+	private void playerAttack() {
+		Message answer;
+		Message gameMapUpdate = null;
+		Monster monster = player.monsterToAttack(); //search for monster
+		if (monster != null) {
+			System.out.println("METHOD game.playerAttack: Monster attacked");
+			monster.changeHealth(-8);
+			if (monster.getHealth() <= 0) { //if monster is killed, remove it and drop key or potion
+				Monsters.remove(monster);
+				System.out.println("METHOD game.playerAttack: Monster Killed");
+				gameMap[monster.getXPos()][monster.getYPos()].setContainsMonster(false);
+				if (Monsters.isEmpty() && !player.hasKey()) { //last monster drops key
+					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
+				} else {
+					if (Math.random()>0.5) { //monsters have a chance to drop a potion
+						gameMap[monster.getXPos()][monster.getYPos()].setContainsPotion(true);
+					}
+				}
+				gameMapUpdate = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
+			}
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, true, 1, 3);
+		} else {
+			System.out.println("METHOD game.playerAttack: No Monster in range");
+			answer = (MessAttackAnswer) new MessAttackAnswer(Monsters, false, 1, 3);
+		}
+		try {
+			engine.messagesToClient.put(answer);
+			if (gameMapUpdate != null) {
+				engine.messagesToClient.put(gameMapUpdate);
+			}
+		} catch (InterruptedException e) {
+		}
+	}
+	/**
+	 * This method collects any item the player stands on.
+	 * 
+	 * @author Tobias Schrader, 5637252
+	 */
+	private void collectItem() {
+		Message updateMonsters = null;
+		Message answer;
+		if (gameMap[player.getXPos()][player.getYPos()].containsPotion()) {
+			player.takePotion(); //take potion if one is there
+			gameMap[player.getXPos()][player.getYPos()].setContainsPotion(false); //remove potion from map
+			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
+		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) { //take key if one is there
+			//spawn new monster from waiting list
+			Monsters.addAll(WaitingMonsters);
+			for (Monster monster: Monsters) {
+				gameMap[monster.getXPos()][monster.getYPos()].setContainsMonster(true);
+			}
+			player.takeKey();
+			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
+			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
+			updateMonsters = (MessUpdateMonsterAnswer) new MessUpdateMonsterAnswer(Monsters, 2, 3);
+		} else {
+			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(-1, 1, 5);
+		}
+		try {
+			engine.messagesToClient.put(answer);
+			if (updateMonsters != null) {
+				engine.messagesToClient.put(updateMonsters);
+			}
+		} catch (InterruptedException e) {
+
+		}
+	}
+	
+	/**
+	 * This method lets the player apply a potion. Answer updates player.
+	 * 
+	 * @author Tobias Schrader, 5637252
+	 */
+	private void usePotion() {
+		Message answer;
+		if (player.getNumberOfPotions() > 0) { //check if player has a potion
+			player.usePotion(); //heal player
+			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, true, 1, 7);
+		} else {
+			System.out.println("METHOD game.usePotion: No Potion");
+			answer = (MessUsePotionAnswer) new MessUsePotionAnswer(player, false, 1, 7);
+			;
+		}
+		try {
+			engine.messagesToClient.put(answer);
+		} catch (InterruptedException e) {
+		}
+	}
+	
+	/**
+	 * This method is used to open the door and load a new level.
+	 * 
+	 * @author Tobias Schrader, 5637252
+	 */
+	private void openDoor() {
+		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) { //checks if player stands on exit and has key
+			if (levelNumber >= 5) {
+				endGame(true); //opening the door in level 5 wins the game
+			} else {
+				levelNumber++;
+				this.newLevel(levelNumber); //load new level
+				System.out.println("METHOD Game.openDoor: Door opened");
+			}
+		} else {
+			System.out.println("METHOD Game.openDoor: Door didn't open");
+			Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(false, 1, 9);
+			try {
+				engine.messagesToClient.put(answer);
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+	
+	/**
+	 * Loads new level and sends updates
+	 * 
+	 * @param levelNumber
+	 * @author Tobias Schrader, 5637252
+	 */
+	public void newLevel(int levelNumber) {
+		System.out.println("METHOD Game.newLevel");
+		gameMap = Labyrinth.generate(gameSize, levelNumber*2); //generate a new map with number of monsters dependent on level
+		Monsters.clear(); //delete any monsters from old level
+		createMonsters(gameMap, levelNumber * 2); //create monsters
+		//reset player
+		player.setPos(1, gameSize - 2);
+		player.removeKey();
+		Message answer = (MessOpenDoorAnswer) new MessOpenDoorAnswer(true, 1, 9);
+		Message newLevel = (MessLevelAnswer) new MessLevelAnswer(gameMap, Monsters, 2, 1);
+		Message playerUpdate = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(),
+				player.getYPos());
+		try {
+			engine.messagesToClient.put(answer);
+			engine.messagesToClient.put(newLevel);
+			engine.messagesToClient.put(playerUpdate);
+		} catch (InterruptedException e) {
+		}
+	}
+	
+	/**
+	 * This method reads the monster from map and creates them as objects
+	 * @param gamemap
+	 * @param monsterNumber
+	 * @return A LinkedList containing the monster objects
+	 * 
+	 * @author Tobias Schrader, 5637252
+	 */
+	private LinkedList<Monster> createMonsters(Tile[][] gamemap, int monsterNumber) {
+		WaitingMonsters.clear();
+		int k = 0;
+		for (int i = 0; i < gamemap.length; i++) {
+			for (int j = 0; j < gamemap.length; j++) {
+				if (gameMap[i][j].containsMonster()) {
+					if (k % 2 == 0) { //half the monsters are spawned on begin
+						Monsters.add(new Monster(i, j, this, 0));
+					} else {
+						WaitingMonsters.add(new Monster(i, j, this, 1)); //these are spawned when the player takes the key
+						gameMap[i][j].setContainsMonster(false);
+					}
+					k++;
+				}
+			}
+		}
+		return Monsters;
+	}
+	
+	/**
+	 * This method executes a move to a certain position
+	 * 
+	 * @param pmessage, contains destination
+	 * @author Tobias Schrader, 5637252
+	 */
+	private void aStarMove(Message pmessage) {
+		MessAstarRequest message = (MessAstarRequest) pmessage;
+		playerPath = player.moveToPos(message.getMouseX(), message.getMouseY());
+	}
+	
+	/**
+	 * This method allows for the use of cheats. Certain codes trigger certain actions
+	 * @param pmessage, contains the cheat code
+	 */
+	private void cheat(Message pmessage) {
+		MessCheatRequest message = (MessCheatRequest) pmessage;
+		if (message.getCheat().equals("molina")) {
+			player.characterShield(true);
+		} else if (message.getCheat().equals("thekeytolearningjava")) {
+			player.takeKey();
+		} else if (message.getCheat().equals("superdebugger")) {
+			player.setDamage(100);
+		} else if (message.getCheat().equals("thislevelisboring")) {
+			levelNumber++;
+			newLevel(levelNumber);
+		}
+	}
+	/**
+	 * This method stops the game after it ended
+	 * @param playerWon - if the player won or lost
+	 */
+	public void endGame(boolean playerWon) {
+		gameEnded = true; //stops main loop in run() method
+		System.out.println("Game Ended");
+		if (playerWon) { //time is added to highscore if player won
+			scoreTime = (int) ((System.currentTimeMillis() - startTime) / 1000);
+			engine.highscores.addPlayerScore(player.getName(), scoreTime); //update highscore
+		}
+		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7); //inform client about end
+		Message highScore = (MessHighscoreAnswer) new MessHighscoreAnswer(engine.highscores.getHighScore(),2,9); //send highscore update
+		try {
+			engine.messagesToClient.put(answer);
+			engine.messagesToClient.put(highScore);
+		} catch (InterruptedException e) {
 		}
 	}
 
-	// Getters
+/**
+ * This method simply stops the game by cutting the while-loop in the run() method
+ * @author Tobias Schrader, 5637252
+ */
+	public void stopGame() {
+		gameEnded = false;
+	}
+	
+	// Getters to access game information
 
 	public Player getPlayer() {
 		return player;
@@ -499,11 +499,5 @@ public class Game extends TimerTask implements Serializable {
 	public LinkedList<Monster> getMonsters() {
 
 		return Monsters;
-	}
-	public void stopGame() {
-		gameEnded = false;
-	}
-	public void restartGame() {
-		gameEnded = true;
 	}
 }

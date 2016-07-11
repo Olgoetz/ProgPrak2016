@@ -3,6 +3,11 @@ package pp2016.team19.shared;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+/**
+ * Sends updated monster list
+ * @author Tobias Schrader, 5637252
+ *
+ */
 public class MessUpdateMonsterAnswer extends Message implements Serializable {
 
 	
