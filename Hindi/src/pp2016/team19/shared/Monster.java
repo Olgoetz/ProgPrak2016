@@ -203,8 +203,10 @@ public class Monster extends Character {
 //			System.out.println("Flee to: " + fleePos.getXPos() + ", "
 //					+ fleePos.getYPos());
 			fleePath.clear();
-			fleePath = AStarSearch(this.getXPos(), this.getYPos(),
+			if (fleePos != null) {
+				fleePath = AStarSearch(this.getXPos(), this.getYPos(),
 					fleePos.getXPos(), fleePos.getYPos());
+			}
 		}
 
 		changeDir(fleePath);
