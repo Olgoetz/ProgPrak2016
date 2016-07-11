@@ -46,7 +46,7 @@ public class ServerEngine implements Runnable {
 //		players.add(new Player("molina","pp2016"));
 //		games.add(null);
 		players = users.readUserList();
-		players.get(1).makeCheater(true);
+		players.get(1).activateGodmode(true);
 		highscores = new Highscore();
 	}
 
@@ -120,6 +120,9 @@ public class ServerEngine implements Runnable {
 	private void newGame(Message pmessage) {
 		MessStartGameRequest message = (MessStartGameRequest) pmessage;
 		Player player = players.get(message.getPlayerID());
+		if (player.getGame()!=null) {
+			player.getGame().stopGame();
+		}
 		//System.out.println(player.isLoggedIn());
 		if (player.isLoggedIn()) {
 		startGame(message.getPlayerID(), player);

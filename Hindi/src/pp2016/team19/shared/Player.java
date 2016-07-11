@@ -206,7 +206,7 @@ public class Player extends Character implements Serializable {
 		return isCheater;
 	}
 
-	public void makeCheater(boolean isCheater) {
+	public void activateGodmode(boolean isCheater) {
 		this.isCheater = isCheater;
 	}
 }
