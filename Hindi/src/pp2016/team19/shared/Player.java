@@ -111,8 +111,8 @@ public class Player extends Character implements Serializable {
 	}
 
 	// Method to remove the key
-	public void removeKey(boolean isCheater) {
-		hasKey = isCheater;
+	public void removeKey() {
+		hasKey = false;
 	}
 
 	public int usePotion() {

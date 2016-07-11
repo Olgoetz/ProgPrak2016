@@ -364,6 +364,7 @@ public class Game extends TimerTask implements Serializable {
 		}
 		createMonsters(gameMap, levelNumber * 2);
 		player.setPos(1, gameSize - 2);
+		player.removeKey();
 	}
 
 	private LinkedList<Monster> createMonsters(Tile[][] gameMap2, int monsterNumber) {
