@@ -986,6 +986,18 @@ public class ClientEngine implements Runnable {
 	public void setSystemMessages(SystemMessages sysmes) {
 		this.sysMes = sysmes;
 	}
+	
+	
+	/**
+	 * Gets the linked list that contains the highscore
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 * @return the highscore linked list
+	 */
+	
+	public LinkedList<HighScoreElement> getHighscore() {
+		return highscore;
+	}
 
 
 	
