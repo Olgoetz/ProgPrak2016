@@ -262,6 +262,9 @@ public class Game extends TimerTask implements Serializable {
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(1, 1, 5);
 		} else if (gameMap[player.getXPos()][player.getYPos()].containsKey()) {
 			Monsters.addAll(WaitingMonsters);
+			for (Monster monster: Monsters) {
+				gameMap[monster.getXPos()][monster.getYPos()].setContainsMonster(true);
+			}
 			player.takeKey();
 			gameMap[player.getXPos()][player.getYPos()].setContainsKey(false);
 			answer = (MessCollectItemAnswer) new MessCollectItemAnswer(0, 1, 5);
@@ -292,6 +295,7 @@ public class Game extends TimerTask implements Serializable {
 			if (monster.getHealth() <= 0) {
 				Monsters.remove(monster);
 				System.out.println("METHOD game.playerAttack: Monster Killed");
+				gameMap[monster.getXPos()][monster.getYPos()].setContainsMonster(false);
 				if (Monsters.isEmpty() && !player.hasKey()) {
 					gameMap[monster.getXPos()][monster.getYPos()].setContainsKey(true);
 				} else {
@@ -359,6 +363,7 @@ public class Game extends TimerTask implements Serializable {
 						Monsters.add(new Monster(i, j, this, 0));
 					} else {
 						WaitingMonsters.add(new Monster(i, j, this, 1));
+						gameMap[i][j].setContainsMonster(false);
 					}
 					k++;
 				}
@@ -381,7 +386,7 @@ public class Game extends TimerTask implements Serializable {
 		switch (message.getDirection()) {
 		case 0: // MoveDown
 			if (player.getYPos() > 0 && gameMap[player.getXPos()][player.getYPos() + 1].isWalkable()) {
-				if (gameMap[player.getXPos()][player.getYPos() + 1].containsMonster()) {
+				if (!gameMap[player.getXPos()][player.getYPos() + 1].containsMonster()) {
 				player.moveDown();
 				System.out.println("DOWN:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
@@ -398,7 +403,7 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 1: // MoveUp
 			if (player.getYPos() < 16 - 1 && gameMap[player.getXPos()][player.getYPos() - 1].isWalkable()) {
-				if (gameMap[player.getXPos()][player.getYPos() - 1].containsMonster()) {
+				if (!gameMap[player.getXPos()][player.getYPos() - 1].containsMonster()) {
 				player.moveUp();
 				System.out.println("UP:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
@@ -414,7 +419,7 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 2: // MoveLeft
 			if (player.getXPos() > 0 && gameMap[player.getXPos() - 1][player.getYPos()].isWalkable()) {
-				if (gameMap[player.getXPos()-1][player.getYPos()].containsMonster()) {
+				if (!gameMap[player.getXPos()-1][player.getYPos()].containsMonster()) {
 				player.moveLeft();
 				System.out.println("LEFT:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
@@ -430,7 +435,7 @@ public class Game extends TimerTask implements Serializable {
 			break;
 		case 3: // MoveRight
 			if (player.getXPos() < 16 - 1 && gameMap[player.getXPos() + 1][player.getYPos()].isWalkable()) {
-				if (gameMap[player.getXPos()+1][player.getYPos()].containsMonster()) {
+				if (!gameMap[player.getXPos()+1][player.getYPos()].containsMonster()) {
 				player.moveRight();
 				System.out.println("RIGHT:" + player.getXPos() + " " + player.getYPos());
 				answer = (MessMoveCharacterAnswer) new MessMoveCharacterAnswer(player.getXPos(), player.getYPos(), 1, 1,
