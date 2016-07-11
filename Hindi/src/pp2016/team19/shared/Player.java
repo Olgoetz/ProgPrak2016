@@ -60,6 +60,9 @@ public class Player extends Character implements Serializable {
 	public LinkedList<Node> moveToPos(int xGoal, int yGoal) {
 		if (pathToPos.isEmpty()) {
 			pathToPos = AStarSearch(this.getXPos(), this.getYPos(), xGoal, yGoal);
+			if (pathToPos == null) {
+				return null;
+			}
 			pathToPos.addLast(new Node(xGoal, yGoal));
 		}
 		
