@@ -66,40 +66,40 @@ public class Player extends Character implements Serializable {
 			pathToPos.addLast(new Node(xGoal, yGoal));
 		}
 		
-		Tile[][] gameMap = getGame().getGameMap();
-		System.out.println("\n");
-		for (int i = 0; i < getGame().getGameSize(); i++) {
-			for (int j = 0; j < getGame().getGameSize(); j++) {
-
-				if (gameMap[i][j].isEntry()) {
-					System.out.print("S ");
-
-				} else if (gameMap[i][j].isExit()) {
-					System.out.print("Z ");
-
-				} else if (gameMap[i][j].containsKey()) {
-					System.out.print("K ");
-
-				} else if (gameMap[i][j].containsPotion()) {
-					System.out.print("P ");
-					
-				} else if (gameMap[i][j].containsMonster()) {
-					System.out.print("M ");
-
-				} else if (gameMap[i][j].isRock()) {
-					System.out.print("+ ");
-
-				} else if (gameMap[i][j].isFloor()) {
-					System.out.print("o ");
-
-				}
-				
-			
-
-
-			}
-			System.out.println("");
-		}
+//		Tile[][] gameMap = getGame().getGameMap();
+//		System.out.println("\n");
+//		for (int i = 0; i < getGame().getGameSize(); i++) {
+//			for (int j = 0; j < getGame().getGameSize(); j++) {
+//
+//				if (gameMap[i][j].isEntry()) {
+//					System.out.print("S ");
+//
+//				} else if (gameMap[i][j].isExit()) {
+//					System.out.print("Z ");
+//
+//				} else if (gameMap[i][j].containsKey()) {
+//					System.out.print("K ");
+//
+//				} else if (gameMap[i][j].containsPotion()) {
+//					System.out.print("P ");
+//					
+//				} else if (gameMap[i][j].containsMonster()) {
+//					System.out.print("M ");
+//
+//				} else if (gameMap[i][j].isRock()) {
+//					System.out.print("+ ");
+//
+//				} else if (gameMap[i][j].isFloor()) {
+//					System.out.print("o ");
+//
+//				}
+//				
+//			
+//
+//
+//			}
+//			System.out.println("");
+//		}
 		
 		return pathToPos;
 	}
