@@ -258,6 +258,8 @@ public class Player extends Character implements Serializable {
 		setNumberOfPotions(0);
 		setPos(0, 0);
 		setHealth(100);
+		setDamage(8);
+		characterShield(false);
 	}
 
 	// GETTER AND SETTER
@@ -421,5 +423,8 @@ public class Player extends Character implements Serializable {
 	 */
 	public void characterShield(boolean bool) {
 		isInvulnerable = bool;
+	}
+	public boolean hasShield() {
+		return isInvulnerable;
 	}
 }
