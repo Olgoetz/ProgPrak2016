@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Random;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -34,21 +34,26 @@ public class Statusbar extends JPanel {
 
 private static final long serialVersionUID = 1L;
 	
+	//images
 	private Image key, potion;	
 	private Image floor1, wall1, playerImg; 
 	private Image red, black, beige;
 	
-	
+	//the gamewindow
 	private GameWindow window;
+	//measure variables
 	private int statBox = 32;
+	//minibox is the tilesize of the minimap
 	private int miniBox = 8;
+	//shift variables
 	int var1= 360;
 	int var2 = 12;
 	
 	/**
-	 * @author Felizia Langsdorf, Matr_Nr.: 6002960
-	 * @param window window of the application
+	 * @author Felizia Langsdorf, 6002960
+	 * @param window gamewindow of the application
 	 */
+	
 	public Statusbar(GameWindow window){
 		this.window = window;
 		
@@ -60,10 +65,10 @@ private static final long serialVersionUID = 1L;
 			
 			//load the smaller images for the minimap
 			floor1 = ImageIO.read(new File("img//floorKopie.png")); // adopted
-			wall1 = ImageIO.read(new File("img//hellgrau.png"));//source: http://static.webshopapp.com/shops/065293/files/025593597/pvc-matt-hellgrau.jpg
+			wall1 = ImageIO.read(new File("img//lightgrey.png"));//source: http://static.webshopapp.com/shops/065293/files/025593597/pvc-matt-hellgrau.jpg
 			playerImg = ImageIO.read(new File("img//warrior.png"));// source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
-			red = ImageIO.read(new File ("img//rot.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
-			black = ImageIO.read(new File("img//schwarz.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
+			red = ImageIO.read(new File ("img//red.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
+			black = ImageIO.read(new File("img//black.png"));//source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
 			beige = ImageIO.read(new File ("img//beige.png"));//source: http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
 			
 		} catch (IOException e) {
@@ -72,7 +77,8 @@ private static final long serialVersionUID = 1L;
 	}
 	/**
 	 * paint method
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Felizia Langsdorf, 6002960
+	 * @param g graphics object
 	 */
 	public void paint(Graphics g) {
 		
