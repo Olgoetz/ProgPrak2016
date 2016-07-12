@@ -137,7 +137,7 @@ public class TransmitterClient extends Thread {
 	 * messages that are going to be sent to the Server
 	 * 
 	 * @author Bulut , Taner , 5298261
-	 * @return the LinkedBlockingQueue<Message> that gathers the Message-objects
+	 * @return the LinkedBlockingQueue that gathers the Message-objects
 	 *         that are going to be sent to the Server
 	 */
 	public LinkedBlockingQueue<Message> getQueueMessagesToServer() {

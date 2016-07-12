@@ -12,9 +12,9 @@ public class TestMessage extends Message implements Serializable {
 	public String messageName;
 	/**
 	 * Constructor sets type, subtype and the String to be sent
-	 * @param type
-	 * @param subType
-	 * @param messageName
+	 * @param type the maintype (=0) of the message
+	 * @param subType the subtype (=18) of the message
+	 * @param messageName the name of the message object
 	 * @author Tobias Schrader, 5637252 
 	 */
 	public TestMessage(int type, int subType, String messageName) {

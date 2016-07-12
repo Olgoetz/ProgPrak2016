@@ -57,7 +57,7 @@ public class UserList {
 	
 	/**
 	 * Saves a new user in the file
-	 * @param player
+	 * @param player a player object
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void addPlayerToList(Player player) {

@@ -32,7 +32,7 @@ public class MessCheatRequest extends Message implements Serializable {
 	
 	/**
 	 * sets the cheatcode
-	 * @param cheat
+	 * @param cheat the cheat
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void setCheat(String cheat) {

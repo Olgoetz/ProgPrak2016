@@ -42,9 +42,9 @@ public class Game extends TimerTask implements Serializable {
 
 	/**
 	 * Constructor initializes player and engine, builds first level
-	 * @param engine
-	 * @param player
-	 * @param gameSize
+	 * @param engine the server engine
+	 * @param player a player object
+	 * @param gameSize the gamSize
 	 * @author Tobias Schrader, 5637252
 	 */
 	public Game(ServerEngine engine, Player player, int gameSize) {
@@ -141,7 +141,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * analyzes game request messages forwarded from the engine. Determines action depending on subtype.
 	 * 
-	 * @param message
+	 * @param message a message object
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void distributor(Message message) {
@@ -506,7 +506,8 @@ public class Game extends TimerTask implements Serializable {
 		return gameMap;
 	}
 /**
- * @returns the size of the game map
+ * Gets the size of the map.
+ * @return the size of the game map
  * @author Tobias Schrader, 5637252
  */
 	public int getGameSize() {

@@ -17,7 +17,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ServerMain {
 /**
  * Main Method - executed upon running the program.
- * @param args
+ * @param args the arguments
  */
 	public static void main(String[] args) {
 		System.out.println("METHOD ServerMain.main: ServerEngine started");

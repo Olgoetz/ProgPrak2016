@@ -14,6 +14,9 @@ public class MessStartGameRequest extends Message implements Serializable {
 	/**
 	 * Constructor sets type, subtype and required playerID
 	 * @author Tobias Schrader, 5637252
+	 * @param playerID the playerID
+	 * @param type the maintype (=0) of the message
+	 * @param subType the subtype (=6) of the message
 	 */
 	public MessStartGameRequest(int playerID, int type, int subType) {
 		super(type, subType);

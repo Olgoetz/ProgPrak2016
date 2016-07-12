@@ -55,6 +55,7 @@ public class Labyrinth implements Serializable {
 	 * 
 	 * @param gameSize Size of the GameMap, just a Size like 2k+1  (11,13,15,...).
 	 * @param monsterNumber Amount of Monsters that will be created.
+	 * @return a gamemap
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -132,6 +133,7 @@ public class Labyrinth implements Serializable {
 	 * A method, which helps to analyse the Labyrinth-Perfection.
 	 * 
 	 * @param gameSize is the Size of the gameMap.
+	 * @return a counter
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -156,6 +158,7 @@ public class Labyrinth implements Serializable {
 	 * 
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordinate of Tile.
+	 * @return a boolean
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -176,6 +179,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
+	 * @return a boolean
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -196,6 +200,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
+	 * @return a boolean
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -216,7 +221,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
-	 * 
+	 * @return a boolean
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -237,7 +242,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
-	 * 
+	 * @return number of neighbors
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -266,6 +271,7 @@ public class Labyrinth implements Serializable {
 	 * 
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
+	 * @return neighbors
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -297,7 +303,8 @@ public class Labyrinth implements Serializable {
 	/**
 	 * Searches for a Tile = Floor in a quadrant, to put a Potion at this Tile. (Recursiv)
 	 * 
-	 * @param gameSize is the Size of the gameMap.
+	 * @param gameSize is the Size of the gameMap
+	 * @param i an index variable
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -393,6 +400,7 @@ public class Labyrinth implements Serializable {
 	 * @param gameSize size of the gameMap
 	 * @param monsterNumber of all monsters
 	 * @param monsterIndex index of the Monster
+	 * @return the x-coordinate of a monster
 	 * @author Czernik, Christof, 5830621
 	 */
 	
@@ -421,6 +429,7 @@ public class Labyrinth implements Serializable {
 	 * @param gameSize size of the gameMap
 	 * @param monsterNumber of all monsters
 	 * @param monsterIndex index of the Monster
+	 * @return a y-coordinate of a monster
 	 * @author Czernik, Christof, 5830621
 	 */
 	

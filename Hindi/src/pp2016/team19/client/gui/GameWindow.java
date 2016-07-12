@@ -585,7 +585,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * sets the boolean playercheck
 	 * @author Felizia Langsdorf, 6002960 
-	 * @param playerCheck
+	 * @param playerCheck a boolean to check if a player object is available
 	 * 
 	 */
 	public void setTest(boolean playerCheck) {

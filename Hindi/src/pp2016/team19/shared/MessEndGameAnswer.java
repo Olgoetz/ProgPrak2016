@@ -25,7 +25,7 @@ public class MessEndGameAnswer extends Message implements Serializable {
 	}
 	/**
 	 * Set if won or lost
-	 * @param gameWon
+	 * @param gameWon a boolean
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void setGameWon(boolean gameWon) {
@@ -42,7 +42,7 @@ public class MessEndGameAnswer extends Message implements Serializable {
 	
 	/**
 	 * Set the score
-	 * @param score
+	 * @param score the score
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void setScore(int score) {
