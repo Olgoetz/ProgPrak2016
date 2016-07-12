@@ -14,7 +14,7 @@ import pp2016.team19.shared.*;
  * The server engine is responsible for distribution of messages,
  * administration of players and execution of games.
  * 
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  *
  */
 public class ServerEngine implements Runnable {
@@ -39,7 +39,7 @@ public class ServerEngine implements Runnable {
 	 * Constructor sets Message Queues for communication, accesses files
 	 * 
 	 * @param messagesToClient - The queue for outgoing messages
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public ServerEngine(LinkedBlockingQueue<Message> messagesToClient) {
 		this.messagesToClient = messagesToClient;
@@ -50,7 +50,7 @@ public class ServerEngine implements Runnable {
 	/**
 	 * This method is executed in a thread, it keeps processing Messages
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void run() {
 		System.out.println("METHOD ServerEngine.run: Started");
@@ -75,7 +75,7 @@ public class ServerEngine implements Runnable {
 	 * Character management. Forwarded to the game. Type 100: Ping.
 	 * 
 	 * @param message - the request from the client
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void distributor(Message message) {
 		switch (message.getType()) {
@@ -121,7 +121,7 @@ public class ServerEngine implements Runnable {
 	 * information about success and the players ID.
 	 * 
 	 * @param pmessage, - Message that contains username and password
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void signUpRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
@@ -164,7 +164,7 @@ public class ServerEngine implements Runnable {
 	 * confirmation.
 	 * 
 	 * @param pmessage - message that contains username and password
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void signInRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
@@ -212,7 +212,7 @@ public class ServerEngine implements Runnable {
 	 * started.
 	 * 
 	 * @param pmessage - messages that contains the ID of the player
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void newGame(Message pmessage) {
 		MessStartGameRequest message = (MessStartGameRequest) pmessage;
@@ -240,7 +240,7 @@ public class ServerEngine implements Runnable {
 	 * This method logs a player out and stops his game if necessary.
 	 * 
 	 * @param pmessage, message that contains the player
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void signOutRequest(Message pmessage) {
 		MessSignOutRequest message = (MessSignOutRequest) pmessage;
@@ -263,7 +263,7 @@ public class ServerEngine implements Runnable {
 	 * This method just forwards player actions to the game
 	 * 
 	 * @param message
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void sendToGame(Message message) {
 		try {
@@ -275,7 +275,7 @@ public class ServerEngine implements Runnable {
 	/**
 	 * This method sends a ping back to confirm connection
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void confirmConnection() {
 		Message answer = (MessPing) new MessPing(100, 0);

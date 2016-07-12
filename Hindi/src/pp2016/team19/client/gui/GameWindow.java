@@ -16,7 +16,7 @@ import pp2016.team19.shared.Tile;
 
 /**
  * <h1> class for the window of the whole application. </h1>
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  * @author Progprak-Team
  *
  */
@@ -70,7 +70,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * constructor of the window
-	 * @author Felizia Langsdorf, 6002960        
+	 * @author Langsdorf, Felizia, 6002960        
 	 * @param engine
 	 *            engine of the client
 	 * @param width
@@ -91,7 +91,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * 
 	 * initializes the frame where login, registration and welcome-menu is shown
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @param width
 	 *            the width of the window
 	 * @param height
@@ -129,7 +129,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * 
 	 * initializes the frame for the actual game 
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param width
 	 *            the width of the window
 	 * @param height
@@ -170,7 +170,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}	
 	
 	/**
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * sets the login panel in the window after logout
 	 * 
 	 */
@@ -206,7 +206,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * adds the menupanel in the window
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 */
 
 	public void showMenu() {
@@ -221,7 +221,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * adds the gamefield in the window, plus statusbar and menubar
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 */
 
 	public void showGameField() {
@@ -245,7 +245,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * adds the highscore panel in the window, removes everything else
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * 
 	 */
 
@@ -270,7 +270,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * adds the control panel in the window, removes everything else
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 */
 
 	public void showControls() {
@@ -292,7 +292,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * gets the gamefield
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @return gamefield
 	 */
 
@@ -302,7 +302,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the statusbar
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @return statusbar
 	 */
 
@@ -312,7 +312,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * gets the highscore
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @return highscore
 	 */
 
@@ -322,7 +322,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the controls
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @return controls
 	 */
 
@@ -332,7 +332,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the menupanel
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @return menupanel
 	 * 
 	 */
@@ -343,7 +343,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the loginpanel
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @return loginpanel
 	 */
 
@@ -355,7 +355,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * method for controlling the player with the mouse; 
 	 * player moves to clicked position with the A* algorithm
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param m
 	 *            mouseEvent
 	 */
@@ -384,7 +384,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	//remaining methods of the MouseListener Interface which have to be implemented 
 
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param arg0 argument
 	 */
 
@@ -392,21 +392,21 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 	
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param arg0 argument
 	 */
 	public void mouseExited(MouseEvent arg0) {
 	}
 	
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param arg0 argument
 	 */
 	public void mousePressed(MouseEvent arg0) {
 	}
 	
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param arg0 argument
 	 */
 	public void mouseReleased(MouseEvent arg0) {
@@ -473,7 +473,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * remaining methods of the KeyListener Interface, have to be implemented
 	 * but not used
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param e KeyEvent
 	 * 
 	 */
@@ -482,7 +482,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 	
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param e KeyEvent
 	 */
 	public void keyTyped(KeyEvent e) {
@@ -491,7 +491,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	/**
 	 * method for resetting the game 
 	 * source: Progprak sample
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 */
 
 	public void resetGame() {
@@ -556,7 +556,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the clientengine
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @return engine
 	 * 
 	 */
@@ -566,7 +566,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the player
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @return player
 	 */
 	public Player getPlayer() {
@@ -575,7 +575,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	
 	/**
 	 * gets the level
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @return level
 	 */
 	public Tile[][] getLevel() {
@@ -584,7 +584,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * sets the boolean playercheck
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @param playerCheck a boolean to check if a player object is available
 	 * 
 	 */

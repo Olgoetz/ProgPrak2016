@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Requests new game, sends playerID
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  *
  */
 public class MessStartGameRequest extends Message implements Serializable {
@@ -13,7 +13,7 @@ public class MessStartGameRequest extends Message implements Serializable {
 
 	/**
 	 * Constructor sets type, subtype and required playerID
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 * @param playerID the playerID
 	 * @param type the maintype (=0) of the message
 	 * @param subType the subtype (=6) of the message
@@ -25,7 +25,7 @@ public class MessStartGameRequest extends Message implements Serializable {
 /**
  * 
  * @return the ID of the player
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 	public int getPlayerID() {
 		return playerID;

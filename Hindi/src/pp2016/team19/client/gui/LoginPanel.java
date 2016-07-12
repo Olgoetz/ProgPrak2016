@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 /**
  * <h1> class for the Panel which shows the login and the registration. </h1>
  * interface ActionListener is implemented
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  *
  */
 
@@ -41,7 +41,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	
 	/**
 	 *
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param window gamewindow of the application
 	 */
 	
@@ -129,7 +129,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	
 	/**
 	 * actionPerformed class for the buttons
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param ae ActionEvent of buttons
 	 */
 		public void actionPerformed(ActionEvent ae) {

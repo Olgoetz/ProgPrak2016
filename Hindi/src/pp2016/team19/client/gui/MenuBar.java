@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 /**
  * <h1> class for the menubar shown at the top of the window while playing. </h1>
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  *
  */
 public class MenuBar extends JMenuBar implements ActionListener {
@@ -38,7 +38,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private GameWindow window;
     
     /**
-     * @author Felizia Langsdorf, 6002960
+     * @author Langsdorf, Felizia, 6002960
      * @param window window of the application
      */
     
@@ -84,7 +84,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	/**
 	 * actionPerformed method for the menuItems
 	 * events after clicking on the items
-	 * @author Felizia Langsdorf, Matr_Nr: 6002960
+	 * @author Langsdorf, Felizia, Matr_Nr: 6002960
 	 *
 	 */
 	
@@ -134,7 +134,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	}
 	
 	/**
-	 * @author Felizia Langsdorf,6002960
+	 * @author Langsdorf, Felizia,6002960
 	 * @return highscore 
 	 */
 	public JMenuItem getHighscore(){

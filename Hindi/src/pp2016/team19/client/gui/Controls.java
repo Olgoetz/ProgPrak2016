@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 /** 
  * <h1> class for the panel which explains how to control the game </h1>
  * shows up after clicking on the MenuItem "show control"
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  * 
  */
 
@@ -23,7 +23,7 @@ public class Controls extends JPanel {
 
 	/**
 	 * paint method, draws the pictures and strings on the panel
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param g graphics object 
 	 */
 	

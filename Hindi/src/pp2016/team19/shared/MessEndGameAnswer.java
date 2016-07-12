@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * Sends if game is won or lost and score
  * 
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 public class MessEndGameAnswer extends Message implements Serializable {
 	private static final long serialVersionUID = -2656858660899131260L;
@@ -18,7 +18,7 @@ public class MessEndGameAnswer extends Message implements Serializable {
 	/**
 	 * 
 	 * @return if the player won
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public boolean isGameWon() {
 		return gameWon;
@@ -26,7 +26,7 @@ public class MessEndGameAnswer extends Message implements Serializable {
 	/**
 	 * Set if won or lost
 	 * @param gameWon a boolean
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void setGameWon(boolean gameWon) {
 		this.gameWon = gameWon;
@@ -34,7 +34,7 @@ public class MessEndGameAnswer extends Message implements Serializable {
 	/**
 	 * 
 	 * @return score achieved in the game
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public int getScore() {
 		return score;
@@ -43,7 +43,7 @@ public class MessEndGameAnswer extends Message implements Serializable {
 	/**
 	 * Set the score
 	 * @param score the score
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void setScore(int score) {
 		this.score = score;

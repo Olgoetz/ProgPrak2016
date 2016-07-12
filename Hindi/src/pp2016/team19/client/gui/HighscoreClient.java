@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 /**
  * <h1> class for the highscore panel </h1>
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  *
  */
 
@@ -25,7 +25,7 @@ public class HighscoreClient extends JPanel {
 	
 	/**
 	 * constructor 
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param window the gamewindow
 	 *
 	 */
@@ -36,7 +36,7 @@ public class HighscoreClient extends JPanel {
 		
 		/**
 		 * paint method (source: Progprak-Team) 
-		 * @author Felizia Langsdorf, 6002960
+		 * @author Langsdorf, Felizia, 6002960
 		 * @param g graphics object
 		 * 
 		 */

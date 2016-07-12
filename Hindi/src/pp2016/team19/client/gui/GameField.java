@@ -15,7 +15,7 @@ import pp2016.team19.shared.Player;
 
 /**
  * <h1> class for gamefield-panel. </h1>
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  * @author Progprak-Team 
  *
  */
@@ -32,7 +32,7 @@ public class GameField extends JPanel {
 	private GameWindow window;
 
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param window
 	 *            the gamewindow JFrame
 	 * 
@@ -69,7 +69,7 @@ public class GameField extends JPanel {
 	/**
 	 * paint method, draws the labyrinth, the player, etc.
 	 * source: the given sample of the Progprak-Team 
-	 * @author Felizia Langsdorf, 6002960 
+	 * @author Langsdorf, Felizia, 6002960 
 	 * @param g the graphics object
 	 */
 

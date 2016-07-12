@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * 
  * Runs game, holds game data, loads levels, executes character actions
  * 
- * @author Tobias Schrader
+ * @author Schrader, Tobias
  *
  */
 public class Game extends TimerTask implements Serializable {
@@ -45,7 +45,7 @@ public class Game extends TimerTask implements Serializable {
 	 * @param engine the server engine
 	 * @param player a player object
 	 * @param gameSize the gamSize
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public Game(ServerEngine engine, Player player, int gameSize) {
 		this.player = player;
@@ -58,7 +58,7 @@ public class Game extends TimerTask implements Serializable {
 
 	/**
 	 * Starts a thread to run the game. Processes messages, keeps monsters moving and player auto-moving.
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void run() {
 		if (starter == true) { //sets starting time, sends first level
@@ -142,7 +142,7 @@ public class Game extends TimerTask implements Serializable {
 	 * analyzes game request messages forwarded from the engine. Determines action depending on subtype.
 	 * 
 	 * @param message a message object
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void distributor(Message message) {
 		switch (message.getSubType()) {
@@ -173,7 +173,7 @@ public class Game extends TimerTask implements Serializable {
  * Sends answer with update of map and monsters.
  * 
  * @param pmessage, message that contains direction
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 	private void playerMove(Message pmessage) {
 		Message answer = null;
@@ -255,7 +255,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method searches for monsters in range and attacks one if one is found.
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void playerAttack() {
 		Message answer;
@@ -293,7 +293,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method collects any item the player stands on.
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void collectItem() {
 		Message updateMonsters = null;
@@ -328,7 +328,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method lets the player apply a potion. Answer updates player.
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void usePotion() {
 		Message answer;
@@ -349,7 +349,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method is used to open the door and load a new level.
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void openDoor() {
 		if (gameMap[player.getXPos()][player.getYPos()].isExit() && player.hasKey()) { //checks if player stands on exit and has key
@@ -374,7 +374,7 @@ public class Game extends TimerTask implements Serializable {
 	 * Loads new level and sends updates
 	 * 
 	 * @param levelNumber - the number of the current level
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void newLevel(int levelNumber) {
 		System.out.println("METHOD Game.newLevel");
@@ -402,7 +402,7 @@ public class Game extends TimerTask implements Serializable {
 	 * @param monsterNumber
 	 * @return A LinkedList containing the monster objects
 	 * 
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private LinkedList<Monster> createMonsters(Tile[][] gamemap, int monsterNumber) {
 		WaitingMonsters.clear();
@@ -427,7 +427,7 @@ public class Game extends TimerTask implements Serializable {
 	 * This method executes a move to a certain position
 	 * 
 	 * @param pmessage, contains destination
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void aStarMove(Message pmessage) {
 		MessAstarRequest message = (MessAstarRequest) pmessage;
@@ -437,7 +437,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method allows for the use of cheats. Certain codes trigger certain actions
 	 * @param pmessage, contains the cheat code
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	private void cheat(Message pmessage) {
 		MessCheatRequest message = (MessCheatRequest) pmessage;
@@ -463,7 +463,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method stops the game after it ended
 	 * @param playerWon - if the player won or lost
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void endGame(boolean playerWon) {
 		gameEnded = true; //stops main loop in run() method
@@ -483,7 +483,7 @@ public class Game extends TimerTask implements Serializable {
 
 /**
  * This method simply stops the game by cutting the while-loop in the run() method
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 	public void stopGame() {
 		gameEnded = true;
@@ -493,14 +493,14 @@ public class Game extends TimerTask implements Serializable {
 
 	/**
 	 * @return the player the game is assigned to
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public Player getPlayer() {
 		return player;
 	}
 	/**
 	 * @return the current map as it is saved in the game
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public Tile[][] getGameMap() {
 		return gameMap;
@@ -508,7 +508,7 @@ public class Game extends TimerTask implements Serializable {
 /**
  * Gets the size of the map.
  * @return the size of the game map
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 	public int getGameSize() {
 		return gameSize;
@@ -516,7 +516,7 @@ public class Game extends TimerTask implements Serializable {
 
 	/**
 	 * @return the number of the current level
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public int getLevelNumber() {
 		return levelNumber;
@@ -524,7 +524,7 @@ public class Game extends TimerTask implements Serializable {
 /**
  * 
  * @return a list containing the monster objects in the current level
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 	public LinkedList<Monster> getMonsters() {
 

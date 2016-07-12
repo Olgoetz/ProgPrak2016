@@ -16,7 +16,7 @@ import pp2016.team19.shared.Tile;
 /**
  * <h1>class for panel statusbar shown on the right side of the window while playing the game </h1>
  * contains: playername, healthbar, items, level, minimap, etc.
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  *
  */
 
@@ -40,7 +40,7 @@ public class Statusbar extends JPanel {
 	int var2 = 12;
 
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param window
 	 *            gamewindow of the application
 	 */
@@ -68,7 +68,7 @@ public class Statusbar extends JPanel {
 
 	/**
 	 * paint method (source: Progprak sample)
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param g
 	 *            graphics object
 	 */
@@ -191,7 +191,7 @@ public class Statusbar extends JPanel {
 	/**
 	 * paint method for the monsters
 	 * 
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param g
 	 *            graphics object
 	 * @param m

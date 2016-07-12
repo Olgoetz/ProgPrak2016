@@ -7,7 +7,7 @@ import javax.swing.*;
 
 /**
  * <h1>class for the welcome panel shows up after a successful login.</h1>
- * @author Felizia Langsdorf, 6002960
+ * @author Langsdorf, Felizia, 6002960
  */
 
 public class MenuPanel extends JPanel implements ActionListener {
@@ -23,7 +23,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private JButton b2;
 
 	/**
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param window
 	 *            gamewindow of the application
 	 */
@@ -61,7 +61,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	 * method of the interface actionListener: after clicking the buttons the
 	 * game starts or logout is initiated
 	 * 
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Langsdorf, Felizia, 6002960
 	 * @param ae
 	 *            ActionEvent
 	 * 

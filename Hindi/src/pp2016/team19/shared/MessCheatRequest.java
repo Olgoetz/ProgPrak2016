@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * <h1>Sends a cheat code.</h1>
  * 
- * @author Tobias Schrader, 5637252
+ * @author Schrader, Tobias, 5637252
  */
 public class MessCheatRequest extends Message implements Serializable {
 
@@ -15,7 +15,7 @@ public class MessCheatRequest extends Message implements Serializable {
 	 * @param cheat the cheat
 	 * @param type the maintype(=2) of the message
 	 * @param subType the subtyp(=10) of the message
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public MessCheatRequest(String cheat, int type, int subType) {
 		super(type, subType);
@@ -24,7 +24,7 @@ public class MessCheatRequest extends Message implements Serializable {
 	/**
 	 * Gets the cheat.
 	 * @return  the Cheatcode
-	 * @author Tobias Schrader
+	 * @author Schrader, Tobias
 	 */
 	public String getCheat() {
 		return cheat;
@@ -33,7 +33,7 @@ public class MessCheatRequest extends Message implements Serializable {
 	/**
 	 * sets the cheatcode
 	 * @param cheat the cheat
-	 * @author Tobias Schrader, 5637252
+	 * @author Schrader, Tobias, 5637252
 	 */
 	public void setCheat(String cheat) {
 		this.cheat = cheat;
