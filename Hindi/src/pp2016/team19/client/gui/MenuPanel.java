@@ -18,12 +18,12 @@ import javax.swing.*;
 public class MenuPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-
+	//background image
 	private ImageIcon picture = new ImageIcon("img//labyrinth.png");//source:http://brandedinthe80s.com/wp-content/uploads/2014/03/2013-04-10-labyrinth.gif
 	private JLabel lab;
-
+	//gamewindow JFrame
 	private GameWindow window;
-
+	//two buttons
 	private JButton b1;
 	private JButton b2;
 	
@@ -31,11 +31,12 @@ public class MenuPanel extends JPanel implements ActionListener {
 	/**
 	 * @author Felizia Langsdorf, Matr_Nr: 6002960
 	 * @param window
-	 *            window of the application
+	 *            gamewindow of the application
 	 */
 	public MenuPanel(GameWindow window) {
 
 		this.window = window;
+		//layout of the panel
 		this.setLayout(new FlowLayout());
 
 		// add the label (picture) on the panel
@@ -56,6 +57,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		b2.setOpaque(true);
 		b1.setVisible(true);
 		b2.setVisible(true);
+		//adding the actionlistener to the buttons
 		b1.addActionListener(this);
 		b2.addActionListener(this);
 		
@@ -69,7 +71,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == b1) { // button start game
-			window.initializeGameframe(32*16, 32*16, "Hindi Bones"); 
+			window.initializeGameframe(32*16, 32*16, "Hindi Bones"); //initialize the window for playing
 			window.getEngine().getThreadPool().execute(window);
 
 		} else if (ae.getSource() == b2) {
