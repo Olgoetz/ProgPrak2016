@@ -12,8 +12,15 @@ import java.io.Serializable;
  */
 public class MessLevelRequest extends Message implements Serializable {
 
+	/**
+	 * The attributes for the LevelRequest
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 */
 
 	private static final long serialVersionUID = 8268363905964396507L;
+	
+	// the levelnumber
 	private int level;
 	
 	
@@ -22,8 +29,8 @@ public class MessLevelRequest extends Message implements Serializable {
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param level receives an int for a level with the ID 0-5
-	 * @param type the maintype of the message
-	 * @param subType the subtype of the message
+	 * @param type the maintype (=2) of the message
+	 * @param subType the subtype (=0) of the message
 	 * @see Message
 	 * 
 	 
@@ -47,7 +54,7 @@ public class MessLevelRequest extends Message implements Serializable {
 	
 	
 	/**
-	 * Retruns the current level.
+	 * Gets the current level.
 	 * @author Oliver Goetz, 5961343
 	 * @return the current level.
 	 * 

@@ -4,22 +4,24 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
- * The message object, that receives linked list from the server.
+ * <h1>The message object, that receives linked list from the server.</h1>
  * It contains the usernames and the highscores.
  * 
- * @author Oliver
+ * @author Oliver Goetz, 5961343
  *
  */
 public class MessHighscoreAnswer extends Message implements Serializable {
 	
 	
 	/**
-	 * The linked list containing usernames and highscores.
+	 * The attributes for the class.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 */
 	
 	private static final long serialVersionUID = -6374026871196891954L;
+	
+	// T´the linked list containing usernames and highscores.
 	private LinkedList<HighScoreElement> highscore;
 	
 	
@@ -28,8 +30,8 @@ public class MessHighscoreAnswer extends Message implements Serializable {
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param highscore the highscore list
-	 * @param type the maintype
-	 * @param subType the subtype
+	 * @param type the maintype (=2)
+	 * @param subType the subtype (=9)
 	 */
 	
 	public MessHighscoreAnswer(LinkedList<HighScoreElement> highscore, int type, int subType) {

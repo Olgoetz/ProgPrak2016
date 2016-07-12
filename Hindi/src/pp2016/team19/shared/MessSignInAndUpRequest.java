@@ -12,12 +12,22 @@ import java.io.Serializable;
 
 public class MessSignInAndUpRequest extends Message implements Serializable {
 
+	
+	/**
+	 * The attributes of the class.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 */
 	private static final long serialVersionUID = -6043901602629877055L;
 	
+	// the username
 	private String username;
+	
+	// the password
 	private String password;
 	
 	/**
+	 * The constructor of the class
 	 * @author Oliver Goetz, 5961343
 	 * @param username typed in username
 	 * @param password typed in password
@@ -33,7 +43,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	
 	
 	/**
-	 * Method, thats a username
+	 * Method, thats a username.
 	 * @author Oliver Goetz, 5961343
 	 * @param username the username typed in the login/sign up frame
 	 */
@@ -43,6 +53,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	}
 	
 	/**
+	 * Gets the username.
 	 * @author Oliver Goetz, 5961343
 	 * @return the username in the login/sign up frame
 	 */
@@ -62,6 +73,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	}
 	
 	/**
+	 * Gets the password.
 	 * @author Oliver Goetz, 5961343
 	 * @return the password in the login/sign up frame
 	 */

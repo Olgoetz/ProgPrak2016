@@ -2,23 +2,25 @@ package pp2016.team19.shared;
 
 import java.io.Serializable;
 
+
+/**
+ * <h1>This class requests an AttackAnswer.</h1>
+ * 
+ * @author Oliver Goetz, 5961343
+ *
+ */
+
 public class MessAttackRequest extends Message implements Serializable {
 
-	
 
-	/**
-	 * @author Oliver Goetz, 5961343
-
-	 * Attack Request Message to server.
-	 */
 	private static final long serialVersionUID = 1L;
-	boolean attack;
+	
 	
 	/**
+	 * The constructor of the class.
 	 * @author Oliver Goetz, 5961343
-	 * @param attack
-	 * @param type
-	 * @param subType
+	 * @param type the maintype (=1)
+	 * @param subType the subtype (=2)
 	 * 
 	 * Constructor for the MessAttackRequest
 	 * 

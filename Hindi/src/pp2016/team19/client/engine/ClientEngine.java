@@ -61,7 +61,7 @@ public class ClientEngine implements Runnable {
 	private boolean gamewon;
 	private SystemMessages sysMes;
 	private String systemMessages;
-	private LinkedList<HighScoreElement> highscore;
+	private LinkedList<HighScoreElement> highscore = new LinkedList<HighScoreElement>();
 
 	// static attributes
 	public static final int BOX = 32;

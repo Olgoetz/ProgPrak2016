@@ -19,14 +19,24 @@ import java.util.Date;
 */
 public abstract class Message implements Serializable{
 	
-	
+	/**
+	 * The atttributes for the abstract Message class.
+	 * @author Oliver Goetz, 5961343
+	 */
 	private static final long serialVersionUID = -4125004909828171573L;
+	
+	// a timestamp
 	private final long timestamp;
+	
+	// the maintype for each message
 	private int type;
+	
+	// the subtype for each message
 	private int subType;
 	
 	/**
-	 * @author Oliver Goetz, 596343
+	 * The construcotr of the class
+	 * @author Oliver Goetz, 5961343
 	 * @param type the maintype of the message
 	 * @param subType  the subtype of the message
 	 * 
@@ -51,7 +61,7 @@ public abstract class Message implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * Gets the maintype of the message
 	 * @author Oliver Goetz, 5961343
 	 * @return the maintype of the message
 	 * 

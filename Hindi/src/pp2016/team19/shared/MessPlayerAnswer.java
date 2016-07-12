@@ -14,18 +14,25 @@ import java.io.Serializable;
 
 public class MessPlayerAnswer extends Message implements Serializable {
 
-
+	/**
+	 * The attributes of the class.
+	 * @author Oliver Goetz, 5961343
+	 */
 	private static final long serialVersionUID = 3578181825991876365L;
+	
+	// a player object
 	private Player myPlayer;
+	
+	// x- and y-coordinate of the player
 	private int x,y;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
-	 * @param myPlayer the player
-	 * 			
-	 * @param type the maintype of the message
-	 * 			
-	 * @param subType the subtype of the message
+	 * @param myPlayer the player	
+	 * @param type the maintype (=2) of the message	
+	 * @param subType the subtype (=5) of the message
+	 * @param x the x-position of the player
+	 * @param y the y-position of the player
 	 * 			
 	 */
 	
@@ -60,19 +67,43 @@ public class MessPlayerAnswer extends Message implements Serializable {
 		this.myPlayer = myPlayer;
 	}
 	
+	
+	/**
+	 * Gets the x-position of the player.
+	 * @author Oliver Goetz, 5961343
+	 * @return the x-coordinate
+	 */
 
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Sets the x-position of the player
+	 * @author Oliver Goetz, 5961343
+	 * @param x the x-coordinate
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
+
+	
+	/**
+	 * Gets the y-position of the player.
+	 * @author Oliver Goetz, 5961343
+	 * @return the y-coordinate
+	 */
 
 	public int getY() {
 		return y;
 	}
 
+	
+	/**
+	 * Sets the y-position of the player
+	 * @author Oliver Goetz, 5961343
+	 * @param y the y-coordinate
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}

@@ -18,10 +18,11 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	private int playerID;
 	
 	/**
+	 * The constructor of the class.
 	 * @author Oliver Goetz, 5961343
 	 * @param confirmed flag, if the username and password are equal
-	 * @param type the maintype of the message
-	 * @param subType the subtype of the message
+	 * @param type the maintype (=0) of the message
+	 * @param subType the subtype (=4) of the message
 	 */
 	
 	public MessSignInAndUpAnswer(boolean confirmed, int playerID, int type, int subType) {
@@ -31,6 +32,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	}
 
 	/**
+	 * Gets the boolean confiremd.
 	 * @author Oliver Goetz, 5961343
 	 * @return a flag, if the sign IN or UP was confirmed by the server
 	 */
@@ -48,9 +50,20 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 		this.confirmed = confirmed;
 	}
 
+	/**
+	 * Gets the playerID.
+	 * @author Oliver Goetz, 5961343
+	 * @return the playerID
+	 */
 	public int getPlayerID() {
 		return playerID;
 	}
+	
+	/**
+	 * Sets the playerID.
+	 * @author Oliver Goetz, 5961343
+	 * @param playerID
+	 */
 	public void setPlayerID(int playerID) {
 		this.playerID=playerID;
 	}

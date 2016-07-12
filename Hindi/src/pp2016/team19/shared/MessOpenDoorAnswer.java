@@ -12,14 +12,20 @@ import java.io.Serializable;
  */
 public class MessOpenDoorAnswer extends Message implements Serializable{
 	
+	/**
+	 * The attributes for the class.
+	 * @author Oliver Goetz, 5961343
+	 */
 	private static final long serialVersionUID = 1L;
+	
+	// true, if the doors is opened
 	boolean openDoor;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * @param openDoor flag for the state of the door
-	 * @param type the maintype of the message
-	 * @param subType the subtype of the message
+	 * @param type the maintype (=1) of the message
+	 * @param subType the subtype (=9) of the message
 	 */
 
 	public MessOpenDoorAnswer(boolean openDoor, int type, int subType) {

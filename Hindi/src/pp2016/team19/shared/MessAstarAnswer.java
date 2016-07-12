@@ -19,8 +19,9 @@ public class MessAstarAnswer extends Message implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7041547849671854239L;
+	
+	// the player
 	private Player myPlayer;
-	private boolean valid;
 	
 	/**
 	 * Message object, that is sent to the server.

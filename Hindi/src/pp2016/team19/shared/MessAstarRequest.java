@@ -19,6 +19,8 @@ public class MessAstarRequest extends Message implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3182834598358521775L;
+	
+	// the x- and y-coordinate of a mouselcik
 	private int mouseX, mouseY;
 	
 	/**
@@ -54,7 +56,6 @@ public class MessAstarRequest extends Message implements Serializable{
 	 * @author Oliver Goetz, 5961343
 	 * @return the mouseY-coordinate
 	 */
-	
 	
 	public int getMouseY() {
 		return mouseY;

@@ -16,14 +16,20 @@ import java.io.Serializable;
 public class MessOpenDoorRequest extends Message implements Serializable {
 
 
+	/**
+	 * The attributes for the class.
+	 * @author Oliver Goetz, 5961343
+	 */
 	private static final long serialVersionUID = -6223977759661914096L;
+	
+	// true, if player has the key
 	boolean openDoor;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * @param openDoor flag for the state of the door
-	 * @param type the maintype of the message
-	 * @param subType the subtype of the message
+	 * @param type the maintype (=1) of the message
+	 * @param subType the subtype (=8) of the message
 	 * 
 	 */
 	
@@ -44,7 +50,7 @@ public class MessOpenDoorRequest extends Message implements Serializable {
 	}
 	
 	/**
-	 * Method, that returs the state of the door.
+	 * Method, that gets the state of the door.
 	 * @author Oliver Goetz, 5961343
 	 * @return the state of the door
 	 * 

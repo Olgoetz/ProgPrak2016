@@ -1,7 +1,4 @@
 
-
-
-
 package pp2016.team19.shared;
 
 import java.io.Serializable;
@@ -24,9 +21,21 @@ import java.io.Serializable;
 
 public class MessMoveCharacterAnswer extends Message implements Serializable {
 
+	
+	/**
+	 * The constructor for the class.
+	 * 
+	 * @author Oliver Goetz, 5961343
+	 */
 	private static final long serialVersionUID = -7005346683609579242L;
+	
+	// x-coordinate of the player
 	private int posX;
+	
+	// y-coordinate of the player
 	private int posY;
+	
+	// false, if there is a rock in the labyrinth
 	private boolean confirmed;
 	
 	/**
@@ -81,14 +90,13 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 		return posX;
 	}
 	
+	
 	/**
 	 * Method, that gets the y-position of the player.
 	 * @author Oliver Goetz, 5961343
 	 * @return y-positon of the player
 	 * 
-	 * 
 	 */
-	
 	public int getY() {
 		return posY;
 	}

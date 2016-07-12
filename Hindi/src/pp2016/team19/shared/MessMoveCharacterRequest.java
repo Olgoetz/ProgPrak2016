@@ -13,17 +13,29 @@ import java.io.Serializable;
 
 public class MessMoveCharacterRequest extends Message implements Serializable {
 
+	
+	/**
+	 * The attributes for the class
+	 * @author Oliver Goetz, 5961343
+	 */
 
 	private static final long serialVersionUID = -3530360293429750272L;
+	
+	// the movement direction
 	private int direction;
+	
+	// x- and y-position of the player
 	private int x,y;
 	
 	
 	/**
+	 * 
+	 * The constructor of the class.
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param direction integer for the direction (0=up, 1=down, 2=left, 3=left)
-	 * @param type the maintype of the message
-	 * @param subType the subtype of the message
+	 * @param direction integer for the direction (0=up, 1=down, 2=left, 3=right)
+	 * @param type the maintype (=1) of the message
+	 * @param subType the subtype (=0) of the message
 	 * 
 	 * 
 	 */
@@ -36,13 +48,27 @@ public class MessMoveCharacterRequest extends Message implements Serializable {
 		this.direction = direction;
 	
 	}
+	
+	/**
+	 * Gets the x-position of the player.
+	 * @author Oliver Goetz, 5961343
+	 * @return the x-position
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Gets the y-position of the player.
+	 * @author Oliver Goetz, 5961343
+	 * @return the y-position
+	 */
+	
 	public int getY() {
 		return y;
 	}
+	
+	
 	/**
 	 * 
 	 *  Method, that sets an int, in which direction the player wants to move

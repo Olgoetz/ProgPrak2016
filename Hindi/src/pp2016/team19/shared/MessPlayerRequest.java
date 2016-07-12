@@ -15,14 +15,21 @@ import java.io.Serializable;
 
 public class MessPlayerRequest extends Message implements Serializable {
 
-	static final long serialVersionUID = -7001895885835235328L;   
+	
+	/**
+	 * The attribues for the class
+	 * @author Oliver Goetz, 5961343
+	 */
+	static final long serialVersionUID = -7001895885835235328L; 
+	
+	// a player object
 	private Player player;
 	
 	/**
 	 * @author Oliver Goetz, 5961343
 	 * @param player the player
-	 * @param type the maintype of the message
-	 * @param subType the subtype of the message
+	 * @param type the maintype (=2) of the message
+	 * @param subType the subtype (=4) of the message
 	 */
 	
 	public MessPlayerRequest(Player player, int type, int subType) {
@@ -32,7 +39,7 @@ public class MessPlayerRequest extends Message implements Serializable {
 	}
 	
 	/**
-	 * Method, that sets a plyer
+	 * Method, that sets a player.
 	 * @author Oliver Goetz, 5961343
 	 * @param player the player
 	 */
@@ -42,8 +49,9 @@ public class MessPlayerRequest extends Message implements Serializable {
 	}
 	
 	/**
+	 * Gets the player.
 	 * @author Oliver Goetz, 5961343
-	 * @return a player
+	 * @return the player
 	 */
 	public Player getPlayer() {
 		return player;
