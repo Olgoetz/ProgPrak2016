@@ -10,11 +10,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/**
- * 
+/** 
  * <h1> class for the panel which explains how to control the game <h1>
  * shows up after clicking on the MenuItem "show control"
- * @author Felizia Langsdorf, Matr_Nr: 6002960
+ * @author Felizia Langsdorf, 6002960
  * 
  */
 
@@ -23,12 +22,13 @@ public class Controls extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @author Felizia Langsdorf, 6002960
 	 * paint method, draws the pictures and strings on the panel
-	 * 
+	 * @author Felizia Langsdorf, 6002960
+	 * @param g graphics object 
 	 */
 	
 	public void paint(Graphics g){
+		
 		Image arrows = null , right = null,q = null,leer = null, mouse = null, b = null;
 		
 		// loading the images
@@ -37,23 +37,24 @@ public class Controls extends JPanel {
 			right = ImageIO.read(new File ("img//right-arrow.png"));//source: http://icon-icons.com/icons2/38/PNG/512/uparrow_arriba_5806.png
 			q = ImageIO.read(new File ("img//Q_key.png"));//source: http://vignette1.wikia.nocookie.net/devilmaycry/images/1/13/PC_Q_key.png/revision/latest?cb=20130406111054
 			b= ImageIO.read(new File("img//b-button.png"));//source: https://somkcr.files.wordpress.com/2012/11/keyboard-b-button.jpg
-			leer = ImageIO.read(new File ("img//Leertaste.png"));//source: http://www.absatzsetzer.de/wp-content/uploads/2011/06/Erscheinungsbild-im-Bedienfeld-der-Optionsfeld-EigenschaftenLeertaste.png
+			leer = ImageIO.read(new File ("img//spacekey.png"));//source: http://www.absatzsetzer.de/wp-content/uploads/2011/06/Erscheinungsbild-im-Bedienfeld-der-Optionsfeld-EigenschaftenLeertaste.png
 			mouse = ImageIO.read(new File ("img//mouse.png"));//source: http://cliparts.co/cliparts/8iG/ErE/8iGErEbaT.png
 		}catch(IOException e){
 			System.err.println("Error while loading one of the images.");
 		}
 		
 		// filling the panel with the content, drawing on it, the images, strings, etc.
+		//first paint the whole panel gray
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth() , this.getHeight());
-			
+		//the heading "CONTROL"	
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Monospaced", Font.BOLD, 25));
 		g.drawString("CONTROL", 200, 50);
 		
 		g.drawLine(10, 100, 500, 120);
 		g.fillRect(0, 100, this.getWidth(), this.getHeight());
-		
+		//illustriation of the control 
 		g.drawImage(arrows , 60, 120, null);
 		g.drawImage(right, 180 , 140, null);
 		g.setColor(Color.BLACK);
