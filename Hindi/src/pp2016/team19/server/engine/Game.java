@@ -53,6 +53,7 @@ public class Game extends TimerTask implements Serializable {
 		this.engine = engine;
 		newLevel(levelNumber);
 		player.setGame(this);
+		starter=true;
 	}
 
 	/**
@@ -464,7 +465,6 @@ public class Game extends TimerTask implements Serializable {
 		System.out.println("Game Ended");
 		if (playerWon) { //time is added to highscore if player won
 			scoreTime = (int) ((System.currentTimeMillis() - startTime) / 1000);
-			System.out.println(scoreTime);
 			engine.highscores.addPlayerScore(player.getName(), scoreTime); //update highscore
 		}
 		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7); //inform client about end
