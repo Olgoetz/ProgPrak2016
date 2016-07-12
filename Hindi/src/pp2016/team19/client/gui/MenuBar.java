@@ -114,7 +114,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			JFrame input = new JFrame();
 			String cheatMes = JOptionPane.showInputDialog(input, "Enter Cheat Code", "");
 			if(cheatMes.equals("godmode")){
-				System.out.println("cheat activated");
+				window.getEngine().cheatRequest(cheatMes);
 			}
 			//window.getEngine().getMyPlayer().makeCheater(true); !!!!!
 		}else if(e.getSource() == quit){
