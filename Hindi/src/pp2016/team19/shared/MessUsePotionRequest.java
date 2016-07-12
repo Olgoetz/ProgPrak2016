@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * <h1>The MessUsePotionRequest that is transmitted to the server.<h1>
+ * <h1>The MessUsePotionRequest that is transmitted to the server.</h1>
  *
  * @author Oliver Goetz, 5961343
  *

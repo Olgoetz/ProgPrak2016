@@ -3,9 +3,8 @@ package pp2016.team19.shared;
 import java.io.Serializable;
 
 /**
- * <h1>The MessUpdateMonsterRequest for the server.<h1>
+ * <h1>The MessUpdateMonsterRequest for the server.</h1>
  * Monsters need to be updated if they move as well as loose health.
- * <p>
  * @author Oliver Goetz, 5961343
  *
  */

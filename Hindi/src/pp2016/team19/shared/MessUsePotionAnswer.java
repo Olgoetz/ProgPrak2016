@@ -3,7 +3,7 @@ package pp2016.team19.shared;
 import java.io.Serializable;
 
 /**
- * <h1>The MessUsePotionAnswer coming from the server.<h1>
+ * <h1>The MessUsePotionAnswer coming from the server.</h1>
  *
  * @author Oliver Goetz, 5961343
  *
