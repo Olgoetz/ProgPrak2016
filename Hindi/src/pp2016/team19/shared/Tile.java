@@ -22,7 +22,7 @@ import java.io.Serializable;
  * 	It contains for every attribut Getter and Setter and also a few other helpful methods.
  * 
  * 
- * @author < Czernik, Christof, 5830621 >
+ * @author Czernik, Christof, 5830621
  */
 
 public class Tile implements Serializable {
@@ -34,7 +34,7 @@ public class Tile implements Serializable {
 	/**
 	 * 6 Attributes
 	 * 
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 
 	// Attribute, 	("Is the type of the Tile")
