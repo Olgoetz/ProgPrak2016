@@ -65,7 +65,8 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * A-Star-Algorithm to search the shortest path from start to goal.
+	 * A-Star-Algorithm to search the shortest path from start to goal. Build on
+	 * a pseudocode from: http://web.mit.edu/eranki/www/tutorials/search/
 	 * 
 	 * @param xStart
 	 *            x-coordinate of the starting point
