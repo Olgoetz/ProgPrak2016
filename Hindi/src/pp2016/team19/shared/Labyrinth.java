@@ -11,7 +11,7 @@ import java.io.Serializable;
  * 	It has a fundamental method called "generate()", which generates the Labyrinth with the help of all methods.
  * 	<p>
  *
- * @author < Czernik, Christof Martin, 5830621 >
+ * @author Czernik, Christof Martin, 5830621
  */
 
 public class Labyrinth implements Serializable {
@@ -21,7 +21,7 @@ public class Labyrinth implements Serializable {
 	/**
 	 * 7 Constants
 	 * 
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static final int ROCK = 1;
@@ -37,7 +37,7 @@ public class Labyrinth implements Serializable {
 	/**
 	 * 2-Dim Tile-Array called "gameMap"
 	 * 
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	private static Tile[][] gameMap;
@@ -55,7 +55,7 @@ public class Labyrinth implements Serializable {
 	 * 
 	 * @param gameSize Size of the GameMap, just a Size like 2k+1  (11,13,15,...).
 	 * @param monsterNumber Amount of Monsters that will be created.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static Tile[][] generate(int gameSize, int monsterNumber) {
@@ -90,7 +90,7 @@ public class Labyrinth implements Serializable {
 	 * Creates an Object for every index, and sets the type to ROCK.
 	 * 
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void createRockMap(int gameSize){
@@ -109,7 +109,7 @@ public class Labyrinth implements Serializable {
 	 * Sets the whole map back to Rock.
 	 * 
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void restartGenerator(int gameSize){
@@ -132,7 +132,7 @@ public class Labyrinth implements Serializable {
 	 * A method, which helps to analyse the Labyrinth-Perfection.
 	 * 
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static int mazePerfection(int gameSize){
@@ -156,7 +156,7 @@ public class Labyrinth implements Serializable {
 	 * 
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordinate of Tile.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static boolean edgeCheckUp(int x, int y) {
@@ -176,7 +176,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static boolean edgeCheckRight(int x, int y, int gameSize) {
@@ -196,7 +196,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static boolean edgeCheckDown(int x, int y, int gameSize) {
@@ -217,7 +217,7 @@ public class Labyrinth implements Serializable {
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
 	 * 
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static boolean edgeCheckLeft(int x, int y, int gameSize) {
@@ -238,7 +238,7 @@ public class Labyrinth implements Serializable {
 	 * @param y the y coordiante of Tile.
 	 * @param gameSize is the Size of the gameMap.
 	 * 
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static int countNeighbors(int x, int y, int gameSize) {
@@ -266,7 +266,7 @@ public class Labyrinth implements Serializable {
 	 * 
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordiante of Tile.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static boolean diagNeighbors(int x, int y) {
@@ -298,7 +298,7 @@ public class Labyrinth implements Serializable {
 	 * Searches for a Tile = Floor in a quadrant, to put a Potion at this Tile. (Recursiv)
 	 * 
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void placePotion(int i, int gameSize) {
@@ -329,8 +329,8 @@ public class Labyrinth implements Serializable {
 	 * Searches for a random walkable Tile in a quadrant, to put a Monster at this Tile (Recursiv)
 	 * 
 	 * @param gameSize size of the gameMap
-	 * @param monster number of all monsters
-	 * @author < Czernik, Christof, 5830621 >
+	 * @param monsterNumber of all monsters
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void placeMonster(int gameSize, int monsterNumber){
@@ -387,7 +387,14 @@ public class Labyrinth implements Serializable {
 		
 	}
 	
-	// NEU kommentieren!
+	/**
+	 * A helpful tool for SWV, to have a MonsterList
+	 * 
+	 * @param gameSize size of the gameMap
+	 * @param monsterNumber of all monsters
+	 * @param monsterIndex index of the Monster
+	 * @author Czernik, Christof, 5830621
+	 */
 	
 	public static int monsterList_x(int gameSize, int monsterNumber, int monsterIndex){
 		
@@ -408,7 +415,14 @@ public class Labyrinth implements Serializable {
 		return (x_cord[monsterIndex]);
 	}
 	
-	// NEU kommentieren!
+	/**
+	 * A helpful tool for SWV, to have a MonsterList
+	 * 
+	 * @param gameSize size of the gameMap
+	 * @param monsterNumber of all monsters
+	 * @param monsterIndex index of the Monster
+	 * @author Czernik, Christof, 5830621
+	 */
 	
 	public static int monsterList_y(int gameSize, int monsterNumber, int monsterIndex){
 		
@@ -432,8 +446,9 @@ public class Labyrinth implements Serializable {
 	/**
 	 * Searches for a blind alley in a quadrant, to put a Key at this blind alley. (Recursiv)
 	 * 
+	 * @param i startiteration, usually 1
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void placeKey(int i, int gameSize) {
@@ -463,8 +478,9 @@ public class Labyrinth implements Serializable {
 	/**
 	 * Searches for a blind alley in the lower-Left quadrant, to put an exit at this blind alley. (Recursiv)
 	 * 
+	 * @param j startiteration, usually 1
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void placeExit(int j, int gameSize) {
@@ -513,7 +529,7 @@ public class Labyrinth implements Serializable {
 	 * Places an entry at the beginning Spot of floodFill.
 	 * 
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void placeEntry(int gameSize) {
@@ -525,7 +541,7 @@ public class Labyrinth implements Serializable {
 	 * Changes the Exit from locked to unlocked.
 	 * 
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void exitOpen(int gameSize) {
@@ -545,7 +561,7 @@ public class Labyrinth implements Serializable {
 	 * @param x the x coordinate of Tile.
 	 * @param y the y coordinate of Tile.
 	 * @param gameSize is the Size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void floodFill(int x, int y, int gameSize) {
@@ -564,12 +580,9 @@ public class Labyrinth implements Serializable {
 			if (edgeCheckUp(x, y)) {
 				if (gameMap[x - 2][y].isRock()) {
 					if (countNeighbors(x - 2, y, gameSize) < 2) {
-						// if(diagNeighbours(x-1,y)){
 						gameMap[x-1][y].setType(FLOOR);
 						gameMap[x-2][y].setType(FLOOR);
 						floodFill(x - 2, y, gameSize);
-						// }
-
 					}
 				}
 			} else {
@@ -579,12 +592,10 @@ public class Labyrinth implements Serializable {
 		case 2:
 			if (edgeCheckRight(x, y, gameSize)) {
 				if (gameMap[x][y + 2].isRock()) {
-					if (countNeighbors(x, y + 2, gameSize) < 2) {
-						// if(diagNeighbours(x,y+1)){
+					if (countNeighbors(x, y + 2, gameSize) < 2) {			
 						gameMap[x][y+1].setType(FLOOR);
 						gameMap[x][y+2].setType(FLOOR);
-						floodFill(x, y + 2, gameSize);
-						// }
+						floodFill(x, y + 2, gameSize);		
 					}
 				}
 			} else {
@@ -594,12 +605,10 @@ public class Labyrinth implements Serializable {
 		case 3:
 			if (edgeCheckDown(x, y, gameSize)) {
 				if (gameMap[x + 2][y].isRock()) {
-					if (countNeighbors(x + 2, y, gameSize) < 2) {
-						// if(diagNeighbours(x+1, y)){
+					if (countNeighbors(x + 2, y, gameSize) < 2) {			
 						gameMap[x+1][y].setType(FLOOR);
 						gameMap[x+2][y].setType(FLOOR);
 						floodFill(x + 2, y, gameSize);
-						// }
 					}
 				}
 			} else{
@@ -609,12 +618,10 @@ public class Labyrinth implements Serializable {
 		case 4:
 			if (edgeCheckLeft(x, y, gameSize)) {
 				if (gameMap[x][y - 2].isRock()) {
-					if (countNeighbors(x, y - 2, gameSize) < 2) {
-						// if(diagNeighbours(x,y-1)){
+					if (countNeighbors(x, y - 2, gameSize) < 2) {	
 						gameMap[x][y-1].setType(FLOOR);
 						gameMap[x][y-2].setType(FLOOR);
 						floodFill(x, y - 2, gameSize);
-						// }
 					}
 				}
 			} else{
@@ -625,13 +632,10 @@ public class Labyrinth implements Serializable {
 		case 5:
 			if (edgeCheckUp(x, y)) {
 				if (gameMap[x - 2][y].isRock()) {
-					if (countNeighbors(x - 2, y, gameSize) < 2) {
-						// if(diagNeighbours(x-1,y)){
+					if (countNeighbors(x - 2, y, gameSize) < 2) {	
 						gameMap[x-1][y].setType(FLOOR);
 						gameMap[x-2][y].setType(FLOOR);
 						floodFill(x - 2, y, gameSize);
-						// }
-
 					}
 				}
 			} else {
@@ -642,11 +646,9 @@ public class Labyrinth implements Serializable {
 			if (edgeCheckRight(x, y, gameSize)) {
 				if (gameMap[x][y + 2].isRock()) {
 					if (countNeighbors(x, y + 2, gameSize) < 2) {
-						// if(diagNeighbours(x,y+1)){
 						gameMap[x][y+1].setType(FLOOR);
 						gameMap[x][y+2].setType(FLOOR);
 						floodFill(x, y + 2, gameSize);
-						// }
 					}
 				}
 			} else {
@@ -657,11 +659,9 @@ public class Labyrinth implements Serializable {
 			if (edgeCheckDown(x, y, gameSize)) {
 				if (gameMap[x + 2][y].isRock()) {
 					if (countNeighbors(x + 2, y, gameSize) < 2) {
-						// if(diagNeighbours(x+1, y)){
 						gameMap[x+1][y].setType(FLOOR);
 						gameMap[x+2][y].setType(FLOOR);
 						floodFill(x + 2, y, gameSize);
-						// }
 					}
 				}
 			} else{
@@ -672,11 +672,9 @@ public class Labyrinth implements Serializable {
 			if (edgeCheckLeft(x, y, gameSize)) {
 				if (gameMap[x][y - 2].isRock()) {
 					if (countNeighbors(x, y - 2, gameSize) < 2) {
-						// if(diagNeighbours(x,y-1)){
 						gameMap[x][y-1].setType(FLOOR);
 						gameMap[x][y-2].setType(FLOOR);
 						floodFill(x, y - 2, gameSize);
-						// }
 					}
 				}
 			} else{
@@ -687,10 +685,11 @@ public class Labyrinth implements Serializable {
 	}
 
 	/**
-	 * Checks every Tile in the Array, and prints it on the console.
+	 * Checks every Tile in the Array, and prints it on the console. Just for test purpose.
 	 * 
+	 * @param monsterNumber amount of Monsters.
 	 * @param gameSize size of the gameMap.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public static void PaintTest(int gameSize, int monsterNumber) {
