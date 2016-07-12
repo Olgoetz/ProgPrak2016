@@ -88,7 +88,9 @@ public class GameField extends JPanel {
 		int playerX = window.getEngine().getMyPlayer().getXPos();
 		int playerY = window.getEngine().getMyPlayer().getYPos();
 		
-		//shift variables for the labyrinth  
+		//shift variables for the paint method 
+		//at the beginning the labyrinth is shifted one tile size to the right (v1) 
+		//and 12 tile sizes up (v2)
 		v1 = window.BOX;
 		v2 = -12 * window.BOX; 
 		
