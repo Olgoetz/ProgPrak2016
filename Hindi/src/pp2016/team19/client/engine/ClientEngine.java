@@ -619,7 +619,7 @@ public class ClientEngine implements Runnable {
 	
 	/**
 	 * 
-	 * Sens an aStarRequest to the server.
+	 * Sends an aStarRequest to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param mouseX the x-coordination of the mouseclick
@@ -644,10 +644,18 @@ public class ClientEngine implements Runnable {
 		// casts the incoming message to a proper message object
 		MessAstarAnswer message = (MessAstarAnswer) pMessage;
 		this.myPlayer = message.getMyPlayer();
-	
 
 	}
 
+	/**
+	 * Sends an cheatRequeset to the server.
+	 * @author Oliver Goetz, 5961343
+	 * @param cheat a cheat
+	 */
+	public void cheatRequest(String cheat) {
+		this.sendToServer(new MessCheatRequest(cheat,1,12));
+		writeSystemMessages(cheat + " " + "is activated!");
+	}
 
 	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS ********** //
 
@@ -804,7 +812,7 @@ public class ClientEngine implements Runnable {
 	}
 	
 	/**
-	 * Processes an highscoreAnswer messaage coming from the server.
+	 * Processes an highscoreAnswer message coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param pMessage a message object
