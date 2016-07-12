@@ -25,11 +25,11 @@ import javax.swing.border.BevelBorder;
 public class LoginPanel extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
-		
+	//the gamewindow JFrame
 	private GameWindow window;
 	
+	//components 
 	private JTextField textField_1;
-	
 	private JPasswordField passwordField_1;
 	private JButton logButton;
 	private String logUsername = "";
@@ -46,7 +46,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	/**
 	 *
 	 * @author Felizia Langsdorf, 6002960
-	 * @param window window of the application
+	 * @param window gamewindow of the application
 	 */
 	
 	public LoginPanel (GameWindow window){		
@@ -140,12 +140,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 			if(ae.getSource()==logButton){				
 		logUsername = textField_1.getText();  // getting the text from the JTextfield
 		userpassword = passwordField_1.getText();	//getting the content of the JPasswordField
-			window.engine.serverSignInRequest(logUsername, userpassword);
+			window.engine.serverSignInRequest(logUsername, userpassword); //server checks the data
 			}else if(ae.getSource() == regButton){
-				//regUsername speichern: Olli
-				// achtung: namen der variablen haben sich geändert !!!
-				// plus methode von olli fuer überprüfen ob passwörter gleich eingegben 
-				// olli weißte ja dann bescheid, kannst dann alles unnötige wieder weg machen
 				regUsername = textField_2.getText();
 				regPassword1 = passwordField_2.getText();
 				regPassword2 = passwordField_3.getText();
