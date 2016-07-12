@@ -90,6 +90,7 @@ public class ServerEngine implements Runnable {
 				break;
 			case 6:
 				this.newGame(message);
+				System.out.println("new game started");
 				break;
 			case 8:
 				this.signOutRequest(message);
@@ -126,6 +127,7 @@ public class ServerEngine implements Runnable {
 	 */
 	private void signUpRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
+		System.out.println("METHOD signUpRequest:");
 		System.out.println("Checking Registration");
 		playerIsNew = true;
 		for (Player player : players) {
@@ -169,8 +171,7 @@ public class ServerEngine implements Runnable {
 	 */
 	private void signInRequest(Message pmessage) {
 		MessSignInAndUpRequest message = (MessSignInAndUpRequest) pmessage;
-		// System.out.println("METHOD ServerEngine.SignInRequest: Method
-		// engaging");
+		System.out.println("METHOD ServerEngine.SignInRequest: Method engaging");
 		playerFound = false;
 		for (Player player : players) {
 			if (player.getName().equals(message.getUsername())) { // searches
@@ -220,10 +221,10 @@ public class ServerEngine implements Runnable {
 	private void newGame(Message pmessage) {
 		MessStartGameRequest message = (MessStartGameRequest) pmessage;
 		Player player = players.get(message.getPlayerID());
+		if (player.getGame() != null) {
+			player.getGame().stopGame();
+		}
 		if (player.isLoggedIn()) {
-			if (player.getGame() != null) {
-				player.getGame().stopGame();
-			}
 			player.reset();
 			player.setGame(new Game(this, player, 16));
 			tick.cancel();

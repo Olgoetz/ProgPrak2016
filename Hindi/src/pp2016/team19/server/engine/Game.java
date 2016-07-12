@@ -262,7 +262,7 @@ public class Game extends TimerTask implements Serializable {
 		Monster monster = player.monsterToAttack(); //search for monster
 		if (monster != null) {
 			System.out.println("METHOD game.playerAttack: Monster attacked");
-			monster.changeHealth(-8);
+			monster.changeHealth(-player.getDamage());
 			if (monster.getHealth() <= 0) { //if monster is killed, remove it and drop key or potion
 				Monsters.remove(monster);
 				System.out.println("METHOD game.playerAttack: Monster Killed");
@@ -443,6 +443,11 @@ public class Game extends TimerTask implements Serializable {
 			player.characterShield(true);
 		} else if (message.getCheat().equals("thekeytolearningjava")) {
 			player.takeKey();
+			Message answer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(), player.getYPos());
+			try {
+				engine.messagesToClient.put(answer);
+			} catch (InterruptedException e) {
+			}
 		} else if (message.getCheat().equals("superdebugger")) {
 			player.setDamage(100);
 		} else if (message.getCheat().equals("thislevelisboring")) {
@@ -459,6 +464,7 @@ public class Game extends TimerTask implements Serializable {
 		System.out.println("Game Ended");
 		if (playerWon) { //time is added to highscore if player won
 			scoreTime = (int) ((System.currentTimeMillis() - startTime) / 1000);
+			System.out.println(scoreTime);
 			engine.highscores.addPlayerScore(player.getName(), scoreTime); //update highscore
 		}
 		Message answer = (MessEndGameAnswer) new MessEndGameAnswer(playerWon, scoreTime, 2, 7); //inform client about end
@@ -481,14 +487,14 @@ public class Game extends TimerTask implements Serializable {
 	// Getters to access game information
 
 	/**
-	 * @returns the player the game is assigned to
+	 * @return the player the game is assigned to
 	 * @author Tobias Schrader, 5637252
 	 */
 	public Player getPlayer() {
 		return player;
 	}
 	/**
-	 * @returns the current map as it is saved in the game
+	 * @return the current map as it is saved in the game
 	 * @author Tobias Schrader, 5637252
 	 */
 	public Tile[][] getGameMap() {
@@ -503,7 +509,7 @@ public class Game extends TimerTask implements Serializable {
 	}
 
 	/**
-	 * @returns the number of the current level
+	 * @return the number of the current level
 	 * @author Tobias Schrader
 	 */
 	public int getLevelNumber() {
