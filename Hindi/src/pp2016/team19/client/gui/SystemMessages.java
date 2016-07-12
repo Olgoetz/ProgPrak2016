@@ -1,9 +1,7 @@
 package pp2016.team19.client.gui;
 
 import java.awt.GridLayout;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
