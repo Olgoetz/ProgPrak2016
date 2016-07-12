@@ -50,9 +50,9 @@ public class MessAttackAnswer extends Message implements Serializable {
 	}
 	
 	/**
-	 * Sets the monsterist.
+	 * Sets the monster list.
 	 * @author Oliver Goetz, 5961343
-	 * @param monster
+	 * @param monster a monster list
 	 */
 	public void setMonsterList(LinkedList<Monster> monster) {
 		this.monster = monster;

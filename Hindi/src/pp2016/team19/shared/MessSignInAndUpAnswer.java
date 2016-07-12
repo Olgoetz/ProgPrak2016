@@ -21,6 +21,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	 * The constructor of the class.
 	 * @author Oliver Goetz, 5961343
 	 * @param confirmed flag, if the username and password are equal
+	 * @param playerID the playerID
 	 * @param type the maintype (=0) of the message
 	 * @param subType the subtype (=4) of the message
 	 */
@@ -62,7 +63,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	/**
 	 * Sets the playerID.
 	 * @author Oliver Goetz, 5961343
-	 * @param playerID
+	 * @param playerID the playerID
 	 */
 	public void setPlayerID(int playerID) {
 		this.playerID=playerID;

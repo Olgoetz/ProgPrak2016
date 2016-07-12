@@ -12,9 +12,9 @@ public class MessCheatRequest extends Message implements Serializable {
 	private String cheat;
 	/**
 	 * Constructor sets type, subtype and cheat
-	 * @param cheat
-	 * @param type
-	 * @param subType
+	 * @param cheat the cheat
+	 * @param type the maintype(=2) of the message
+	 * @param subType the subtyp(=10) of the message
 	 */
 	public MessCheatRequest(String cheat, int type, int subType) {
 		super(type, subType);

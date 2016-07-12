@@ -27,12 +27,12 @@ public class MessAstarAnswer extends Message implements Serializable {
 	 * Message object, that is sent to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param plyer the player object
+	 * @param player the player object
 	 * @param type the maintype (=1) of the message
 	 * @param subType the subtype (=11) of the message
 	 */
 	
-	public MessAstarAnswer(Player player, boolean valid, int type, int subType) {
+	public MessAstarAnswer(Player player, int type, int subType) {
 		super(type, subType);
 		this.myPlayer = player;
 	}
@@ -41,7 +41,7 @@ public class MessAstarAnswer extends Message implements Serializable {
 	 * Sets the player.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param player
+	 * @param player a player object
 	 */
 	
 	public void setMyPlayer(Player player) {

@@ -3,8 +3,6 @@ package pp2016.team19.client.engine;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import pp2016.team19.client.comm.HandlerClient;
@@ -58,9 +56,7 @@ public class ClientEngine implements Runnable {
 	private Player myPlayer = new Player();
 	private LinkedList<Monster> myMonsterList;
 	private Tile[][] labyrinth;
-	private boolean gamewon;
 	private SystemMessages sysMes;
-	private String systemMessages;
 	private LinkedList<HighScoreElement> highscore = new LinkedList<HighScoreElement>();
 
 	// static attributes
@@ -86,7 +82,7 @@ public class ClientEngine implements Runnable {
 		
 		// if the 'cancel'-button is hit, the serverconnection is canceled
 		if (adress == null) {
-			System.out.println("Serverconnection canceled");
+			System.out.println("Serverconnection canceled!");
 			System.exit(0);
 		
 		// the game is executed
@@ -325,7 +321,7 @@ public class ClientEngine implements Runnable {
 			// if false, there is an output that the passwords are not equal
 			JOptionPane.showMessageDialog(null, "Passwords are not equal!");
 			System.out.println("Registration failed!");
-			writeSystemMessages("Registration faild!");
+			writeSystemMessages("Registration failed!");
 			
 		}
 	}
@@ -798,15 +794,17 @@ public class ClientEngine implements Runnable {
 		// gameLost: gameLost = true, if all health is gone. False, if the player ended the last level.
 		if(message.isGameWon()) {
 			
-			// state, that the game is won. Player completed last level.
+			// state, that the game is won. Player completed the last level.
 			this.getGameWindow().gameLost = false;
 			this.getGameWindow().gameWon = true;
+			writeSystemMessages("Congratulations! You escaped from the Maze!!");
 		} else {
 			
 			// state, that the game is lost. The game is over and lost because
 			// the player has no health left.
 			this.getGameWindow().gameLost = true;
 			this.getGameWindow().gameWon = true;
+			writeSystemMessages("Sorry! The monsters were stronger than you!");
 		}
 		
 	}
@@ -1016,6 +1014,4 @@ public class ClientEngine implements Runnable {
 	}
 
 
-	
-	
 } // end of ClientEngine-class

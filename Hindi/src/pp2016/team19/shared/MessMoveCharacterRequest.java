@@ -34,6 +34,8 @@ public class MessMoveCharacterRequest extends Message implements Serializable {
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param direction integer for the direction (0=up, 1=down, 2=left, 3=right)
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
 	 * @param type the maintype (=1) of the message
 	 * @param subType the subtype (=0) of the message
 	 * 
