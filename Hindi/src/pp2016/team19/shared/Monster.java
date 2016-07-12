@@ -267,7 +267,7 @@ public class Monster extends Character {
 	// HELPING METHODS
 
 	/**
-	 * Attacks the player & gives damage
+	 * Attacks the player and gives damage
 	 * 
 	 * @param hasKey
 	 *            does the player have the key?
