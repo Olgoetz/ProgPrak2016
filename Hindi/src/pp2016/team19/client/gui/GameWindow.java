@@ -495,6 +495,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	public void resetGame() {
 		
+//		this.getEngine().startGameRequest(this.getEngine().getPlayerID());
 		level = this.engine.getLabyrinth();
 		//sets the level to 0 again
 		currentLevel = 0;
