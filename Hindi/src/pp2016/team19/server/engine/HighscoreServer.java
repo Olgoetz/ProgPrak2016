@@ -9,11 +9,11 @@ import java.util.LinkedList;
 import pp2016.team19.shared.HighScoreElement;
 
 /**
- * This class provides the methods to access the highscore file database
+ * <h1>This class provides the methods to access the highscore file database.</h1>
  * @author Tobias Schrader, 5637252
  * @author ProgPrak-Team
  */
-public class Highscore {
+public class HighscoreServer {
 private LinkedList<HighScoreElement> highScore;
 	
 	
@@ -21,7 +21,7 @@ private LinkedList<HighScoreElement> highScore;
 	 * Constructor reads out highscores from files into LinkedList (source ProgPrak-Team)
 	 * @author Tobias Schrader, 5637252
 	 */
-	public Highscore(){
+	public HighscoreServer(){
 
 		highScore = new LinkedList<HighScoreElement>();
 		

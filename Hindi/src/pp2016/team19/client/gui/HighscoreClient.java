@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  *
  */
 
-public class Highscore extends JPanel {
+public class HighscoreClient extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	//JFrame gamewindow
@@ -29,7 +29,7 @@ public class Highscore extends JPanel {
 	 * @param window the gamewindow
 	 *
 	 */
-	public Highscore(GameWindow window){
+	public HighscoreClient(GameWindow window){
 		this.window = window;
 	}
 

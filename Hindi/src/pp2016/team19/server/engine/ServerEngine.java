@@ -28,7 +28,7 @@ public class ServerEngine implements Runnable {
 	// communicates with client
 	HandlerServer network = new HandlerServer();
 	// handles highscores
-	Highscore highscores;
+	HighscoreServer highscores;
 	LinkedList<HighScoreElement> highscore;
 	// attributes for administration
 	private boolean playerIsNew;
@@ -44,7 +44,7 @@ public class ServerEngine implements Runnable {
 	public ServerEngine(LinkedBlockingQueue<Message> messagesToClient) {
 		this.messagesToClient = messagesToClient;
 		players = users.readUserList();
-		highscores = new Highscore();
+		highscores = new HighscoreServer();
 	}
 
 	/**

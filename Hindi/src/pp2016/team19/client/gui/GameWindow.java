@@ -33,7 +33,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	private GameField gamefield;
 	private Statusbar statusbar;
 
-	private Highscore highscore = null;
+	private HighscoreClient highscore = null;
 	private Controls controls;
 	
 	//clientengine
@@ -148,7 +148,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 		this.statusbar = new Statusbar(this);
 		this.menubar = new MenuBar(this);
 		this.controls = new Controls();
-		this.highscore = new Highscore(this);
+		this.highscore = new HighscoreClient(this);
 		// Setting the desired sizes
 		gamefield.setPreferredSize(new Dimension(5*BOX, 5*BOX));
 		statusbar.setPreferredSize(new Dimension(5 * SBox, height));
@@ -316,7 +316,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	 * @return highscore
 	 */
 
-	public Highscore getHighscore() {
+	public HighscoreClient getHighscore() {
 		return highscore;
 	}
 	
