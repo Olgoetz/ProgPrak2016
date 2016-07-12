@@ -16,6 +16,7 @@ import pp2016.team19.shared.Player;
 /**
  * <h1> class for gamefield-panel. </h1>
  * @author Felizia Langsdorf, 6002960
+ * @author Progprak-Team 
  *
  */
 
