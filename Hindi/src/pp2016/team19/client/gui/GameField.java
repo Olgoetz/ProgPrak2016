@@ -12,13 +12,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import pp2016.team19.shared.Monster;
 import pp2016.team19.shared.Player;
-import java.awt.*;
-import javax.*;
-
 
 /**
  * <h1> class for gamefield-panel. <h1>
- * @author Felizia Langsdorf, Matr_Nr.: 6002960
+ * @author Felizia Langsdorf, 6002960
  *
  */
 
@@ -26,10 +23,11 @@ import javax.*;
 public class GameField extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	//images
 	private Image floor, wall, doorOpen, doorClosed, key, potion, fireball,
 			hindi, monster;
-	
+	//the gamewindow JFrame
 	private GameWindow window;
 
 	/**
@@ -45,8 +43,8 @@ public class GameField extends JPanel {
 		try {
 			floor = ImageIO.read(new File("img//greyK.png")); //source: http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
 			wall = ImageIO.read(new File("img//bricks.png"));	//source:https://www.wallpaper-gratis.eu/texturen/steinmauer/steinmauer009_1024x768.jpg
-			doorClosed = ImageIO.read(new File("img//Gartentor.png")); //source:http://www.bauanleitung.org/wp-content/uploads/Bauanleitung-Gartentor-e1408705808615.jpg
-			doorOpen = ImageIO.read(new File("img//torK.png")); //source: http://www.decowoerner.com/images/contentUploads/pictures/600_699/646/www/10354/646_635_00-1-5-00.jpg
+			doorClosed = ImageIO.read(new File("img//Gardengate.png")); //source:http://www.bauanleitung.org/wp-content/uploads/Bauanleitung-Gartentor-e1408705808615.jpg
+			doorOpen = ImageIO.read(new File("img//gateK.png")); //source: http://www.decowoerner.com/images/contentUploads/pictures/600_699/646/www/10354/646_635_00-1-5-00.jpg
 			key = ImageIO.read(new File("img//Goldkey.png")); //source: http://rocketdock.com/images/screenshots/Gold-key.png
 
 			potion = ImageIO.read(new File("img//potionK.png")); // source:http://www.rpguides.de/images/poe/icon_item64_potion_of_major_recovery.png
@@ -54,22 +52,24 @@ public class GameField extends JPanel {
 			hindi = ImageIO.read(new File("img/warrior.png")); //source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
 
 			Random r = new Random();
-			// Load image for monster, picks randomly one of three 
+			// Load image for monster, picks randomly one of the three different dragons
 			int i = r.nextInt(3) + 1;
-				monster = ImageIO.read(new File("img//drache" + i + ".png")); //adopted
+				monster = ImageIO.read(new File("img//dragon" + i + ".png")); //adopted
 			
 		} catch (IOException e) {
 			System.err.println("Error while loading one of the images.");
 		}
 	}
 	
-	// shift variables for the labyrinth, they ensure that the player is drawn in the middle of the visible gamefield 
+	// shift variables for the labyrinth, which ensure that the player is drawn in the middle of the visible gamefield 
 	int v1;
 	int v2;
 
 	/**
+	 * paint method, draws the labyrinth, the player, etc.
+	 * source: the given sample of the Progprak-Team 
 	 * @author Felizia Langsdorf, 6002960 
-	 * paint method, draws the labyrinth, the player, the monsters, etc.
+	 * @param g the graphics object
 	 */
 
 	public void paint(Graphics g) {
@@ -84,16 +84,16 @@ public class GameField extends JPanel {
 		// x and y coordinates of the entry/player at the beginning (always 1,14) 
 		int startX = 1; 
 		int startY = 14; 
-		
+		//player-position
 		int playerX = window.getEngine().getMyPlayer().getXPos();
 		int playerY = window.getEngine().getMyPlayer().getYPos();
 		
-		//shift variables
+		//shift variables for the labyrinth  
 		v1 = window.BOX;
 		v2 = -12 * window.BOX; 
 		
 
-		// Draw every single tile of the labyrinth
+		// Draws every single tile of the labyrinth and relocates the labyrinth so that the player is always located in the middle of the window
 		for (int i = 0; i < window.WIDTH; i++) {
 			for (int j = 0; j < window.HEIGHT; j++) {
 					
@@ -133,12 +133,12 @@ public class GameField extends JPanel {
 							g.drawImage(potion, (i * window.BOX) + v1 + 10, (j * window.BOX) + v2 + 10,null);
 						}
 					} else if (window.getEngine().getLabyrinth()[i][j].isEntry()) {
-						// Here is the door
+						// paint the door
 						g.drawImage(floor, (i * window.BOX) + v1, (j * window.BOX) + v2, null);
 						g.drawImage(doorOpen, (i * window.BOX) + v1, (j * window.BOX) + v2 ,null);
 					} else if (window.getEngine().getLabyrinth()[i][j].isExit()) {
 						if (window.getEngine().getLabyrinth()[i][j].exitUnlocked())
-						//here's the exit
+						//paint the exit
 							g.drawImage(doorOpen, (i * window.BOX) + v1 , (j* window.BOX) + v2, null);
 						else
 							g.drawImage(doorClosed, (i * window.BOX) + v1, (j* window.BOX) + v2, null);
@@ -146,12 +146,9 @@ public class GameField extends JPanel {
 			}
 			
 			
-			// Draw the monsters at their specific position 
+			//declaration the monsterList
 			LinkedList<Monster> monsterList = window.getEngine().getMyMonster();
-//			Random r = new Random();
-//			// Load image for monster, picks randomly one of three 
-//			int i = r.nextInt(3) + 1;
-//				monster = ImageIO.read(new File("img//drache" + i + ".png")); //adopted
+			
 			for (int x = 0; x < monsterList.size(); x++) {
 			 Monster m = monsterList.get(x);
 			 boolean event = window.getEngine().getMyPlayer().hasKey();
@@ -165,6 +162,7 @@ public class GameField extends JPanel {
 
 					double p = m.cooldownRate();
 					g.setColor(Color.RED);
+					//draw the fireballs of the monser
 					g.drawImage(fireball, (int) (((1 - p) * m.getXPos() + (p) * s.getXPos()) * box) + box/2 + v1 ,
 							(int) (((1 - p) * m.getYPos() + (p) * s.getYPos()) * box) + box/2 + v2, 8, 8, null);
 				}
@@ -177,7 +175,7 @@ public class GameField extends JPanel {
 			 drawMonster(g, m);
 			 }
 			
-		//Draw the player at its position
+		//draw the player at his current position
 		g.drawImage(hindi, (window.getEngine().getMyPlayer().getXPos()
 				* window.BOX) + v1, (window.getEngine().getMyPlayer().getYPos() * window.BOX) + v2, null);
 
@@ -199,18 +197,19 @@ public class GameField extends JPanel {
 	}
 
 	/**
-	 * paint method, draws the monsters and their health points
+	 * paint method, which draws the monsters and their health points
 	 * 
-	 * @author Felizia Langsdorf, 6002960
-	 * @param g
+	 * @author Progprak-Team 
+	 * @param g grahpics object
 	 * @param m
-	 *            monster object
-	 * 
+	 *            monster object 
+	 * I just added the shift variables and adjusted the dimensions
 	 */
 
 	private void drawMonster(Graphics g, Monster m) {
 		
 		if (inRange(m.getXPos(), m.getYPos())) {
+			
 			g.drawImage(monster, (m.getXPos() * window.BOX) + v1, (m.getYPos()
 					* window.BOX) + v2, null);
 			
@@ -219,13 +218,16 @@ public class GameField extends JPanel {
 			long monsterHP = (long) m.getHealth();
 			long monsterMaxHP = (long) m.getMaxHealth();
 			int monsterHealthRect = (int) ((window.BOX-30) * monsterHP/monsterMaxHP);
+			//draw a small green rectangle above the monsters
 			g.fillRect(((m.getXPos() * window.BOX) + v1) + 15, (m.getYPos() * window.BOX - 2) + v2 + 4, monsterHealthRect, 2);
 		}
 	}
 
 	/**
-	 * calculates the range
-	 * @author Felizia Langsdorf, 6002960
+	 * calculates the range of the player
+	 * @author Progprak-Team
+	 * @param i x-coordinate
+	 * @param j y-coordinate
 	 * 
 	 */
 
