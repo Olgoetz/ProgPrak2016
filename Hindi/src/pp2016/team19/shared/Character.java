@@ -23,22 +23,13 @@ public abstract class Character implements Serializable {
 	/**
 	 * Attributes of class Character.
 	 * 
-	 * @param xPos
-	 *            x-coordinate of the characters position
-	 * @param yPos
-	 *            y-coordinate of the characters position
-	 * @param dir
-	 *            direction, where the character should go next
-	 * @param game
-	 *            game which the character belongs to / exists in
-	 * @param health
-	 *            health of the player
-	 * @param ID
-	 *            ID of the character to uniquely identify it
-	 * @param damage
-	 *            damage the character deals
-	 * @param maxHealth
-	 *            the maximum health the character should have
+	 * xPos: x-coordinate of the characters position // yPos: y-coordinate of
+	 * the characters position // dir: direction, where the character should go
+	 * next // game: game which the character belongs to / exists in // health:
+	 * health of the player // ID: ID of the character to uniquely identify it
+	 * // damage: damage the character deals // maxHealth: the maximum health
+	 * the character should have
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
 
@@ -114,25 +105,27 @@ public abstract class Character implements Serializable {
 			int actY = cheapest.getYPos();
 
 			// Up-Neighbor valid?
-			if (actY-1 > 0 && !game.getGameMap()[actX][actY - 1].isRock())
+			if (actY - 1 > 0 && !game.getGameMap()[actX][actY - 1].isRock())
 				neighbors[0] = new Node(actX, actY - 1); // up
 			else
 				neighbors[0] = null;
 
 			// Right-Neighbor valid?
-			if (actX+1 < getGame().getGameSize() && !game.getGameMap()[actX + 1][actY].isRock())
+			if (actX + 1 < getGame().getGameSize()
+					&& !game.getGameMap()[actX + 1][actY].isRock())
 				neighbors[1] = new Node(actX + 1, actY); // right
 			else
 				neighbors[1] = null;
 
 			// Down-Neighbor valid?
-			if (actY+1 < getGame().getGameSize() && !game.getGameMap()[actX][actY + 1].isRock())
+			if (actY + 1 < getGame().getGameSize()
+					&& !game.getGameMap()[actX][actY + 1].isRock())
 				neighbors[2] = new Node(actX, actY + 1); // down
 			else
 				neighbors[2] = null;
 
 			// Left-Neighbor valid?
-			if (actX-1 > 0 && !game.getGameMap()[actX - 1][actY].isRock())
+			if (actX - 1 > 0 && !game.getGameMap()[actX - 1][actY].isRock())
 				neighbors[3] = new Node(actX - 1, actY); // left
 			else
 				neighbors[3] = null;
@@ -212,7 +205,6 @@ public abstract class Character implements Serializable {
 		return path;
 	}
 
-	
 	// MOVE-METHODS
 
 	/**
@@ -283,9 +275,8 @@ public abstract class Character implements Serializable {
 		xPos++;
 	}
 
-	
 	// HELPING METHODS
-	
+
 	/**
 	 * Removes the next step/node of the AStarPath and changes the running
 	 * direction of the monster.

@@ -18,20 +18,12 @@ public class Node implements Serializable {
 	/**
 	 * Attributes of class Node.
 	 * 
-	 * @param parent
-	 *            parent-Node of this node
-	 * @param xPos
-	 *            x-coordinate of this node
-	 * @param yPos
-	 *            y-coordinate of this node
-	 * @param costFromStart
-	 *            the costs how expensive it is to go from the start to this
-	 *            node
-	 * @param costToGoal
-	 *            heuristically calculated costs how expensive it will be from
-	 *            this node to the goal
-	 * @param totalCosts
-	 *            the totalCosts this node has (= costFromStart + costToGoal)
+	 * parent: parent-Node of this node // xPos: x-coordinate of this node //
+	 * yPos: y-coordinate of this node // costFromStart: the costs how expensive
+	 * it is to go from the start to this node // costToGoal: heuristically
+	 * calculated costs how expensive it will be from this node to the goal //
+	 * totalCosts: the totalCosts this node has (= costFromStart + costToGoal)
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	private Node parent;
@@ -55,7 +47,7 @@ public class Node implements Serializable {
 	}
 
 	// GETTER AND SETTER
-	
+
 	/**
 	 * Set the costs, what it actually takes from the start to this node.
 	 * 

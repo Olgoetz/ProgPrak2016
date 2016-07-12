@@ -23,25 +23,15 @@ public class Player extends Character implements Serializable {
 	/**
 	 * Attributes of class Player.
 	 * 
-	 * @param name
-	 *            username of the player
-	 * @param password
-	 *            password which belongs to this username
-	 * @param isLoggedIn
-	 *            boolean, whether the player is actually logged in or not
-	 * @param hasKey
-	 *            boolean, whether the player has the key or not
-	 * @param numberOfPotions
-	 *            number, how many potions the player carries with him
-	 * @param potionEffect
-	 *            healing effect that a potion has
-	 * @param score
-	 *            the score of the player
-	 * @param isInvulnerable
-	 *            boolean, whether the player is invulnerable (can't take
-	 *            damage) or not
-	 * @param pathToPos
-	 *            a path to a defined position (calculated with AStarSearch)
+	 * name: username of the player // password: password which belongs to this
+	 * username // isLoggedIn: boolean, whether the player is actually logged in
+	 * or not // hasKey: boolean, whether the player has the key or not //
+	 * numberOfPotions: number, how many potions the player carries with him //
+	 * potionEffect: healing effect that a potion has // score: the score of the
+	 * player // isInvulnerable: boolean, whether the player is invulnerable
+	 * (can't take damage) or not // pathToPos: a path to a defined position
+	 * (calculated with AStarSearch)
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	private String name;
@@ -201,9 +191,8 @@ public class Player extends Character implements Serializable {
 		return null;
 	}
 
-	
 	// HELPING METHODS
-	
+
 	/**
 	 * Uses one of the potions and heals the player.
 	 * 
@@ -250,7 +239,7 @@ public class Player extends Character implements Serializable {
 		return "Player: " + this.getName() + ", PW: " + this.getPassword()
 				+ ", Pos: " + this.getXPos() + ", " + this.getYPos();
 	}
-	
+
 	/**
 	 * Resets the relevant data of the player to the default values.
 	 */
@@ -380,7 +369,8 @@ public class Player extends Character implements Serializable {
 	/**
 	 * Increases the score by a specific value.
 	 * 
-	 * @param points points which should be added to the score
+	 * @param points
+	 *            points which should be added to the score
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public void increaseScore(int points) {
@@ -416,14 +406,17 @@ public class Player extends Character implements Serializable {
 	}
 
 	/**
-	 * (De-)Activates the shield fpr the player and makes him invulnerable (can't take damage).
+	 * (De-)Activates the shield fpr the player and makes him invulnerable
+	 * (can't take damage).
 	 * 
-	 * @param bool boolean, whether the shield should be activated or deactivated
+	 * @param bool
+	 *            boolean, whether the shield should be activated or deactivated
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public void characterShield(boolean bool) {
 		isInvulnerable = bool;
 	}
+
 	public boolean hasShield() {
 		return isInvulnerable;
 	}

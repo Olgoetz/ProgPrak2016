@@ -21,34 +21,20 @@ public class Monster extends Character {
 	/**
 	 * Attributes of class Monster.
 	 * 
-	 * @param lastAttack
-	 *            the time, the monster attacked the last time
-	 * @param lastStep
-	 *            the time, the monster did the last step
-	 * @param cooldownAttack
-	 *            the interval in which the monster should attack
-	 * @param cooldownWalk
-	 *            the interval in which the monster should walk
-	 * @param carriesKey
-	 *            boolean, whether the monster carries the key or not
-	 * @param lastAction
-	 *            the action the monster performed last (0 = move to the player,
-	 *            1 = flee, 2 = regenerate health)
-	 * @param lastPlayerPos
-	 *            position where the player was before calculating a path
-	 * @param pathToPlayer
-	 *            path to the player, calculated by AStarSearch
-	 * @param fleePath
-	 *            path to the calculated flee position
-	 * @param justAttacked
-	 *            boolean, whether the monster just attacked or not
-	 * @param type
-	 *            type of the monster (0 = spawns at the beginning, 1 = spawns
-	 *            after taking the key)
-	 * @param player
-	 *            the player of the actual game
-	 * @param game
-	 *            the actual game which the monster belongs to / exists in
+	 * lastAttack: the time, the monster attacked the last time // lastStep: the
+	 * time, the monster did the last step // cooldownAttack: the interval in
+	 * which the monster should attack // cooldownWalk: the interval in which
+	 * the monster should walk // carriesKey: boolean, whether the monster
+	 * carries the key or not // lastAction: the action the monster performed
+	 * last (0 = move to the player, 1 = flee, 2 = regenerate health) //
+	 * lastPlayerPos: position where the player was before calculating a path //
+	 * pathToPlayer: path to the player, calculated by AStarSearch // fleePath:
+	 * path to the calculated flee position // justAttacked: boolean, whether
+	 * the monster just attacked or not // type: type of the monster (0 = spawns
+	 * at the beginning, 1 = spawns after taking the key) // player: the player
+	 * of the actual game // game: the actual game which the monster belongs to
+	 * / exists in
+	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	private long lastAttack;
