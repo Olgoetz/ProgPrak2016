@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * <h1>A message class for signing IN as well as signing Up coming from the server.</h1>
+ * <h1>A message class for signing IN as well as signing UP coming from the server.</h1>
  * 
  * 
  * @author Oliver Goetz, 5961343

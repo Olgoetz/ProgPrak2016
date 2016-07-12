@@ -724,7 +724,7 @@ public class ClientEngine implements Runnable {
 	
 	/**
 	 * 
-	 * Sens an updateMonsterRequest to update the health to the server.
+	 * Sends an updateMonsterRequest to update the health to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param monster a monster

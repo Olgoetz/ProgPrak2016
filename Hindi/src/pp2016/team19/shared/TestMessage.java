@@ -2,7 +2,7 @@ package pp2016.team19.shared;
 
 import java.io.Serializable;
 /**
- * A message class for random purposes. Can send a String.
+ * <h1>A message class for random purposes. Can send a String.</h1>
  * @author Tobias Schrader, 5637252
  *
  */
