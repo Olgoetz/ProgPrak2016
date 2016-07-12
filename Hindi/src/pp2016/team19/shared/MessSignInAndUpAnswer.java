@@ -7,7 +7,7 @@ import java.io.Serializable;
  * <h1>A message class for signing IN as well as signing UP coming from the server.</h1>
  * 
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 public class MessSignInAndUpAnswer extends Message implements Serializable {
@@ -19,7 +19,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	
 	/**
 	 * The constructor of the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param confirmed flag, if the username and password are equal
 	 * @param playerID the playerID
 	 * @param type the maintype (=0) of the message
@@ -34,7 +34,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 
 	/**
 	 * Gets the boolean confiremd.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return a flag, if the sign IN or UP was confirmed by the server
 	 */
 	
@@ -53,7 +53,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 
 	/**
 	 * Gets the playerID.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the playerID
 	 */
 	public int getPlayerID() {
@@ -62,7 +62,7 @@ public class MessSignInAndUpAnswer extends Message implements Serializable {
 	
 	/**
 	 * Sets the playerID.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param playerID the playerID
 	 */
 	public void setPlayerID(int playerID) {

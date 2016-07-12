@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * Level Answer Message from server. It contains the constructor as well as a getter and setter method.
  * <p>
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 public class MessLevelRequest extends Message implements Serializable {
@@ -15,7 +15,7 @@ public class MessLevelRequest extends Message implements Serializable {
 	/**
 	 * The attributes for the LevelRequest
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 
 	private static final long serialVersionUID = 8268363905964396507L;
@@ -27,7 +27,7 @@ public class MessLevelRequest extends Message implements Serializable {
 	/**
 	 * 
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param level receives an int for a level with the ID 0-5
 	 * @param type the maintype (=2) of the message
 	 * @param subType the subtype (=0) of the message
@@ -43,7 +43,7 @@ public class MessLevelRequest extends Message implements Serializable {
 	
 	/**
 	 *  Method, that sets the current level.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param level sets the level ID
 	 * 
 	 *
@@ -55,7 +55,7 @@ public class MessLevelRequest extends Message implements Serializable {
 	
 	/**
 	 * Gets the current level.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the current level.
 	 * 
 	 *

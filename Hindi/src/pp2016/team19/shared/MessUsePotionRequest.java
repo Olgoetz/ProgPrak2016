@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * <h1>The MessUsePotionRequest that is transmitted to the server.</h1>
  *
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 public class MessUsePotionRequest extends Message implements Serializable {
@@ -16,7 +16,7 @@ public class MessUsePotionRequest extends Message implements Serializable {
 
 	/**
 	 * The constructor of the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param type the maintype (=1) of the message
 	 * @param subType the subtype (=6) of the message
 	 */

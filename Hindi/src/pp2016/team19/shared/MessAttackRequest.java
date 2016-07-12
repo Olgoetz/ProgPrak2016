@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * <h1>This class requests an AttackAnswer.</h1>
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 
@@ -18,7 +18,7 @@ public class MessAttackRequest extends Message implements Serializable {
 	
 	/**
 	 * The constructor of the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param type the maintype (=1)
 	 * @param subType the subtype (=2)
 	 * 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * <h1>The PlayerAnswer Message from the server.</h1>
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  * 
  * 
  * 
@@ -16,7 +16,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 
 	/**
 	 * The attributes of the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 	private static final long serialVersionUID = 3578181825991876365L;
 	
@@ -27,7 +27,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	private int x,y;
 	
 	/**
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param myPlayer the player	
 	 * @param type the maintype (=2) of the message	
 	 * @param subType the subtype (=5) of the message
@@ -46,7 +46,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	}
 	
 	/**
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return returns a player
 	 * 			
 	 */
@@ -58,7 +58,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	/**
 	 * 
 	 * Method, that sets a player.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param myPlayer a player
 	 * 			
 	 */
@@ -70,7 +70,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	
 	/**
 	 * Gets the x-position of the player.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the x-coordinate
 	 */
 
@@ -80,7 +80,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 
 	/**
 	 * Sets the x-position of the player
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param x the x-coordinate
 	 */
 	public void setX(int x) {
@@ -90,7 +90,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	
 	/**
 	 * Gets the y-position of the player.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the y-coordinate
 	 */
 
@@ -101,7 +101,7 @@ public class MessPlayerAnswer extends Message implements Serializable {
 	
 	/**
 	 * Sets the y-position of the player
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param y the y-coordinate
 	 */
 	public void setY(int y) {

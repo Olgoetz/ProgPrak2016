@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * <h1>The MessUpdateMonsterRequest for the server.</h1>
  * Monsters need to be updated if they move as well as loose health.
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 public class MessUpdateMonsterRequest extends Message implements Serializable {
@@ -15,7 +15,7 @@ public class MessUpdateMonsterRequest extends Message implements Serializable {
 	
 	/**
 	 * The constructor of the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param type the maintype (=2) of the message
 	 * @param subType the subtype (=2) of te message
 	 */

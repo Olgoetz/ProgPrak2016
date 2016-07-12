@@ -6,7 +6,7 @@ import java.io.Serializable;
  * <h1>A message class for signing IN as well as signing Up transmitting to the server.</h1>
  * 
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 
@@ -16,7 +16,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	/**
 	 * The attributes of the class.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 	private static final long serialVersionUID = -6043901602629877055L;
 	
@@ -28,7 +28,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	
 	/**
 	 * The constructor of the class
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param username typed in username
 	 * @param password typed in password
 	 * @param type the maintype of the message
@@ -44,7 +44,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	
 	/**
 	 * Method, thats a username.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param username the username typed in the login/sign up frame
 	 */
 	
@@ -54,7 +54,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	
 	/**
 	 * Gets the username.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the username in the login/sign up frame
 	 */
 	
@@ -64,7 +64,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	
 	/**
 	 * Method, that sets a password
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param password the password typed in the login/sign up frame
 	 */
 	
@@ -74,7 +74,7 @@ public class MessSignInAndUpRequest extends Message implements Serializable {
 	
 	/**
 	 * Gets the password.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the password in the login/sign up frame
 	 */
 	

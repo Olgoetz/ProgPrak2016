@@ -22,7 +22,7 @@ import pp2016.team19.client.engine.ClientEngine;
 /**
  * <h1>ClientMain to start the client engine.</h1>
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 
@@ -32,7 +32,7 @@ public class ClientMain {
 	 * The main method starts the client engine. It initializes a new client together with
 	 * a thread.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {

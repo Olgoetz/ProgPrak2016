@@ -15,13 +15,13 @@ import java.util.Date;
  * 
  * It contains the constructor as well as getter and setter methods and a string method that overwrites the inherited method.
  * 
- * @author Oliver Goetz, 596134
+ * @author Goetz, Oliver, 596134
 */
 public abstract class Message implements Serializable{
 	
 	/**
 	 * The atttributes for the abstract Message class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 	private static final long serialVersionUID = -4125004909828171573L;
 	
@@ -36,7 +36,7 @@ public abstract class Message implements Serializable{
 	
 	/**
 	 * The construcotr of the class
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param type the maintype of the message
 	 * @param subType  the subtype of the message
 	 * 
@@ -51,7 +51,7 @@ public abstract class Message implements Serializable{
 	
 	/**
 	 * Method, that sets the maintype of the message.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param type the maintype of the message
 	 * 
 	 * 
@@ -62,7 +62,7 @@ public abstract class Message implements Serializable{
 	
 	/**
 	 * Gets the maintype of the message
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the maintype of the message
 	 * 
 	 * 
@@ -73,7 +73,7 @@ public abstract class Message implements Serializable{
 	
 	/**
 	 * Method, that sets the subtype of the message
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param subType the subtype of the message
 	 * 
 	 */
@@ -82,7 +82,7 @@ public abstract class Message implements Serializable{
 	}
 	
 	/**
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the subtype
 	 * 
 	 */
@@ -96,7 +96,7 @@ public abstract class Message implements Serializable{
 	 * This method overwrites the inherited String-Method.
 	 * It presents a timestap, the type as well as the subtype of the message sent to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 */
 	public String toString() {

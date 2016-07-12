@@ -28,7 +28,7 @@ import pp2016.team19.shared.*;
  * Section 4: - Helper methods - Getter and Setter methods
  * <p>
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  * 
  */
 
@@ -41,7 +41,7 @@ public class ClientEngine implements Runnable {
 	 * build a up the network - game attributes: responsible to manage the game
 	 * - static attributes: define the size of the gamewindow
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 
 	// network attributes
@@ -62,7 +62,7 @@ public class ClientEngine implements Runnable {
 	public static final int WIDTH = 16, HEIGHT = 16;
 
 	/**
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param clientThreadPool
 	 *            enables to start a thread
 	 */
@@ -110,7 +110,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * This method starts a thread.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 * 
 	 */
@@ -151,7 +151,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * TYPE = 2 >> WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            message object that has to be read
 	 */
@@ -285,7 +285,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * TYPE = 2 >> WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 * 
 	 */
@@ -296,7 +296,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * This method sends a SignUpRequest message object to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pUsername
 	 *            a userName
 	 * @param pPassword
@@ -331,7 +331,7 @@ public class ClientEngine implements Runnable {
 	 * This method sends a SignInRequest message object to the server. The
 	 * username as well as the password is sent.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pUsername
 	 *            a userName
 	 * @param pPassword
@@ -346,7 +346,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * This method processes a SignInAndUpAnswer message coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            the received message
 	 */
@@ -373,7 +373,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sends a SignOutRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 */
 
@@ -386,7 +386,7 @@ public class ClientEngine implements Runnable {
 	 * Processes a serverSignOutAnswer from the server and conducts an orderly
 	 * sign-out.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -407,7 +407,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sends a moveCharacterRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param x
 	 *            the x-Position of the player
 	 * @param y
@@ -424,7 +424,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Processes the moverCharacterAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961363
+	 * @author Goetz, Oliver, 5961363
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -450,7 +450,7 @@ public class ClientEngine implements Runnable {
 	 * Sends an attackRequest to the server.
 	 * 
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 */
 	public void attackRequest() {
@@ -460,7 +460,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Processes an attackAnswer Message coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -482,7 +482,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Sends a collectItemRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 * 
 	 */
@@ -495,7 +495,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Processes a collectItemAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 596131
+	 * @author Goetz, Oliver, 596131
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -536,7 +536,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Sends a usePotionRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 * 
 	 */
@@ -549,7 +549,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Processes a usePotionAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -573,7 +573,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sends an openDoorRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 */
 
@@ -585,7 +585,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Processes an openDoorAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -611,7 +611,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Sends an aStarRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param mouseX
 	 *            the x-coordination of the mouseclick
 	 * @param mouseY
@@ -626,7 +626,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Processes an aStarAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -643,7 +643,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sends an cheatRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param cheat
 	 *            a cheat
 	 */
@@ -687,7 +687,7 @@ public class ClientEngine implements Runnable {
 	 * Sends a startGameRequest, that also initiates a levelRequest, to the
 	 * server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param ID
 	 *            the ID of the player
 	 * 
@@ -703,7 +703,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Processes a levelAnswer Message coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 *
@@ -725,7 +725,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sends a playerRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 
 	public void playerRequest() {
@@ -735,7 +735,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Processes an playerAnswer coming from the server
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 */
@@ -758,7 +758,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Sends an updateMonsterRequest to update the health to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param monster
 	 *            a monster
 	 * 
@@ -772,7 +772,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Process an updateMonsterAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -791,7 +791,7 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * Sends an endGameRequest to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 * 
 	 */
@@ -803,7 +803,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Processes an endGameAnswer coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -845,7 +845,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Processes an highscoreAnswer message coming from the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 *            a message object
 	 * 
@@ -865,7 +865,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sends a quitGameRequeset to the server.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 
 	public void quitGameRequest() {
@@ -877,7 +877,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * SECTION 4 contains helper methods as well Getter and Setter.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 */
 
@@ -886,7 +886,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * This methods calls the newtorkhandler and puts a message in a queue.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pMessage
 	 */
 	private void sendToServer(Message pMessage) {
@@ -896,7 +896,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Writes the systemmessages into the textarea of the SysteMessages class.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param sysmes
 	 *            a systemmessage
 	 */
@@ -907,7 +907,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * The getter Method for the player.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return a player
 	 */
 	public Player getMyPlayer() {
@@ -917,7 +917,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Setter Method for the player.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param myPlayer
 	 *            the player
 	 */
@@ -928,7 +928,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Getter Method for the MonsterList.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return myMonsterList
 	 */
 	public LinkedList<Monster> getMyMonster() {
@@ -938,7 +938,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Setter Method for the MonsterList.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param myMonsterList
 	 *            the MonsterList
 	 */
@@ -949,7 +949,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Getter Method for the threadPool
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return a threadPool
 	 */
 	public ExecutorService getThreadPool() {
@@ -959,7 +959,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Setter Method for the threadPool
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param threadPool
 	 *            a threadPool
 	 */
@@ -970,7 +970,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Getter Method for the networkhandler.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the Client NetworkHandler
 	 */
 	public HandlerClient getNetworkHandler() {
@@ -980,7 +980,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Setter Method for the networkhandler.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param networkHandler
 	 *            a networkhandler
 	 */
@@ -991,7 +991,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Getter Method for a gamewindow.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the gamewindow
 	 */
 	public GameWindow getGameWindow() {
@@ -1001,7 +1001,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Setter Method for a gamewindow.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param gamewindow
 	 *            a gamewindow
 	 */
@@ -1012,7 +1012,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Getter Method for the labyrinth.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return a labyrinth
 	 */
 
@@ -1023,7 +1023,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Getter Method for an unique playerID.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return a playerID
 	 */
 	public int getPlayerID() {
@@ -1033,7 +1033,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Sets the SystemMessages class.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param sysmes
 	 *            the systemmessages
 	 */
@@ -1044,7 +1044,7 @@ public class ClientEngine implements Runnable {
 	/**
 	 * Gets the linked list that contains the highscore
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the highscore linked list
 	 */
 

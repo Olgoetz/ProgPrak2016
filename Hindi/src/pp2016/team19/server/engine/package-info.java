@@ -9,6 +9,6 @@
  * <p>
  * Likewise, Highscore reads a file containnig the achieved highscores of the users.
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  */
 package pp2016.team19.server.engine;

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 /**
  * <h1>This class requests an AttackAnswer.</h1>
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 public class MessAttackAnswer extends Message implements Serializable {
@@ -16,7 +16,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * The attributes for the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * 
 	 */
 	
@@ -36,7 +36,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	/**
 	 * 
 	 * The constructor of the class.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param monster the monsterlist
 	 * @param confirmed control if attack is possible
 	 * @param type the maintype (=0)
@@ -51,7 +51,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * Sets the monster list.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param monster a monster list
 	 */
 	public void setMonsterList(LinkedList<Monster> monster) {
@@ -60,7 +60,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * Gets the monsterlist.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the current monsterlist
 	 */
 	public LinkedList<Monster> getMonster() {
@@ -69,7 +69,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * Sets the boolean.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pConfirmed the boolean confirmed
 	 */
 	public void setConfirmed (boolean pConfirmed) {
@@ -78,7 +78,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * Gets the boolean
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the boolean confirmed
 	 */
 	public boolean isConfirmed() {
@@ -87,7 +87,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * Sets the monster status.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param killed the status of the monster
 	 */
 	public void setKilled (boolean killed) {
@@ -96,7 +96,7 @@ public class MessAttackAnswer extends Message implements Serializable {
 	
 	/**
 	 * Gets the status of the monster.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the monster status
 	 */
 	public boolean isKilled() {

@@ -7,6 +7,6 @@
  * the player, monster, poition, tile, wall, door, floor, highscore, key, labyrinth, node
  * containing their specific attributes. 
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  */
 package pp2016.team19.shared;

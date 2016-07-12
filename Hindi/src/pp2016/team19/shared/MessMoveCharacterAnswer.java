@@ -14,7 +14,7 @@ import java.io.Serializable;
  * 
  * It contains the constructor as well as a getter and setter methods.
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  * 
  
  */
@@ -25,7 +25,7 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	/**
 	 * The constructor for the class.
 	 * 
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 */
 	private static final long serialVersionUID = -7005346683609579242L;
 	
@@ -39,7 +39,7 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	private boolean confirmed;
 	
 	/**
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param posX the x-position of the player
 	 * @param posY the y-position of the player
 	 * @param type the maintype of the message
@@ -57,7 +57,7 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	
 	/**
 	 * Method, that sets the boolean.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param pConfirmed flag for allowed movement
 	 * 
 	 * 
@@ -69,7 +69,7 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	
 	/**
 	 * Method, that returns the boolean.
-	 * @author Oliver Goetz, 596134
+	 * @author Goetz, Oliver, 596134
 	 * @return the value of the flag
 	 * 
 	 * 
@@ -81,7 +81,7 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	
 	/**
 	 * Method, that gets the x-position of the player.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return x-position of player
 	 * 
 	 * 
@@ -93,8 +93,8 @@ public class MessMoveCharacterAnswer extends Message implements Serializable {
 	
 	/**
 	 * Method, that gets the y-position of the player.
-	 * @author Oliver Goetz, 5961343
-	 * @return y-positon of the player
+	 * @author Goetz, Oliver, 5961343
+	 * @return y-position of the player
 	 * 
 	 */
 	public int getY() {

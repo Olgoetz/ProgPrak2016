@@ -9,7 +9,7 @@ import java.io.Serializable;
  * The client sends a message to the server, in order to receive one.
  * <p>
  * 
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  *
  */
 
@@ -17,8 +17,8 @@ public class MessPlayerRequest extends Message implements Serializable {
 
 	
 	/**
-	 * The attribues for the class
-	 * @author Oliver Goetz, 5961343
+	 * The attributes for the class
+	 * @author Goetz, Oliver, 5961343
 	 */
 	static final long serialVersionUID = -7001895885835235328L; 
 	
@@ -26,7 +26,7 @@ public class MessPlayerRequest extends Message implements Serializable {
 	private Player player;
 	
 	/**
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param player the player
 	 * @param type the maintype (=2) of the message
 	 * @param subType the subtype (=4) of the message
@@ -40,7 +40,7 @@ public class MessPlayerRequest extends Message implements Serializable {
 	
 	/**
 	 * Method, that sets a player.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @param player the player
 	 */
 	
@@ -50,7 +50,7 @@ public class MessPlayerRequest extends Message implements Serializable {
 	
 	/**
 	 * Gets the player.
-	 * @author Oliver Goetz, 5961343
+	 * @author Goetz, Oliver, 5961343
 	 * @return the player
 	 */
 	public Player getPlayer() {

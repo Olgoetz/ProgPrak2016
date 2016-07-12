@@ -2,7 +2,7 @@ package pp2016.team19.shared;
 
 import java.io.Serializable;
 /**
- * Sends a cheat code
+ * <h1>Sends a cheat code.</h1>
  * 
  * @author Tobias Schrader, 5637252
  */
@@ -22,6 +22,7 @@ public class MessCheatRequest extends Message implements Serializable {
 		this.cheat = cheat;
 	}
 	/**
+	 * Gets the cheat.
 	 * @return  the Cheatcode
 	 * @author Tobias Schrader
 	 */
