@@ -19,7 +19,7 @@ public class SystemMessages extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private final static String line = "\n"; //break
-	private JTextArea messages;
+	private JTextArea messages; 
 	
 	/**
 	 * constructor
