@@ -28,7 +28,7 @@ public class Game extends TimerTask implements Serializable {
 	//the corresponding server engine
 	transient ServerEngine engine;
 	//a few useful attributes
-	boolean starter = true;
+	boolean starter;
 	Player player;
 	boolean playerAttacked = false;
 	long lastSent;
@@ -439,7 +439,7 @@ public class Game extends TimerTask implements Serializable {
 	 */
 	private void cheat(Message pmessage) {
 		MessCheatRequest message = (MessCheatRequest) pmessage;
-		if (message.getCheat().equals("molina")) {
+		if (message.getCheat().equals("godmode")) {
 			player.characterShield(true);
 		} else if (message.getCheat().equals("thekeytolearningjava")) {
 			player.takeKey();
@@ -475,23 +475,37 @@ public class Game extends TimerTask implements Serializable {
  * @author Tobias Schrader, 5637252
  */
 	public void stopGame() {
-		gameEnded = false;
+		gameEnded = true;
 	}
 	
 	// Getters to access game information
 
+	/**
+	 * @returns the player the game is assigned to
+	 * @author Tobias Schrader, 5637252
+	 */
 	public Player getPlayer() {
 		return player;
 	}
-
+	/**
+	 * @returns the current map as it is saved in the game
+	 * @author Tobias Schrader, 5637252
+	 */
 	public Tile[][] getGameMap() {
 		return gameMap;
 	}
-
+/**
+ * @returns the size of the game map
+ * @author Tobias Schrader
+ */
 	public int getGameSize() {
 		return gameSize;
 	}
 
+	/**
+	 * @returns the number of the current level
+	 * @author Tobias Schrader
+	 */
 	public int getLevelNumber() {
 		return levelNumber;
 	}

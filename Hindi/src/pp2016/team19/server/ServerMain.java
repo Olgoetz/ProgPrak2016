@@ -16,7 +16,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class ServerMain {
 /**
- * Main Method - executed upon running the program. 
+ * Main Method - executed upon running the program.
  * @param args
  */
 	public static void main(String[] args) {
