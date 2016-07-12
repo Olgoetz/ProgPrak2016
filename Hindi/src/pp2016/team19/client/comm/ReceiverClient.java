@@ -1,6 +1,5 @@
 package pp2016.team19.client.comm;
 
-import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -93,7 +92,7 @@ public class ReceiverClient extends Thread {
 			e.printStackTrace();
 		} catch (SocketException e) {
 			// Closing the Connection between the Server and the Client
-			this.networkHandler.close("Connection to the Server lost!");
+			this.networkHandler.close("Connection to the Server closed!");
 			System.out.println("ERROR SocketException: RECEIVERCLIENT");
 			e.printStackTrace();
 		} catch (IOException | ClassNotFoundException | InterruptedException e) {
