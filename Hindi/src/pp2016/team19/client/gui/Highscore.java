@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 
 /**
- * <h1> class for the highscore panel <h1>
+ * <h1> class for the highscore panel </h1>
  * @author Felizia Langsdorf, 6002960
  *
  */

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- * <h1>class for the welcome panel shows up after a successful login.<h1>
+ * <h1>class for the welcome panel shows up after a successful login.</h1>
  * @author Felizia Langsdorf, 6002960
  */
 

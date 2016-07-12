@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /** 
- * <h1> class for the panel which explains how to control the game <h1>
+ * <h1> class for the panel which explains how to control the game </h1>
  * shows up after clicking on the MenuItem "show control"
  * @author Felizia Langsdorf, 6002960
  * 
