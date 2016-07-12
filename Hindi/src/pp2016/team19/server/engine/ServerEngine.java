@@ -43,12 +43,7 @@ public class ServerEngine implements Runnable {
 	 */
 	public ServerEngine(LinkedBlockingQueue<Message> messagesToClient) {
 		this.messagesToClient = messagesToClient;
-		// players.add(new Player("user","123"));
-		// games.add(null);
-		// players.add(new Player("molina","pp2016"));
-		// games.add(null);
 		players = users.readUserList();
-		players.get(1).characterShield(true);
 		highscores = new Highscore();
 	}
 
@@ -107,7 +102,11 @@ public class ServerEngine implements Runnable {
 			this.sendToGame(message);
 			break;
 		case 2:
+			switch (message.getSubType()) {
+			case 10:
 			System.exit(0);
+			break;
+			}
 		case 100:
 			this.confirmConnection();
 			break;
