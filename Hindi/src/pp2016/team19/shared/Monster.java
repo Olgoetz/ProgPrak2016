@@ -145,12 +145,13 @@ public class Monster extends Character {
 		if (lastAction != 0 || pathToPlayer.isEmpty()
 				|| player.getXPos() != this.lastPlayerPos.getXPos()
 				|| player.getYPos() != this.lastPlayerPos.getYPos()) {
-			pathToPlayer.clear();
+			if (pathToPlayer != null)
+				pathToPlayer.clear();
 			pathToPlayer = AStarSearch(this.getXPos(), this.getYPos(),
 					player.getXPos(), player.getYPos());
 			updatePlayerPos();
 		}
-		if (!pathToPlayer.isEmpty()) {
+		if (pathToPlayer != null && !pathToPlayer.isEmpty()) {
 			changeDir(pathToPlayer);
 			lastAction = 0;
 		}
