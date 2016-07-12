@@ -107,9 +107,8 @@ public class Monster extends Character {
 		setDamage(5 + game.getLevelNumber() * 2);
 	}
 
-
 	// <<<<<<<<<< FSM >>>>>>>>>>
-	
+
 	/**
 	 * The FSM of the monster. It decides (depending on the situation) what the
 	 * monster should do next (move to the player, flee or regenerate health).
@@ -141,9 +140,9 @@ public class Monster extends Character {
 			lastStep = System.currentTimeMillis();
 		}
 	}
-	
+
 	// FSM - STATE 0: Move to Player
-	
+
 	/**
 	 * Moves the monster to the player. If the playerPos has changed, it calls
 	 * the AStar to calculate a new path to him and the monster goes the first
@@ -171,7 +170,7 @@ public class Monster extends Character {
 	}
 
 	// FSM - STATE 1: Flee
-	
+
 	/**
 	 * Compares the position of the player to the position of the monster and
 	 * moves the monster away of the player into the corner.
@@ -201,7 +200,7 @@ public class Monster extends Character {
 		lastAction = 1;
 		return true;
 	}
-	
+
 	/**
 	 * Calculates the point, where the monster should flee to.
 	 * 
@@ -265,7 +264,7 @@ public class Monster extends Character {
 	}
 
 	// HELPING METHODS
-	
+
 	/**
 	 * Attacks the player & gives damage
 	 * 
@@ -297,11 +296,15 @@ public class Monster extends Character {
 		}
 		return playerInRange && ableToAttack;
 	}
-	
+
 	/**
 	 * Calculates, whether the player is in range of the monster (Needed for
 	 * move() and getFleePos()).
 	 * 
+	 * @param monsterX
+	 *            x-coordinate of the monster position
+	 * @param monsterY
+	 *            y-coordinate of the monster position
 	 * @return returns whether the player is in range of the monster
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -315,7 +318,7 @@ public class Monster extends Character {
 		} else
 			return false;
 	}
-	
+
 	/**
 	 * Gives the monster healing or damage.
 	 * 
@@ -326,7 +329,7 @@ public class Monster extends Character {
 	public void changeHealth(int change) {
 		super.changeHealth(change);
 	}
-	
+
 	/**
 	 * Saves the actual position of the player as a Node
 	 * 
@@ -336,7 +339,7 @@ public class Monster extends Character {
 		this.lastPlayerPos = new Node(this.player.getXPos(),
 				this.player.getYPos());
 	}
-	
+
 	/**
 	 * Calculates the percentage of when the monster is able to attack again
 	 * 
@@ -348,7 +351,7 @@ public class Monster extends Character {
 	}
 
 	// GETTER AND SETTER
-	
+
 	/**
 	 * Returns the type of the monster. 0 = spawns at beginning, 1 = spawns
 	 * after taking the key
@@ -407,7 +410,8 @@ public class Monster extends Character {
 	/**
 	 * Sets the attribut, whether the monster carries the key.
 	 * 
-	 * @param carriesKey boolean, whether the monster contains the key
+	 * @param carriesKey
+	 *            boolean, whether the monster contains the key
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public void setCarriesKey(boolean carriesKey) {

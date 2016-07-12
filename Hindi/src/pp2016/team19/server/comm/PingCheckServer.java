@@ -32,8 +32,8 @@ public class PingCheckServer extends TimerTask {
 	 * @param networkHandler
 	 *            defines the HandlerServer that executes the TimerTask
 	 */
-	public PingCheckServer(HandlerServer networkhandler) {
-		this.networkHandler = networkhandler;
+	public PingCheckServer(HandlerServer networkHandler) {
+		this.networkHandler = networkHandler;
 	}
 
 	/**

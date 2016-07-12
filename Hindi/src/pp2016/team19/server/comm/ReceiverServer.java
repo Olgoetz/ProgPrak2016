@@ -49,9 +49,9 @@ public class ReceiverServer extends Thread {
 	 *            specifies the HandlerServer that starts the Thread and works
 	 *            with the Server-Engine
 	 */
-	public ReceiverServer(Socket client, HandlerServer networHandler) {
+	public ReceiverServer(Socket client, HandlerServer networkHandler) {
 		this.client = client;
-		this.networkHandler = networHandler;
+		this.networkHandler = networkHandler;
 	}
 
 	/**
