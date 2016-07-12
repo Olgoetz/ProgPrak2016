@@ -47,7 +47,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		
 		//shown at the bar at the top of the window 
 		game = new JMenu("Game");
-		extras = new JMenu("Show");
+		extras = new JMenu("Extras");
 		logOut = new JMenu("LogOut");
         
         newGame = new JMenuItem("Start New Game");
