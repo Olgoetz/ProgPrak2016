@@ -649,7 +649,24 @@ public class ClientEngine implements Runnable {
 	 */
 	public void cheatRequest(String cheat) {
 		this.sendToServer(new MessCheatRequest(cheat, 1, 12));
-		writeSystemMessages(cheat + " " + "is activated!");
+		
+		if (cheat.equals("godmode")) {
+			if (getMyPlayer().hasShield()) {
+				writeSystemMessages(cheat + " " + "is deactivated!");
+			} else {
+				writeSystemMessages(cheat + " " + "is activated!");
+			}
+		} else if (cheat.equals("superdebugger")) {
+			if (getMyPlayer().getDamage() < 100) {
+				writeSystemMessages(cheat + " " + "is activated!");
+			} else {
+				writeSystemMessages(cheat + " " + "is deactivated!");
+			}
+		} else if ((cheat.equals("thekeytolearningjava")) || (cheat.equals("thislevelisboring"))) {
+			writeSystemMessages(cheat + " " + "is activated!");
+		} else {
+			writeSystemMessages(cheat + " " + "does not exist!");
+		}
 	}
 
 	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
