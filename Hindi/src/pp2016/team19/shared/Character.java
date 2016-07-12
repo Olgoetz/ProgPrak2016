@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import pp2016.team19.server.engine.Game;
 
 /**
- * <h1>Abstract Character Class providing position, image, direction, window,
- * health & damage.</h1>
+ * <h1>Abstract Character Class providing position, direction, game, health, ID
+ * & damage.</h1>
  * 
  * It contains the constructor, the A-Star-Search algorithm, move methods,
  * methods to calculate the next steps and whether steps are valid or walkable,
@@ -19,6 +19,28 @@ import pp2016.team19.server.engine.Game;
 public abstract class Character implements Serializable {
 
 	private static final long serialVersionUID = -6464021522368997893L;
+
+	/**
+	 * Attributes of class Character.
+	 * 
+	 * @param xPos
+	 *            x-coordinate of the characters position
+	 * @param yPos
+	 *            y-coordinate of the characters position
+	 * @param dir
+	 *            direction, where the character should go next
+	 * @param game
+	 *            game which the character belongs to / exists in
+	 * @param health
+	 *            health of the player
+	 * @param ID
+	 *            ID of the character to uniquely identify it
+	 * @param damage
+	 *            damage the character deals
+	 * @param maxHealth
+	 *            the maximum health the character should have
+	 * @author Strohbuecker, Max, 5960738
+	 */
 
 	public int xPos, yPos;
 	private int dir = -1; // Running direction: 0 North, 1 East, 2 South, 3 West
@@ -32,7 +54,7 @@ public abstract class Character implements Serializable {
 	private int maxHealth;
 
 	/**
-	 * Standard-Contructor of class Character
+	 * Standard-Contructor of class Character.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -41,10 +63,10 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Contructor of class Character
+	 * Contructor of class Character.
 	 * 
-	 * @param window
-	 *            contains the level/map
+	 * @param game
+	 *            contains the level/map & other gameinfos
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public Character(Game game) {
@@ -193,7 +215,7 @@ public abstract class Character implements Serializable {
 	// Move-Methods
 
 	/**
-	 * Method to move up the character
+	 * Method to move up the character & update the new position to the map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -210,7 +232,7 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Method to move down the character
+	 * Method to move down the character & update the new position to the map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -226,6 +248,11 @@ public abstract class Character implements Serializable {
 		yPos++;
 	}
 
+	/**
+	 * Method to move left the character & update the new position to the map.
+	 * 
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public synchronized void moveLeft() {
 		if (this instanceof Player) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
@@ -238,6 +265,11 @@ public abstract class Character implements Serializable {
 		xPos--;
 	}
 
+	/**
+	 * Method to move right the character & update the new position to the map.
+	 * 
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public synchronized void moveRight() {
 		if (this instanceof Player) {
 			this.getGame().getGameMap()[xPos][yPos].setContainsPlayer(false);
@@ -251,11 +283,11 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Removes the next Step of the AStarPath and changes the running direction
-	 * of the monster
+	 * Removes the next step/node of the AStarPath and changes the running
+	 * direction of the monster.
 	 * 
 	 * @param path
-	 *            the path, of which the next step should be calculated
+	 *            the path, of which the next step/node should be calculated
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public boolean changeDir(LinkedList<Node> path) {
@@ -307,14 +339,13 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Calculates, whether the target position is walkable for a monster.
+	 * Calculates, whether the target position is walkable.
 	 * 
 	 * @param x
-	 *            x-coordinate of the target
+	 *            x-coordinate of the target position
 	 * @param y
-	 *            y-coordinate of the target
-	 * @return returns true if field is free, returns false if field is a wall,
-	 *         key or door
+	 *            y-coordinate of the target position
+	 * @return returns true if field is free, returns false if field is a wall
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public boolean isWalkable(int x, int y) {
@@ -328,7 +359,7 @@ public abstract class Character implements Serializable {
 	/**
 	 * Checks, whether the next step is valid.
 	 * 
-	 * @return returns false if the next step is blocked by a wall, door or key
+	 * @return returns false if the next step is not walkable or out of the map
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	private boolean valid() {
@@ -345,58 +376,139 @@ public abstract class Character implements Serializable {
 			return isWalkable(getXPos() - 1, getYPos());
 		} else {
 			System.out
-					.println("Error while validating step: Next step blocked by a wall, door or key.");
+					.println("Error while validating step: Next step blocked by a wall or out of the map.");
 			return false;
 		}
 	}
 
 	// Getter and Setter
 
+	/**
+	 * Gets the maximum health of the character.
+	 * 
+	 * @return returns the maximum health of the character
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 
+	/**
+	 * Sets the maximum health of the character.
+	 * 
+	 * @param maxHealth
+	 *            the maximum health the character should have
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
 
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
-
+	/**
+	 * Gets the damage which the character deals.
+	 * 
+	 * @return returns the damage which the character deals
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public int getDamage() {
 		return damage;
 	}
 
+	/**
+	 * Sets the damage which the character should deal.
+	 * 
+	 * @param damage
+	 *            the damage which the character should deal
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	/**
+	 * Changes the health of the player (needed for regenerating health or
+	 * dealing damage).
+	 * 
+	 * @param change
+	 *            the value how much health the character should gain or lose
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public void changeHealth(int change) {
 		health = Math.min(health + change, getMaxHealth());
 	}
 
+	/**
+	 * Sets the health of the character.
+	 * 
+	 * @param health
+	 *            the value how much health the character should have
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public void setHealth(int health) {
 		this.health = health;
 	}
 
+	/**
+	 * Gets the health of the character.
+	 * 
+	 * @return returns the actual health of the character
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public int getHealth() {
 		return health;
 	}
 
+	/**
+	 * Sets the position of the character.
+	 * 
+	 * @param xPos
+	 *            the x-coordinate of the position
+	 * @param yPos
+	 *            the y-coordinate of the position
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public void setPos(int xPos, int yPos) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 	}
 
+	/**
+	 * Gets the y-coordinate of the character.
+	 * 
+	 * @return returns the y-coordinate of the character
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public int getYPos() {
 		return yPos;
 	}
 
+	/**
+	 * Gets the x-coordinate of the character.
+	 * 
+	 * @return returns the x-coordinate of the character
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public int getXPos() {
 		return xPos;
 	}
 
+	/**
+	 * Gets the game, in which the character exists.
+	 * 
+	 * @return returns the game in which the character exists
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public Game getGame() {
 		return game;
 	}
 
+	/**
+	 * Sets the game, in which the character exists.
+	 * 
+	 * @param game
+	 *            the game in which the character exists
+	 * @author Strohbuecker, Max, 5960738
+	 */
 	public void setGame(Game game) {
 		this.game = game;
 	}
