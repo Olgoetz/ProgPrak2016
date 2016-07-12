@@ -14,10 +14,8 @@ import pp2016.team19.shared.Tile;
 
 
 /**
- * <h1>class for panel statusbar shown on the right side of the window while
- * playing the game
- * <h1>contains: playername, healthbar, items, level, minimap, etc.
- * 
+ * <h1>class for panel statusbar shown on the right side of the window while playing the game <h1>
+ * contains: playername, healthbar, items, level, minimap, etc.
  * @author Felizia Langsdorf, 6002960
  *
  */
@@ -52,34 +50,24 @@ public class Statusbar extends JPanel {
 
 		// loading the images
 		try {
-			// background = ImageIO.read(new
-			// File("img//statusgrau.png"));//source:
-			// http://www.tierrfino.de/imageresize/duro_gomera-grau.jpg
-			key = ImageIO.read(new File("img//Goldkey2.png")); // source:
-																// http://rocketdock.com/images/screenshots/Gold-key.png
+			
+			key = ImageIO.read(new File("img//Goldkey2.png")); // source: http://rocketdock.com/images/screenshots/Gold-key.png
 			potion = ImageIO.read(new File("img//potionSmall.png"));// source:http://www.rpguides.de/images/poe/icon_item64_potion_of_major_recovery.png
 
 			// load the smaller images for the minimap
-			floor1 = ImageIO.read(new File("img//floorKopie.png")); // adopted
-			wall1 = ImageIO.read(new File("img//lightgrey.png"));// source:
-																	// http://static.webshopapp.com/shops/065293/files/025593597/pvc-matt-hellgrau.jpg
-			playerImg = ImageIO.read(new File("img//warrior.png"));// source:
-																	// https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
-			red = ImageIO.read(new File("img//red.png")); // source:
-															// http://www.brillen-sehhilfen.de/optik/image/rot-red.png
-			black = ImageIO.read(new File("img//black.png"));// source:
-																// http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
-			beige = ImageIO.read(new File("img//beige.png"));// source:
-																// http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
-
+			floor1 = ImageIO.read(new File("img//floorKopie.png")); // source: adopted from sample
+			wall1 = ImageIO.read(new File("img//lightgrey.png"));// source: http://static.webshopapp.com/shops/065293/files/025593597/pvc-matt-hellgrau.jpg
+			playerImg = ImageIO.read(new File("img//warrior.png"));// source: https://cdn2.iconfinder.com/data/icons/fantasy-characters/512/knight1-512.png
+			red = ImageIO.read(new File("img//red.png")); // source: http://www.brillen-sehhilfen.de/optik/image/rot-red.png
+			black = ImageIO.read(new File("img//black.png"));// source: http://i.ytimg.com/vi/Zb4r7BcpveQ/maxresdefault.jpg
+			beige = ImageIO.read(new File("img//beige.png"));// source: http://www.irisceramica.com/images/prodotti/made/colori/files/uni_beige.jpg
 		} catch (IOException e) {
 			System.err.println("Error while loading the images.");
 		}
 	}
 
 	/**
-	 * paint method
-	 * 
+	 * paint method (source: Progprak sample)
 	 * @author Felizia Langsdorf, 6002960
 	 * @param g
 	 *            graphics object
@@ -126,7 +114,7 @@ public class Statusbar extends JPanel {
 		}
 		// display the past time
 		g.drawString("Time: " + (System.currentTimeMillis() - window.startTime) / 1000, 5, 200);
-
+		//gets the labyrinth information from the engine
 		Tile field = window.getEngine().getLabyrinth()[window.getEngine().getMyPlayer().getXPos()][window.getEngine()
 				.getMyPlayer().getYPos()];
 
@@ -150,9 +138,6 @@ public class Statusbar extends JPanel {
 		g.drawLine(2, 0, 2, statBox * (window.HEIGHT));
 
 		// draw minimap
-		// variables to adjust the map at the bottom of the panel
-		// int var1= 360;
-		// int var2 = 12;
 
 		// if in the menubar "show minimap" was clicked
 		// draw every single mini tile, 8x8 pixel
@@ -185,12 +170,7 @@ public class Statusbar extends JPanel {
 				LinkedList<Monster> monsterList = window.getEngine().getMyMonster();
 				for (int x = 0; x < monsterList.size(); x++) {
 					Monster m = monsterList.get(x);
-					boolean event = window.getEngine().getMyPlayer().hasKey(); // player
-																				// has
-																				// a
-																				// key
-																				// or
-																				// not
+					boolean event = window.getEngine().getMyPlayer().hasKey(); // player has a key or not										
 
 					// Draw the monster, if it's present from the beginning on
 					if (m.getType() == 0)
@@ -202,11 +182,7 @@ public class Statusbar extends JPanel {
 				}
 
 				// paint the player as a red point
-				g.drawImage(red, (window.getEngine().getMyPlayer().getXPos() // make
-																				// x
-																				// and
-																				// y
-																				// dynamic
+				g.drawImage(red, (window.getEngine().getMyPlayer().getXPos() 
 						* miniBox) + var2, (window.getEngine().getMyPlayer().getYPos() * miniBox) + var1, null);
 			}
 		}
