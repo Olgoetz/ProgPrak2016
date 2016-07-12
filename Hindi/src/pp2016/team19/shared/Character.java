@@ -260,7 +260,8 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Method to move right the character and update the new position to the map.
+	 * Method to move right the character and update the new position to the
+	 * map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -284,6 +285,7 @@ public abstract class Character implements Serializable {
 	 * 
 	 * @param path
 	 *            the path, of which the next step/node should be calculated
+	 * @return returns false if a monster blocks the way, otherwise returns true
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public boolean changeDir(LinkedList<Node> path) {
