@@ -164,9 +164,10 @@ public class Monster extends Character {
 					player.getXPos(), player.getYPos());
 			updatePlayerPos();
 		}
-
-		changeDir(pathToPlayer);
-		lastAction = 0;
+		if (!pathToPlayer.isEmpty()) {
+			changeDir(pathToPlayer);
+			lastAction = 0;
+		}
 	}
 
 	// FSM - STATE 1: Flee
