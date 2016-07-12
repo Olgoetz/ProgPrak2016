@@ -441,7 +441,7 @@ public class Game extends TimerTask implements Serializable {
 	private void cheat(Message pmessage) {
 		MessCheatRequest message = (MessCheatRequest) pmessage;
 		if (message.getCheat().equals("godmode")) {
-			player.characterShield(true);
+			player.characterShield(!player.hasShield());
 		} else if (message.getCheat().equals("thekeytolearningjava")) {
 			player.takeKey();
 			Message answer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(), player.getYPos());
@@ -450,6 +450,9 @@ public class Game extends TimerTask implements Serializable {
 			} catch (InterruptedException e) {
 			}
 		} else if (message.getCheat().equals("superdebugger")) {
+			if(player.getDamage()==100)
+				player.setDamage(8);
+				else
 			player.setDamage(100);
 		} else if (message.getCheat().equals("thislevelisboring")) {
 			levelNumber++;
