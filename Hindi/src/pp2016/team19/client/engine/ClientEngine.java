@@ -641,7 +641,7 @@ public class ClientEngine implements Runnable {
 	}
 
 	/**
-	 * Sends an cheatRequeset to the server.
+	 * Sends an cheatRequest to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param cheat
@@ -651,26 +651,37 @@ public class ClientEngine implements Runnable {
 		this.sendToServer(new MessCheatRequest(cheat, 1, 12));
 		
 		if (cheat.equals("godmode")) {
+			
+			// if godmode is already activated, the godmode will be deactivated
 			if (getMyPlayer().hasShield()) {
 				writeSystemMessages(cheat + " " + "is deactivated!");
 			} else {
+				// activates the godmode
 				writeSystemMessages(cheat + " " + "is activated!");
 			}
 		} else if (cheat.equals("superdebugger")) {
+			
+			// if the damage value is below 100, the player receives the skill
+			// to kill monster with 1 hit
 			if (getMyPlayer().getDamage() < 100) {
 				writeSystemMessages(cheat + " " + "is activated!");
 			} else {
+				// if the 1 hit cheat is already activated, it will now
+				// be deactivated
 				writeSystemMessages(cheat + " " + "is deactivated!");
 			}
+			
+			// cheat to receive the key or to the skip the level
 		} else if ((cheat.equals("thekeytolearningjava")) || (cheat.equals("thislevelisboring"))) {
 			writeSystemMessages(cheat + " " + "is activated!");
 		} else {
+			
+			// message, that the entered cheat does not exist
 			writeSystemMessages(cheat + " " + "does not exist!");
 		}
 	}
 
-	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
-	// ********** //
+	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS ********** //
 
 	/**
 	 * Sends a startGameRequest, that also initiates a levelRequest, to the
