@@ -489,12 +489,13 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 	}
 
 	/**
-	 * method for resetting the game
+	 * method for resetting the game 
+	 * source: Progprak sample
 	 * @author Felizia Langsdorf, 6002960
 	 */
 
 	public void resetGame() {
-		
+		//starts a new game
 		this.getEngine().startGameRequest(this.getEngine().getPlayerID());
 		level = this.engine.getLabyrinth();
 		//sets the level to 0 again
@@ -545,7 +546,7 @@ public class GameWindow extends JFrame implements KeyListener, MouseListener, Ru
 
 	/**
 	 * method for counting up the level 
-	 * @author Felizia Langsdorf, 6002960
+	 * @author Progprak-Team
 	 * 
 	 */
 
