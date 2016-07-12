@@ -803,7 +803,7 @@ public class ClientEngine implements Runnable {
 			this.getGameWindow().gameWon = true;
 		} else {
 			
-			// state, tahte the game is lost. The game is over and lost because
+			// state, that the game is lost. The game is over and lost because
 			// the player has no health left.
 			this.getGameWindow().gameLost = true;
 			this.getGameWindow().gameWon = true;
@@ -828,7 +828,15 @@ public class ClientEngine implements Runnable {
 		// message object
 		this.highscore = message.getHighscore();
 		
-		
+	}
+	
+	/**
+	 * Sends a quitGameRequeset to the server.
+	 * @author Oliver Goetz, 5961343
+	 */
+	
+	public void quitGameRequest() {
+		this.sendToServer(new MessQuitGameRequest(2,10));
 	}
 
 	// *************** SECTION 4 ********************//
