@@ -53,7 +53,7 @@ public class Tile implements Serializable {
 	/**
 	 * 8 Constants
 	 * 
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	// Constants for attribute type
@@ -71,7 +71,7 @@ public class Tile implements Serializable {
 	/**
 	 * Setter method, which sets the type of Tile
 	 * @param input type your Tile must become, example: "FLOOR".
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void setType(int input) {
@@ -84,7 +84,7 @@ public class Tile implements Serializable {
 	 * Method, which returns a boolean, if a Tile is of type ROCK or not.
 	 * 
 	 * @return returns true, if the Tile is of Type Rock.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean isRock() {
@@ -99,7 +99,7 @@ public class Tile implements Serializable {
 	 * Method, which returns a boolean, if a Tile is of type FLOOR or not.
 	 * 
 	 * @return returns true, if the Tile is of Type Floor.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 
 	public boolean isFloor() {
@@ -115,7 +115,7 @@ public class Tile implements Serializable {
 	 * Method, which returns a boolean, if a Tile is of type ENTRY or not.
 	 * 
 	 * @return returns true, if the Tile is of Type Entry.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean isEntry() {
@@ -130,7 +130,7 @@ public class Tile implements Serializable {
 	 * Method, which returns a boolean, if a Tile is of type EXIT or not.
 	 * 
 	 * @return returns true, if the Tile is of Type Exit.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 
 	public boolean isExit() {
@@ -146,7 +146,7 @@ public class Tile implements Serializable {
 	 * Setter method, which sets the Exit Unlocked or Locked, if the Player has a key.
 	 * 
 	 * @param input set input false or true, for unlocking exit.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void setExitUnlocked(boolean input) {
@@ -157,7 +157,7 @@ public class Tile implements Serializable {
 	 * Setter method, which sets a Tile to contain a Player or not.
 	 * 
 	 * @param input set input false or true, for setting player on Tile.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void setContainsPlayer(boolean input) {
@@ -168,7 +168,7 @@ public class Tile implements Serializable {
 	 * Setter method, which sets a Tile to contain a Key or not.
 	 * 
 	 * @param input set input false or true, for setting Key on Tile.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void setContainsKey(boolean input) {
@@ -179,7 +179,7 @@ public class Tile implements Serializable {
 	 * Setter method, which sets a Tile to contain a Potion or not.
 	 * 
 	 * @param input set input false or true, for setting Potion on Tile.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void setContainsPotion(boolean input) {
@@ -190,7 +190,7 @@ public class Tile implements Serializable {
 	 * Setter method, which sets a Tile to contain a Monster or not.
 	 * 
 	 * @param input set input false or true, for setting Monster on Tile.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public void setContainsMonster(boolean input) {
@@ -201,7 +201,7 @@ public class Tile implements Serializable {
 	 * Getter Method, which returns a boolean if a the exit is unlocked or not.
 	 * 
 	 * @return returns true, when exit unlocked.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean exitUnlocked() {
@@ -212,7 +212,7 @@ public class Tile implements Serializable {
 	 * Getter Method, which returns a boolean if a Tile contains the Player or not.
 	 * 
 	 * @return returns true, when Tile contains player.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean containsPlayer() {
@@ -223,7 +223,7 @@ public class Tile implements Serializable {
 	 * Getter Method, which returns a boolean if a Tile contains a Key or not.
 	 * 
 	 * @return returns true, when Tile contains key.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean containsKey() {
@@ -234,7 +234,7 @@ public class Tile implements Serializable {
 	 * Getter Method, which returns a boolean if a Tile contains a Potion or not.
 	 * 
 	 * @return returns true, when Tile contains a potion.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean containsPotion() {
@@ -245,7 +245,7 @@ public class Tile implements Serializable {
 	 * Getter Method, which returns a boolean if a Tile contains a Monster or not.
 	 * 
 	 * @return returns true, when Tile contains monster.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 	
 	public boolean containsMonster() {
@@ -257,7 +257,7 @@ public class Tile implements Serializable {
 	 * Getter Method, which returns a boolean if a Tile is walkable or not.
 	 * 
 	 * @return returns true, when Tile is walkable.
-	 * @author < Czernik, Christof, 5830621 >
+	 * @author Czernik, Christof, 5830621
 	 */
 
 	public boolean isWalkable() {
