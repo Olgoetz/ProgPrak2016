@@ -37,15 +37,13 @@ import pp2016.team19.shared.*;
 public class ClientEngine implements Runnable {
 
 	/**
-	 * There are 3 Types of attributes.
-	 *  - network attributes: responsible to build a up the network
-	 *  - game attributes: responsible to manage the game
-	 *  - static attributes: define the size of the gamewindow
-	 *  
-	 *  @author Oliver Goetz, 5961343
+	 * There are 3 Types of attributes. - network attributes: responsible to
+	 * build a up the network - game attributes: responsible to manage the game
+	 * - static attributes: define the size of the gamewindow
+	 * 
+	 * @author Oliver Goetz, 5961343
 	 */
-	
-	
+
 	// network attributes
 	private ExecutorService threadPool;
 	private HandlerClient networkHandler;
@@ -73,41 +71,39 @@ public class ClientEngine implements Runnable {
 
 		// opens a dialog window to type in a value for the server adress
 		JOptionPane.setDefaultLocale(Locale.ENGLISH);
-		
+
 		// creates a new JFrame
 		JFrame input = new JFrame();
-		
+
 		// provides a string for the serveradress
 		String adress = JOptionPane.showInputDialog(input, "Serveradress", "localhost");
-		
+
 		// if the 'cancel'-button is hit, the serverconnection is canceled
 		if (adress == null) {
 			System.out.println("Serverconnection canceled!");
 			System.exit(0);
-		
-		// the game is executed
+
+			// the game is executed
 		} else {
-		
-		this.setSystemMessages(new SystemMessages());
-		writeSystemMessages("Connection to Server successfully built!");
-		// sets the thread
-		this.setThreadPool(clientThreadPool);
 
-		// creates a new Networkhandler
-		this.setNetworkHandler(new HandlerClient(adress));
+			this.setSystemMessages(new SystemMessages());
+			writeSystemMessages("Connection to Server successfully built!");
+			// sets the thread
+			this.setThreadPool(clientThreadPool);
 
-		// creates a new GameWindow
-		this.setGameWindow(new GameWindow(this, BOX * WIDTH, BOX * HEIGHT, "Hindi Bones"));
-		
-		// creates a new Systemmessages Frame
-		this.sysMes.setTitle("System Messages");
-		this.sysMes.setSize(500, 200);
-		this.sysMes.setVisible(true);
-		this.sysMes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			// creates a new Networkhandler
+			this.setNetworkHandler(new HandlerClient(adress));
+
+			// creates a new GameWindow
+			this.setGameWindow(new GameWindow(this, BOX * WIDTH, BOX * HEIGHT, "Hindi Bones"));
+
+			// creates a new Systemmessages Frame
+			this.sysMes.setTitle("System Messages");
+			this.sysMes.setSize(500, 200);
+			this.sysMes.setVisible(true);
+			this.sysMes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
-		
-		
-	
+
 	}
 
 	/***
@@ -123,7 +119,7 @@ public class ClientEngine implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		System.out.println("Engine started");
-		// 
+		//
 		while (true) {
 			// the method in thread is every 50 milliseconds executed
 			try {
@@ -164,10 +160,11 @@ public class ClientEngine implements Runnable {
 		// returns the maintype of the message
 		switch (pMessage.getType()) {
 
-		// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS ********** //
-	
+		// ********** TYPE = 0 >> SIGN{UP,IN,OUT,OFF} ACTIONS AND METHODS
+		// ********** //
+
 		case 0:
-			
+
 			// analyzes the subtype of the message
 			switch (pMessage.getSubType()) {
 			case 3:
@@ -175,21 +172,22 @@ public class ClientEngine implements Runnable {
 				this.serverSignInAndUpAnswer(pMessage);
 				break;
 
-			 case 9:
+			case 9:
 				// processes a serverSignOutAnswer see SECTION 3
-				 this.serverSignOutAnswer(pMessage);
-				 break;
-			
+				this.serverSignOutAnswer(pMessage);
+				break;
+
 			default:
 				break;
 			}
 
 			break;
 
-		// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS ********** //
-		
+		// ********** TYPE = 1 : USER TRIGGERED ACTIONS AND METHODS **********
+		// //
+
 		case 1:
-			
+
 			// analyzes the subtype of the message
 			switch (pMessage.getSubType()) {
 			case 1:
@@ -233,7 +231,8 @@ public class ClientEngine implements Runnable {
 
 			break;
 
-		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS ********** //
+		// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
+		// ********** //
 
 		case 2:
 			// analyzes the subtype of the message
@@ -257,11 +256,11 @@ public class ClientEngine implements Runnable {
 				// processes an endGameAnswer see SECTION 3
 				this.endGameAnswer(pMessage);
 				break;
-				
+
 			case 9:
 				// processes a highScoreAnswer see SECTION 3
 				this.highscoreAnswer(pMessage);
-				
+
 			default:
 				break;
 			}
@@ -310,9 +309,10 @@ public class ClientEngine implements Runnable {
 		System.out.println("METHOD Engine.serverSignUpRequest() " + pUsername + ", " + pPassword + ", " + pPassword2);
 
 		// check if passwords are equal
-		
+
 		if (pPassword.equals(pPassword2)) {
-			// if true, the registration is successful and the game menu will be opened
+			// if true, the registration is successful and the game menu will be
+			// opened
 			this.sendToServer(new MessSignInAndUpRequest(pUsername, pPassword, 0, 2));
 			System.out.println("Registration successful!");
 			writeSystemMessages("Registration successful!");
@@ -322,14 +322,14 @@ public class ClientEngine implements Runnable {
 			JOptionPane.showMessageDialog(null, "Passwords are not equal!");
 			System.out.println("Registration failed!");
 			writeSystemMessages("Registration failed!");
-			
+
 		}
 	}
 
 	/**
 	 * 
-	 * This method sends a SignInRequest message object to the server.
-	 * The username as well as the password is sent.
+	 * This method sends a SignInRequest message object to the server. The
+	 * username as well as the password is sent.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @param pUsername
@@ -347,7 +347,8 @@ public class ClientEngine implements Runnable {
 	 * This method processes a SignInAndUpAnswer message coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage the received message
+	 * @param pMessage
+	 *            the received message
 	 */
 	private void serverSignInAndUpAnswer(Message pMessage) {
 
@@ -364,31 +365,30 @@ public class ClientEngine implements Runnable {
 			getGameWindow().showMenu();
 			System.out.println("METHOD Engine.serverSignInAndUpAnswer: Login successful");
 			writeSystemMessages("Login successful. Welcome to Hindi Bones, enjoy the Maze Runner Adventure Game!");
-		} else { 
+		} else {
 			JOptionPane.showMessageDialog(null, "Wrong Username or Password");
 		}
 	}
-	
-	
+
 	/**
 	 * Sends a SignOutRequest to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * 
 	 */
-	
+
 	public void serverSignOutRequest() {
 		System.out.println("METHOD ClientEngine.serverSignOutRequest: SignOutRequest sent!");
-		this.sendToServer(new MessSignOutRequest(this.playerID,0,8));
+		this.sendToServer(new MessSignOutRequest(this.playerID, 0, 8));
 	}
-	
-	
+
 	/**
-	 * Processes a serverSignOutAnswer from the server and conducts
-	 * an orderly sign-out.
+	 * Processes a serverSignOutAnswer from the server and conducts an orderly
+	 * sign-out.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
 	public void serverSignOutAnswer(Message pMessage) {
@@ -408,27 +408,28 @@ public class ClientEngine implements Runnable {
 	 * Sends a moveCharacterRequest to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param x the x-Position of the player
-	 * @param y the y-Position of the player
-	 * @param direction the direction of the player (0=up, 1=down, 2=left, 3=right)
+	 * @param x
+	 *            the x-Position of the player
+	 * @param y
+	 *            the y-Position of the player
+	 * @param direction
+	 *            the direction of the player (0=up, 1=down, 2=left, 3=right)
 	 */
-	
+
 	public void moveCharacterRequest(int x, int y, int direction) {
-		System.out.println("METHOD ClientEngine.moveCharacterRequest: MoveRequest sent!!");
 		this.sendToServer(new MessMoveCharacterRequest(x, y, direction, 1, 0));
 	}
 
-	
-	
 	/**
 	 * 
 	 * Processes the moverCharacterAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961363
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
-	
+
 	private void moveCharacterAnswer(Message pMessage) {
 		// casts the incoming message to a proper message object
 		MessMoveCharacterAnswer message = (MessMoveCharacterAnswer) pMessage;
@@ -444,7 +445,6 @@ public class ClientEngine implements Runnable {
 		}
 	}
 
-	
 	/**
 	 * 
 	 * Sends an attackRequest to the server.
@@ -457,22 +457,23 @@ public class ClientEngine implements Runnable {
 		this.sendToServer(new MessAttackRequest(1, 2));
 	}
 
-	
 	/**
 	 * Processes an attackAnswer Message coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
-	
+
 	public void attackAnswer(Message pMessage) {
 		// casts the incoming message to a proper message object
 		MessAttackAnswer message = (MessAttackAnswer) pMessage;
-		
+
 		// checks, if a the message contains a boolean true
 		if (message.isConfirmed()) {
-			// sets the monsterList in the clien-engine, that comes from the server
+			// sets the monsterList in the clien-engine, that comes from the
+			// server
 			this.myMonsterList = message.getMonster();
 		}
 	}
@@ -485,45 +486,45 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * 
 	 */
-	
+
 	public void collectItemRequest() {
 		this.sendToServer(new MessCollectItemRequest(1, 4));
 	}
 
-	
 	/**
 	 * 
 	 * Processes a collectItemAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 596131
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 * 
 	 */
-	
+
 	public void collectItemAnswer(Message pMessage) {
 		// casts the incoming message to a proper message object
 		MessCollectItemAnswer message = (MessCollectItemAnswer) pMessage;
-		
-		// checks an ID within the message: 
+
+		// checks an ID within the message:
 		// 0 = key
 		// 1 = potion
 		// -1 = nothing to take
 		if (message.getID() == 0) {
-			
+
 			// the player takes the key
 			this.getMyPlayer().takeKey();
 			writeSystemMessages("Key taken!");
-			
+
 			// the key disappears from the labyrinth floor
 			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsKey(false);
 
 		} else if (message.getID() == 1) {
-			
+
 			// the player takes a potion
 			this.getMyPlayer().takePotion();
 			writeSystemMessages("Potion taken!");
-			
+
 			// the potion disappears from the labyrinth floor
 			this.getLabyrinth()[this.getMyPlayer().getXPos()][this.getMyPlayer().getYPos()].setContainsPotion(false);
 		} else if (message.getID() == -1) {
@@ -531,7 +532,6 @@ public class ClientEngine implements Runnable {
 		}
 	}
 
-	
 	/**
 	 * 
 	 * Sends a usePotionRequest to the server.
@@ -540,36 +540,36 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * 
 	 */
-	
+
 	public void usePotionRequest() {
 		this.sendToServer(new MessUsePotionRequest(1, 6));
 	}
 
-	
 	/**
 	 * 
 	 * Processes a usePotionAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 * 
 	 */
-	
+
 	public void usePotionAnswer(Message pMessage) {
-		
+
 		// casts the incoming message to a proper message
 		MessUsePotionAnswer message = (MessUsePotionAnswer) pMessage;
-		
+
 		// checks if the message contains a boolean true
 		if (message.isConfirmed()) {
-			
+
 			// updates the player in the client-engine respectively in the gui
 			this.myPlayer = message.getPlayer();
 			writeSystemMessages("Potion used, health refilled!");
 		}
 	}
-	
+
 	/**
 	 * Sends an openDoorRequest to the server.
 	 * 
@@ -580,63 +580,60 @@ public class ClientEngine implements Runnable {
 	public void openDoorRequest() {
 		this.sendToServer(new MessOpenDoorRequest(true, 1, 8));
 	}
-	
+
 	/**
 	 * 
 	 * Processes an openDoorAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
 
 	public void openDoorAnswer(Message pMessage) {
-		
+
 		// casts the incoming message to a proper message object
 		MessOpenDoorAnswer message = (MessOpenDoorAnswer) pMessage;
-		
+
 		// checks, if the message contains a boolean true
 		if (message.getOpenDoor() == true) {
-			
+
 			// the nextlevel is loaded
 			gamewindow.nextLevel();
-			writeSystemMessages("Level completed. New level entered!");
-			
+
 			// the player has the key and opens the door
-			System.out.println("METHOD Engine.openDoorAnswer: Level completed!");
-		
-		// this is printed if the player tries to open the door although
-		// he does not posess the key
-	} else if (!message.getOpenDoor() == true) {
-			
-		System.out.println("METHOD Engine.openDoorAnswer: No key available!");
+			writeSystemMessages("Level completed. New level entered!");
+		}
 	}
-	}
-	
+
 	/**
 	 * 
 	 * Sends an aStarRequest to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param mouseX the x-coordination of the mouseclick
-	 * @param mouseY the y-coordination of the mouseclick
+	 * @param mouseX
+	 *            the x-coordination of the mouseclick
+	 * @param mouseY
+	 *            the y-coordination of the mouseclick
 	 * 
 	 */
 
 	public void aStarRequest(int mouseX, int mouseY) {
 		this.sendToServer(new MessAstarRequest(mouseX, mouseY, 1, 10));
 	}
-	
+
 	/**
 	 * Processes an aStarAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
 
 	public void aStarAnswer(Message pMessage) {
-		
+
 		// casts the incoming message to a proper message object
 		MessAstarAnswer message = (MessAstarAnswer) pMessage;
 		this.myPlayer = message.getMyPlayer();
@@ -645,119 +642,123 @@ public class ClientEngine implements Runnable {
 
 	/**
 	 * Sends an cheatRequeset to the server.
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param cheat a cheat
+	 * @param cheat
+	 *            a cheat
 	 */
 	public void cheatRequest(String cheat) {
-		this.sendToServer(new MessCheatRequest(cheat,1,12));
+		this.sendToServer(new MessCheatRequest(cheat, 1, 12));
 		writeSystemMessages(cheat + " " + "is activated!");
 	}
 
-	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS ********** //
-
+	// ********** TYPE = 2 : WORLDMANAGEMENT TRIGGERED ACTIONS AND METHODS
+	// ********** //
 
 	/**
-	 * Sends a startGameRequest, that also initiates a levelRequest, to the server.
+	 * Sends a startGameRequest, that also initiates a levelRequest, to the
+	 * server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param ID the ID of the player
+	 * @param ID
+	 *            the ID of the player
 	 * 
 	 * 
 	 */
-	
+
 	public void startGameRequest(int ID) {
-		System.out.println("METHOD ClientEngine.startGameRequest: New game requested");
 		this.sendToServer(new MessStartGameRequest(this.getPlayerID(), 0, 6));
-		writeSystemMessages("Start new Game!");
+		writeSystemMessages("New game started!");
 	}
 
-
 	/**
 	 * 
-	 *  Processes a levelAnswer Message coming from the server.
-	 *  
+	 * Processes a levelAnswer Message coming from the server.
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 *
 	 */
-	
+
 	public void levelAnswer(Message pMessage) {
-		System.out.println("METHOD ClientEngine.levelAnswer: Level received! ");
-		
+
 		// casts the incoming message to a proper message object
 		MessLevelAnswer message = (MessLevelAnswer) pMessage;
-		
+
 		// sets the new monsterlist
 		this.myMonsterList = message.getMonsters();
-		
+
 		// sets the new labyrinth
 		this.labyrinth = message.getLabyrinth();
 
 	}
 
-	
 	/**
 	 * Sends a playerRequest to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 */
-	
+
 	public void playerRequest() {
 		this.sendToServer(new MessPlayerRequest(myPlayer, 2, 4));
 	}
 
 	/**
 	 * Processes an playerAnswer coming from the server
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 */
-	
+
 	public void playerAnswer(Message pMessage) {
-		System.out.println("METHOD Engine.playerAnswer: Player received!");
 
 		// casts the incoming message to a proper message object
 		MessPlayerAnswer message = (MessPlayerAnswer) pMessage;
 
 		// sets a new player
 		this.myPlayer = message.getMyPlayer();
-		
-		// sets a flag so that the gameloop {see Gamewindow} is correctly conducted
+
+		// sets a flag so that the gameloop {see Gamewindow} is correctly
+		// conducted
 		gamewindow.setTest(true);
 
 	}
-	
+
 	/**
 	 * 
 	 * Sends an updateMonsterRequest to update the health to the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param monster a monster
-	 * 
+	 * @param monster
+	 *            a monster
 	 * 
 	 */
 
 	public void updateMonsterRequest(Monster monster) {
 		this.sendToServer(new MessUpdateMonsterRequest(2, 2));
 	}
-	
+
 	/**
 	 * 
 	 * Process an updateMonsterAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
-	 */ 
+	 */
 
 	public void updateMonsterAnswer(Message pMessage) {
-		
+
 		// casts the incoming message to a proper message object
 		MessUpdateMonsterAnswer message = (MessUpdateMonsterAnswer) pMessage;
-		
+
 		// updates the monsterlist with new health
 		this.myMonsterList = message.getMonsterList();
 	}
-	
+
 	/**
 	 * 
 	 * Sends an endGameRequest to the server.
@@ -766,79 +767,84 @@ public class ClientEngine implements Runnable {
 	 * 
 	 * 
 	 */
-	
+
 	public void endGameRequest() {
-		this.sendToServer(new MessEndGameRequest(2,6));
+		this.sendToServer(new MessEndGameRequest(2, 6));
 	}
-	
-	
+
 	/**
 	 * Processes an endGameAnswer coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
-	
+
 	public void endGameAnswer(Message pMessage) {
-		
+
 		// casts the incoming message to a proper message object
 		MessEndGameAnswer message = (MessEndGameAnswer) pMessage;
-		
+
 		// sets the player's achieved score
 		this.myPlayer.setScore(message.getScore());
-		
+
 		// checks the state of the endgame.
 		// gameWon: represents the end-state of the game
-		//			(e.g. last level finished, gameWon = true, no health left gameWon = true).
-		// gameLost: gameLost = true, if all health is gone. False, if the player ended the last level.
-		if(message.isGameWon()) {
-			
+		// (e.g. last level has been finished, gameWon = true, 
+		// no health left gameWon = true).
+		// gameLost: gameLost = true, if all health is gone. False, if the
+		// player ended the last level.
+		if (message.isGameWon()) {
+
 			// state, that the game is won. Player completed the last level.
 			this.getGameWindow().gameLost = false;
 			this.getGameWindow().gameWon = true;
-			writeSystemMessages("Congratulations! You escaped from the Maze!!");
-		} else {
 			
+			writeSystemMessages("Congratulations! You escaped from the Maze!!");
+			
+		} else {
+
 			// state, that the game is lost. The game is over and lost because
 			// the player has no health left.
 			this.getGameWindow().gameLost = true;
 			this.getGameWindow().gameWon = true;
 			writeSystemMessages("Sorry! The monsters were stronger than you!");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Processes an highscoreAnswer message coming from the server.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param pMessage a message object
+	 * @param pMessage
+	 *            a message object
 	 * 
 	 */
-	
+
 	public void highscoreAnswer(Message pMessage) {
-		
+
 		// casts the incoming message to a proper message object
 		MessHighscoreAnswer message = (MessHighscoreAnswer) pMessage;
-		
-		// sets the highscore list by taking the highscore list from the incoming
-		// message object
+
+		// sets the highscore list by taking the highscore list from
+		// the incoming message object
+
 		this.highscore = message.getHighscore();
-		
 	}
-	
+
 	/**
 	 * Sends a quitGameRequeset to the server.
+	 * 
 	 * @author Oliver Goetz, 5961343
 	 */
-	
+
 	public void quitGameRequest() {
-		this.sendToServer(new MessQuitGameRequest(2,10));
+		this.sendToServer(new MessQuitGameRequest(2, 10));
 	}
 
 	// *************** SECTION 4 ********************//
-
 
 	/**
 	 * SECTION 4 contains helper methods as well Getter and Setter.
@@ -861,15 +867,15 @@ public class ClientEngine implements Runnable {
 
 	/**
 	 * Writes the systemmessages into the textarea of the SysteMessages class.
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param sysmes a systemmessage
+	 * @param sysmes
+	 *            a systemmessage
 	 */
 	public void writeSystemMessages(String sysmes) {
-		sysMes.getMessArea().setText(sysmes + "\n" + sysMes.getMessArea().getText() );
+		sysMes.getMessArea().setText(sysmes + "\n" + sysMes.getMessArea().getText());
 	}
-	
-	
-	
+
 	/**
 	 * The getter Method for the player.
 	 * 
@@ -890,7 +896,7 @@ public class ClientEngine implements Runnable {
 	public void setMyPlayer(Player myPlayer) {
 		this.myPlayer = myPlayer;
 	}
-	
+
 	/**
 	 * Getter Method for the MonsterList.
 	 * 
@@ -905,12 +911,13 @@ public class ClientEngine implements Runnable {
 	 * Setter Method for the MonsterList.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param myMonsterList the MonsterList
+	 * @param myMonsterList
+	 *            the MonsterList
 	 */
 	public void setMyMonster(LinkedList<Monster> myMonsterList) {
 		this.myMonsterList = myMonsterList;
 	}
-	
+
 	/**
 	 * Getter Method for the threadPool
 	 * 
@@ -920,17 +927,18 @@ public class ClientEngine implements Runnable {
 	public ExecutorService getThreadPool() {
 		return threadPool;
 	}
-	
+
 	/**
 	 * Setter Method for the threadPool
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param threadPool a threadPool
+	 * @param threadPool
+	 *            a threadPool
 	 */
 	public void setThreadPool(ExecutorService threadPool) {
 		this.threadPool = threadPool;
 	}
-	
+
 	/**
 	 * Getter Method for the networkhandler.
 	 * 
@@ -945,7 +953,8 @@ public class ClientEngine implements Runnable {
 	 * Setter Method for the networkhandler.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param networkHandler a networkhandler
+	 * @param networkHandler
+	 *            a networkhandler
 	 */
 	public void setNetworkHandler(HandlerClient networkHandler) {
 		this.networkHandler = networkHandler;
@@ -965,12 +974,13 @@ public class ClientEngine implements Runnable {
 	 * Setter Method for a gamewindow.
 	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param gamewindow a gamewindow
+	 * @param gamewindow
+	 *            a gamewindow
 	 */
 	public void setGameWindow(GameWindow gamewindow) {
 		this.gamewindow = gamewindow;
 	}
-	
+
 	/**
 	 * Getter Method for the labyrinth.
 	 * 
@@ -991,27 +1001,27 @@ public class ClientEngine implements Runnable {
 	public int getPlayerID() {
 		return playerID;
 	}
-	
+
 	/**
 	 * Sets the SystemMessages class.
+	 * 
 	 * @author Oliver Goetz, 5961343
-	 * @param sysmes the systemmessages
+	 * @param sysmes
+	 *            the systemmessages
 	 */
 	public void setSystemMessages(SystemMessages sysmes) {
 		this.sysMes = sysmes;
 	}
-	
-	
+
 	/**
 	 * Gets the linked list that contains the highscore
 	 * 
 	 * @author Oliver Goetz, 5961343
 	 * @return the highscore linked list
 	 */
-	
+
 	public LinkedList<HighScoreElement> getHighscore() {
 		return highscore;
 	}
-
 
 } // end of ClientEngine-class
