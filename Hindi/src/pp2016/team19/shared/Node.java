@@ -54,6 +54,8 @@ public class Node implements Serializable {
 		this.costToGoal = 0;
 	}
 
+	// GETTER AND SETTER
+	
 	/**
 	 * Set the costs, what it actually takes from the start to this node.
 	 * 

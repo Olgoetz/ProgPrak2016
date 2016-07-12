@@ -212,7 +212,8 @@ public abstract class Character implements Serializable {
 		return path;
 	}
 
-	// Move-Methods
+	
+	// MOVE-METHODS
 
 	/**
 	 * Method to move up the character & update the new position to the map.
@@ -282,6 +283,9 @@ public abstract class Character implements Serializable {
 		xPos++;
 	}
 
+	
+	// HELPING METHODS
+	
 	/**
 	 * Removes the next step/node of the AStarPath and changes the running
 	 * direction of the monster.
@@ -381,7 +385,7 @@ public abstract class Character implements Serializable {
 		}
 	}
 
-	// Getter and Setter
+	// GETTER AND SETTER
 
 	/**
 	 * Gets the maximum health of the character.

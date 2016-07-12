@@ -113,15 +113,6 @@ public class Player extends Character implements Serializable {
 	}
 
 	/**
-	 * Resets the relevant data of the player to the default values.
-	 */
-	public void reset() {
-		setNumberOfPotions(0);
-		setPos(0, 0);
-		setHealth(100);
-	}
-
-	/**
 	 * Calculates a path to a specific position with AStarSearch. Additionally
 	 * adds the goal position to this path, because AStarSeach only calculates
 	 * until one field before the goal (easier for the monster system).
@@ -210,6 +201,9 @@ public class Player extends Character implements Serializable {
 		return null;
 	}
 
+	
+	// HELPING METHODS
+	
 	/**
 	 * Uses one of the potions and heals the player.
 	 * 
@@ -255,6 +249,15 @@ public class Player extends Character implements Serializable {
 	public String toString() {
 		return "Player: " + this.getName() + ", PW: " + this.getPassword()
 				+ ", Pos: " + this.getXPos() + ", " + this.getYPos();
+	}
+	
+	/**
+	 * Resets the relevant data of the player to the default values.
+	 */
+	public void reset() {
+		setNumberOfPotions(0);
+		setPos(0, 0);
+		setHealth(100);
 	}
 
 	// GETTER AND SETTER

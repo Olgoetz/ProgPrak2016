@@ -107,70 +107,9 @@ public class Monster extends Character {
 		setDamage(5 + game.getLevelNumber() * 2);
 	}
 
-	/**
-	 * Saves the actual position of the player as a Node
-	 * 
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public void updatePlayerPos() {
-		this.lastPlayerPos = new Node(this.player.getXPos(),
-				this.player.getYPos());
-	}
-
-	/**
-	 * Attacks the player & gives damage
-	 * 
-	 * @param hasKey
-	 *            does the player have the key?
-	 * @return returns, whether a player is in attacking range of the monster.
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public boolean attackPlayer(boolean hasKey) {
-		// Is the player in range of the monster?
-		boolean playerInRange = (Math.sqrt(Math.pow(player.getXPos()
-				- getXPos(), 2)
-				+ Math.pow(player.getYPos() - getYPos(), 2)) < 2);
-
-		// Is the monster able to attack?
-		boolean ableToAttack = false;
-		if (type == 0)
-			ableToAttack = ((System.currentTimeMillis() - lastAttack) >= cooldownAttack);
-		if (type == 1)
-			ableToAttack = (hasKey && ((System.currentTimeMillis() - lastAttack) >= cooldownAttack));
-
-		if (this.getHealth() > this.getMaxHealth() / 4) {
-			if (playerInRange && ableToAttack) {
-				lastAttack = System.currentTimeMillis();
-				player.changeHealth(-getDamage());
-			}
-		} else {
-			move();
-		}
-		return playerInRange && ableToAttack;
-	}
-
-	/**
-	 * Gives the monster healing or damage.
-	 * 
-	 * @param change
-	 *            The value of the changing
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public void changeHealth(int change) {
-		super.changeHealth(change);
-	}
-
-	/**
-	 * Calculates the percentage of when the monster is able to attack again
-	 * 
-	 * @return returns the cooldown rate
-	 * @author Strohbuecker, Max, 5960738
-	 */
-	public double cooldownRate() {
-		return 1.0 * (System.currentTimeMillis() - lastAttack) / cooldownAttack;
-	}
 
 	// <<<<<<<<<< FSM >>>>>>>>>>
+	
 	/**
 	 * The FSM of the monster. It decides (depending on the situation) what the
 	 * monster should do next (move to the player, flee or regenerate health).
@@ -202,7 +141,9 @@ public class Monster extends Character {
 			lastStep = System.currentTimeMillis();
 		}
 	}
-
+	
+	// FSM - STATE 0: Move to Player
+	
 	/**
 	 * Moves the monster to the player. If the playerPos has changed, it calls
 	 * the AStar to calculate a new path to him and the monster goes the first
@@ -229,6 +170,8 @@ public class Monster extends Character {
 		lastAction = 0;
 	}
 
+	// FSM - STATE 1: Flee
+	
 	/**
 	 * Compares the position of the player to the position of the monster and
 	 * moves the monster away of the player into the corner.
@@ -258,7 +201,7 @@ public class Monster extends Character {
 		lastAction = 1;
 		return true;
 	}
-
+	
 	/**
 	 * Calculates the point, where the monster should flee to.
 	 * 
@@ -321,6 +264,40 @@ public class Monster extends Character {
 		return null;
 	}
 
+	// HELPING METHODS
+	
+	/**
+	 * Attacks the player & gives damage
+	 * 
+	 * @param hasKey
+	 *            does the player have the key?
+	 * @return returns, whether a player is in attacking range of the monster.
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public boolean attackPlayer(boolean hasKey) {
+		// Is the player in range of the monster?
+		boolean playerInRange = (Math.sqrt(Math.pow(player.getXPos()
+				- getXPos(), 2)
+				+ Math.pow(player.getYPos() - getYPos(), 2)) < 2);
+
+		// Is the monster able to attack?
+		boolean ableToAttack = false;
+		if (type == 0)
+			ableToAttack = ((System.currentTimeMillis() - lastAttack) >= cooldownAttack);
+		if (type == 1)
+			ableToAttack = (hasKey && ((System.currentTimeMillis() - lastAttack) >= cooldownAttack));
+
+		if (this.getHealth() > this.getMaxHealth() / 4) {
+			if (playerInRange && ableToAttack) {
+				lastAttack = System.currentTimeMillis();
+				player.changeHealth(-getDamage());
+			}
+		} else {
+			move();
+		}
+		return playerInRange && ableToAttack;
+	}
+	
 	/**
 	 * Calculates, whether the player is in range of the monster (Needed for
 	 * move() and getFleePos()).
@@ -338,7 +315,40 @@ public class Monster extends Character {
 		} else
 			return false;
 	}
+	
+	/**
+	 * Gives the monster healing or damage.
+	 * 
+	 * @param change
+	 *            The value of the changing
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void changeHealth(int change) {
+		super.changeHealth(change);
+	}
+	
+	/**
+	 * Saves the actual position of the player as a Node
+	 * 
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public void updatePlayerPos() {
+		this.lastPlayerPos = new Node(this.player.getXPos(),
+				this.player.getYPos());
+	}
+	
+	/**
+	 * Calculates the percentage of when the monster is able to attack again
+	 * 
+	 * @return returns the cooldown rate
+	 * @author Strohbuecker, Max, 5960738
+	 */
+	public double cooldownRate() {
+		return 1.0 * (System.currentTimeMillis() - lastAttack) / cooldownAttack;
+	}
 
+	// GETTER AND SETTER
+	
 	/**
 	 * Returns the type of the monster. 0 = spawns at beginning, 1 = spawns
 	 * after taking the key
