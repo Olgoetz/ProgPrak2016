@@ -21,7 +21,7 @@ public class MessHighscoreAnswer extends Message implements Serializable {
 	
 	private static final long serialVersionUID = -6374026871196891954L;
 	
-	// T´the linked list containing usernames and highscores.
+	// The linked list containing usernames and highscores.
 	private LinkedList<HighScoreElement> highscore;
 	
 	
