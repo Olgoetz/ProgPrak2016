@@ -113,8 +113,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		}else if(e.getSource() == cheats){
 			JFrame input = new JFrame();
 			String cheatMes = JOptionPane.showInputDialog(input, "Enter Cheat Code", "");
-			window.getEngine().cheatRequest(cheatMes);
-			
+			if (cheatMes != null)
+				window.getEngine().cheatRequest(cheatMes);
 			//window.getEngine().getMyPlayer().makeCheater(true); !!!!!
 		}else if(e.getSource() == quit){
 			window.getEngine().quitGameRequest();
