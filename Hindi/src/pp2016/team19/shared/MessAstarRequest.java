@@ -31,7 +31,7 @@ public class MessAstarRequest extends Message implements Serializable{
 	 * @param type the maintype (=1) of the message
 	 * @param subType the subtype (=10) of the message
 	 * @param mouseX the x-coordinate of the mouseclick
-	 * @param mouse Y the y-coordinate of the mouseclick
+	 * @param mouseY the y-coordinate of the mouseclick
 	 * 
 	 */
 	public MessAstarRequest(int mouseX, int mouseY, int type, int subType) {

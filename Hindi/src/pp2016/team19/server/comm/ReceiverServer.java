@@ -118,7 +118,7 @@ public class ReceiverServer extends Thread {
 	 * Returns the LinkedBlockingQueue 'messagesFromClient'
 	 * 
 	 * @author Bulut , Taner , 5298261
-	 * @return the LinkedBlockingQueue<Message> that gathers the Message-objects
+	 * @return the LinkedBlockingQueue that gathers the Message-objects
 	 *         from the Client
 	 */
 	public LinkedBlockingQueue<Message> getMessagesFromClient() {

@@ -5,6 +5,9 @@
  * 					Langsdorf, Felizia, 6002960
  * 					Schrader, Tobias, 5637252
  * 					Strohbuecker, Max, 5960738 
+ * 
+ * Based on the provided Hindi Bones code by the ProgPrakTeam University of Cologne,
+ * we extended the already existing software to a client-server-application.
  * 					
  */
 
