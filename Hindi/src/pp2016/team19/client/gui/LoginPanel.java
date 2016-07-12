@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 
 /**
- * <h1> class for the Panel which shows the login and the registration. <h1>
+ * <h1> class for the Panel which shows the login and the registration. </h1>
  * interface ActionListener is implemented
  * @author Felizia Langsdorf, 6002960
  *

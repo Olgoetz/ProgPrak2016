@@ -11,7 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
- * <h1> class for the menubar shown at the top of the window while playing. <h1>
+ * <h1> class for the menubar shown at the top of the window while playing. </h1>
  * @author Felizia Langsdorf, 6002960
  *
  */
@@ -47,7 +47,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		
 		//shown at the bar at the top of the window 
 		game = new JMenu("Game");
-		extras = new JMenu("Show");
+		extras = new JMenu("Extras");
 		logOut = new JMenu("LogOut");
         
         newGame = new JMenuItem("Start New Game");

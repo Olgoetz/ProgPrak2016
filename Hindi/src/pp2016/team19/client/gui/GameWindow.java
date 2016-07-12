@@ -15,7 +15,7 @@ import pp2016.team19.shared.Tile;
 
 
 /**
- * <h1> class for the window of the whole application. <h1>
+ * <h1> class for the window of the whole application. </h1>
  * @author Felizia Langsdorf, 6002960
  * @author Progprak-Team
  *
