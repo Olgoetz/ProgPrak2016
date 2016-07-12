@@ -8,12 +8,19 @@ import java.util.LinkedList;
 
 import pp2016.team19.shared.HighScoreElement;
 
-
+/**
+ * This class provides the methods to access the highscore file database
+ * @author Tobias Schrader, 5637252
+ * @author ProgPrak-Team
+ */
 public class Highscore {
 private LinkedList<HighScoreElement> highScore;
 	
 	
-	
+	/**
+	 * Constructor reads out highscores from files into LinkedList (source ProgPrak-Team)
+	 * @author Tobias Schrader, 5637252
+	 */
 	public Highscore(){
 
 		highScore = new LinkedList<HighScoreElement>();
@@ -44,7 +51,12 @@ private LinkedList<HighScoreElement> highScore;
 			highScore.add(new HighScoreElement(9999, "Anonymous"));	
 		}
 	}
-	
+	/**
+	 * Method to add a score to the list (source:ProgPrak-Team)
+	 * @param player - the player who won
+	 * @param time - needed time for victory
+	 * @author Tobias Schrader, 5637252
+	 */
 	public void addPlayerScore(String player, int time){
 		for(int i = 0; i < highScore.size(); i++){
 			if(highScore.get(i).getTime() > time){
@@ -66,7 +78,11 @@ private LinkedList<HighScoreElement> highScore;
 		}
 		
 	}
-	
+	/**
+	 * 
+	 * @return Highscores as a LinkedList
+	 * @author Tobias Schrader, 5637252
+	 */
 	public LinkedList<HighScoreElement> getHighScore(){
 		return highScore;
 	}

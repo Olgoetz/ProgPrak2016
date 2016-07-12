@@ -15,15 +15,36 @@ public class MessEndGameAnswer extends Message implements Serializable {
 		this.setGameWon(gameWon);
 		this.setScore(score);
 	}
+	/**
+	 * 
+	 * @return if the player won
+	 * @author Tobias Schrader, 5637252
+	 */
 	public boolean isGameWon() {
 		return gameWon;
 	}
+	/**
+	 * Set if won or lost
+	 * @param gameWon
+	 * @author Tobias Schrader, 5637252
+	 */
 	public void setGameWon(boolean gameWon) {
 		this.gameWon = gameWon;
 	}
+	/**
+	 * 
+	 * @return score achieved in the game
+	 * @author Tobias Schrader, 5637252
+	 */
 	public int getScore() {
 		return score;
 	}
+	
+	/**
+	 * Set the score
+	 * @param score
+	 * @author Tobias Schrader, 5637252
+	 */
 	public void setScore(int score) {
 		this.score = score;
 	}

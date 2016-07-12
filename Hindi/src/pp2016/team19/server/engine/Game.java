@@ -373,7 +373,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * Loads new level and sends updates
 	 * 
-	 * @param levelNumber
+	 * @param levelNumber - the number of the current level
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void newLevel(int levelNumber) {
@@ -437,24 +437,25 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method allows for the use of cheats. Certain codes trigger certain actions
 	 * @param pmessage, contains the cheat code
+	 * @author Tobias Schrader, 5637252
 	 */
 	private void cheat(Message pmessage) {
 		MessCheatRequest message = (MessCheatRequest) pmessage;
-		if (message.getCheat().equals("godmode")) {
+		if (message.getCheat().equals("godmode")) { //this cheat toggles player invulnerability
 			player.characterShield(!player.hasShield());
-		} else if (message.getCheat().equals("thekeytolearningjava")) {
+		} else if (message.getCheat().equals("thekeytolearningjava")) { //this cheat gives the player the key
 			player.takeKey();
 			Message answer = (MessPlayerAnswer) new MessPlayerAnswer(player, 2, 5, player.getXPos(), player.getYPos());
 			try {
 				engine.messagesToClient.put(answer);
 			} catch (InterruptedException e) {
 			}
-		} else if (message.getCheat().equals("superdebugger")) {
+		} else if (message.getCheat().equals("superdebugger")) { //toggles player damage between high and standard
 			if(player.getDamage()==100)
 				player.setDamage(8);
 				else
 			player.setDamage(100);
-		} else if (message.getCheat().equals("thislevelisboring")) {
+		} else if (message.getCheat().equals("thislevelisboring")) { //player advances to next level
 			levelNumber++;
 			newLevel(levelNumber);
 		}
@@ -462,6 +463,7 @@ public class Game extends TimerTask implements Serializable {
 	/**
 	 * This method stops the game after it ended
 	 * @param playerWon - if the player won or lost
+	 * @author Tobias Schrader, 5637252
 	 */
 	public void endGame(boolean playerWon) {
 		gameEnded = true; //stops main loop in run() method
@@ -505,7 +507,7 @@ public class Game extends TimerTask implements Serializable {
 	}
 /**
  * @returns the size of the game map
- * @author Tobias Schrader
+ * @author Tobias Schrader, 5637252
  */
 	public int getGameSize() {
 		return gameSize;
@@ -513,12 +515,16 @@ public class Game extends TimerTask implements Serializable {
 
 	/**
 	 * @return the number of the current level
-	 * @author Tobias Schrader
+	 * @author Tobias Schrader, 5637252
 	 */
 	public int getLevelNumber() {
 		return levelNumber;
 	}
-
+/**
+ * 
+ * @return a list containing the monster objects in the current level
+ * @author Tobias Schrader, 5637252
+ */
 	public LinkedList<Monster> getMonsters() {
 
 		return Monsters;

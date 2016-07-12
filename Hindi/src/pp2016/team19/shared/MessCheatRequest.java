@@ -15,18 +15,25 @@ public class MessCheatRequest extends Message implements Serializable {
 	 * @param cheat the cheat
 	 * @param type the maintype(=2) of the message
 	 * @param subType the subtyp(=10) of the message
+	 * @author Tobias Schrader, 5637252
 	 */
 	public MessCheatRequest(String cheat, int type, int subType) {
 		super(type, subType);
 		this.cheat = cheat;
 	}
 	/**
-	 * 
-	 * @return
+	 * @return  the Cheatcode
+	 * @author Tobias Schrader
 	 */
 	public String getCheat() {
 		return cheat;
 	}
+	
+	/**
+	 * sets the cheatcode
+	 * @param cheat
+	 * @author Tobias Schrader, 5637252
+	 */
 	public void setCheat(String cheat) {
 		this.cheat = cheat;
 	}

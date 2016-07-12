@@ -22,7 +22,7 @@ public class ServerEngine implements Runnable {
 	// stores the players during runtime
 	private ArrayList<Player> players = new ArrayList<Player>();
 	// accesses userlist file database
-	UserList users = new UserList(this);
+	UserList users = new UserList();
 	// schedules games
 	Timer tick = new Timer();
 	// communicates with client
@@ -38,7 +38,7 @@ public class ServerEngine implements Runnable {
 	/**
 	 * Constructor sets Message Queues for communication, accesses files
 	 * 
-	 * @param messagesToClient
+	 * @param messagesToClient - The queue for outgoing messages
 	 * @author Tobias Schrader, 5637252
 	 */
 	public ServerEngine(LinkedBlockingQueue<Message> messagesToClient) {
@@ -74,8 +74,7 @@ public class ServerEngine implements Runnable {
 	 * 0: Server Management. Invokes a method in the Server Engine. Type 1:
 	 * Character management. Forwarded to the game. Type 100: Ping.
 	 * 
-	 * @param message,
-	 *            the request from the client
+	 * @param message - the request from the client
 	 * @author Tobias Schrader, 5637252
 	 */
 	public void distributor(Message message) {
@@ -121,8 +120,7 @@ public class ServerEngine implements Runnable {
 	 * a new player object is created. An answer is sent back to the client with
 	 * information about success and the players ID.
 	 * 
-	 * @param pmessage,
-	 *            message that contains username and password
+	 * @param pmessage, - Message that contains username and password
 	 * @author Tobias Schrader, 5637252
 	 */
 	private void signUpRequest(Message pmessage) {
@@ -165,8 +163,7 @@ public class ServerEngine implements Runnable {
 	 * status, which allows him to start games. An answer is sent back for
 	 * confirmation.
 	 * 
-	 * @param pmessage,
-	 *            message that contains username and password
+	 * @param pmessage - message that contains username and password
 	 * @author Tobias Schrader, 5637252
 	 */
 	private void signInRequest(Message pmessage) {
@@ -214,8 +211,7 @@ public class ServerEngine implements Runnable {
 	 * If the player is logged in, all game info is reset and a new game is
 	 * started.
 	 * 
-	 * @param pmessage,
-	 *            messages that contains the ID of the player
+	 * @param pmessage - messages that contains the ID of the player
 	 * @author Tobias Schrader, 5637252
 	 */
 	private void newGame(Message pmessage) {
@@ -243,8 +239,8 @@ public class ServerEngine implements Runnable {
 	/**
 	 * This method logs a player out and stops his game if necessary.
 	 * 
-	 * @param pmessage,
-	 *            message that contains the player
+	 * @param pmessage, message that contains the player
+	 * @author Tobias Schrader, 5637252
 	 */
 	private void signOutRequest(Message pmessage) {
 		MessSignOutRequest message = (MessSignOutRequest) pmessage;
@@ -279,7 +275,7 @@ public class ServerEngine implements Runnable {
 	/**
 	 * This method sends a ping back to confirm connection
 	 * 
-	 * @author Tobias Schrader
+	 * @author Tobias Schrader, 5637252
 	 */
 	private void confirmConnection() {
 		Message answer = (MessPing) new MessPing(100, 0);

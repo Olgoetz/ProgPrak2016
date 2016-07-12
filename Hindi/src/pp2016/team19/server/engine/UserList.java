@@ -7,15 +7,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import pp2016.team19.shared.Player;
-
+/**
+ * This Class provides the method to access user lists from file database (Source: ProgPrak-Team)
+ * @author Tobias Schrader, 5637252
+ *
+ */
 public class UserList {
-	ServerEngine engine;
 	ArrayList<Player> userList;
 	
-	public UserList(ServerEngine engine) {
-		this.engine = engine;
+	/**
+	 * Constructor initializes the list
+	 * @author Tobias Schrader, 56237252
+	 */
+	public UserList() {
 		userList = new ArrayList<Player>();
 	}
+	
+	/**
+	 *  Reads out the user list from a file
+	 * @return A list containing the users
+	 * @author Tobias Schrader, 5637252
+	 */
 	public ArrayList<Player> readUserList() {
 		userList.clear();
 		try {
@@ -42,8 +54,13 @@ public class UserList {
 		}
 		return userList;
 	}
+	
+	/**
+	 * Saves a new user in the file
+	 * @param player
+	 * @author Tobias Schrader, 5637252
+	 */
 	public void addPlayerToList(Player player) {
-		//userList.add(player);
 		System.out.println("UserList: #player: "+userList.size());
 		try {
 			FileWriter writer = new FileWriter(new File("userlist.txt"));
