@@ -8,7 +8,7 @@ import pp2016.team19.server.engine.Game;
 
 /**
  * <h1>Abstract Character Class providing position, direction, game, health, ID
- * & damage.</h1>
+ * and damage.</h1>
  * 
  * It contains the constructor, the A-Star-Search algorithm, move methods,
  * methods to calculate the next steps and whether steps are valid or walkable,
@@ -57,7 +57,7 @@ public abstract class Character implements Serializable {
 	 * Contructor of class Character.
 	 * 
 	 * @param game
-	 *            contains the level/map & other gameinfos
+	 *            contains the level/map and other gameinfos
 	 * @author Strohbuecker, Max, 5960738
 	 */
 	public Character(Game game) {
@@ -209,7 +209,7 @@ public abstract class Character implements Serializable {
 	// MOVE-METHODS
 
 	/**
-	 * Method to move up the character & update the new position to the map.
+	 * Method to move up the character and update the new position to the map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -226,7 +226,7 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Method to move down the character & update the new position to the map.
+	 * Method to move down the character and update the new position to the map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -243,7 +243,7 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Method to move left the character & update the new position to the map.
+	 * Method to move left the character and update the new position to the map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
@@ -260,7 +260,7 @@ public abstract class Character implements Serializable {
 	}
 
 	/**
-	 * Method to move right the character & update the new position to the map.
+	 * Method to move right the character and update the new position to the map.
 	 * 
 	 * @author Strohbuecker, Max, 5960738
 	 */
