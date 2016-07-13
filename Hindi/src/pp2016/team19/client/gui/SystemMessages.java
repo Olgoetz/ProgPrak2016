@@ -9,14 +9,18 @@ import javax.swing.JTextArea;
  * <h1> system messages frame. </h1>
  * 
  * @author Langsdorf, Felizia, 6002960
- * @author Oliver Goetz, 5961343
+ * @author Goetz, Oliver, 5961343
  */
 
 
 public class SystemMessages extends JFrame {
 	
+	/**
+	 * Attributes for the class
+	 * @author Goetz, Oliver, 5961343
+	 */
 	private static final long serialVersionUID = 1L;
-	private final static String line = "\n"; //break
+	// the textarea for the messages
 	private JTextArea messages; 
 	
 	/**
